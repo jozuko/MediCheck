@@ -1,4 +1,4 @@
-package com.studiojozu.medicheck.database.model;
+package com.studiojozu.medicheck.model;
 
 import android.support.annotation.NonNull;
 
@@ -31,7 +31,7 @@ public class TimeModel {
         return format.format(_value.getTime());
     }
 
-    public long getLongValue() {
+    public long getDbValue() {
         return _value.getTimeInMillis();
     }
 

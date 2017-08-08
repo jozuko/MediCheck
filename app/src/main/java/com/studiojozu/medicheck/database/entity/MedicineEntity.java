@@ -11,6 +11,7 @@ import com.studiojozu.medicheck.database.helper.WritableDatabase;
  * <ol>
  * <li>name 薬名</li>
  * <li>take_number 服用数</li>
+ * <li>photo 薬の写真URI</li>
  * </ol>
  */
 public class MedicineEntity extends ABaseEntity {
@@ -23,6 +24,7 @@ public class MedicineEntity extends ABaseEntity {
             + " _id         integer not null autoincrement"   // ID
             + ",name        text    not null"   // 名前
             + ",take_number integer not null"   // 服用数
+            + ",photo       text    not null"   // 薬の写真
             + ",primary key(_id)"
             + ");";
 

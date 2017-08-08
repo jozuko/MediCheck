@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 
 import com.studiojozu.medicheck.R;
 import com.studiojozu.medicheck.database.helper.WritableDatabase;
-import com.studiojozu.medicheck.database.model.TimeModel;
 
 /**
  * Parson
