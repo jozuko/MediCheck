@@ -1,0 +1,19 @@
+<resources>
+    <string name="timing_morning">朝</string>
+    <string name="timing_noon">昼</string>
+    <string name="timing_night">夜</string>
+    <string name="timing_before_sleep">就寝前</string>
+
+    <string name="timing_before_breakfast">朝食前</string>
+    <string name="timing_before_lunch">昼食前</string>
+    <string name="timing_before_dinner">夕食前</string>
+
+    <string name="timing_after_breakfast">朝食後</string>
+    <string name="timing_after_lunch">昼食後</string>
+    <string name="timing_after_dinner">夕食後</string>
+
+    <string name="timing_between_meals_morning">食間(朝食 - 昼食)</string>
+    <string name="timing_between_meals_afternoon">食間(昼食 - 夕食)</string>
+
+    <string name="parson_self">自分</string>
+</resources>

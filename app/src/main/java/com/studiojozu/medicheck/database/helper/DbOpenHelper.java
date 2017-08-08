@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.studiojozu.medicheck.database.entity.Entities;
 
@@ -13,20 +14,13 @@ import com.studiojozu.medicheck.database.entity.Entities;
  */
 public class DbOpenHelper extends SQLiteOpenHelper {
 
-    /**
-     * データベースファイル名
-     */
     private static final String DB_FILENAME = "medicheck.db";
-
-    /**
-     * データベースバージョン
-     */
     public static final int DB_VERSION = 1;
 
-    /**
-     * データベースインスタンス
-     */
+    @Nullable
     private static DbOpenHelper _helper = null;
+    @NonNull
+    private final Context _context;
 
     synchronized static DbOpenHelper getInstance(@NonNull Context context) {
         if (_helper == null) _helper = new DbOpenHelper(context);
@@ -35,6 +29,7 @@ public class DbOpenHelper extends SQLiteOpenHelper {
 
     private DbOpenHelper(Context context) {
         super(context, DB_FILENAME, null, DB_VERSION);
+        _context = context.getApplicationContext();
     }
 
     @Override
@@ -42,7 +37,7 @@ public class DbOpenHelper extends SQLiteOpenHelper {
         if (WritableDatabase.isWritableDatabase(db)) return;
 
         WritableDatabase writableDatabase = new WritableDatabase(this, db);
-        new Entities().createTables(writableDatabase);
+        new Entities().createTables(_context, writableDatabase);
     }
 
     @Override
@@ -50,6 +45,6 @@ public class DbOpenHelper extends SQLiteOpenHelper {
         if (WritableDatabase.isWritableDatabase(db)) return;
 
         WritableDatabase writableDatabase = new WritableDatabase(this, db);
-        new Entities().upgradeTables(writableDatabase, oldVersion, newVersion);
+        new Entities().upgradeTables(_context, writableDatabase, oldVersion, newVersion);
     }
 }

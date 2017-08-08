@@ -1,6 +1,8 @@
 package com.studiojozu.medicheck.database.entity;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.studiojozu.medicheck.database.helper.DbOpenHelper;
 import com.studiojozu.medicheck.database.helper.WritableDatabase;
@@ -19,21 +21,21 @@ public class Entities {
         };
     }
 
-    public void createTables(WritableDatabase writableDatabase) {
-        upgradeTables(writableDatabase, 1, DbOpenHelper.DB_VERSION);
+    public void createTables(@NonNull Context context, @Nullable WritableDatabase db) {
+        upgradeTables(context, db, 1, DbOpenHelper.DB_VERSION);
     }
 
-    public void upgradeTables(WritableDatabase writableDatabase, int oldVersion, int newVersion) {
-        writableDatabase.beginTransaction();
+    public void upgradeTables(@NonNull Context context, @Nullable WritableDatabase db, int oldVersion, int newVersion) {
+        db.beginTransaction();
         try {
-            for (ABaseEntity model : _entities) {
-                model.createTable(writableDatabase);
-                model.upgradeTable(writableDatabase, oldVersion, newVersion);
+            for (ABaseEntity entity : _entities) {
+                entity.createTable(context, db);
+                entity.upgradeTable(context, db, oldVersion, newVersion);
             }
 
-            writableDatabase.commitTransaction();
+            db.commitTransaction();
         } catch (Exception e) {
-            writableDatabase.rollbackTransaction();
+            db.rollbackTransaction();
             throw e;
         }
     }

@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">MediCheck</string>
+
+    <string name="timing_morning">Morning</string>
+    <string name="timing_noon">Noon</string>
+    <string name="timing_night">Night</string>
+    <string name="timing_before_sleep">Before Sleep</string>
+
+    <string name="timing_before_breakfast">Before Breakfast</string>
+    <string name="timing_before_lunch">Before Lunch</string>
+    <string name="timing_before_dinner">Before Dinner</string>
+
+    <string name="timing_after_breakfast">After Breakfast</string>
+    <string name="timing_after_lunch">After Lunch</string>
+    <string name="timing_after_dinner">After Dinner</string>
+
+    <string name="timing_between_meals_morning">Between meals(Breakfast - Lunch)</string>
+    <string name="timing_between_meals_afternoon">Between meals(Lunch - Dinner)</string>
+
+    <string name="parson_self">Myself</string>
 </resources>
