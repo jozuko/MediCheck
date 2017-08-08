@@ -18,20 +18,15 @@ public class WritableDatabase extends ADatabase {
     @NonNull
     private final SQLiteDatabase _writableDatabase;
 
-    @NonNull
-    private boolean _startTransaction = false;
-
     WritableDatabase(@NonNull Context context) {
         _dbOpenHelper = DbOpenHelper.getInstance(context.getApplicationContext());
         _writableDatabase = _dbOpenHelper.getWritableDatabase();
-        _startTransaction = false;
     }
 
     WritableDatabase(@NonNull DbOpenHelper dbOpenHelper, @NonNull SQLiteDatabase db) {
         if (!isWritableDatabase(db)) throw new IllegalArgumentException("db is not writable.");
         _dbOpenHelper = dbOpenHelper;
         _writableDatabase = db;
-        _startTransaction = false;
     }
 
     @Contract("null -> false")
