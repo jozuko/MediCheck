@@ -36,7 +36,7 @@ public class DbOpenHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         if (WritableDatabase.isWritableDatabase(db)) return;
 
-        WritableDatabase writableDatabase = new WritableDatabase(this, db);
+        WritableDatabase writableDatabase = new WritableDatabase(db);
         new Entities().createTables(_context, writableDatabase);
     }
 
@@ -44,7 +44,7 @@ public class DbOpenHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         if (WritableDatabase.isWritableDatabase(db)) return;
 
-        WritableDatabase writableDatabase = new WritableDatabase(this, db);
+        WritableDatabase writableDatabase = new WritableDatabase(db);
         new Entities().upgradeTables(_context, writableDatabase, oldVersion, newVersion);
     }
 }

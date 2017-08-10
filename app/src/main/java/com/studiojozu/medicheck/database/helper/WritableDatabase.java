@@ -1,5 +1,6 @@
 package com.studiojozu.medicheck.database.helper;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
@@ -12,21 +13,13 @@ import org.jetbrains.annotations.Contract;
  */
 public class WritableDatabase extends ADatabase {
 
-    @NonNull
-    private final DbOpenHelper _dbOpenHelper;
-
-    @NonNull
-    private final SQLiteDatabase _writableDatabase;
-
     WritableDatabase(@NonNull Context context) {
-        _dbOpenHelper = DbOpenHelper.getInstance(context.getApplicationContext());
-        _writableDatabase = _dbOpenHelper.getWritableDatabase();
+        super(ADatabase.getDbOpenHelper(context).getWritableDatabase());
     }
 
-    WritableDatabase(@NonNull DbOpenHelper dbOpenHelper, @NonNull SQLiteDatabase db) {
+    WritableDatabase(@NonNull SQLiteDatabase db) {
+        super(db);
         if (!isWritableDatabase(db)) throw new IllegalArgumentException("db is not writable.");
-        _dbOpenHelper = dbOpenHelper;
-        _writableDatabase = db;
     }
 
     @Contract("null -> false")
@@ -37,25 +30,29 @@ public class WritableDatabase extends ADatabase {
     }
 
     public void beginTransaction() {
-        _writableDatabase.beginTransaction();
+        _database.beginTransaction();
     }
 
     public void rollbackTransaction() {
-        if(!inTransaction()) return;
-        _writableDatabase.endTransaction();
+        if (!inTransaction()) return;
+        _database.endTransaction();
     }
 
     public void commitTransaction() {
-        if(!inTransaction()) return;
-        _writableDatabase.setTransactionSuccessful();
-        _writableDatabase.endTransaction();
+        if (!inTransaction()) return;
+        _database.setTransactionSuccessful();
+        _database.endTransaction();
     }
 
     private boolean inTransaction() {
-        return _writableDatabase.inTransaction();
+        return _database.inTransaction();
     }
 
     public void execSQL(@NonNull String sql) {
-        _writableDatabase.execSQL(sql);
+        _database.execSQL(sql);
+    }
+
+    public long save(@NonNull String tableName, @NonNull ContentValues insertData) {
+        return _database.insert(tableName, null, insertData);
     }
 }

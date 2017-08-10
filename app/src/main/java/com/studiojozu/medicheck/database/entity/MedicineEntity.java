@@ -6,6 +6,8 @@ import android.support.annotation.Nullable;
 
 import com.studiojozu.medicheck.database.helper.WritableDatabase;
 
+import java.util.ArrayList;
+
 /**
  * 薬テーブル
  * <ol>
@@ -15,22 +17,32 @@ import com.studiojozu.medicheck.database.helper.WritableDatabase;
  * </ol>
  */
 public class MedicineEntity extends ABaseEntity {
+    /**
+     * ID
+     */
+    private static final ColumnBase COLUMN_ID = new ColumnBase("_id", ColumnType.INT, AutoIncrementType.AutoIncrement);
+    /**
+     * 名前
+     */
+    private static final ColumnBase COLUMN_NAME = new ColumnBase("name", ColumnType.TEXT);
+    /**
+     * 服用数
+     */
+    private static final ColumnBase COLUMN_TAKE_NUMBER = new ColumnBase("take_number", ColumnType.INT);
+    /**
+     * 薬の写真ファイルパス
+     */
+    private static final ColumnBase COLUMN_PHOTO = new ColumnBase("photo", ColumnType.TEXT);
 
-    private static final String TABLE_NAME = "medichine";
+    static {
+        TABLE_NAME = "medicine";
 
-    private static final String CREATE_TABLE_SQL
-            = "create table " + TABLE_NAME
-            + " ("
-            + " _id         integer not null autoincrement"   // ID
-            + ",name        text    not null"   // 名前
-            + ",take_number integer not null"   // 服用数
-            + ",photo       text    not null"   // 薬の写真
-            + ",primary key(_id)"
-            + ");";
-
-    @Override
-    protected String getCreateTableSQL() {
-        return CREATE_TABLE_SQL;
+        ArrayList<ColumnBase> columns = new ArrayList<>();
+        columns.add(COLUMN_ID);
+        columns.add(COLUMN_NAME);
+        columns.add(COLUMN_TAKE_NUMBER);
+        columns.add(COLUMN_PHOTO);
+        COLUMNS = new Columns(columns);
     }
 
     @Override

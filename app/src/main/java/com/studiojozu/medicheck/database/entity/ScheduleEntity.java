@@ -4,8 +4,14 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.studiojozu.medicheck.R;
+import com.studiojozu.medicheck.database.helper.ReadonlyDatabase;
 import com.studiojozu.medicheck.database.helper.WritableDatabase;
+import com.studiojozu.medicheck.database.type.BooleanModel;
+import com.studiojozu.medicheck.database.type.IDbType;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Schedule
@@ -21,23 +27,42 @@ import com.studiojozu.medicheck.database.helper.WritableDatabase;
  */
 public class ScheduleEntity extends ABaseEntity {
 
-    private static final String TABLE_NAME = "schedule";
+    /**
+     * 服用ID
+     */
+    private static final ColumnBase COLUMN_MEDICINE_ID = new ColumnBase("medicine_id", ColumnType.INT, PrimayType.Primary);
+    /**
+     * 服用予定日付
+     */
+    private static final ColumnBase COLUMN_PLAN_DATE = new ColumnBase("plan_date", ColumnType.INT, PrimayType.Primary);
+    /**
+     * 服用予定タイムテーブルID
+     */
+    private static final ColumnBase COLUMN_TIMETABLE_ID = new ColumnBase("timetable_id", ColumnType.INT, PrimayType.Primary);
+    /**
+     * Alertいる？
+     */
+    private static final ColumnBase COLUMN_NEED_ALERT = new ColumnBase("need_alert", ColumnType.BOOL);
+    /**
+     * 服用した？
+     */
+    private static final ColumnBase COLUMN_IS_TAKE = new ColumnBase("is_take", ColumnType.BOOL);
+    /**
+     * 服用した日時
+     */
+    private static final ColumnBase COLUMN_TAKE_DATETIME = new ColumnBase("take_datetime", ColumnType.DATETIME);
 
-    private static final String CREATE_TABLE_SQL
-            = "create table " + TABLE_NAME
-            + " ("
-            + " medicine_id   integer not null"   // 服用薬ID
-            + ",plan_date     integer not null"   // 服用予定日付
-            + ",timetable_id  integer not null"   // 服用予定タイムテーブルID
-            + ",need_alert    integer not null"   // Alertいる？
-            + ",is_take       integer not null"   // 服用した？
-            + ",take_datetime integer not null"   // 服用した日時
-            + ",primary key(medicine_id, plan_date, timetable_id)"
-            + ");";
+    static {
+        TABLE_NAME = "schedule";
 
-    @Override
-    protected String getCreateTableSQL() {
-        return CREATE_TABLE_SQL;
+        ArrayList<ColumnBase> columns = new ArrayList<>();
+        columns.add(COLUMN_MEDICINE_ID);
+        columns.add(COLUMN_PLAN_DATE);
+        columns.add(COLUMN_TIMETABLE_ID);
+        columns.add(COLUMN_NEED_ALERT);
+        columns.add(COLUMN_IS_TAKE);
+        columns.add(COLUMN_TAKE_DATETIME);
+        COLUMNS = new Columns(columns);
     }
 
     @Override
@@ -53,5 +78,21 @@ public class ScheduleEntity extends ABaseEntity {
     @Override
     protected void updateUpgradeData(@NonNull Context context, @Nullable WritableDatabase db, int oldVersion, int newVersion) {
         // do nothing.
+    }
+
+    /**
+     * need_alert=true, is_take=falseの条件を満たすレコードを返却する
+     *
+     * @param context アプリケーションコンテキスト
+     * @return need_alert=true, is_take=falseの条件を満たすレコード一覧
+     */
+    public List<Map<ColumnBase, IDbType>> getNeedAlerts(Context context) {
+        ReadonlyDatabase readonlyDatabase = new ReadonlyDatabase(context);
+
+        ArrayList<IDbType> whereList = new ArrayList<>();
+        whereList.add(new BooleanModel(true));
+        whereList.add(new BooleanModel(false));
+
+        return findEntities(readonlyDatabase, COLUMN_NEED_ALERT.getEqualsCondition() + " and " + COLUMN_IS_TAKE.getEqualsCondition(), whereList);
     }
 }

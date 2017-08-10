@@ -17,7 +17,12 @@ public class Entities {
 
     static {
         _entities = new ABaseEntity[]{
-
+                new MedicineEntity(),
+                new MediTimeRelationEntity(),
+                new ParsonEntity(),
+                new ScheduleEntity(),
+                new SettingEntity(),
+                new TimetableEntity()
         };
     }
 

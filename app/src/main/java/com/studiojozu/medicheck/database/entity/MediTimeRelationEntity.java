@@ -6,6 +6,8 @@ import android.support.annotation.Nullable;
 
 import com.studiojozu.medicheck.database.helper.WritableDatabase;
 
+import java.util.ArrayList;
+
 /**
  * Medicine-TimetableのRelation
  * <ol>
@@ -16,21 +18,27 @@ import com.studiojozu.medicheck.database.helper.WritableDatabase;
  * medicine_id:timetable_id=1:N
  */
 public class MediTimeRelationEntity extends ABaseEntity {
+    /**
+     * ID
+     */
+    private static final ColumnBase COLUMN_MEDICINE_ID = new ColumnBase("medicine_id", ColumnType.INT, PrimayType.Primary);
+    /**
+     * タイムテーブルID
+     */
+    private static final ColumnBase COLUMN_TIMETABLE_ID = new ColumnBase("timetable_id", ColumnType.INT, PrimayType.Primary);
+    /**
+     * 頓服？
+     */
+    private static final ColumnBase COLUMN_IS_ONE_SHOT = new ColumnBase("is_one_shot", ColumnType.BOOL);
 
-    private static final String TABLE_NAME = "medi_time_relation";
+    static {
+        TABLE_NAME = "medi_time_relation";
 
-    private static final String CREATE_TABLE_SQL
-            = "create table " + TABLE_NAME
-            + " ("
-            + " medicine_id  integer not null"                  // 薬ID
-            + ",is_one_shot  integer not null"                  // 頓服？
-            + ",timetable_id integer not null"                  // タイムテーブルID
-            + ",primary key(medicine_id, timetable_id)"
-            + ");";
-
-    @Override
-    protected String getCreateTableSQL() {
-        return CREATE_TABLE_SQL;
+        ArrayList<ColumnBase> columns = new ArrayList<>();
+        columns.add(COLUMN_MEDICINE_ID);
+        columns.add(COLUMN_TIMETABLE_ID);
+        columns.add(COLUMN_IS_ONE_SHOT);
+        COLUMNS = new Columns(columns);
     }
 
     @Override

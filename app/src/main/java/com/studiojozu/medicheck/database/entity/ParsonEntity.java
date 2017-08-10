@@ -6,6 +6,12 @@ import android.support.annotation.Nullable;
 
 import com.studiojozu.medicheck.R;
 import com.studiojozu.medicheck.database.helper.WritableDatabase;
+import com.studiojozu.medicheck.database.type.DbTypeFactory;
+import com.studiojozu.medicheck.database.type.IDbType;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Parson
@@ -15,26 +21,36 @@ import com.studiojozu.medicheck.database.helper.WritableDatabase;
  * </ol>
  */
 public class ParsonEntity extends ABaseEntity {
+    /**
+     * ID
+     */
+    private static final ColumnBase COLUMN_ID = new ColumnBase("_id", ColumnType.INT, AutoIncrementType.AutoIncrement);
+    /**
+     * 名前
+     */
+    private static final ColumnBase COLUMN_NAME = new ColumnBase("name", ColumnType.TEXT);
+    /**
+     * 写真
+     */
+    private static final ColumnBase COLUMN_PHOTO = new ColumnBase("photo", ColumnType.TEXT);
 
-    private static final String TABLE_NAME = "parson";
+    static {
+        TABLE_NAME = "parson";
 
-    private static final String CREATE_TABLE_SQL
-            = "create table " + TABLE_NAME
-            + " ("
-            + " _id   integer not null autoincrement"   // ID
-            + ",name  text    not null"   // 名前
-            + ",photo text    not null"   // Photo URI string
-            + ",primary key(_id)"
-            + ");";
-
-    @Override
-    protected String getCreateTableSQL() {
-        return CREATE_TABLE_SQL;
+        ArrayList<ColumnBase> columns = new ArrayList<>();
+        columns.add(COLUMN_ID);
+        columns.add(COLUMN_NAME);
+        columns.add(COLUMN_PHOTO);
+        COLUMNS = new Columns(columns);
     }
 
     @Override
     protected void updateDefaultData(@NonNull Context context, @Nullable WritableDatabase db) {
-        db.execSQL("insert into " + TABLE_NAME + " (name, photo) values ('" + context.getResources().getString(R.string.parson_self) + "','')");
+        Map<ColumnBase, IDbType> insertData = new HashMap<>();
+
+        insertData.put(COLUMN_NAME, DbTypeFactory.createInstance(COLUMN_NAME._type, context.getResources().getString(R.string.parson_self)));
+        insertData.put(COLUMN_PHOTO, DbTypeFactory.createInstance(COLUMN_NAME._type, ""));
+        insert(db, insertData);
     }
 
     @Override
