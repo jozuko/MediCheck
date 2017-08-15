@@ -26,4 +26,9 @@ public abstract class ADatabase {
     public Cursor rawQuery(@NonNull String sql, @Nullable String[] args) {
         return _database.rawQuery(sql, args);
     }
+
+    public void close() {
+        if(_database == null) return;
+        if(_database.isOpen()) _database.close();
+    }
 }

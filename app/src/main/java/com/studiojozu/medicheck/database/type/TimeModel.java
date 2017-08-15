@@ -10,7 +10,7 @@ import java.util.Calendar;
 /**
  * 時間を表す型クラス
  */
-public class TimeModel implements IDbType<Long> {
+public class TimeModel implements IDbType<Long>, Comparable<TimeModel> {
 
     @NonNull
     private final Calendar _value;
@@ -54,4 +54,15 @@ public class TimeModel implements IDbType<Long> {
         contentValue.put(columnName, getDbValue());
     }
 
+    public boolean isEquals(Calendar target) {
+        if(_value.get(Calendar.HOUR_OF_DAY) != target.get(Calendar.HOUR_OF_DAY)) return false;
+        if(_value.get(Calendar.MINUTE) != target.get(Calendar.MINUTE)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int compareTo(@NonNull TimeModel timeModel) {
+        return (getDbValue().compareTo(timeModel.getDbValue()));
+    }
 }

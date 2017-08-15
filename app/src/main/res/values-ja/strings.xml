@@ -16,4 +16,6 @@
     <string name="timing_between_meals_afternoon">食間(昼食 - 夕食)</string>
 
     <string name="parson_self">自分</string>
+
+    <string name="notification_medicine_title">お薬の時間です</string>
 </resources>

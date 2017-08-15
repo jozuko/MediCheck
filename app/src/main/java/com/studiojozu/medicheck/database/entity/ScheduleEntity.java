@@ -30,27 +30,27 @@ public class ScheduleEntity extends ABaseEntity {
     /**
      * 服用ID
      */
-    private static final ColumnBase COLUMN_MEDICINE_ID = new ColumnBase("medicine_id", ColumnType.INT, PrimayType.Primary);
+    public static final ColumnBase COLUMN_MEDICINE_ID = new ColumnBase("medicine_id", ColumnType.INT, PrimayType.Primary);
     /**
      * 服用予定日付
      */
-    private static final ColumnBase COLUMN_PLAN_DATE = new ColumnBase("plan_date", ColumnType.INT, PrimayType.Primary);
+    public static final ColumnBase COLUMN_PLAN_DATE = new ColumnBase("plan_date", ColumnType.DATE, PrimayType.Primary);
     /**
      * 服用予定タイムテーブルID
      */
-    private static final ColumnBase COLUMN_TIMETABLE_ID = new ColumnBase("timetable_id", ColumnType.INT, PrimayType.Primary);
+    public static final ColumnBase COLUMN_TIMETABLE_ID = new ColumnBase("timetable_id", ColumnType.INT, PrimayType.Primary);
     /**
      * Alertいる？
      */
-    private static final ColumnBase COLUMN_NEED_ALERT = new ColumnBase("need_alert", ColumnType.BOOL);
+    public static final ColumnBase COLUMN_NEED_ALERT = new ColumnBase("need_alert", ColumnType.BOOL);
     /**
      * 服用した？
      */
-    private static final ColumnBase COLUMN_IS_TAKE = new ColumnBase("is_take", ColumnType.BOOL);
+    public static final ColumnBase COLUMN_IS_TAKE = new ColumnBase("is_take", ColumnType.BOOL);
     /**
      * 服用した日時
      */
-    private static final ColumnBase COLUMN_TAKE_DATETIME = new ColumnBase("take_datetime", ColumnType.DATETIME);
+    public static final ColumnBase COLUMN_TAKE_DATETIME = new ColumnBase("take_datetime", ColumnType.DATETIME);
 
     static {
         TABLE_NAME = "schedule";
@@ -88,11 +88,14 @@ public class ScheduleEntity extends ABaseEntity {
      */
     public List<Map<ColumnBase, IDbType>> getNeedAlerts(Context context) {
         ReadonlyDatabase readonlyDatabase = new ReadonlyDatabase(context);
+        try {
+            ArrayList<IDbType> whereList = new ArrayList<>();
+            whereList.add(new BooleanModel(true));
+            whereList.add(new BooleanModel(false));
 
-        ArrayList<IDbType> whereList = new ArrayList<>();
-        whereList.add(new BooleanModel(true));
-        whereList.add(new BooleanModel(false));
-
-        return findEntities(readonlyDatabase, COLUMN_NEED_ALERT.getEqualsCondition() + " and " + COLUMN_IS_TAKE.getEqualsCondition(), whereList);
+            return findEntities(readonlyDatabase, COLUMN_NEED_ALERT.getEqualsCondition() + " and " + COLUMN_IS_TAKE.getEqualsCondition(), whereList);
+        } finally {
+            readonlyDatabase.close();
+        }
     }
 }

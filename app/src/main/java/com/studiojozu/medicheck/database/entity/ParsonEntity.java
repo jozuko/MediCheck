@@ -5,13 +5,17 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.studiojozu.medicheck.R;
+import com.studiojozu.medicheck.database.helper.ReadonlyDatabase;
 import com.studiojozu.medicheck.database.helper.WritableDatabase;
 import com.studiojozu.medicheck.database.type.DbTypeFactory;
 import com.studiojozu.medicheck.database.type.IDbType;
+import com.studiojozu.medicheck.database.type.IntModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.TreeSet;
 
 /**
  * Parson
@@ -24,15 +28,15 @@ public class ParsonEntity extends ABaseEntity {
     /**
      * ID
      */
-    private static final ColumnBase COLUMN_ID = new ColumnBase("_id", ColumnType.INT, AutoIncrementType.AutoIncrement);
+    public static final ColumnBase COLUMN_ID = new ColumnBase("_id", ColumnType.INT, AutoIncrementType.AutoIncrement);
     /**
      * 名前
      */
-    private static final ColumnBase COLUMN_NAME = new ColumnBase("name", ColumnType.TEXT);
+    public static final ColumnBase COLUMN_NAME = new ColumnBase("name", ColumnType.TEXT);
     /**
      * 写真
      */
-    private static final ColumnBase COLUMN_PHOTO = new ColumnBase("photo", ColumnType.TEXT);
+    public static final ColumnBase COLUMN_PHOTO = new ColumnBase("photo", ColumnType.TEXT);
 
     static {
         TABLE_NAME = "parson";
@@ -61,5 +65,27 @@ public class ParsonEntity extends ABaseEntity {
     @Override
     protected void updateUpgradeData(@NonNull Context context, @Nullable WritableDatabase db, int oldVersion, int newVersion) {
         // do nothing.
+    }
+
+    /**
+     * 飲む人IDに一致するレコードを取得する
+     *
+     * @param context  アプリケーションコンテキスト
+     * @param parsonId 飲む人ID
+     * @return 飲む人IDに一致するレコード
+     */
+    @Nullable
+    public Map<ColumnBase, IDbType> findById(@NonNull Context context, @NonNull IntModel parsonId) {
+        ReadonlyDatabase readonlyDatabase = new ReadonlyDatabase(context);
+        try {
+            ArrayList<IDbType> whereList = new ArrayList<>();
+            whereList.add(parsonId);
+
+            List<Map<ColumnBase, IDbType>> datas = findEntities(readonlyDatabase, COLUMN_ID.getEqualsCondition(), whereList);
+            if (datas == null || datas.size() == 0) return null;
+            return datas.get(0);
+        } finally {
+            readonlyDatabase.close();
+        }
     }
 }

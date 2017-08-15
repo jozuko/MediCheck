@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 /**
  * intの型クラス
  */
-public class IntModel implements IDbType<Integer> {
+public class IntModel implements IDbType<Integer>, Comparable<IntModel> {
     private final int _value;
 
     public IntModel() {
@@ -27,5 +27,10 @@ public class IntModel implements IDbType<Integer> {
 
     public void setContentValue(@NonNull String columnName, @NonNull ContentValues contentValue) {
         contentValue.put(columnName, getDbValue());
+    }
+
+    @Override
+    public int compareTo(@NonNull IntModel intModel) {
+        return (getDbValue().compareTo(intModel.getDbValue()));
     }
 }

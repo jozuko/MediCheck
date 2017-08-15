@@ -68,4 +68,9 @@ public class RemindTimeoutModel implements IDbType<Integer> {
     public void setContentValue(@NonNull String columnName, @NonNull ContentValues contentValue) {
         contentValue.put(columnName, getDbValue());
     }
+
+    public boolean isTimeout(@NonNull DateTimeModel now, @NonNull DateModel scheduleDate, @NonNull TimeModel scheduleTime) {
+        DateTimeModel reminderDateTime = new DateTimeModel(scheduleDate, scheduleTime).add(getDbValue());
+        return (reminderDateTime.compareTo(now) < 0);
+    }
 }

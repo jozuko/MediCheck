@@ -6,47 +6,40 @@ import android.support.annotation.Nullable;
 
 import com.studiojozu.medicheck.database.helper.ReadonlyDatabase;
 import com.studiojozu.medicheck.database.helper.WritableDatabase;
+import com.studiojozu.medicheck.database.type.BooleanModel;
 import com.studiojozu.medicheck.database.type.IDbType;
 import com.studiojozu.medicheck.database.type.IntModel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeSet;
 
 /**
- * 薬テーブル
+ * Parson-MedicineのRelation
  * <ol>
- * <li>name 薬名</li>
- * <li>take_number 服用数</li>
- * <li>photo 薬の写真URI</li>
+ * <li>parson_id 飲む人ID</li>
+ * <li>medicine_id 薬ID</li>
  * </ol>
+ * parson_id:medicine_id=1:N
  */
-public class MedicineEntity extends ABaseEntity {
+public class ParsonMediRelationEntity extends ABaseEntity {
     /**
-     * ID
+     * 飲む人ID
      */
-    public static final ColumnBase COLUMN_ID = new ColumnBase("_id", ColumnType.INT, AutoIncrementType.AutoIncrement);
+    private static final ColumnBase COLUMN_PARSON_ID = new ColumnBase("parson_id", ColumnType.INT, PrimayType.Primary);
     /**
-     * 名前
+     * 薬ID
      */
-    public static final ColumnBase COLUMN_NAME = new ColumnBase("name", ColumnType.TEXT);
-    /**
-     * 服用数
-     */
-    public static final ColumnBase COLUMN_TAKE_NUMBER = new ColumnBase("take_number", ColumnType.INT);
-    /**
-     * 薬の写真ファイルパス
-     */
-    public static final ColumnBase COLUMN_PHOTO = new ColumnBase("photo", ColumnType.TEXT);
+    private static final ColumnBase COLUMN_MEDICINE_ID = new ColumnBase("medicine_id", ColumnType.INT, PrimayType.Primary);
 
     static {
-        TABLE_NAME = "medicine";
+        TABLE_NAME = "parson_medi_relation";
 
         ArrayList<ColumnBase> columns = new ArrayList<>();
-        columns.add(COLUMN_ID);
-        columns.add(COLUMN_NAME);
-        columns.add(COLUMN_TAKE_NUMBER);
-        columns.add(COLUMN_PHOTO);
+        columns.add(COLUMN_PARSON_ID);
+        columns.add(COLUMN_MEDICINE_ID);
         COLUMNS = new Columns(columns);
     }
 
@@ -66,22 +59,28 @@ public class MedicineEntity extends ABaseEntity {
     }
 
     /**
-     * 薬IDに一致するレコードを取得する
+     * パラメータの薬IDに一致するすべての人ID（想定1件）を取得する
      *
      * @param context    アプリケーションコンテキスト
      * @param medicineId 薬ID
-     * @return 薬IDに一致するレコード
+     * @return パラメータの薬IDに一致するすべての人ID（想定1件）
      */
     @Nullable
-    public Map<ColumnBase, IDbType> findById(@NonNull Context context, @NonNull IntModel medicineId) {
+    public TreeSet<IntModel> findParsonIdsByMedicineId(@NonNull Context context, @NonNull IntModel medicineId) {
         ReadonlyDatabase readonlyDatabase = new ReadonlyDatabase(context);
         try {
             ArrayList<IDbType> whereList = new ArrayList<>();
             whereList.add(medicineId);
 
-            List<Map<ColumnBase, IDbType>> datas = findEntities(readonlyDatabase, COLUMN_ID.getEqualsCondition(), whereList);
-            if (datas == null || datas.size() == 0) return null;
-            return datas.get(0);
+            List<Map<ColumnBase, IDbType>> relations = findEntities(readonlyDatabase, COLUMN_MEDICINE_ID.getEqualsCondition(), whereList);
+            if (relations == null || relations.size() == 0) return null;
+
+            TreeSet<IntModel> parsonIds = new TreeSet<>();
+            for (Map<ColumnBase, IDbType> relation : relations) {
+                parsonIds.add((IntModel) relation.get(COLUMN_PARSON_ID));
+            }
+
+            return parsonIds;
         } finally {
             readonlyDatabase.close();
         }

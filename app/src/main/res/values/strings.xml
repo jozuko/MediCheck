@@ -18,4 +18,6 @@
     <string name="timing_between_meals_afternoon">Between meals(Lunch - Dinner)</string>
 
     <string name="parson_self">Myself</string>
+
+    <string name="notification_medicine_title">Time of the medicine</string>
 </resources>
