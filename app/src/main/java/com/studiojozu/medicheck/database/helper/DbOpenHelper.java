@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.studiojozu.medicheck.database.entity.Entities;
+import com.studiojozu.medicheck.database.table.Tables;
 
 /**
  * SQLiteOpenHelper
@@ -14,22 +14,23 @@ import com.studiojozu.medicheck.database.entity.Entities;
  */
 public class DbOpenHelper extends SQLiteOpenHelper {
 
-    private static final String DB_FILENAME = "medicheck.db";
     public static final int DB_VERSION = 1;
+    private static final String DB_FILENAME = "medicheck.db";
 
     @Nullable
-    private static DbOpenHelper _helper = null;
-    @NonNull
-    private final Context _context;
+    private static DbOpenHelper sDbOpenHelper = null;
 
-    synchronized static DbOpenHelper getInstance(@NonNull Context context) {
-        if (_helper == null) _helper = new DbOpenHelper(context);
-        return _helper;
-    }
+    @NonNull
+    private final Context mContext;
 
     private DbOpenHelper(Context context) {
         super(context, DB_FILENAME, null, DB_VERSION);
-        _context = context.getApplicationContext();
+        mContext = context.getApplicationContext();
+    }
+
+    synchronized static DbOpenHelper getInstance(@NonNull Context context) {
+        if (sDbOpenHelper == null) sDbOpenHelper = new DbOpenHelper(context);
+        return sDbOpenHelper;
     }
 
     @Override
@@ -37,7 +38,7 @@ public class DbOpenHelper extends SQLiteOpenHelper {
         if (WritableDatabase.isWritableDatabase(db)) return;
 
         WritableDatabase writableDatabase = new WritableDatabase(db);
-        new Entities().createTables(_context, writableDatabase);
+        new Tables().createTables(mContext, writableDatabase);
     }
 
     @Override
@@ -45,6 +46,6 @@ public class DbOpenHelper extends SQLiteOpenHelper {
         if (WritableDatabase.isWritableDatabase(db)) return;
 
         WritableDatabase writableDatabase = new WritableDatabase(db);
-        new Entities().upgradeTables(_context, writableDatabase, oldVersion, newVersion);
+        new Tables().upgradeTables(mContext, writableDatabase, oldVersion, newVersion);
     }
 }

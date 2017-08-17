@@ -13,21 +13,27 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * Bitmapを扱う型クラス
+ * Bitmapの読み込みを行うクラス
  */
 public class BitmapRead {
     @NonNull
-    private final Context _context;
+    private final Context mContext;
     @NonNull
-    private final Uri _uri;
+    private final Uri mUri;
 
+    /**
+     * パラメータをフィールドに設定するコンストラクタ
+     *
+     * @param context アプリケーションコンテキスト
+     * @param uri     Bitmapのパスを示すURI
+     */
     public BitmapRead(@NonNull Context context, @NonNull Uri uri) {
-        _context = context.getApplicationContext();
-        _uri = uri;
+        mContext = context.getApplicationContext();
+        mUri = uri;
     }
 
     /**
-     * パレメータに指定されたbitmapViewComponentに対して、{@link #_uri}の指すbitmapを表示する。
+     * パレメータに指定されたbitmapViewComponentに対して、{@link #mUri}の指すbitmapを表示する。
      * Activity#onCreate()で呼び出すと必ず何も表示できない。
      * Activity#onCreate()以降のライフサイクルでよびだすか、Activity#onWindowFocusChanged(boolean)で実施すること
      *
@@ -47,7 +53,7 @@ public class BitmapRead {
     }
 
     /**
-     * {@link #_uri}で指定されたBitmapのオリジナルサイズを取得する
+     * {@link #mUri}で指定されたBitmapのオリジナルサイズを取得する
      *
      * @return Bitmapのオリジナルサイズ
      * @throws IOException 読み込み例外
@@ -55,7 +61,7 @@ public class BitmapRead {
     private BitmapFactory.Options getOriginalSize() throws IOException {
         InputStream inputStream = null;
         try {
-            inputStream = _context.getContentResolver().openInputStream(_uri);
+            inputStream = mContext.getContentResolver().openInputStream(mUri);
 
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true;
@@ -77,7 +83,7 @@ public class BitmapRead {
     private Bitmap decodeResizeBitmapFromFile(int resizeRate) throws IOException {
         InputStream inputStream = null;
         try {
-            inputStream = _context.getContentResolver().openInputStream(_uri);
+            inputStream = mContext.getContentResolver().openInputStream(mUri);
 
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true;

@@ -1,4 +1,4 @@
-package com.studiojozu.medicheck.database.entity;
+package com.studiojozu.medicheck.database.table;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -21,51 +21,12 @@ import java.util.Map;
  * <p>
  * Created by jozuko on 2017/04/25.
  */
-public abstract class ABaseEntity {
-
-    public enum ColumnType {
-        TEXT("text"),
-        INT("integer"),
-        DATE("integer"),
-        TIME("integer"),
-        DATETIME("integer"),
-        BOOL("integer"),
-        REMIND_INTERVAL("integer"),
-        REMIND_TIMEOUT("integer"),
-        INTERVAL("integer"),
-        INTERVAL_TYPE("integer");
-
-        @NonNull
-        private final String _typeName;
-
-        ColumnType(@NonNull String typeName) {
-            _typeName = typeName;
-        }
-
-        String getTypeName() {
-            return _typeName;
-        }
-    }
-
-    enum NullType {
-        NotNull,
-        Nullable;
-    }
-
-    enum PrimayType {
-        Primary,
-        NotPrimary
-    }
-
-    enum AutoIncrementType {
-        AutoIncrement,
-        NotAutoIncrement
-    }
+public abstract class ABaseTable {
 
     static String TABLE_NAME;
     static Columns COLUMNS;
 
-    private String getCreateTableSQL(){
+    private String getCreateTableSQL() {
         return "create table " + TABLE_NAME
                 + " ("
                 + COLUMNS.getColumnDefinition()
@@ -105,12 +66,25 @@ public abstract class ABaseEntity {
         updateUpgradeData(context, db, oldVersion, newVersion);
     }
 
+    /**
+     * DBのバージョンがUPしているかをチェックする
+     *
+     * @param oldVersion 旧バージョンコード
+     * @param newVersion 新バージョンコード
+     * @return バージョンUPしている場合はtrueを返却する
+     */
     @Contract(pure = true)
     private boolean isNewVersion(int oldVersion, int newVersion) {
         if (newVersion == 1) return false;
         return (oldVersion < newVersion);
     }
 
+    /**
+     * SQLを実行する
+     *
+     * @param db  読み込み可能 or 書き込み可能なデータベースインスタンス
+     * @param sql 実行するSQL
+     */
     private void execSQL(@Nullable WritableDatabase db, @Nullable String sql) {
         if (db == null) return;
         if (sql == null) return;
@@ -119,16 +93,31 @@ public abstract class ABaseEntity {
         db.execSQL(sql);
     }
 
-    void insert(@NonNull WritableDatabase db, @NonNull Map<ColumnBase, ADbType> dataMap){
+    /**
+     * データベースへのinsertを行う
+     *
+     * @param db      書き込み可能なデータベースインスタンス
+     * @param dataMap カラム名と値を持つMap
+     */
+    void insert(@NonNull WritableDatabase db, @NonNull Map<ColumnBase, ADbType> dataMap) {
         ContentValues insertData = new ContentValues();
-        for(ColumnBase column : dataMap.keySet()){
-            dataMap.get(column).setContentValue(column._columnName, insertData);
+        for (ColumnBase column : dataMap.keySet()) {
+            dataMap.get(column).setContentValue(column.mColumnName, insertData);
         }
 
         db.save(TABLE_NAME, insertData);
     }
 
-    List<Map<ColumnBase, ADbType>> findEntities(ADatabase database, String where, ArrayList<ADbType> whereArgs) {
+    /**
+     * データベースの検索を行うメソッド
+     *
+     * @param database  読み込み可能 or 書き込み可能なデータベースインスタンス
+     * @param where     where句
+     * @param whereArgs whereのパラメータ
+     * @return テーブル検索結果
+     */
+    @NonNull
+    List<Map<ColumnBase, ADbType>> find(ADatabase database, String where, ArrayList<ADbType> whereArgs) {
         Cursor cursor = null;
         try {
             final String sql = "select * from " + TABLE_NAME + " " + where;
@@ -139,6 +128,12 @@ public abstract class ABaseEntity {
         }
     }
 
+    /**
+     * where句のパラメータの型変換を行う
+     *
+     * @param whereArgs where句のパラメータ
+     * @return where句のパラメータのString配列
+     */
     @Nullable
     @Contract("null -> null")
     private String[] createWhereArgs(@Nullable ArrayList<ADbType> whereArgs) {
@@ -150,4 +145,5 @@ public abstract class ABaseEntity {
         }
 
         return args.toArray(new String[0]);
-    }}
+    }
+}

@@ -12,23 +12,23 @@ import android.support.annotation.Nullable;
 public abstract class ADatabase {
 
     @NonNull
-    protected final SQLiteDatabase _database;
+    protected final SQLiteDatabase mSQLiteDatabase;
 
-    public ADatabase(@NonNull SQLiteDatabase database) {
-        _database = database;
+    public ADatabase(@NonNull SQLiteDatabase sqLiteDatabase) {
+        mSQLiteDatabase = sqLiteDatabase;
     }
 
-    protected static DbOpenHelper getDbOpenHelper(Context context) {
+    protected static DbOpenHelper getDbOpenHelper(@NonNull Context context) {
         return DbOpenHelper.getInstance(context.getApplicationContext());
     }
 
     @NonNull
     public Cursor rawQuery(@NonNull String sql, @Nullable String[] args) {
-        return _database.rawQuery(sql, args);
+        return mSQLiteDatabase.rawQuery(sql, args);
     }
 
     public void close() {
-        if(_database == null) return;
-        if(_database.isOpen()) _database.close();
+        if (mSQLiteDatabase == null) return;
+        if (mSQLiteDatabase.isOpen()) mSQLiteDatabase.close();
     }
 }

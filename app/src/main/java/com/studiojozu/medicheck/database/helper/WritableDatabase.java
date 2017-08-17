@@ -30,29 +30,29 @@ public class WritableDatabase extends ADatabase {
     }
 
     public void beginTransaction() {
-        _database.beginTransaction();
+        mSQLiteDatabase.beginTransaction();
     }
 
     public void rollbackTransaction() {
         if (!inTransaction()) return;
-        _database.endTransaction();
+        mSQLiteDatabase.endTransaction();
     }
 
     public void commitTransaction() {
         if (!inTransaction()) return;
-        _database.setTransactionSuccessful();
-        _database.endTransaction();
+        mSQLiteDatabase.setTransactionSuccessful();
+        mSQLiteDatabase.endTransaction();
     }
 
     private boolean inTransaction() {
-        return _database.inTransaction();
+        return mSQLiteDatabase.inTransaction();
     }
 
     public void execSQL(@NonNull String sql) {
-        _database.execSQL(sql);
+        mSQLiteDatabase.execSQL(sql);
     }
 
     public long save(@NonNull String tableName, @NonNull ContentValues insertData) {
-        return _database.insert(tableName, null, insertData);
+        return mSQLiteDatabase.insert(tableName, null, insertData);
     }
 }

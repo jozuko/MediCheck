@@ -17,14 +17,14 @@ public class AlarmController {
     private final int REQUEST_CODE_MEDICINE_ALARM = 1;
 
     @NonNull
-    private final AlarmManager _alarmManager;
+    private final AlarmManager mAlarmManager;
 
     @NonNull
-    private final Context _context;
+    private final Context mContext;
 
     public AlarmController(Context context) {
-        _context = context.getApplicationContext();
-        _alarmManager = (AlarmManager) context.getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+        mContext = context.getApplicationContext();
+        mAlarmManager = (AlarmManager) context.getApplicationContext().getSystemService(Context.ALARM_SERVICE);
     }
 
     void resetAlarm() {
@@ -35,7 +35,7 @@ public class AlarmController {
     private void clearAlarm() {
         PendingIntent pendingIntent = createAlarmIntent();
         pendingIntent.cancel();
-        _alarmManager.cancel(pendingIntent);
+        mAlarmManager.cancel(pendingIntent);
     }
 
     private void setAlarm() {
@@ -46,14 +46,14 @@ public class AlarmController {
         calendar.add(Calendar.MINUTE, 1);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            _alarmManager.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+            mAlarmManager.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
             return;
         }
-        _alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+        mAlarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
     }
 
     private PendingIntent createAlarmIntent() {
-        Intent intent = new Intent(_context, AlarmBroadcastReceiver.class);
-        return PendingIntent.getBroadcast(_context, REQUEST_CODE_MEDICINE_ALARM, intent, 0);
+        Intent intent = new Intent(mContext, AlarmBroadcastReceiver.class);
+        return PendingIntent.getBroadcast(mContext, REQUEST_CODE_MEDICINE_ALARM, intent, 0);
     }
 }

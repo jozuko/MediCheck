@@ -13,20 +13,20 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
     public static final String ACTION_RESET_ALARM = "com.studiojozu.medicheck.alarm.medicine_alarm";
 
     @NonNull
-    private Context _context;
+    private Context mContext;
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        _context = context.getApplicationContext();
+        mContext = context.getApplicationContext();
 
         resetAlarm();
 
-        MedicineAlarm medicineAlarm = new MedicineAlarm(_context);
+        MedicineAlarm medicineAlarm = new MedicineAlarm(mContext);
         medicineAlarm.showNotification();
     }
 
-    private void resetAlarm(){
-        AlarmController alarmController = new AlarmController(_context);
+    private void resetAlarm() {
+        AlarmController alarmController = new AlarmController(mContext);
         alarmController.resetAlarm();
     }
 }

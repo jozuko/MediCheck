@@ -1,4 +1,4 @@
-package com.studiojozu.medicheck.database.entity;
+package com.studiojozu.medicheck.database.table;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -7,7 +7,7 @@ import android.support.annotation.Nullable;
 import com.studiojozu.medicheck.database.helper.ReadonlyDatabase;
 import com.studiojozu.medicheck.database.helper.WritableDatabase;
 import com.studiojozu.medicheck.database.type.ADbType;
-import com.studiojozu.medicheck.database.type.IntModel;
+import com.studiojozu.medicheck.database.type.IntType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,39 +21,23 @@ import java.util.Map;
  * <li>photo 薬の写真URI</li>
  * </ol>
  */
-public class MedicineEntity extends ABaseEntity {
-    /**
-     * ID
-     */
-    public static final ColumnBase COLUMN_ID = new ColumnBase("_id", ColumnType.INT, AutoIncrementType.AutoIncrement);
-    /**
-     * 名前
-     */
-    public static final ColumnBase COLUMN_NAME = new ColumnBase("name", ColumnType.TEXT);
-    /**
-     * 服用数
-     */
-    public static final ColumnBase COLUMN_TAKE_NUMBER = new ColumnBase("take_number", ColumnType.INT);
-    /**
-     * 服用日数
-     */
-    public static final ColumnBase COLUMN_DATE_NUMBER = new ColumnBase("date_number", ColumnType.INT);
-    /**
-     * 服用開始日時
-     */
-    public static final ColumnBase COLUMN_START_DATETIME = new ColumnBase("start_datetime", ColumnType.DATETIME);
-    /**
-     * 服用間隔
-     */
-    public static final ColumnBase COLUMN_INTERVAL = new ColumnBase("interval", ColumnType.INTERVAL);
-    /**
-     * 服用間隔タイプ
-     */
-    public static final ColumnBase COLUMN_INTERVAL_TYPE = new ColumnBase("interval_type", ColumnType.INTERVAL_TYPE);
-    /**
-     * 薬の写真ファイルパス
-     */
-    public static final ColumnBase COLUMN_PHOTO = new ColumnBase("photo", ColumnType.TEXT);
+public class MedicineTable extends ABaseTable {
+    /** ID */
+    public static final ColumnBase COLUMN_ID = new ColumnBase("_id", ColumnPattern.INT, AutoIncrementPattern.AutoIncrement);
+    /** 名前 */
+    public static final ColumnBase COLUMN_NAME = new ColumnBase("name", ColumnPattern.TEXT);
+    /** 服用数 */
+    public static final ColumnBase COLUMN_TAKE_NUMBER = new ColumnBase("take_number", ColumnPattern.INT);
+    /** 服用日数 */
+    public static final ColumnBase COLUMN_DATE_NUMBER = new ColumnBase("date_number", ColumnPattern.INT);
+    /** 服用開始日時 */
+    public static final ColumnBase COLUMN_START_DATETIME = new ColumnBase("start_datetime", ColumnPattern.DATETIME);
+    /** 服用間隔 */
+    public static final ColumnBase COLUMN_INTERVAL = new ColumnBase("interval", ColumnPattern.INTERVAL);
+    /** 服用間隔タイプ */
+    public static final ColumnBase COLUMN_INTERVAL_TYPE = new ColumnBase("interval_type", ColumnPattern.INTERVAL_TYPE);
+    /** 薬の写真ファイルパス */
+    public static final ColumnBase COLUMN_PHOTO = new ColumnBase("photo", ColumnPattern.TEXT);
 
     static {
         TABLE_NAME = "medicine";
@@ -93,13 +77,13 @@ public class MedicineEntity extends ABaseEntity {
      * @return 薬IDに一致するレコード
      */
     @Nullable
-    public Map<ColumnBase, ADbType> findById(@NonNull Context context, @NonNull IntModel medicineId) {
+    public Map<ColumnBase, ADbType> findById(@NonNull Context context, @NonNull IntType medicineId) {
         ReadonlyDatabase readonlyDatabase = new ReadonlyDatabase(context);
         try {
             ArrayList<ADbType> whereList = new ArrayList<>();
             whereList.add(medicineId);
 
-            List<Map<ColumnBase, ADbType>> datas = findEntities(readonlyDatabase, COLUMN_ID.getEqualsCondition(), whereList);
+            List<Map<ColumnBase, ADbType>> datas = find(readonlyDatabase, COLUMN_ID.getEqualsCondition(), whereList);
             if (datas == null || datas.size() == 0) return null;
             return datas.get(0);
         } finally {

@@ -1,10 +1,10 @@
-package com.studiojozu.medicheck.database.entity;
+package com.studiojozu.medicheck.database.table;
 
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 
-import com.studiojozu.medicheck.database.type.DbTypeFactory;
 import com.studiojozu.medicheck.database.type.ADbType;
+import com.studiojozu.medicheck.database.type.DbTypeFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,15 +12,15 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * カラム定義クラス
+ * 1テーブル分のカラム定義をまとめたオブジェクト
  */
 public class Columns {
 
     @NonNull
-    private final List<ColumnBase> _columns;
+    private final List<ColumnBase> mColumns;
 
     Columns(@NonNull List<ColumnBase> columns) {
-        _columns = columns;
+        mColumns = columns;
     }
 
     /**
@@ -28,15 +28,16 @@ public class Columns {
      *
      * @return カラム定義文字列
      */
+    @NonNull
     String getColumnDefinition() {
         StringBuilder builder = new StringBuilder();
-        for (ColumnBase column : _columns) {
+        for (ColumnBase column : mColumns) {
             if (builder.length() > 0) builder.append(",");
 
-            builder.append(column._columnName).append(" ");
-            builder.append(column._type.getTypeName()).append(" ");
-            builder.append((column._nullType == ABaseEntity.NullType.NotNull ? " not null" : "")).append(" ");
-            builder.append((column._autoIncrementType == ABaseEntity.AutoIncrementType.AutoIncrement ? " autoincrement" : ""));
+            builder.append(column.mColumnName).append(" ");
+            builder.append(column.mColumnType.getTypeName()).append(" ");
+            builder.append((column.mNullType == NullPattern.NotNull ? " not null" : "")).append(" ");
+            builder.append((column.mAutoIncrementType == AutoIncrementPattern.AutoIncrement ? " autoincrement" : ""));
         }
 
         return builder.toString();
@@ -47,13 +48,14 @@ public class Columns {
      *
      * @return PrimaryKey生成文
      */
+    @NonNull
     String getCreatePrimarySql() {
         StringBuilder builder = new StringBuilder();
-        for (ColumnBase column : _columns) {
-            if (column._primayType != ABaseEntity.PrimayType.Primary) continue;
+        for (ColumnBase column : mColumns) {
+            if (column.mPrimayType != PrimaryPattern.Primary) continue;
 
             if (builder.length() > 0) builder.append(",");
-            builder.append(column._columnName);
+            builder.append(column.mColumnName);
         }
 
         if (builder.length() == 0) return "";
@@ -66,12 +68,13 @@ public class Columns {
      * @param cursor DBのQueryCursor
      * @return 1レコード分のデータ
      */
+    @NonNull
     Map<ColumnBase, ADbType> putAllData(@NonNull Cursor cursor) {
 
         Map<ColumnBase, ADbType> dataMap = new HashMap<>();
         if (cursor.moveToNext()) {
-            for (ColumnBase column : _columns) {
-                dataMap.put(column, DbTypeFactory.createInstance(column._type, cursor.getInt(cursor.getColumnIndex(column._columnName))));
+            for (ColumnBase column : mColumns) {
+                dataMap.put(column, DbTypeFactory.createInstance(column.mColumnType, cursor.getInt(cursor.getColumnIndex(column.mColumnName))));
             }
         }
         return dataMap;
@@ -83,14 +86,15 @@ public class Columns {
      * @param cursor DBのQueryCursor
      * @return 全レコード分のデータ
      */
+    @NonNull
     List<Map<ColumnBase, ADbType>> putAllDatas(@NonNull Cursor cursor) {
 
         List<Map<ColumnBase, ADbType>> entities = new ArrayList<>(cursor.getCount());
         while (cursor.moveToNext()) {
             Map<ColumnBase, ADbType> dataMap = new HashMap<>();
 
-            for (ColumnBase column : _columns) {
-                dataMap.put(column, DbTypeFactory.createInstance(column._type, cursor.getInt(cursor.getColumnIndex(column._columnName))));
+            for (ColumnBase column : mColumns) {
+                dataMap.put(column, DbTypeFactory.createInstance(column.mColumnType, cursor.getInt(cursor.getColumnIndex(column.mColumnName))));
             }
 
             entities.add(dataMap);

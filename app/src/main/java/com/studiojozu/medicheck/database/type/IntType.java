@@ -6,20 +6,20 @@ import android.support.annotation.NonNull;
 /**
  * intの型クラス
  */
-public class IntModel extends ADbType<Integer> implements Comparable<IntModel> {
-    private final int _value;
+public class IntType extends ADbType<Integer> implements Comparable<IntType> {
+    private final int mValue;
 
-    public IntModel() {
-        _value = 0;
+    public IntType() {
+        mValue = 0;
     }
 
-    public IntModel(int value) {
-        _value = value;
+    public IntType(int value) {
+        mValue = value;
     }
 
     @Override
     public Integer getDbValue() {
-        return _value;
+        return mValue;
     }
 
     @Override
@@ -28,7 +28,7 @@ public class IntModel extends ADbType<Integer> implements Comparable<IntModel> {
     }
 
     @Override
-    public int compareTo(@NonNull IntModel intModel) {
+    public int compareTo(@NonNull IntType intModel) {
         return (getDbValue().compareTo(intModel.getDbValue()));
     }
 }

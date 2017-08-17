@@ -12,17 +12,28 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 /**
- * Bitmapを扱う型クラス
+ * Bitmapイメージをファイルに出力するクラス
  */
 public class BitmapWrite {
     @NonNull
-    private final Context _context;
-    @Nullable
-    private Bitmap _bitmap = null;
+    private final Context mContext;
 
+    /**
+     * Bitmapイメージ
+     * recycleの際に,nullを設定できるようにNullableとしている
+     */
+    @Nullable
+    private Bitmap mBitmap = null;
+
+    /**
+     * パラメータをフィールドに設定するコンストラクタ
+     *
+     * @param context アプリケーションコンテキスト
+     * @param bitmap  Bitmapイメージ
+     */
     public BitmapWrite(@NonNull Context context, @NonNull Bitmap bitmap) {
-        _context = context;
-        _bitmap = bitmap;
+        mContext = context;
+        mBitmap = bitmap;
     }
 
     /**
@@ -34,7 +45,7 @@ public class BitmapWrite {
      */
     @Nullable
     public File saveToNewPngFileAutoRecycle() throws IOException {
-        if (_bitmap == null) return null;
+        if (mBitmap == null) return null;
         if (!ExternalStorageModel.isReadyExternalStorage()) return null;
 
         try {
@@ -55,10 +66,10 @@ public class BitmapWrite {
     private File saveToNewPngFile() throws IOException {
         FileOutputStream fileOutputStream = null;
         try {
-            File imageFile = new ExternalStorageModel(_context).createNewImageFile();
+            File imageFile = new ExternalStorageModel(mContext).createNewImageFile();
             fileOutputStream = new FileOutputStream(imageFile);
 
-            if (_bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream))
+            if (mBitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream))
                 return imageFile;
 
             return null;
@@ -68,8 +79,11 @@ public class BitmapWrite {
         }
     }
 
+    /**
+     * Bitmapイメージをメモリから解放する
+     */
     private void recycle() {
-        if (_bitmap != null) _bitmap.recycle();
-        _bitmap = null;
+        if (mBitmap != null) mBitmap.recycle();
+        mBitmap = null;
     }
 }

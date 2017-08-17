@@ -17,10 +17,11 @@ import java.io.IOException;
  */
 public class Gallery {
 
-    private final Context _context;
+    @NonNull
+    private final Context mContext;
 
     public Gallery(@NonNull Context context) {
-        _context = context;
+        mContext = context;
     }
 
     /**
@@ -34,7 +35,7 @@ public class Gallery {
     public Uri register(@Nullable Bitmap bitmap) throws IOException {
         if (bitmap == null) return null;
 
-        File imageFile = new BitmapWrite(_context, bitmap).saveToNewPngFileAutoRecycle();
+        File imageFile = new BitmapWrite(mContext, bitmap).saveToNewPngFileAutoRecycle();
         registerGallery(imageFile, "image/png");
         return Uri.fromFile(imageFile);
     }
@@ -42,14 +43,15 @@ public class Gallery {
     /**
      * Galleryにイメージファイルを登録する
      *
-     * @param imageFile
+     * @param imageFile イメージファイルのパス
+     * @param mimeType イメージファイルのMIMEタイプ
      */
     private void registerGallery(@NonNull File imageFile, @NonNull String mimeType) {
         ContentValues values = new ContentValues();
         values.put(MediaStore.Images.Media.MIME_TYPE, mimeType);
         values.put("_data", imageFile.getAbsolutePath());
 
-        ContentResolver contentResolver = _context.getContentResolver();
+        ContentResolver contentResolver = mContext.getContentResolver();
         contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
     }
 

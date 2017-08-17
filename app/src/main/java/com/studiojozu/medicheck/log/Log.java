@@ -12,20 +12,24 @@ public class Log {
      */
     private static final String BASE_TAG = "MediCheck.";
 
-    /** ログ出力元クラス */
-    @NonNull private final Class _sourceClass;
+    /**
+     * ログ出力元クラス
+     */
+    @NonNull
+    private final Class mSourceClass;
 
     /**
      * ログ出力元クラスを元にインスタンスを生成するコンストラクタ。
      *
      * @param sourceClass ログ出力元クラス
      */
-    public Log(@NonNull Class sourceClass){
-        _sourceClass = sourceClass;
+    public Log(@NonNull Class sourceClass) {
+        mSourceClass = sourceClass;
     }
 
     /**
      * android.util.Log.iを実行する
+     *
      * @param message ログメッセージ
      */
     public void i(@NonNull String message) {
@@ -34,13 +38,16 @@ public class Log {
 
     /**
      * android.util.Log.iを実行する
+     *
      * @param throwable 例外
      */
     public void i(@NonNull Throwable throwable) {
         android.util.Log.i(getTag(), getThrowableMessage(throwable), throwable);
     }
+
     /**
      * android.util.Log.wを実行する
+     *
      * @param message ログメッセージ
      */
     public void w(@NonNull String message) {
@@ -49,6 +56,7 @@ public class Log {
 
     /**
      * android.util.Log.eを実行する
+     *
      * @param throwable 例外
      */
     public void e(@NonNull Throwable throwable) {
@@ -60,8 +68,8 @@ public class Log {
      *
      * @return ログ出力用TAG
      */
-    private String getTag(){
-        return BASE_TAG + _sourceClass.getSimpleName();
+    private String getTag() {
+        return BASE_TAG + mSourceClass.getSimpleName();
     }
 
     /**
@@ -72,7 +80,7 @@ public class Log {
      */
     private String getThrowableMessage(@NonNull Throwable throwable) {
         String message = throwable.getMessage();
-        if(message != null) {
+        if (message != null) {
             return message;
         }
 

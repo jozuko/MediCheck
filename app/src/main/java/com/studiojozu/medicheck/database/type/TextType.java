@@ -6,14 +6,14 @@ import android.support.annotation.NonNull;
 /**
  * intの型クラス
  */
-public class TextModel extends ADbType<String> {
+public class TextType extends ADbType<String> implements Comparable<TextType> {
     private final String _value;
 
-    public TextModel() {
+    public TextType() {
         _value = "";
     }
 
-    public TextModel(String value) {
+    public TextType(String value) {
         _value = value;
     }
 
@@ -25,5 +25,10 @@ public class TextModel extends ADbType<String> {
     @Override
     public void setContentValue(@NonNull String columnName, @NonNull ContentValues contentValue) {
         contentValue.put(columnName, getDbValue());
+    }
+
+    @Override
+    public int compareTo(@NonNull TextType target) {
+        return getDbValue().compareTo(target.getDbValue());
     }
 }

@@ -12,18 +12,18 @@ import android.widget.ImageView;
  */
 public class BitmapViewComponent {
     @NonNull
-    private final Context _context;
+    private final Context mContext;
     @NonNull
-    private final ImageView _imageView;
+    private final ImageView mImageView;
     @NonNull
-    private final Uri _uri;
+    private final Uri mUri;
     @Nullable
-    private Bitmap _bitmap;
+    private Bitmap mBitmap;
 
     public BitmapViewComponent(@NonNull Context context, @NonNull ImageView imageView, @NonNull Uri uri) {
-        _context = context;
-        _imageView = imageView;
-        _uri = uri;
+        mContext = context;
+        mImageView = imageView;
+        mUri = uri;
     }
 
     /**
@@ -33,18 +33,19 @@ public class BitmapViewComponent {
      * @return ImageViewの幅と高さ
      */
     public Size getImageSize() {
-        return new Size(_imageView.getWidth(), _imageView.getHeight());
+        return new Size(mImageView.getWidth(), mImageView.getHeight());
     }
 
     /**
      * ImageViewに画像を表示する
+     *
      * @param bitmap 表示するBitmapイメージ
      */
     public void setBitmap(@NonNull Bitmap bitmap) {
         recycle();
 
-        _bitmap = bitmap;
-        _imageView.setImageBitmap(_bitmap);
+        mBitmap = bitmap;
+        mImageView.setImageBitmap(mBitmap);
     }
 
     /**
@@ -52,10 +53,10 @@ public class BitmapViewComponent {
      * setBitmap()を呼び出したライフサイクルと対になる箇所で呼び出すこと
      */
     public void recycle() {
-        if (_bitmap == null) return;
+        if (mBitmap == null) return;
 
-        _imageView.setImageDrawable(null);
-        _bitmap.recycle();
-        _bitmap = null;
+        mImageView.setImageDrawable(null);
+        mBitmap.recycle();
+        mBitmap = null;
     }
 }
