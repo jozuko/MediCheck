@@ -1,4 +1,4 @@
-package com.studiojozu.medicheck.other;
+package com.studiojozu.medicheck.alarm;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -66,7 +66,7 @@ public class MedicineAlarm {
     /**
      * データベースに登録されているスケジュールから、アラームが必要なスケジュールを抽出し、スケジュール設定する。
      */
-    void setNotification() {
+    void showNotification() {
         List<Map<ColumnBase, IDbType>> needAlarmSchedules = getNeedAlarmSchedules();
 
         TreeSet<Map<ColumnBase, IDbType>> targetSchedules = new TreeSet<>(new SchedulePlanDateTimeComparator(_context));
