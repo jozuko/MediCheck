@@ -8,14 +8,13 @@ import com.studiojozu.medicheck.R;
 import com.studiojozu.medicheck.database.helper.ReadonlyDatabase;
 import com.studiojozu.medicheck.database.helper.WritableDatabase;
 import com.studiojozu.medicheck.database.type.DbTypeFactory;
-import com.studiojozu.medicheck.database.type.IDbType;
+import com.studiojozu.medicheck.database.type.ADbType;
 import com.studiojozu.medicheck.database.type.IntModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeSet;
 
 /**
  * Parson
@@ -50,7 +49,7 @@ public class ParsonEntity extends ABaseEntity {
 
     @Override
     protected void updateDefaultData(@NonNull Context context, @Nullable WritableDatabase db) {
-        Map<ColumnBase, IDbType> insertData = new HashMap<>();
+        Map<ColumnBase, ADbType> insertData = new HashMap<>();
 
         insertData.put(COLUMN_NAME, DbTypeFactory.createInstance(COLUMN_NAME._type, context.getResources().getString(R.string.parson_self)));
         insertData.put(COLUMN_PHOTO, DbTypeFactory.createInstance(COLUMN_NAME._type, ""));
@@ -75,13 +74,13 @@ public class ParsonEntity extends ABaseEntity {
      * @return 飲む人IDに一致するレコード
      */
     @Nullable
-    public Map<ColumnBase, IDbType> findById(@NonNull Context context, @NonNull IntModel parsonId) {
+    public Map<ColumnBase, ADbType> findById(@NonNull Context context, @NonNull IntModel parsonId) {
         ReadonlyDatabase readonlyDatabase = new ReadonlyDatabase(context);
         try {
-            ArrayList<IDbType> whereList = new ArrayList<>();
+            ArrayList<ADbType> whereList = new ArrayList<>();
             whereList.add(parsonId);
 
-            List<Map<ColumnBase, IDbType>> datas = findEntities(readonlyDatabase, COLUMN_ID.getEqualsCondition(), whereList);
+            List<Map<ColumnBase, ADbType>> datas = findEntities(readonlyDatabase, COLUMN_ID.getEqualsCondition(), whereList);
             if (datas == null || datas.size() == 0) return null;
             return datas.get(0);
         } finally {

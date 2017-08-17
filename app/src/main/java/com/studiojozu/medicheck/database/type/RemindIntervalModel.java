@@ -3,13 +3,10 @@ package com.studiojozu.medicheck.database.type;
 import android.content.ContentValues;
 import android.support.annotation.NonNull;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-
 /**
  * 通知の繰り返し間隔を表す型クラス
  */
-public class RemindIntervalModel implements IDbType<Integer> {
+public class RemindIntervalModel extends ADbType<Integer> {
 
     public enum RemindIntervalType {
         MINUTE_1(1),
@@ -54,13 +51,9 @@ public class RemindIntervalModel implements IDbType<Integer> {
         _value = RemindIntervalType.typeOfIntervalMinute(intervalMinutes);
     }
 
+    @Override
     public Integer getDbValue() {
         return _value._intervalMinutes;
-    }
-
-    @Override
-    public String getDbWhereValue() {
-        return String.valueOf(getDbValue());
     }
 
     @Override

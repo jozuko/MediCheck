@@ -1,9 +1,6 @@
 package com.studiojozu.medicheck.database.entity;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-
-import com.studiojozu.medicheck.database.type.IDbType;
 
 /**
  *

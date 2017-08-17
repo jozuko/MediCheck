@@ -7,7 +7,7 @@ import android.support.annotation.Nullable;
 import com.studiojozu.medicheck.database.helper.ReadonlyDatabase;
 import com.studiojozu.medicheck.database.helper.WritableDatabase;
 import com.studiojozu.medicheck.database.type.BooleanModel;
-import com.studiojozu.medicheck.database.type.IDbType;
+import com.studiojozu.medicheck.database.type.ADbType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +28,7 @@ import java.util.Map;
 public class ScheduleEntity extends ABaseEntity {
 
     /**
-     * 服用ID
+     * 薬ID
      */
     public static final ColumnBase COLUMN_MEDICINE_ID = new ColumnBase("medicine_id", ColumnType.INT, PrimayType.Primary);
     /**
@@ -86,10 +86,10 @@ public class ScheduleEntity extends ABaseEntity {
      * @param context アプリケーションコンテキスト
      * @return need_alert=true, is_take=falseの条件を満たすレコード一覧
      */
-    public List<Map<ColumnBase, IDbType>> getNeedAlerts(Context context) {
+    public List<Map<ColumnBase, ADbType>> getNeedAlerts(Context context) {
         ReadonlyDatabase readonlyDatabase = new ReadonlyDatabase(context);
         try {
-            ArrayList<IDbType> whereList = new ArrayList<>();
+            ArrayList<ADbType> whereList = new ArrayList<>();
             whereList.add(new BooleanModel(true));
             whereList.add(new BooleanModel(false));
 

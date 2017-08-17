@@ -19,7 +19,7 @@ import com.studiojozu.medicheck.database.entity.SchedulePlanDateTimeComparator;
 import com.studiojozu.medicheck.database.entity.SettingEntity;
 import com.studiojozu.medicheck.database.entity.TimetableEntity;
 import com.studiojozu.medicheck.database.type.DateModel;
-import com.studiojozu.medicheck.database.type.IDbType;
+import com.studiojozu.medicheck.database.type.ADbType;
 import com.studiojozu.medicheck.database.type.IntModel;
 import com.studiojozu.medicheck.database.type.TimeModel;
 
@@ -67,10 +67,10 @@ public class MedicineAlarm {
      * データベースに登録されているスケジュールから、アラームが必要なスケジュールを抽出し、スケジュール設定する。
      */
     void showNotification() {
-        List<Map<ColumnBase, IDbType>> needAlarmSchedules = getNeedAlarmSchedules();
+        List<Map<ColumnBase, ADbType>> needAlarmSchedules = getNeedAlarmSchedules();
 
-        TreeSet<Map<ColumnBase, IDbType>> targetSchedules = new TreeSet<>(new SchedulePlanDateTimeComparator(_context));
-        for (Map<ColumnBase, IDbType> scheduleRecord : needAlarmSchedules) {
+        TreeSet<Map<ColumnBase, ADbType>> targetSchedules = new TreeSet<>(new SchedulePlanDateTimeComparator(_context));
+        for (Map<ColumnBase, ADbType> scheduleRecord : needAlarmSchedules) {
             if (isNeedAlarm(scheduleRecord)) targetSchedules.add(scheduleRecord);
         }
         if (targetSchedules.size() == 0) return;
@@ -81,12 +81,12 @@ public class MedicineAlarm {
         manager.notify(NOTIFICATION_MEDICINE, notification);
     }
 
-    private List<Map<ColumnBase, IDbType>> getNeedAlarmSchedules() {
+    private List<Map<ColumnBase, ADbType>> getNeedAlarmSchedules() {
         ScheduleEntity scheduleEntity = new ScheduleEntity();
         return scheduleEntity.getNeedAlerts(_context);
     }
 
-    private boolean isNeedAlarm(Map<ColumnBase, IDbType> scheduleRecord) {
+    private boolean isNeedAlarm(Map<ColumnBase, ADbType> scheduleRecord) {
 
         // 現在日時を取得する
         Calendar now = Calendar.getInstance();
@@ -110,12 +110,12 @@ public class MedicineAlarm {
     }
 
     private TimeModel getScheduleTime(int timetableId) {
-        Map<ColumnBase, IDbType> timetable = _timetableEntity.findTimetable(_context, timetableId);
+        Map<ColumnBase, ADbType> timetable = _timetableEntity.findTimetable(_context, timetableId);
         return (TimeModel) timetable.get(TimetableEntity.COLUMN_TIME);
     }
 
     @Nullable
-    private Notification createNotification(TreeSet<Map<ColumnBase, IDbType>> targetSchedules) {
+    private Notification createNotification(TreeSet<Map<ColumnBase, ADbType>> targetSchedules) {
 
         String notificationMessage = getNotificationMessage(targetSchedules);
         if(notificationMessage.length() == 0) return null;
@@ -141,14 +141,14 @@ public class MedicineAlarm {
     }
 
     @NonNull
-    private String getNotificationMessage(TreeSet<Map<ColumnBase, IDbType>> targetSchedules) {
+    private String getNotificationMessage(TreeSet<Map<ColumnBase, ADbType>> targetSchedules) {
 
         StringBuilder builder = new StringBuilder();
-        for(Map<ColumnBase, IDbType> targetSchedule : targetSchedules) {
+        for(Map<ColumnBase, ADbType> targetSchedule : targetSchedules) {
             TreeSet<IntModel> parsonIds = _parsonMediRelationEntity.findParsonIdsByMedicineId(_context, (IntModel)targetSchedule.get(ScheduleEntity.COLUMN_MEDICINE_ID));
             if(parsonIds == null) continue;
 
-            Map<ColumnBase, IDbType> medicines = _medicineEntity.findById(_context, (IntModel)targetSchedule.get(ScheduleEntity.COLUMN_MEDICINE_ID));
+            Map<ColumnBase, ADbType> medicines = _medicineEntity.findById(_context, (IntModel)targetSchedule.get(ScheduleEntity.COLUMN_MEDICINE_ID));
             if(medicines == null) continue;
 
             builder.append(createMedicineLine(parsonIds, medicines));
@@ -158,11 +158,11 @@ public class MedicineAlarm {
     }
 
     @NonNull
-    private String createMedicineLine(@NonNull TreeSet<IntModel> parsonIds, Map<ColumnBase, IDbType> medicines) {
+    private String createMedicineLine(@NonNull TreeSet<IntModel> parsonIds, Map<ColumnBase, ADbType> medicines) {
         StringBuilder builder = new StringBuilder();
 
         for(IntModel parsonId : parsonIds) {
-            Map<ColumnBase, IDbType> parson = _parsonEntity.findById(_context, parsonId);
+            Map<ColumnBase, ADbType> parson = _parsonEntity.findById(_context, parsonId);
             if(parson == null) continue;
 
             builder.append(parson.get(ParsonEntity.COLUMN_NAME).getDbValue());

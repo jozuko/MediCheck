@@ -10,7 +10,7 @@ import java.util.Calendar;
 /**
  * 時間を表す型クラス
  */
-public class DateTimeModel implements IDbType<Long>,Comparable<DateTimeModel> {
+public class DateTimeModel extends ADbType<Long> implements Comparable<DateTimeModel> {
 
     @NonNull
     private final Calendar _value;
@@ -49,13 +49,9 @@ public class DateTimeModel implements IDbType<Long>,Comparable<DateTimeModel> {
         return format.format(_value.getTime());
     }
 
+    @Override
     public Long getDbValue() {
         return _value.getTimeInMillis();
-    }
-
-    @Override
-    public String getDbWhereValue() {
-        return String.valueOf(getDbValue());
     }
 
     @Override

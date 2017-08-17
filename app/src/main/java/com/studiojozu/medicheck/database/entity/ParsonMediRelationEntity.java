@@ -6,12 +6,10 @@ import android.support.annotation.Nullable;
 
 import com.studiojozu.medicheck.database.helper.ReadonlyDatabase;
 import com.studiojozu.medicheck.database.helper.WritableDatabase;
-import com.studiojozu.medicheck.database.type.BooleanModel;
-import com.studiojozu.medicheck.database.type.IDbType;
+import com.studiojozu.medicheck.database.type.ADbType;
 import com.studiojozu.medicheck.database.type.IntModel;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
@@ -69,14 +67,14 @@ public class ParsonMediRelationEntity extends ABaseEntity {
     public TreeSet<IntModel> findParsonIdsByMedicineId(@NonNull Context context, @NonNull IntModel medicineId) {
         ReadonlyDatabase readonlyDatabase = new ReadonlyDatabase(context);
         try {
-            ArrayList<IDbType> whereList = new ArrayList<>();
+            ArrayList<ADbType> whereList = new ArrayList<>();
             whereList.add(medicineId);
 
-            List<Map<ColumnBase, IDbType>> relations = findEntities(readonlyDatabase, COLUMN_MEDICINE_ID.getEqualsCondition(), whereList);
+            List<Map<ColumnBase, ADbType>> relations = findEntities(readonlyDatabase, COLUMN_MEDICINE_ID.getEqualsCondition(), whereList);
             if (relations == null || relations.size() == 0) return null;
 
             TreeSet<IntModel> parsonIds = new TreeSet<>();
-            for (Map<ColumnBase, IDbType> relation : relations) {
+            for (Map<ColumnBase, ADbType> relation : relations) {
                 parsonIds.add((IntModel) relation.get(COLUMN_PARSON_ID));
             }
 

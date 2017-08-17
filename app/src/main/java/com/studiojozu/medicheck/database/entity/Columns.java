@@ -4,7 +4,7 @@ import android.database.Cursor;
 import android.support.annotation.NonNull;
 
 import com.studiojozu.medicheck.database.type.DbTypeFactory;
-import com.studiojozu.medicheck.database.type.IDbType;
+import com.studiojozu.medicheck.database.type.ADbType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -66,9 +66,9 @@ public class Columns {
      * @param cursor DBのQueryCursor
      * @return 1レコード分のデータ
      */
-    Map<ColumnBase, IDbType> putAllData(@NonNull Cursor cursor) {
+    Map<ColumnBase, ADbType> putAllData(@NonNull Cursor cursor) {
 
-        Map<ColumnBase, IDbType> dataMap = new HashMap<>();
+        Map<ColumnBase, ADbType> dataMap = new HashMap<>();
         if (cursor.moveToNext()) {
             for (ColumnBase column : _columns) {
                 dataMap.put(column, DbTypeFactory.createInstance(column._type, cursor.getInt(cursor.getColumnIndex(column._columnName))));
@@ -83,11 +83,11 @@ public class Columns {
      * @param cursor DBのQueryCursor
      * @return 全レコード分のデータ
      */
-    List<Map<ColumnBase, IDbType>> putAllDatas(@NonNull Cursor cursor) {
+    List<Map<ColumnBase, ADbType>> putAllDatas(@NonNull Cursor cursor) {
 
-        List<Map<ColumnBase, IDbType>> entities = new ArrayList<>(cursor.getCount());
+        List<Map<ColumnBase, ADbType>> entities = new ArrayList<>(cursor.getCount());
         while (cursor.moveToNext()) {
-            Map<ColumnBase, IDbType> dataMap = new HashMap<>();
+            Map<ColumnBase, ADbType> dataMap = new HashMap<>();
 
             for (ColumnBase column : _columns) {
                 dataMap.put(column, DbTypeFactory.createInstance(column._type, cursor.getInt(cursor.getColumnIndex(column._columnName))));

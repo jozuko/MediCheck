@@ -7,11 +7,8 @@ import android.support.annotation.Nullable;
 import com.studiojozu.medicheck.R;
 import com.studiojozu.medicheck.database.helper.ReadonlyDatabase;
 import com.studiojozu.medicheck.database.helper.WritableDatabase;
-import com.studiojozu.medicheck.database.type.BooleanModel;
 import com.studiojozu.medicheck.database.type.DbTypeFactory;
-import com.studiojozu.medicheck.database.type.IDbType;
-import com.studiojozu.medicheck.database.type.RemindIntervalModel;
-import com.studiojozu.medicheck.database.type.RemindTimeoutModel;
+import com.studiojozu.medicheck.database.type.ADbType;
 import com.studiojozu.medicheck.database.type.TimeModel;
 
 import java.util.ArrayList;
@@ -51,11 +48,11 @@ public class TimetableEntity extends ABaseEntity {
     }
 
     @Nullable
-    private Map<Integer, Map<ColumnBase, IDbType>> _dataMap;
+    private Map<Integer, Map<ColumnBase, ADbType>> _dataMap;
 
     @Override
     protected void updateDefaultData(@NonNull Context context, @Nullable WritableDatabase db) {
-        Map<ColumnBase, IDbType> insertData = new HashMap<>();
+        Map<ColumnBase, ADbType> insertData = new HashMap<>();
         insertData.put(COLUMN_NAME, DbTypeFactory.createInstance(COLUMN_NAME._type, context.getResources().getString(R.string.timing_morning)));
         insertData.put(COLUMN_TIME, DbTypeFactory.createInstance(COLUMN_TIME._type, new TimeModel(7, 0).getDbValue()));
         insert(db, insertData);
@@ -139,8 +136,8 @@ public class TimetableEntity extends ABaseEntity {
             if (_dataMap == null) _dataMap = new HashMap<>();
             _dataMap.clear();
 
-            List<Map<ColumnBase, IDbType>> entities = findEntities(readonlyDatabase, null, null);
-            for (Map<ColumnBase, IDbType> recordData : entities) {
+            List<Map<ColumnBase, ADbType>> entities = findEntities(readonlyDatabase, null, null);
+            for (Map<ColumnBase, ADbType> recordData : entities) {
                 Integer id = (Integer) recordData.get(TimetableEntity.COLUMN_ID).getDbValue();
                 _dataMap.put(id, recordData);
             }
@@ -159,7 +156,7 @@ public class TimetableEntity extends ABaseEntity {
         if (_dataMap == null) refreashAllTimetables(context);
     }
 
-    public Map<ColumnBase, IDbType> findTimetable(@NonNull Context context, int timetableId) {
+    public Map<ColumnBase, ADbType> findTimetable(@NonNull Context context, int timetableId) {
         getAllTimetables(context);
         return _dataMap.get(timetableId);
     }

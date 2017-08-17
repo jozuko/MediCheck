@@ -9,7 +9,7 @@ import com.studiojozu.medicheck.database.helper.WritableDatabase;
 import com.studiojozu.medicheck.database.type.DateModel;
 import com.studiojozu.medicheck.database.type.DateTimeModel;
 import com.studiojozu.medicheck.database.type.DbTypeFactory;
-import com.studiojozu.medicheck.database.type.IDbType;
+import com.studiojozu.medicheck.database.type.ADbType;
 import com.studiojozu.medicheck.database.type.RemindIntervalModel;
 import com.studiojozu.medicheck.database.type.RemindTimeoutModel;
 import com.studiojozu.medicheck.database.type.TimeModel;
@@ -53,11 +53,11 @@ public class SettingEntity extends ABaseEntity {
     }
 
     @Nullable
-    private Map<ColumnBase, IDbType> _currentSetting;
+    private Map<ColumnBase, ADbType> _currentSetting;
 
     @Override
     protected void updateDefaultData(@NonNull Context context, @Nullable WritableDatabase db) {
-        Map<ColumnBase, IDbType> insertData = new HashMap<>();
+        Map<ColumnBase, ADbType> insertData = new HashMap<>();
 
         insertData.put(COLUMN_USE_REMINDER, DbTypeFactory.createInstance(COLUMN_USE_REMINDER._type, true));
         insertData.put(COLUMN_REMIND_INTERVAL, DbTypeFactory.createInstance(COLUMN_REMIND_INTERVAL._type, RemindIntervalModel.RemindIntervalType.MINUTE_5));
@@ -78,7 +78,7 @@ public class SettingEntity extends ABaseEntity {
     private void refreashSetting(@NonNull Context context) {
         ReadonlyDatabase readonlyDatabase = new ReadonlyDatabase(context);
         try {
-            List<Map<ColumnBase, IDbType>> entities = findEntities(readonlyDatabase, null, null);
+            List<Map<ColumnBase, ADbType>> entities = findEntities(readonlyDatabase, null, null);
             _currentSetting = entities.get(0);
         } finally {
             readonlyDatabase.close();

@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 /**
  * intの型クラス
  */
-public class TextModel implements IDbType<String> {
+public class TextModel extends ADbType<String> {
     private final String _value;
 
     public TextModel() {
@@ -17,14 +17,12 @@ public class TextModel implements IDbType<String> {
         _value = value;
     }
 
+    @Override
     public String getDbValue() {
         return _value;
     }
 
-    public String getDbWhereValue() {
-        return String.valueOf(getDbValue());
-    }
-
+    @Override
     public void setContentValue(@NonNull String columnName, @NonNull ContentValues contentValue) {
         contentValue.put(columnName, getDbValue());
     }

@@ -10,7 +10,7 @@ import java.util.Calendar;
 /**
  * 日付を表す型クラス
  */
-public class DateModel implements IDbType<Long>, Comparable<DateModel> {
+public class DateModel extends ADbType<Long> implements Comparable<DateModel> {
 
     @NonNull
     private final Calendar _value;
@@ -39,13 +39,9 @@ public class DateModel implements IDbType<Long>, Comparable<DateModel> {
         return format.format(_value.getTime());
     }
 
+    @Override
     public Long getDbValue() {
         return _value.getTimeInMillis();
-    }
-
-    @Override
-    public String getDbWhereValue() {
-        return String.valueOf(getDbValue());
     }
 
     @Override
@@ -53,15 +49,15 @@ public class DateModel implements IDbType<Long>, Comparable<DateModel> {
         contentValue.put(columnName, getDbValue());
     }
 
+    @Override
+    public int compareTo(@NonNull DateModel dateModel) {
+        return getDbValue().compareTo(dateModel.getDbValue());
+    }
+
     public boolean isEquals(Calendar target) {
         if (_value.get(Calendar.YEAR) != target.get(Calendar.YEAR)) return false;
         if (_value.get(Calendar.MONTH) != target.get(Calendar.MONTH)) return false;
         if (_value.get(Calendar.DAY_OF_MONTH) != target.get(Calendar.DAY_OF_MONTH)) return false;
         return true;
-    }
-
-    @Override
-    public int compareTo(@NonNull DateModel dateModel) {
-        return getDbValue().compareTo(dateModel.getDbValue());
     }
 }

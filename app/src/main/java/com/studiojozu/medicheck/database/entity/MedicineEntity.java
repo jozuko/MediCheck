@@ -6,7 +6,7 @@ import android.support.annotation.Nullable;
 
 import com.studiojozu.medicheck.database.helper.ReadonlyDatabase;
 import com.studiojozu.medicheck.database.helper.WritableDatabase;
-import com.studiojozu.medicheck.database.type.IDbType;
+import com.studiojozu.medicheck.database.type.ADbType;
 import com.studiojozu.medicheck.database.type.IntModel;
 
 import java.util.ArrayList;
@@ -35,6 +35,22 @@ public class MedicineEntity extends ABaseEntity {
      */
     public static final ColumnBase COLUMN_TAKE_NUMBER = new ColumnBase("take_number", ColumnType.INT);
     /**
+     * 服用日数
+     */
+    public static final ColumnBase COLUMN_DATE_NUMBER = new ColumnBase("date_number", ColumnType.INT);
+    /**
+     * 服用開始日時
+     */
+    public static final ColumnBase COLUMN_START_DATETIME = new ColumnBase("start_datetime", ColumnType.DATETIME);
+    /**
+     * 服用間隔
+     */
+    public static final ColumnBase COLUMN_INTERVAL = new ColumnBase("interval", ColumnType.INTERVAL);
+    /**
+     * 服用間隔タイプ
+     */
+    public static final ColumnBase COLUMN_INTERVAL_TYPE = new ColumnBase("interval_type", ColumnType.INTERVAL_TYPE);
+    /**
      * 薬の写真ファイルパス
      */
     public static final ColumnBase COLUMN_PHOTO = new ColumnBase("photo", ColumnType.TEXT);
@@ -46,6 +62,10 @@ public class MedicineEntity extends ABaseEntity {
         columns.add(COLUMN_ID);
         columns.add(COLUMN_NAME);
         columns.add(COLUMN_TAKE_NUMBER);
+        columns.add(COLUMN_DATE_NUMBER);
+        columns.add(COLUMN_START_DATETIME);
+        columns.add(COLUMN_INTERVAL);
+        columns.add(COLUMN_INTERVAL_TYPE);
         columns.add(COLUMN_PHOTO);
         COLUMNS = new Columns(columns);
     }
@@ -73,13 +93,13 @@ public class MedicineEntity extends ABaseEntity {
      * @return 薬IDに一致するレコード
      */
     @Nullable
-    public Map<ColumnBase, IDbType> findById(@NonNull Context context, @NonNull IntModel medicineId) {
+    public Map<ColumnBase, ADbType> findById(@NonNull Context context, @NonNull IntModel medicineId) {
         ReadonlyDatabase readonlyDatabase = new ReadonlyDatabase(context);
         try {
-            ArrayList<IDbType> whereList = new ArrayList<>();
+            ArrayList<ADbType> whereList = new ArrayList<>();
             whereList.add(medicineId);
 
-            List<Map<ColumnBase, IDbType>> datas = findEntities(readonlyDatabase, COLUMN_ID.getEqualsCondition(), whereList);
+            List<Map<ColumnBase, ADbType>> datas = findEntities(readonlyDatabase, COLUMN_ID.getEqualsCondition(), whereList);
             if (datas == null || datas.size() == 0) return null;
             return datas.get(0);
         } finally {

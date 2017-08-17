@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 /**
  * 通知の繰り返しタイムアウトを表す型クラス
  */
-public class RemindTimeoutModel implements IDbType<Integer> {
+public class RemindTimeoutModel extends ADbType<Integer> {
 
     public enum RemindTimeoutType {
         MINUTE_1(1),
@@ -55,13 +55,9 @@ public class RemindTimeoutModel implements IDbType<Integer> {
         _value = RemindTimeoutType.typeOfTimeoutMinute(timeoutMinute);
     }
 
+    @Override
     public Integer getDbValue() {
         return _value._timeoutMinutes;
-    }
-
-    @Override
-    public String getDbWhereValue() {
-        return String.valueOf(getDbValue());
     }
 
     @Override

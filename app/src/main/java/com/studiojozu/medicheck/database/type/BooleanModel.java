@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 /**
  * booleanの型クラス
  */
-public class BooleanModel implements IDbType<Integer> {
+public class BooleanModel extends ADbType<Integer> {
 
     private final boolean _value;
 
@@ -24,10 +24,6 @@ public class BooleanModel implements IDbType<Integer> {
 
     public Integer getDbValue() {
         return (_value ? 1 : 0);
-    }
-
-    public String getDbWhereValue(){
-        return String.valueOf(getDbValue());
     }
 
     public void setContentValue(@NonNull String columnName, @NonNull ContentValues contentValue) {

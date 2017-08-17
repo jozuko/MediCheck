@@ -8,13 +8,11 @@ import android.support.annotation.Nullable;
 
 import com.studiojozu.medicheck.database.helper.ADatabase;
 import com.studiojozu.medicheck.database.helper.WritableDatabase;
-import com.studiojozu.medicheck.database.type.DbTypeFactory;
-import com.studiojozu.medicheck.database.type.IDbType;
+import com.studiojozu.medicheck.database.type.ADbType;
 
 import org.jetbrains.annotations.Contract;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,7 +31,9 @@ public abstract class ABaseEntity {
         DATETIME("integer"),
         BOOL("integer"),
         REMIND_INTERVAL("integer"),
-        REMIND_TIMEOUT("integer");
+        REMIND_TIMEOUT("integer"),
+        INTERVAL("integer"),
+        INTERVAL_TYPE("integer");
 
         @NonNull
         private final String _typeName;
@@ -119,7 +119,7 @@ public abstract class ABaseEntity {
         db.execSQL(sql);
     }
 
-    void insert(@NonNull WritableDatabase db, @NonNull Map<ColumnBase, IDbType> dataMap){
+    void insert(@NonNull WritableDatabase db, @NonNull Map<ColumnBase, ADbType> dataMap){
         ContentValues insertData = new ContentValues();
         for(ColumnBase column : dataMap.keySet()){
             dataMap.get(column).setContentValue(column._columnName, insertData);
@@ -128,7 +128,7 @@ public abstract class ABaseEntity {
         db.save(TABLE_NAME, insertData);
     }
 
-    List<Map<ColumnBase, IDbType>> findEntities(ADatabase database, String where, ArrayList<IDbType> whereArgs) {
+    List<Map<ColumnBase, ADbType>> findEntities(ADatabase database, String where, ArrayList<ADbType> whereArgs) {
         Cursor cursor = null;
         try {
             final String sql = "select * from " + TABLE_NAME + " " + where;
@@ -141,11 +141,11 @@ public abstract class ABaseEntity {
 
     @Nullable
     @Contract("null -> null")
-    private String[] createWhereArgs(@Nullable ArrayList<IDbType> whereArgs) {
+    private String[] createWhereArgs(@Nullable ArrayList<ADbType> whereArgs) {
         if (whereArgs == null || whereArgs.isEmpty()) return null;
 
         ArrayList<String> args = new ArrayList<>();
-        for (IDbType model : whereArgs) {
+        for (ADbType model : whereArgs) {
             args.add(model.getDbWhereValue());
         }
 
