@@ -17,27 +17,13 @@ public class RemindIntervalType extends ADbType<Integer> implements Comparable<R
     @NonNull
     private final RemindIntervalPattern mValue;
 
-    public RemindIntervalType(@NonNull RemindIntervalPattern intervalType) {
-        mValue = intervalType;
-    }
-
-    public RemindIntervalType(int intervalMinutes) {
-        mValue = RemindIntervalPattern.typeOfIntervalMinute(intervalMinutes);
-    }
-
-    @Override
-    public Integer getDbValue() {
-        return RemindIntervalPattern.valueOfIntervalMinutes(mValue);
-    }
-
-    @Override
-    public void setContentValue(@NonNull String columnName, @NonNull ContentValues contentValue) {
-        contentValue.put(columnName, getDbValue());
-    }
-
-    @Override
-    public int compareTo(@NonNull RemindIntervalType target) {
-        return mValue.compareTo(target.mValue);
+    public RemindIntervalType(@NonNull Object intervalMinutes) {
+        if (intervalMinutes instanceof RemindIntervalPattern)
+            mValue = (RemindIntervalPattern) intervalMinutes;
+        else if ((intervalMinutes instanceof Long) || (intervalMinutes instanceof Integer))
+            mValue = RemindIntervalPattern.typeOfIntervalMinute((int) intervalMinutes);
+        else
+            throw new IllegalArgumentException("unknown type");
     }
 
     /**
@@ -74,6 +60,21 @@ public class RemindIntervalType extends ADbType<Integer> implements Comparable<R
         int minutes = targetMinutes % 60;
 
         return hours + context.getResources().getString(R.string.label_hours) + minutes + context.getResources().getString(R.string.label_minutes);
+    }
+
+    @Override
+    public Integer getDbValue() {
+        return RemindIntervalPattern.valueOfIntervalMinutes(mValue);
+    }
+
+    @Override
+    public void setContentValue(@NonNull String columnName, @NonNull ContentValues contentValue) {
+        contentValue.put(columnName, getDbValue());
+    }
+
+    @Override
+    public int compareTo(@NonNull RemindIntervalType target) {
+        return mValue.compareTo(target.mValue);
     }
 
     public enum RemindIntervalPattern {

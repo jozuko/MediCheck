@@ -11,11 +11,6 @@ public class ResetAlarmBroadcastReceiver extends BroadcastReceiver {
     /**
      * 下記アクションを受信し、アラームの再設定を行う。
      * <ol>
-     * <li>"android.intent.action.BOOT_COMPLETED"</li>
-     * <li>"android.intent.action.ACTION_MY_PACKAGE_REPLACED"</li>
-     * <li>"android.intent.action.TIME_SET"</li>
-     * <li>"android.intent.action.TIMEZONE_CHANGED"</li>
-     * <li>"android.intent.action.DATE_CHANGED"</li>
      * <li>"com.studiojozu.medicheck.alarm.reset_medicine_alarm"</li>
      * </ol>
      *

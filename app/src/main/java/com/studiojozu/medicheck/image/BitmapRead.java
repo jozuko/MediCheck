@@ -45,7 +45,7 @@ public class BitmapRead {
         BitmapFactory.Options originalSizeOptions = getOriginalSize();
         Size viewSize = bitmapViewComponent.getImageSize();
 
-        int rate = viewSize.calcurateResizeRate(originalSizeOptions.outWidth, originalSizeOptions.outHeight);
+        int rate = viewSize.calculateResizeRate(originalSizeOptions.outWidth, originalSizeOptions.outHeight);
         if (rate == 0) return;
 
         Bitmap bitmap = decodeResizeBitmapFromFile(rate);

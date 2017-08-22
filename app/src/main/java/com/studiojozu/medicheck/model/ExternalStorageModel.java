@@ -40,7 +40,7 @@ public class ExternalStorageModel {
      */
     public File createNewImageFile() throws IOException {
         File imageDir = getImageDir();
-        if (imageDir == null) throw new IOException("cannot found rootdir.");
+        if (imageDir == null) throw new IOException("cannot found root-dir.");
 
         File imageFile = new File(getImageDir(), String.format(Locale.getDefault(), "%d.png", System.currentTimeMillis()));
         if (imageFile.exists() && !imageFile.delete()) throw new IOException("cannot delete file.");

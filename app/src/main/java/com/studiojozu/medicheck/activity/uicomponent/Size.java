@@ -4,15 +4,15 @@ package com.studiojozu.medicheck.activity.uicomponent;
  *
  */
 public class Size {
-    private int mWidth;
-    private int mHeight;
+    private final int mWidth;
+    private final int mHeight;
 
     public Size(int width, int height) {
         mWidth = width;
         mHeight = height;
     }
 
-    public int calcurateResizeRate(int width, int height) {
+    public int calculateResizeRate(int width, int height) {
         if (mWidth == 0 || mHeight == 0) return 0;
         if (width == 0 || height == 0) return 0;
 

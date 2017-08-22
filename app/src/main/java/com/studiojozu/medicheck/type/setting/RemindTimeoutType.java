@@ -6,11 +6,10 @@ import android.support.annotation.NonNull;
 
 import com.studiojozu.medicheck.R;
 import com.studiojozu.medicheck.type.ADbType;
-import com.studiojozu.medicheck.type.DateTimeType;
-import com.studiojozu.medicheck.type.DateType;
-import com.studiojozu.medicheck.type.TimeType;
+import com.studiojozu.medicheck.type.general.DateType;
+import com.studiojozu.medicheck.type.general.DatetimeType;
+import com.studiojozu.medicheck.type.general.TimeType;
 
-import java.util.Map;
 import java.util.TreeMap;
 
 /**
@@ -21,12 +20,42 @@ public class RemindTimeoutType extends ADbType<Integer> implements Comparable<Re
     @NonNull
     private final RemindTimeoutPattern mValue;
 
-    public RemindTimeoutType(@NonNull RemindTimeoutPattern timeoutType) {
-        mValue = timeoutType;
+    public RemindTimeoutType(@NonNull Object timeoutMinute) {
+        if (timeoutMinute instanceof RemindTimeoutPattern)
+            mValue = (RemindTimeoutPattern) timeoutMinute;
+        else if ((timeoutMinute instanceof Long) || (timeoutMinute instanceof Integer))
+            mValue = RemindTimeoutPattern.typeOfTimeoutMinute((int) timeoutMinute);
+        else
+            throw new IllegalArgumentException("unknown type");
     }
 
-    public RemindTimeoutType(int timeoutMinute) {
-        mValue = RemindTimeoutPattern.typeOfTimeoutMinute(timeoutMinute);
+    /**
+     * 選択肢のIDとなる分とそれに対応する表示文字列をMapで返却する
+     *
+     * @param context アプリケーションコンテキスト
+     * @return 選択肢のIDとなる分とそれに対応する表示文字列のMap
+     */
+    @NonNull
+    public static TreeMap<Integer, String> getAllValues(@NonNull Context context) {
+        TreeMap<Integer, String> values = new TreeMap<>();
+        for (RemindTimeoutPattern remindTimeoutPattern : RemindTimeoutPattern.values()) {
+            values.put(remindTimeoutPattern.mTimeoutMinutes, getDisplayValue(context, remindTimeoutPattern.mTimeoutMinutes));
+        }
+
+        return values;
+    }
+
+    @NonNull
+    private static String getDisplayValue(@NonNull Context context, int targetMinutes) {
+        if (targetMinutes < 60)
+            return targetMinutes + context.getResources().getString(R.string.label_minutes);
+        if (targetMinutes % 60 == 0)
+            return (targetMinutes % 60) + context.getResources().getString(R.string.label_hours);
+
+        int hours = targetMinutes / 60;
+        int minutes = targetMinutes % 60;
+
+        return hours + context.getResources().getString(R.string.label_hours) + minutes + context.getResources().getString(R.string.label_minutes);
     }
 
     @Override
@@ -52,36 +81,9 @@ public class RemindTimeoutType extends ADbType<Integer> implements Comparable<Re
      * @param scheduleTime アラーム予定時刻
      * @return リマインド機能の限界時間を超えている場合はtrueを返却する
      */
-    public boolean isTimeout(@NonNull DateTimeType now, @NonNull DateType scheduleDate, @NonNull TimeType scheduleTime) {
-        DateTimeType reminderDateTime = new DateTimeType(scheduleDate, scheduleTime).add(getDbValue());
+    public boolean isTimeout(@NonNull DatetimeType now, @NonNull DateType scheduleDate, @NonNull TimeType scheduleTime) {
+        DatetimeType reminderDateTime = new DatetimeType(scheduleDate, scheduleTime).add(getDbValue());
         return (reminderDateTime.compareTo(now) < 0);
-    }
-
-    /**
-     * 選択肢のIDとなる分とそれに対応する表示文字列をMapで返却する
-     *
-     * @param context アプリケーションコンテキスト
-     * @return 選択肢のIDとなる分とそれに対応する表示文字列のMap
-     */
-    @NonNull
-    public static TreeMap<Integer, String> getAllValues(@NonNull Context context) {
-        TreeMap<Integer, String> values = new TreeMap<>();
-        for(RemindTimeoutPattern remindTimeoutPattern : RemindTimeoutPattern.values()) {
-            values.put(remindTimeoutPattern.mTimeoutMinutes, getDisplayValue(context, remindTimeoutPattern.mTimeoutMinutes));
-        }
-
-        return values;
-    }
-
-    @NonNull
-    private static String getDisplayValue(@NonNull Context context, int targetMinutes) {
-        if(targetMinutes < 60) return targetMinutes + context.getResources().getString(R.string.label_minutes);
-        if(targetMinutes % 60 == 0) return (targetMinutes % 60) + context.getResources().getString(R.string.label_hours);
-
-        int hours = targetMinutes / 60;
-        int minutes = targetMinutes % 60;
-
-        return hours + context.getResources().getString(R.string.label_hours) + minutes + context.getResources().getString(R.string.label_minutes);
     }
 
     public enum RemindTimeoutPattern {

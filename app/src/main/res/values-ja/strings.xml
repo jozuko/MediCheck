@@ -1,4 +1,6 @@
 <resources>
+    <string name="app_name">メディチェック</string>
+
     <string name="timing_morning">朝</string>
     <string name="timing_noon">昼</string>
     <string name="timing_night">夜</string>

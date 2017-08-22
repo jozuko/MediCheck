@@ -3,7 +3,7 @@ package com.studiojozu.medicheck.other;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.studiojozu.medicheck.database.repository.SettingRepository;
+import com.studiojozu.medicheck.repository.SettingRepository;
 import com.studiojozu.medicheck.type.setting.RemindIntervalType;
 import com.studiojozu.medicheck.type.setting.RemindTimeoutType;
 import com.studiojozu.medicheck.type.setting.UseReminderType;
@@ -11,7 +11,7 @@ import com.studiojozu.medicheck.type.setting.UseReminderType;
 import java.util.TreeMap;
 
 /**
- * 設定を画面が受信し、DBに保存する。また、DBのデータを画面表示用に加工する。
+ * 設定を画面から受信し、DBに保存する。また、DBのデータを画面表示用に加工する。
  */
 public class Setting {
 

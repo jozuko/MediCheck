@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <issue id="IconDuplicates">
+        <ignore path="src/main/res/mipmap-hdpi/notification_action_icon.png" />
+        <ignore path="src/main/res/mipmap-mdpi/notification_action_icon.png" />
+    </issue>
+</lint>

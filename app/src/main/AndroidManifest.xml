@@ -32,7 +32,7 @@
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".alarm.ResetAlarmBroadcastReceiver">
+        <receiver android:name=".alarm.SystemInfoBroadcastReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.ACTION_MY_PACKAGE_REPLACED" />

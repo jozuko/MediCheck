@@ -10,18 +10,20 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.studiojozu.medicheck.R;
-import com.studiojozu.medicheck.database.repository.ColumnBase;
-import com.studiojozu.medicheck.database.repository.MedicineRepository;
-import com.studiojozu.medicheck.database.repository.ParsonMediRelationRepository;
-import com.studiojozu.medicheck.database.repository.ParsonRepository;
-import com.studiojozu.medicheck.database.repository.SchedulePlanDateTimeComparator;
-import com.studiojozu.medicheck.database.repository.ScheduleRepository;
-import com.studiojozu.medicheck.database.repository.SettingRepository;
-import com.studiojozu.medicheck.database.repository.TimetableRepository;
+import com.studiojozu.medicheck.repository.ColumnBase;
+import com.studiojozu.medicheck.repository.MedicineRepository;
+import com.studiojozu.medicheck.repository.ParsonMediRelationRepository;
+import com.studiojozu.medicheck.repository.ParsonRepository;
+import com.studiojozu.medicheck.repository.SchedulePlanDateTimeComparator;
+import com.studiojozu.medicheck.repository.ScheduleRepository;
+import com.studiojozu.medicheck.repository.SettingRepository;
+import com.studiojozu.medicheck.repository.TimetableRepository;
 import com.studiojozu.medicheck.type.ADbType;
-import com.studiojozu.medicheck.type.DateType;
-import com.studiojozu.medicheck.type.IntType;
-import com.studiojozu.medicheck.type.TimeType;
+import com.studiojozu.medicheck.type.general.DateType;
+import com.studiojozu.medicheck.type.general.TimeType;
+import com.studiojozu.medicheck.type.medicine.MedicineIdType;
+import com.studiojozu.medicheck.type.parson.ParsonIdType;
+import com.studiojozu.medicheck.type.timetable.TimetableIdType;
 
 import java.util.Calendar;
 import java.util.List;
@@ -127,7 +129,7 @@ class MedicineAlarm {
 
         // 年月日時分が一致する場合は、trueを返却して終了する
         DateType alarmDate = (DateType) scheduleRecord.get(ScheduleRepository.COLUMN_PLAN_DATE);
-        TimeType alarmTime = getScheduleTime((Integer) scheduleRecord.get(ScheduleRepository.COLUMN_TIMETABLE_ID).getDbValue());
+        TimeType alarmTime = getScheduleTime((TimetableIdType) scheduleRecord.get(ScheduleRepository.COLUMN_TIMETABLE_ID));
         if (alarmTime == null) return false;
         if (alarmDate.equalsDate(now) && (alarmTime.equalsTime(now))) return true;
 
@@ -148,7 +150,7 @@ class MedicineAlarm {
      * @return タイムテーブルに登録されている時分
      */
     @Nullable
-    private TimeType getScheduleTime(int timetableId) {
+    private TimeType getScheduleTime(TimetableIdType timetableId) {
         Map<ColumnBase, ADbType> timetable = mTimetableRepository.findTimetable(mContext, timetableId);
         if (timetable == null) return null;
 
@@ -199,10 +201,10 @@ class MedicineAlarm {
 
         StringBuilder builder = new StringBuilder();
         for (Map<ColumnBase, ADbType> targetSchedule : targetSchedules) {
-            TreeSet<IntType> parsonIds = mParsonMediRelationRepository.findParsonIdsByMedicineId(mContext, (IntType) targetSchedule.get(ScheduleRepository.COLUMN_MEDICINE_ID));
+            TreeSet<ParsonIdType> parsonIds = mParsonMediRelationRepository.findParsonIdsByMedicineId(mContext, (MedicineIdType) targetSchedule.get(ScheduleRepository.COLUMN_MEDICINE_ID));
             if (parsonIds == null) continue;
 
-            Map<ColumnBase, ADbType> medicines = mMedicineRepository.findById(mContext, (IntType) targetSchedule.get(ScheduleRepository.COLUMN_MEDICINE_ID));
+            Map<ColumnBase, ADbType> medicines = mMedicineRepository.findById(mContext, (MedicineIdType) targetSchedule.get(ScheduleRepository.COLUMN_MEDICINE_ID));
             if (medicines == null) continue;
 
             builder.append(createMedicineLine(parsonIds, medicines));
@@ -219,10 +221,10 @@ class MedicineAlarm {
      * @return 飲む人＋薬名の行文字列
      */
     @NonNull
-    private String createMedicineLine(@NonNull TreeSet<IntType> parsonIds, Map<ColumnBase, ADbType> medicines) {
+    private String createMedicineLine(@NonNull TreeSet<ParsonIdType> parsonIds, Map<ColumnBase, ADbType> medicines) {
         StringBuilder builder = new StringBuilder();
 
-        for (IntType parsonId : parsonIds) {
+        for (ParsonIdType parsonId : parsonIds) {
             Map<ColumnBase, ADbType> parson = mParsonRepository.findById(mContext, parsonId);
             if (parson == null) continue;
 
