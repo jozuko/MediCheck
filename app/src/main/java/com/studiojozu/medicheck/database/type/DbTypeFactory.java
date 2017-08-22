@@ -2,7 +2,7 @@ package com.studiojozu.medicheck.database.type;
 
 import android.support.annotation.NonNull;
 
-import com.studiojozu.medicheck.database.table.ColumnPattern;
+import com.studiojozu.medicheck.database.repository.ColumnPattern;
 
 /**
  * {@link ADbType}の実態クラスを生成するFactory

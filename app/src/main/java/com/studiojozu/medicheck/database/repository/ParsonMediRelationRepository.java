@@ -1,4 +1,4 @@
-package com.studiojozu.medicheck.database.table;
+package com.studiojozu.medicheck.database.repository;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -22,11 +22,13 @@ import java.util.TreeSet;
  * </ol>
  * parson_id:medicine_id=1:N
  */
-public class ParsonMediRelationTable extends ABaseTable {
+public class ParsonMediRelationRepository extends ABaseRepository {
     /** 飲む人ID */
-    private static final ColumnBase COLUMN_PARSON_ID = new ColumnBase("parson_id", ColumnPattern.INT, PrimaryPattern.Primary);
+    @SuppressWarnings("WeakerAccess")
+    public static final ColumnBase COLUMN_PARSON_ID = new ColumnBase("parson_id", ColumnPattern.INT, PrimaryPattern.Primary);
     /** 薬ID */
-    private static final ColumnBase COLUMN_MEDICINE_ID = new ColumnBase("medicine_id", ColumnPattern.INT, PrimaryPattern.Primary);
+    @SuppressWarnings("WeakerAccess")
+    public static final ColumnBase COLUMN_MEDICINE_ID = new ColumnBase("medicine_id", ColumnPattern.INT, PrimaryPattern.Primary);
 
     static {
         TABLE_NAME = "parson_medi_relation";
@@ -67,7 +69,7 @@ public class ParsonMediRelationTable extends ABaseTable {
             whereList.add(medicineId);
 
             List<Map<ColumnBase, ADbType>> relations = find(readonlyDatabase, COLUMN_MEDICINE_ID.getEqualsCondition(), whereList);
-            if (relations == null || relations.size() == 0) return null;
+            if (relations.size() == 0) return null;
 
             TreeSet<IntType> parsonIds = new TreeSet<>();
             for (Map<ColumnBase, ADbType> relation : relations) {

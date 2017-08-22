@@ -1,4 +1,4 @@
-package com.studiojozu.medicheck.database.table;
+package com.studiojozu.medicheck.database.repository;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -25,19 +25,24 @@ import java.util.Map;
  * <li>take_datetime 服用した日時</li>
  * </ol>
  */
-public class ScheduleTable extends ABaseTable {
-
+public class ScheduleRepository extends ABaseRepository {
     /** 薬ID */
+    @SuppressWarnings("WeakerAccess")
     public static final ColumnBase COLUMN_MEDICINE_ID = new ColumnBase("medicine_id", ColumnPattern.INT, PrimaryPattern.Primary);
     /** 服用予定日付 */
+    @SuppressWarnings("WeakerAccess")
     public static final ColumnBase COLUMN_PLAN_DATE = new ColumnBase("plan_date", ColumnPattern.DATE, PrimaryPattern.Primary);
     /** 服用予定タイムテーブルID */
+    @SuppressWarnings("WeakerAccess")
     public static final ColumnBase COLUMN_TIMETABLE_ID = new ColumnBase("timetable_id", ColumnPattern.INT, PrimaryPattern.Primary);
     /** Alertいる？ */
+    @SuppressWarnings("WeakerAccess")
     public static final ColumnBase COLUMN_NEED_ALERT = new ColumnBase("need_alert", ColumnPattern.BOOL);
     /** 服用した？ */
+    @SuppressWarnings("WeakerAccess")
     public static final ColumnBase COLUMN_IS_TAKE = new ColumnBase("is_take", ColumnPattern.BOOL);
     /** 服用した日時 */
+    @SuppressWarnings("WeakerAccess")
     public static final ColumnBase COLUMN_TAKE_DATETIME = new ColumnBase("take_datetime", ColumnPattern.DATETIME);
 
     static {

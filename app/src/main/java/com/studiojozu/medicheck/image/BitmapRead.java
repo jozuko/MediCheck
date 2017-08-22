@@ -40,7 +40,7 @@ public class BitmapRead {
      * @param bitmapViewComponent Bitmapを表示するView
      * @throws IOException 読み込み時例外
      */
-    private void setImageView(@NonNull BitmapViewComponent bitmapViewComponent) throws IOException {
+    public void setImageView(@NonNull BitmapViewComponent bitmapViewComponent) throws IOException {
 
         BitmapFactory.Options originalSizeOptions = getOriginalSize();
         Size viewSize = bitmapViewComponent.getImageSize();
@@ -80,6 +80,7 @@ public class BitmapRead {
      * @return 縮小したBitmapイメージ
      * @throws IOException 読み込み例外
      */
+    @NonNull
     private Bitmap decodeResizeBitmapFromFile(int resizeRate) throws IOException {
         InputStream inputStream = null;
         try {

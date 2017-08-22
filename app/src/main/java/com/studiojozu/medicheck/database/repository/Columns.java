@@ -1,4 +1,4 @@
-package com.studiojozu.medicheck.database.table;
+package com.studiojozu.medicheck.database.repository;
 
 import android.database.Cursor;
 import android.support.annotation.NonNull;
@@ -14,7 +14,7 @@ import java.util.Map;
 /**
  * 1テーブル分のカラム定義をまとめたオブジェクト
  */
-public class Columns {
+class Columns {
 
     @NonNull
     private final List<ColumnBase> mColumns;
@@ -69,7 +69,7 @@ public class Columns {
      * @return 1レコード分のデータ
      */
     @NonNull
-    Map<ColumnBase, ADbType> putAllData(@NonNull Cursor cursor) {
+    private Map<ColumnBase, ADbType> putAllData(@NonNull Cursor cursor) {
 
         Map<ColumnBase, ADbType> dataMap = new HashMap<>();
         if (cursor.moveToNext()) {
@@ -91,12 +91,7 @@ public class Columns {
 
         List<Map<ColumnBase, ADbType>> entities = new ArrayList<>(cursor.getCount());
         while (cursor.moveToNext()) {
-            Map<ColumnBase, ADbType> dataMap = new HashMap<>();
-
-            for (ColumnBase column : mColumns) {
-                dataMap.put(column, DbTypeFactory.createInstance(column.mColumnType, cursor.getInt(cursor.getColumnIndex(column.mColumnName))));
-            }
-
+            Map<ColumnBase, ADbType> dataMap = putAllData(cursor);
             entities.add(dataMap);
         }
         return entities;

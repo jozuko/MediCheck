@@ -12,13 +12,13 @@ import android.support.annotation.Nullable;
 public abstract class ADatabase {
 
     @NonNull
-    protected final SQLiteDatabase mSQLiteDatabase;
+    final SQLiteDatabase mSQLiteDatabase;
 
-    public ADatabase(@NonNull SQLiteDatabase sqLiteDatabase) {
+    ADatabase(@NonNull SQLiteDatabase sqLiteDatabase) {
         mSQLiteDatabase = sqLiteDatabase;
     }
 
-    protected static DbOpenHelper getDbOpenHelper(@NonNull Context context) {
+    static DbOpenHelper getDbOpenHelper(@NonNull Context context) {
         return DbOpenHelper.getInstance(context.getApplicationContext());
     }
 
@@ -28,7 +28,6 @@ public abstract class ADatabase {
     }
 
     public void close() {
-        if (mSQLiteDatabase == null) return;
         if (mSQLiteDatabase.isOpen()) mSQLiteDatabase.close();
     }
 }

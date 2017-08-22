@@ -1,4 +1,4 @@
-package com.studiojozu.medicheck.database.table;
+package com.studiojozu.medicheck.database.repository;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -21,7 +21,7 @@ import java.util.Map;
  * <p>
  * Created by jozuko on 2017/04/25.
  */
-public abstract class ABaseTable {
+abstract class ABaseRepository {
 
     static String TABLE_NAME;
     static Columns COLUMNS;
@@ -75,8 +75,7 @@ public abstract class ABaseTable {
      */
     @Contract(pure = true)
     private boolean isNewVersion(int oldVersion, int newVersion) {
-        if (newVersion == 1) return false;
-        return (oldVersion < newVersion);
+        return newVersion != 1 && (oldVersion < newVersion);
     }
 
     /**

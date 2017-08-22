@@ -1,4 +1,4 @@
-package com.studiojozu.medicheck.database.table;
+package com.studiojozu.medicheck.database.repository;
 
 import android.support.annotation.NonNull;
 
@@ -17,7 +17,7 @@ public class ColumnBase {
     @NonNull
     final AutoIncrementPattern mAutoIncrementType;
 
-    ColumnBase(@NonNull String columnName, @NonNull ColumnPattern type, AutoIncrementPattern autoIncrementType) {
+    ColumnBase(@NonNull String columnName, @NonNull ColumnPattern type, @NonNull AutoIncrementPattern autoIncrementType) {
         mColumnName = columnName;
         mColumnType = type;
         mNullType = NullPattern.NotNull;
@@ -25,7 +25,7 @@ public class ColumnBase {
         mAutoIncrementType = autoIncrementType;
     }
 
-    ColumnBase(@NonNull String columnName, @NonNull ColumnPattern type, PrimaryPattern primayType) {
+    ColumnBase(@NonNull String columnName, @NonNull ColumnPattern type, @NonNull PrimaryPattern primayType) {
         mColumnName = columnName;
         mColumnType = type;
         mNullType = NullPattern.NotNull;

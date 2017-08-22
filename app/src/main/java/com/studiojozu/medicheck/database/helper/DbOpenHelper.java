@@ -1,12 +1,13 @@
 package com.studiojozu.medicheck.database.helper;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.studiojozu.medicheck.database.table.Tables;
+import com.studiojozu.medicheck.database.repository.Repositories;
 
 /**
  * SQLiteOpenHelper
@@ -17,6 +18,7 @@ public class DbOpenHelper extends SQLiteOpenHelper {
     public static final int DB_VERSION = 1;
     private static final String DB_FILENAME = "medicheck.db";
 
+    @SuppressLint("StaticFieldLeak")
     @Nullable
     private static DbOpenHelper sDbOpenHelper = null;
 
@@ -38,7 +40,7 @@ public class DbOpenHelper extends SQLiteOpenHelper {
         if (WritableDatabase.isWritableDatabase(db)) return;
 
         WritableDatabase writableDatabase = new WritableDatabase(db);
-        new Tables().createTables(mContext, writableDatabase);
+        new Repositories().createTables(mContext, writableDatabase);
     }
 
     @Override
@@ -46,6 +48,6 @@ public class DbOpenHelper extends SQLiteOpenHelper {
         if (WritableDatabase.isWritableDatabase(db)) return;
 
         WritableDatabase writableDatabase = new WritableDatabase(db);
-        new Tables().upgradeTables(mContext, writableDatabase, oldVersion, newVersion);
+        new Repositories().upgradeTables(mContext, writableDatabase, oldVersion, newVersion);
     }
 }

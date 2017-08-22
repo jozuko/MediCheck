@@ -36,6 +36,8 @@ public class Gallery {
         if (bitmap == null) return null;
 
         File imageFile = new BitmapWrite(mContext, bitmap).saveToNewPngFileAutoRecycle();
+        if(imageFile ==null) return null;
+
         registerGallery(imageFile, "image/png");
         return Uri.fromFile(imageFile);
     }
@@ -44,7 +46,7 @@ public class Gallery {
      * Galleryにイメージファイルを登録する
      *
      * @param imageFile イメージファイルのパス
-     * @param mimeType イメージファイルのMIMEタイプ
+     * @param mimeType  イメージファイルのMIMEタイプ
      */
     private void registerGallery(@NonNull File imageFile, @NonNull String mimeType) {
         ContentValues values = new ContentValues();

@@ -1,8 +1,9 @@
-package com.studiojozu.medicheck.database.table;
+package com.studiojozu.medicheck.database.repository;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.SparseArray;
 
 import com.studiojozu.medicheck.R;
 import com.studiojozu.medicheck.database.helper.ReadonlyDatabase;
@@ -23,12 +24,15 @@ import java.util.Map;
  * <li>time 時刻</li>
  * </ol>
  */
-public class TimetableTable extends ABaseTable {
+public class TimetableRepository extends ABaseRepository {
     /** タイムテーブルID */
+    @SuppressWarnings("WeakerAccess")
     public static final ColumnBase COLUMN_ID = new ColumnBase("_id", ColumnPattern.INT, AutoIncrementPattern.AutoIncrement);
     /** 服用タイミング名 */
+    @SuppressWarnings("WeakerAccess")
     public static final ColumnBase COLUMN_NAME = new ColumnBase("name", ColumnPattern.TEXT);
     /** 予定時刻 */
+    @SuppressWarnings("WeakerAccess")
     public static final ColumnBase COLUMN_TIME = new ColumnBase("time", ColumnPattern.TIME);
 
     static {
@@ -42,10 +46,12 @@ public class TimetableTable extends ABaseTable {
     }
 
     @Nullable
-    private Map<Integer, Map<ColumnBase, ADbType>> mDataMap;
+    private SparseArray<Map<ColumnBase, ADbType>> mDataArray;
 
     @Override
     protected void updateDefaultData(@NonNull Context context, @Nullable WritableDatabase db) {
+        if(db == null) return;
+
         Map<ColumnBase, ADbType> insertData = new HashMap<>();
         insertData.put(COLUMN_NAME, DbTypeFactory.createInstance(COLUMN_NAME.mColumnType, context.getResources().getString(R.string.timing_morning)));
         insertData.put(COLUMN_TIME, DbTypeFactory.createInstance(COLUMN_TIME.mColumnType, new TimeType(7, 0).getDbValue()));
@@ -122,18 +128,17 @@ public class TimetableTable extends ABaseTable {
      * すでにフィールドに取得している場合は、フィールド値をクリアし、最新データを取得する
      *
      * @param context アプリケーションコンテキスト
-     * @return タイムテーブルレコード一覧
      */
     private synchronized void refreashAllTimetables(@NonNull Context context) {
         ReadonlyDatabase readonlyDatabase = new ReadonlyDatabase(context);
         try {
-            if (mDataMap == null) mDataMap = new HashMap<>();
-            mDataMap.clear();
+            if (mDataArray == null) mDataArray = new SparseArray<>();
+            mDataArray.clear();
 
             List<Map<ColumnBase, ADbType>> entities = find(readonlyDatabase, null, null);
             for (Map<ColumnBase, ADbType> recordData : entities) {
-                Integer id = (Integer) recordData.get(TimetableTable.COLUMN_ID).getDbValue();
-                mDataMap.put(id, recordData);
+                Integer id = (Integer) recordData.get(TimetableRepository.COLUMN_ID).getDbValue();
+                mDataArray.put(id, recordData);
             }
         } finally {
             readonlyDatabase.close();
@@ -147,7 +152,7 @@ public class TimetableTable extends ABaseTable {
      * @param context アプリケーションコンテキスト
      */
     private void getAllTimetables(@NonNull Context context) {
-        if (mDataMap == null) refreashAllTimetables(context);
+        if (mDataArray == null) refreashAllTimetables(context);
     }
 
     /**
@@ -160,8 +165,11 @@ public class TimetableTable extends ABaseTable {
     @Nullable
     public Map<ColumnBase, ADbType> findTimetable(@NonNull Context context, int timetableId) {
         getAllTimetables(context);
-        if (mDataMap.containsKey(timetableId)) return mDataMap.get(timetableId);
-        return null;
+
+        if(mDataArray == null) return null;
+        if(mDataArray.indexOfKey(timetableId) < 0) return null;
+
+        return mDataArray.get(timetableId);
     }
 
 }

@@ -3,9 +3,11 @@ package com.studiojozu.medicheck.model;
 import android.content.Context;
 import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Locale;
 
 /**
  * 外部ストレージを扱う型クラス
@@ -37,11 +39,14 @@ public class ExternalStorageModel {
      * @throws IOException ファイルIO系例外
      */
     public File createNewImageFile() throws IOException {
-        File imageFile = new File(getImageDir(), String.format("%d.png", System.currentTimeMillis()));
-        if (imageFile.exists()) imageFile.delete();
+        File imageDir = getImageDir();
+        if (imageDir == null) throw new IOException("cannot found rootdir.");
 
-        imageFile.createNewFile();
-        return imageFile;
+        File imageFile = new File(getImageDir(), String.format(Locale.getDefault(), "%d.png", System.currentTimeMillis()));
+        if (imageFile.exists() && !imageFile.delete()) throw new IOException("cannot delete file.");
+
+        if (imageFile.createNewFile()) return imageFile;
+        throw new IOException("cannot create file.");
     }
 
     /**
@@ -49,11 +54,14 @@ public class ExternalStorageModel {
      *
      * @return カメラ画像保存先ディレクトリパス
      */
+    @Nullable
     private File getImageDir() {
         File rootDir = mContext.getExternalFilesDir(Environment.DIRECTORY_DCIM);
-        if (!rootDir.exists()) rootDir.mkdirs();
+        if (rootDir == null) rootDir = mContext.getExternalFilesDir("DIRECTORY_PICTURES");
+        if (rootDir == null) return null;
+
+        if (!rootDir.exists() && !rootDir.mkdirs()) return null;
 
         return rootDir;
     }
-
 }

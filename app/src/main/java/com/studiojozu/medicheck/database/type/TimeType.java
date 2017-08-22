@@ -51,6 +51,18 @@ public class TimeType extends ADbType<Long> implements Comparable<TimeType> {
     }
 
     /**
+     * フィールド値と引数の時分を比較する。
+     *
+     * @param target 比較する時分
+     * @return 一致する場合はtrueを返却する
+     */
+    public boolean equalsTime(@NonNull Calendar target) {
+        if (mValue.get(Calendar.HOUR_OF_DAY) != target.get(Calendar.HOUR_OF_DAY)) return false;
+        return mValue.get(Calendar.MINUTE) == target.get(Calendar.MINUTE);
+
+    }
+
+    /**
      * 画面表示用文字列を返却する
      *
      * @return 画面表示用文字列

@@ -1,4 +1,4 @@
-package com.studiojozu.medicheck.database.table;
+package com.studiojozu.medicheck.database.repository;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -10,20 +10,20 @@ import com.studiojozu.medicheck.database.helper.WritableDatabase;
 /**
  * テーブル一覧を管理するクラス
  */
-public class Tables {
+public class Repositories {
 
     @NonNull
-    private static final ABaseTable[] TABLES;
+    private static final ABaseRepository[] TABLES;
 
     static {
-        TABLES = new ABaseTable[]{
-                new MedicineTable(),
-                new MediTimeRelationTable(),
-                new ParsonTable(),
-                new ParsonMediRelationTable(),
-                new ScheduleTable(),
-                new SettingTable(),
-                new TimetableTable()
+        TABLES = new ABaseRepository[]{
+                new MedicineRepository(),
+                new MediTimeRelationRepository(),
+                new ParsonRepository(),
+                new ParsonMediRelationRepository(),
+                new ScheduleRepository(),
+                new SettingRepository(),
+                new TimetableRepository()
         };
     }
 
@@ -32,9 +32,11 @@ public class Tables {
     }
 
     public void upgradeTables(@NonNull Context context, @Nullable WritableDatabase db, int oldVersion, int newVersion) {
+        if(db == null) return;
+
         db.beginTransaction();
         try {
-            for (ABaseTable entity : TABLES) {
+            for (ABaseRepository entity : TABLES) {
                 entity.createTable(context, db);
                 entity.upgradeTable(context, db, oldVersion, newVersion);
             }

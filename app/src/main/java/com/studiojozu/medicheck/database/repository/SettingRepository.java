@@ -1,4 +1,4 @@
-package com.studiojozu.medicheck.database.table;
+package com.studiojozu.medicheck.database.repository;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -28,12 +28,15 @@ import java.util.Map;
  * <li>remind_timeout 繰り返し通知最大時間(これ以上は通知しない)</li>
  * </ol>
  */
-public class SettingTable extends ABaseTable {
+public class SettingRepository extends ABaseRepository {
     /** 繰り返し通知を使用する？ */
+    @SuppressWarnings("WeakerAccess")
     public static final ColumnBase COLUMN_USE_REMINDER = new ColumnBase("use_reminder", ColumnPattern.BOOL);
     /** 繰り返し通知間隔 */
+    @SuppressWarnings("WeakerAccess")
     public static final ColumnBase COLUMN_REMIND_INTERVAL = new ColumnBase("remind_interval", ColumnPattern.REMIND_INTERVAL);
     /** 繰り返し通知最大時間(これ以上は通知しない) */
+    @SuppressWarnings("WeakerAccess")
     public static final ColumnBase COLUMN_REMIND_TIMEOUT = new ColumnBase("remind_timeout", ColumnPattern.REMIND_TIMEOUT);
 
     static {
@@ -51,6 +54,7 @@ public class SettingTable extends ABaseTable {
 
     @Override
     protected void updateDefaultData(@NonNull Context context, @Nullable WritableDatabase db) {
+        if(db == null) return;
         Map<ColumnBase, ADbType> insertData = new HashMap<>();
 
         insertData.put(COLUMN_USE_REMINDER, DbTypeFactory.createInstance(COLUMN_USE_REMINDER.mColumnType, true));
@@ -102,6 +106,7 @@ public class SettingTable extends ABaseTable {
      */
     public boolean isUseRemind(@NonNull Context context) {
         getSetting(context);
+        if(mCurrentSetting == null) return false;
         return (Boolean) mCurrentSetting.get(COLUMN_USE_REMINDER).getDbValue();
     }
 
@@ -116,6 +121,8 @@ public class SettingTable extends ABaseTable {
      */
     public boolean isRemindTimeout(@NonNull Context context, @NonNull Calendar now, @NonNull DateType scheduleDate, @NonNull TimeType scheduleTime) {
         getSetting(context);
+        if(mCurrentSetting == null) return true;
+
         return ((RemindTimeoutType) mCurrentSetting.get(COLUMN_REMIND_TIMEOUT)).isTimeout(new DateTimeType(now), scheduleDate, scheduleTime);
     }
 
@@ -130,6 +137,7 @@ public class SettingTable extends ABaseTable {
      */
     public boolean isRemindTiming(@NonNull Context context, @NonNull Calendar now, @NonNull DateType scheduleDate, @NonNull TimeType scheduleTime) {
         getSetting(context);
+        if(mCurrentSetting == null) return false;
 
         DateTimeType reminderDateTime = new DateTimeType(scheduleDate, scheduleTime);
         DateTimeType currentDateTime = new DateTimeType(now);

@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 /**
  * ログ出力クラス
  */
+@SuppressWarnings("UnusedDeclaration")
 public class Log {
 
     /**

@@ -1,4 +1,4 @@
-package com.studiojozu.medicheck.database.table;
+package com.studiojozu.medicheck.database.repository;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -17,13 +17,16 @@ import java.util.ArrayList;
  * </ol>
  * medicine_id:timetable_id=1:N
  */
-public class MediTimeRelationTable extends ABaseTable {
+public class MediTimeRelationRepository extends ABaseRepository {
     /** 薬ID */
-    private static final ColumnBase COLUMN_MEDICINE_ID = new ColumnBase("medicine_id", ColumnPattern.INT, PrimaryPattern.Primary);
+    @SuppressWarnings("WeakerAccess")
+    public static final ColumnBase COLUMN_MEDICINE_ID = new ColumnBase("medicine_id", ColumnPattern.INT, PrimaryPattern.Primary);
     /** タイムテーブルID */
-    private static final ColumnBase COLUMN_TIMETABLE_ID = new ColumnBase("timetable_id", ColumnPattern.INT, PrimaryPattern.Primary);
+    @SuppressWarnings("WeakerAccess")
+    public static final ColumnBase COLUMN_TIMETABLE_ID = new ColumnBase("timetable_id", ColumnPattern.INT, PrimaryPattern.Primary);
     /** 頓服？ */
-    private static final ColumnBase COLUMN_IS_ONE_SHOT = new ColumnBase("is_one_shot", ColumnPattern.BOOL);
+    @SuppressWarnings("WeakerAccess")
+    public static final ColumnBase COLUMN_IS_ONE_SHOT = new ColumnBase("is_one_shot", ColumnPattern.BOOL);
 
     static {
         TABLE_NAME = "medi_time_relation";

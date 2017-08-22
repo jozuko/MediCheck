@@ -50,6 +50,19 @@ public class DateType extends ADbType<Long> implements Comparable<DateType> {
     }
 
     /**
+     * フィールド値と引数の年月日を比較する。
+     *
+     * @param target 比較する年月日
+     * @return 一致する場合はtrueを返却する
+     */
+    public boolean equalsDate(@NonNull Calendar target) {
+        if (mValue.get(Calendar.YEAR) != target.get(Calendar.YEAR)) return false;
+        if (mValue.get(Calendar.MONTH) != target.get(Calendar.MONTH)) return false;
+        return mValue.get(Calendar.DAY_OF_MONTH) == target.get(Calendar.DAY_OF_MONTH);
+
+    }
+
+    /**
      * 画面表示用文字列を返却する
      *
      * @return 画面表示用文字列

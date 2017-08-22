@@ -14,7 +14,7 @@ import java.io.IOException;
 /**
  * Bitmapイメージをファイルに出力するクラス
  */
-public class BitmapWrite {
+class BitmapWrite {
     @NonNull
     private final Context mContext;
 
@@ -31,7 +31,7 @@ public class BitmapWrite {
      * @param context アプリケーションコンテキスト
      * @param bitmap  Bitmapイメージ
      */
-    public BitmapWrite(@NonNull Context context, @NonNull Bitmap bitmap) {
+    BitmapWrite(@NonNull Context context, @NonNull Bitmap bitmap) {
         mContext = context;
         mBitmap = bitmap;
     }
@@ -44,7 +44,7 @@ public class BitmapWrite {
      * @throws IOException ファイル保存時の例外
      */
     @Nullable
-    public File saveToNewPngFileAutoRecycle() throws IOException {
+    File saveToNewPngFileAutoRecycle() throws IOException {
         if (mBitmap == null) return null;
         if (!ExternalStorageModel.isReadyExternalStorage()) return null;
 
@@ -64,6 +64,8 @@ public class BitmapWrite {
      */
     @Nullable
     private File saveToNewPngFile() throws IOException {
+        if(mBitmap == null) return null;
+
         FileOutputStream fileOutputStream = null;
         try {
             File imageFile = new ExternalStorageModel(mContext).createNewImageFile();

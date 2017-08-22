@@ -1,4 +1,4 @@
-package com.studiojozu.medicheck.database.table;
+package com.studiojozu.medicheck.database.repository;
 
 import android.support.annotation.NonNull;
 
@@ -35,7 +35,7 @@ public enum ColumnPattern {
  */
 enum NullPattern {
     NotNull,
-    Nullable;
+    Nullable
 }
 
 /**

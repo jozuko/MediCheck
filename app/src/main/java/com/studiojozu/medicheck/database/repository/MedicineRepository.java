@@ -1,4 +1,4 @@
-package com.studiojozu.medicheck.database.table;
+package com.studiojozu.medicheck.database.repository;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -21,22 +21,30 @@ import java.util.Map;
  * <li>photo 薬の写真URI</li>
  * </ol>
  */
-public class MedicineTable extends ABaseTable {
+public class MedicineRepository extends ABaseRepository {
     /** ID */
+    @SuppressWarnings("WeakerAccess")
     public static final ColumnBase COLUMN_ID = new ColumnBase("_id", ColumnPattern.INT, AutoIncrementPattern.AutoIncrement);
     /** 名前 */
+    @SuppressWarnings("WeakerAccess")
     public static final ColumnBase COLUMN_NAME = new ColumnBase("name", ColumnPattern.TEXT);
     /** 服用数 */
+    @SuppressWarnings("WeakerAccess")
     public static final ColumnBase COLUMN_TAKE_NUMBER = new ColumnBase("take_number", ColumnPattern.INT);
     /** 服用日数 */
+    @SuppressWarnings("WeakerAccess")
     public static final ColumnBase COLUMN_DATE_NUMBER = new ColumnBase("date_number", ColumnPattern.INT);
     /** 服用開始日時 */
+    @SuppressWarnings("WeakerAccess")
     public static final ColumnBase COLUMN_START_DATETIME = new ColumnBase("start_datetime", ColumnPattern.DATETIME);
     /** 服用間隔 */
+    @SuppressWarnings("WeakerAccess")
     public static final ColumnBase COLUMN_INTERVAL = new ColumnBase("interval", ColumnPattern.INTERVAL);
     /** 服用間隔タイプ */
+    @SuppressWarnings("WeakerAccess")
     public static final ColumnBase COLUMN_INTERVAL_TYPE = new ColumnBase("interval_type", ColumnPattern.INTERVAL_TYPE);
     /** 薬の写真ファイルパス */
+    @SuppressWarnings("WeakerAccess")
     public static final ColumnBase COLUMN_PHOTO = new ColumnBase("photo", ColumnPattern.TEXT);
 
     static {
@@ -84,7 +92,7 @@ public class MedicineTable extends ABaseTable {
             whereList.add(medicineId);
 
             List<Map<ColumnBase, ADbType>> datas = find(readonlyDatabase, COLUMN_ID.getEqualsCondition(), whereList);
-            if (datas == null || datas.size() == 0) return null;
+            if (datas.size() == 0) return null;
             return datas.get(0);
         } finally {
             readonlyDatabase.close();

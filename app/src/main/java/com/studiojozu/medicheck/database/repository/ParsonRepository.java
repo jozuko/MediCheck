@@ -1,4 +1,4 @@
-package com.studiojozu.medicheck.database.table;
+package com.studiojozu.medicheck.database.repository;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -23,12 +23,15 @@ import java.util.Map;
  * <li>photo 写真</li>
  * </ol>
  */
-public class ParsonTable extends ABaseTable {
+public class ParsonRepository extends ABaseRepository {
     /** 飲む人ID */
+    @SuppressWarnings("WeakerAccess")
     public static final ColumnBase COLUMN_ID = new ColumnBase("_id", ColumnPattern.INT, AutoIncrementPattern.AutoIncrement);
     /** 名前 */
+    @SuppressWarnings("WeakerAccess")
     public static final ColumnBase COLUMN_NAME = new ColumnBase("name", ColumnPattern.TEXT);
     /** 写真 */
+    @SuppressWarnings("WeakerAccess")
     public static final ColumnBase COLUMN_PHOTO = new ColumnBase("photo", ColumnPattern.TEXT);
 
     static {
@@ -43,6 +46,7 @@ public class ParsonTable extends ABaseTable {
 
     @Override
     protected void updateDefaultData(@NonNull Context context, @Nullable WritableDatabase db) {
+        if(db == null) return;
         Map<ColumnBase, ADbType> insertData = new HashMap<>();
 
         insertData.put(COLUMN_NAME, DbTypeFactory.createInstance(COLUMN_NAME.mColumnType, context.getResources().getString(R.string.parson_self)));
@@ -75,7 +79,7 @@ public class ParsonTable extends ABaseTable {
             whereList.add(parsonId);
 
             List<Map<ColumnBase, ADbType>> datas = find(readonlyDatabase, COLUMN_ID.getEqualsCondition(), whereList);
-            if (datas == null || datas.size() == 0) return null;
+            if (datas.size() == 0) return null;
             return datas.get(0);
         } finally {
             readonlyDatabase.close();
