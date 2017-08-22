@@ -40,7 +40,7 @@ public class MedicineRepository extends ABaseRepository {
     public static final ColumnBase COLUMN_TAKE_INTERVAL = new ColumnBase("interval", ColumnPattern.MEDICINE_TAKE_INTERVAL);
     /** 服用間隔タイプ */
     @SuppressWarnings("WeakerAccess")
-    public static final ColumnBase COLUMN_TAKE_INTERVAL_MODE = new ColumnBase("interval_type", ColumnPattern.MEDICINE_TAKE_INTERVAL_MODE);
+    public static final ColumnBase COLUMN_TAKE_INTERVAL_MODE = new ColumnBase("interval_mode", ColumnPattern.MEDICINE_TAKE_INTERVAL_MODE);
     /** 薬の写真ファイルパス */
     @SuppressWarnings("WeakerAccess")
     public static final ColumnBase COLUMN_PHOTO = new ColumnBase("photo", ColumnPattern.MEDICINE_PHOTO);
