@@ -7,7 +7,7 @@ import com.studiojozu.medicheck.type.general.DateType;
 /**
  * 服用予定日を管理するクラス
  */
-public class PlanDateType extends DateType {
+public class PlanDateType extends DateType implements Cloneable {
 
     public PlanDateType(@NonNull Object millisecond) {
         super(millisecond);
@@ -15,5 +15,14 @@ public class PlanDateType extends DateType {
 
     public PlanDateType(int year, int month, int day) {
         super(year, month, day);
+    }
+
+    @Override
+    public PlanDateType clone() {
+        try {
+            return (PlanDateType) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e.toString(), e);
+        }
     }
 }

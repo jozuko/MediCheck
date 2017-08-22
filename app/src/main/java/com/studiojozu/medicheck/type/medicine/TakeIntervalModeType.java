@@ -8,7 +8,7 @@ import com.studiojozu.medicheck.type.ADbType;
 /**
  * 薬の服用間隔（日or月）タイプを管理するクラス
  */
-public class TakeIntervalModeType extends ADbType<Integer> implements Comparable<TakeIntervalModeType> {
+public class TakeIntervalModeType extends ADbType<Integer> implements Comparable<TakeIntervalModeType>, Cloneable {
 
     @NonNull
     private final DateIntervalPattern mValue;
@@ -35,6 +35,15 @@ public class TakeIntervalModeType extends ADbType<Integer> implements Comparable
     @Override
     public int compareTo(@NonNull TakeIntervalModeType target) {
         return getDbValue().compareTo(target.getDbValue());
+    }
+
+    @Override
+    public TakeIntervalModeType clone() {
+        try {
+            return (TakeIntervalModeType) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e.toString(), e);
+        }
     }
 
     public enum DateIntervalPattern {

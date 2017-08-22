@@ -15,7 +15,7 @@ import java.util.TreeMap;
 /**
  * 通知の繰り返しタイムアウトを表す型クラス
  */
-public class RemindTimeoutType extends ADbType<Integer> implements Comparable<RemindTimeoutType> {
+public class RemindTimeoutType extends ADbType<Integer> implements Comparable<RemindTimeoutType>, Cloneable {
 
     @NonNull
     private final RemindTimeoutPattern mValue;
@@ -71,6 +71,15 @@ public class RemindTimeoutType extends ADbType<Integer> implements Comparable<Re
     @Override
     public int compareTo(@NonNull RemindTimeoutType target) {
         return mValue.compareTo(target.mValue);
+    }
+
+    @Override
+    public RemindTimeoutType clone() {
+        try {
+            return (RemindTimeoutType) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e.toString(), e);
+        }
     }
 
     /**

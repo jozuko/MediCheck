@@ -9,7 +9,7 @@ import com.studiojozu.medicheck.type.general.TimeType;
 /**
  * 服用した日時を管理するクラス
  */
-public class TookDatetime extends DatetimeType {
+public class TookDatetime extends DatetimeType implements Cloneable {
 
     public TookDatetime(@NonNull Object millisecond) {
         super(millisecond);
@@ -21,5 +21,14 @@ public class TookDatetime extends DatetimeType {
 
     public TookDatetime(@NonNull DateType dateModel, @NonNull TimeType timeModel) {
         super(dateModel, timeModel);
+    }
+
+    @Override
+    public TookDatetime clone() {
+        try {
+            return (TookDatetime) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e.toString(), e);
+        }
     }
 }
