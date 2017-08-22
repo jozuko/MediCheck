@@ -1,4 +1,4 @@
-package com.studiojozu.medicheck.database.helper;
+package com.studiojozu.medicheck.database.repository;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -6,9 +6,9 @@ import android.support.annotation.NonNull;
 /**
  * ReadOnlyのデータベースを管理するクラス
  */
-public class ReadonlyDatabase extends ADatabase {
+class ReadonlyDatabase extends ADatabase {
 
-    public ReadonlyDatabase(@NonNull Context context) {
+    ReadonlyDatabase(@NonNull Context context) {
         super(ADatabase.getDbOpenHelper(context).getReadableDatabase());
     }
 }

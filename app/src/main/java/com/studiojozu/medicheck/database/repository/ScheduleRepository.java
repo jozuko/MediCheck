@@ -4,10 +4,8 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.studiojozu.medicheck.database.helper.ReadonlyDatabase;
-import com.studiojozu.medicheck.database.helper.WritableDatabase;
-import com.studiojozu.medicheck.database.type.ADbType;
-import com.studiojozu.medicheck.database.type.BooleanType;
+import com.studiojozu.medicheck.type.ADbType;
+import com.studiojozu.medicheck.type.BooleanType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,13 +26,13 @@ import java.util.Map;
 public class ScheduleRepository extends ABaseRepository {
     /** 薬ID */
     @SuppressWarnings("WeakerAccess")
-    public static final ColumnBase COLUMN_MEDICINE_ID = new ColumnBase("medicine_id", ColumnPattern.INT, PrimaryPattern.Primary);
+    public static final ColumnBase COLUMN_MEDICINE_ID = new ColumnBase("medicine_id", ColumnPattern.ID, PrimaryPattern.Primary);
     /** 服用予定日付 */
     @SuppressWarnings("WeakerAccess")
     public static final ColumnBase COLUMN_PLAN_DATE = new ColumnBase("plan_date", ColumnPattern.DATE, PrimaryPattern.Primary);
     /** 服用予定タイムテーブルID */
     @SuppressWarnings("WeakerAccess")
-    public static final ColumnBase COLUMN_TIMETABLE_ID = new ColumnBase("timetable_id", ColumnPattern.INT, PrimaryPattern.Primary);
+    public static final ColumnBase COLUMN_TIMETABLE_ID = new ColumnBase("timetable_id", ColumnPattern.ID, PrimaryPattern.Primary);
     /** Alertいる？ */
     @SuppressWarnings("WeakerAccess")
     public static final ColumnBase COLUMN_NEED_ALERT = new ColumnBase("need_alert", ColumnPattern.BOOL);

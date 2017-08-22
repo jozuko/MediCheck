@@ -3,8 +3,8 @@ package com.studiojozu.medicheck.database.repository;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 
-import com.studiojozu.medicheck.database.type.ADbType;
-import com.studiojozu.medicheck.database.type.DbTypeFactory;
+import com.studiojozu.medicheck.type.ADbType;
+import com.studiojozu.medicheck.type.DbTypeFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;

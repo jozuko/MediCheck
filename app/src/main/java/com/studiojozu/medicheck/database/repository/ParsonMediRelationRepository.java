@@ -4,10 +4,8 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.studiojozu.medicheck.database.helper.ReadonlyDatabase;
-import com.studiojozu.medicheck.database.helper.WritableDatabase;
-import com.studiojozu.medicheck.database.type.ADbType;
-import com.studiojozu.medicheck.database.type.IntType;
+import com.studiojozu.medicheck.type.ADbType;
+import com.studiojozu.medicheck.type.IntType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,10 +23,10 @@ import java.util.TreeSet;
 public class ParsonMediRelationRepository extends ABaseRepository {
     /** 飲む人ID */
     @SuppressWarnings("WeakerAccess")
-    public static final ColumnBase COLUMN_PARSON_ID = new ColumnBase("parson_id", ColumnPattern.INT, PrimaryPattern.Primary);
+    public static final ColumnBase COLUMN_PARSON_ID = new ColumnBase("parson_id", ColumnPattern.ID, PrimaryPattern.Primary);
     /** 薬ID */
     @SuppressWarnings("WeakerAccess")
-    public static final ColumnBase COLUMN_MEDICINE_ID = new ColumnBase("medicine_id", ColumnPattern.INT, PrimaryPattern.Primary);
+    public static final ColumnBase COLUMN_MEDICINE_ID = new ColumnBase("medicine_id", ColumnPattern.ID, PrimaryPattern.Primary);
 
     static {
         TABLE_NAME = "parson_medi_relation";

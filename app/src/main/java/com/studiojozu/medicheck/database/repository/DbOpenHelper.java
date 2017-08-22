@@ -1,4 +1,4 @@
-package com.studiojozu.medicheck.database.helper;
+package com.studiojozu.medicheck.database.repository;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -7,15 +7,13 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.studiojozu.medicheck.database.repository.Repositories;
-
 /**
  * SQLiteOpenHelper
  * singletonで動作する
  */
-public class DbOpenHelper extends SQLiteOpenHelper {
+class DbOpenHelper extends SQLiteOpenHelper {
 
-    public static final int DB_VERSION = 1;
+    static final int DB_VERSION = 1;
     private static final String DB_FILENAME = "medicheck.db";
 
     @SuppressLint("StaticFieldLeak")

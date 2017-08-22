@@ -4,10 +4,10 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.studiojozu.medicheck.database.type.ADbType;
-import com.studiojozu.medicheck.database.type.DateType;
-import com.studiojozu.medicheck.database.type.IntType;
-import com.studiojozu.medicheck.database.type.TimeType;
+import com.studiojozu.medicheck.type.ADbType;
+import com.studiojozu.medicheck.type.DateType;
+import com.studiojozu.medicheck.type.IntType;
+import com.studiojozu.medicheck.type.TimeType;
 
 import java.util.Comparator;
 import java.util.Map;

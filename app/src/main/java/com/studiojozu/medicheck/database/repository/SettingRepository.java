@@ -4,15 +4,14 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.studiojozu.medicheck.database.helper.ReadonlyDatabase;
-import com.studiojozu.medicheck.database.helper.WritableDatabase;
-import com.studiojozu.medicheck.database.type.ADbType;
-import com.studiojozu.medicheck.database.type.DateTimeType;
-import com.studiojozu.medicheck.database.type.DateType;
-import com.studiojozu.medicheck.database.type.DbTypeFactory;
-import com.studiojozu.medicheck.database.type.RemindIntervalType;
-import com.studiojozu.medicheck.database.type.RemindTimeoutType;
-import com.studiojozu.medicheck.database.type.TimeType;
+import com.studiojozu.medicheck.type.ADbType;
+import com.studiojozu.medicheck.type.DateTimeType;
+import com.studiojozu.medicheck.type.DateType;
+import com.studiojozu.medicheck.type.DbTypeFactory;
+import com.studiojozu.medicheck.type.setting.RemindIntervalType;
+import com.studiojozu.medicheck.type.setting.RemindTimeoutType;
+import com.studiojozu.medicheck.type.TimeType;
+import com.studiojozu.medicheck.type.setting.UseReminderType;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -31,7 +30,7 @@ import java.util.Map;
 public class SettingRepository extends ABaseRepository {
     /** 繰り返し通知を使用する？ */
     @SuppressWarnings("WeakerAccess")
-    public static final ColumnBase COLUMN_USE_REMINDER = new ColumnBase("use_reminder", ColumnPattern.BOOL);
+    public static final ColumnBase COLUMN_USE_REMINDER = new ColumnBase("use_reminder", ColumnPattern.USE_REMIND);
     /** 繰り返し通知間隔 */
     @SuppressWarnings("WeakerAccess")
     public static final ColumnBase COLUMN_REMIND_INTERVAL = new ColumnBase("remind_interval", ColumnPattern.REMIND_INTERVAL);
@@ -146,5 +145,42 @@ public class SettingRepository extends ABaseRepository {
         RemindIntervalType intervalModel = (RemindIntervalType) mCurrentSetting.get(COLUMN_REMIND_INTERVAL);
 
         return (diffMinutes % intervalModel.getDbValue() == 0);
+    }
+
+    /**
+     * テーブルのレコードをすべて削除し、新しく値を保存する。
+     *
+     * @param context アプリケーションコンテキスト
+     * @param useReminder リマンダ機能を使用するか？
+     * @param remindIntervalType リマンダ機能のインターバル
+     * @param remindTimeout リマンダ機能のタイムアウト時間
+     */
+    public void save(@NonNull Context context, @NonNull UseReminderType useReminder, @NonNull RemindIntervalType remindIntervalType, @NonNull RemindTimeoutType remindTimeout) {
+        DbOpenHelper dbOpenHelper = DbOpenHelper.getInstance(context);
+        WritableDatabase database = new WritableDatabase(dbOpenHelper.getWritableDatabase());
+        try {
+            database.beginTransaction();
+
+            // レコード全削除
+            deleteAll(database);
+
+            // 必要なレコードを挿入
+            Map<ColumnBase, ADbType> insertData = new HashMap<>();
+            insertData.put(COLUMN_USE_REMINDER, useReminder);
+            insertData.put(COLUMN_REMIND_INTERVAL, remindIntervalType);
+            insertData.put(COLUMN_REMIND_TIMEOUT, remindTimeout);
+            insert(database, insertData);
+
+            // フィールドに保存している値をクリアする
+            mCurrentSetting = null;
+
+            database.commitTransaction();
+        } catch (Exception e) {
+            database.rollbackTransaction();
+            throw e;
+        }
+        finally {
+            database.close();
+        }
     }
 }

@@ -1,4 +1,4 @@
-package com.studiojozu.medicheck.database.helper;
+package com.studiojozu.medicheck.database.repository;
 
 import android.content.Context;
 import android.database.Cursor;

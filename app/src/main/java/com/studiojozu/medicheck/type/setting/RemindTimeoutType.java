@@ -1,7 +1,17 @@
-package com.studiojozu.medicheck.database.type;
+package com.studiojozu.medicheck.type.setting;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.support.annotation.NonNull;
+
+import com.studiojozu.medicheck.R;
+import com.studiojozu.medicheck.type.ADbType;
+import com.studiojozu.medicheck.type.DateTimeType;
+import com.studiojozu.medicheck.type.DateType;
+import com.studiojozu.medicheck.type.TimeType;
+
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * 通知の繰り返しタイムアウトを表す型クラス
@@ -45,6 +55,33 @@ public class RemindTimeoutType extends ADbType<Integer> implements Comparable<Re
     public boolean isTimeout(@NonNull DateTimeType now, @NonNull DateType scheduleDate, @NonNull TimeType scheduleTime) {
         DateTimeType reminderDateTime = new DateTimeType(scheduleDate, scheduleTime).add(getDbValue());
         return (reminderDateTime.compareTo(now) < 0);
+    }
+
+    /**
+     * 選択肢のIDとなる分とそれに対応する表示文字列をMapで返却する
+     *
+     * @param context アプリケーションコンテキスト
+     * @return 選択肢のIDとなる分とそれに対応する表示文字列のMap
+     */
+    @NonNull
+    public static TreeMap<Integer, String> getAllValues(@NonNull Context context) {
+        TreeMap<Integer, String> values = new TreeMap<>();
+        for(RemindTimeoutPattern remindTimeoutPattern : RemindTimeoutPattern.values()) {
+            values.put(remindTimeoutPattern.mTimeoutMinutes, getDisplayValue(context, remindTimeoutPattern.mTimeoutMinutes));
+        }
+
+        return values;
+    }
+
+    @NonNull
+    private static String getDisplayValue(@NonNull Context context, int targetMinutes) {
+        if(targetMinutes < 60) return targetMinutes + context.getResources().getString(R.string.label_minutes);
+        if(targetMinutes % 60 == 0) return (targetMinutes % 60) + context.getResources().getString(R.string.label_hours);
+
+        int hours = targetMinutes / 60;
+        int minutes = targetMinutes % 60;
+
+        return hours + context.getResources().getString(R.string.label_hours) + minutes + context.getResources().getString(R.string.label_minutes);
     }
 
     public enum RemindTimeoutPattern {

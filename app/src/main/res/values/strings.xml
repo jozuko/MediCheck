@@ -20,4 +20,7 @@
     <string name="parson_self">Myself</string>
 
     <string name="notification_medicine_title">Time of the medicine</string>
+
+    <string name="label_minutes">minutes</string>
+    <string name="label_hours">hours</string>
 </resources>

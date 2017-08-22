@@ -6,9 +6,7 @@ import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.studiojozu.medicheck.database.helper.ADatabase;
-import com.studiojozu.medicheck.database.helper.WritableDatabase;
-import com.studiojozu.medicheck.database.type.ADbType;
+import com.studiojozu.medicheck.type.ADbType;
 
 import org.jetbrains.annotations.Contract;
 
@@ -105,6 +103,15 @@ abstract class ABaseRepository {
         }
 
         db.save(TABLE_NAME, insertData);
+    }
+
+    /**
+     * 対象テーブルのレコードをすべて削除する
+     *
+     * @param db      書き込み可能なデータベースインスタンス
+     */
+    void deleteAll(@NonNull WritableDatabase db) {
+        db.execSQL("delete from " + TABLE_NAME);
     }
 
     /**

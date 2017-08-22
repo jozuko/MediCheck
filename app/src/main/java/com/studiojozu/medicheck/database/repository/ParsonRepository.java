@@ -5,11 +5,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.studiojozu.medicheck.R;
-import com.studiojozu.medicheck.database.helper.ReadonlyDatabase;
-import com.studiojozu.medicheck.database.helper.WritableDatabase;
-import com.studiojozu.medicheck.database.type.ADbType;
-import com.studiojozu.medicheck.database.type.DbTypeFactory;
-import com.studiojozu.medicheck.database.type.IntType;
+import com.studiojozu.medicheck.type.ADbType;
+import com.studiojozu.medicheck.type.DbTypeFactory;
+import com.studiojozu.medicheck.type.IntType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,7 +24,7 @@ import java.util.Map;
 public class ParsonRepository extends ABaseRepository {
     /** 飲む人ID */
     @SuppressWarnings("WeakerAccess")
-    public static final ColumnBase COLUMN_ID = new ColumnBase("_id", ColumnPattern.INT, AutoIncrementPattern.AutoIncrement);
+    public static final ColumnBase COLUMN_ID = new ColumnBase("_id", ColumnPattern.ID, AutoIncrementPattern.AutoIncrement);
     /** 名前 */
     @SuppressWarnings("WeakerAccess")
     public static final ColumnBase COLUMN_NAME = new ColumnBase("name", ColumnPattern.TEXT);

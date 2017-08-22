@@ -1,7 +1,13 @@
-package com.studiojozu.medicheck.database.type;
+package com.studiojozu.medicheck.type.setting;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.support.annotation.NonNull;
+
+import com.studiojozu.medicheck.R;
+import com.studiojozu.medicheck.type.ADbType;
+
+import java.util.TreeMap;
 
 /**
  * 通知の繰り返し間隔を表す型クラス
@@ -32,6 +38,42 @@ public class RemindIntervalType extends ADbType<Integer> implements Comparable<R
     @Override
     public int compareTo(@NonNull RemindIntervalType target) {
         return mValue.compareTo(target.mValue);
+    }
+
+    /**
+     * 選択肢のIDとなる分とそれに対応する表示文字列をMapで返却する
+     *
+     * @param context アプリケーションコンテキスト
+     * @return 選択肢のIDとなる分とそれに対応する表示文字列のMap
+     */
+    @NonNull
+    public static TreeMap<Integer, String> getAllValues(@NonNull Context context) {
+        TreeMap<Integer, String> values = new TreeMap<>();
+        for (RemindIntervalPattern remindIntervalPattern : RemindIntervalPattern.values()) {
+            values.put(remindIntervalPattern.mIntervalMinutes, getDisplayValue(context, remindIntervalPattern.mIntervalMinutes));
+        }
+
+        return values;
+    }
+
+    /**
+     * 表示する文字列を生成する
+     *
+     * @param context       アプリケーションコンテキスト
+     * @param targetMinutes 時間(分)
+     * @return 表示文言
+     */
+    @NonNull
+    private static String getDisplayValue(@NonNull Context context, int targetMinutes) {
+        if (targetMinutes < 60)
+            return targetMinutes + context.getResources().getString(R.string.label_minutes);
+        if (targetMinutes % 60 == 0)
+            return (targetMinutes % 60) + context.getResources().getString(R.string.label_hours);
+
+        int hours = targetMinutes / 60;
+        int minutes = targetMinutes % 60;
+
+        return hours + context.getResources().getString(R.string.label_hours) + minutes + context.getResources().getString(R.string.label_minutes);
     }
 
     public enum RemindIntervalPattern {

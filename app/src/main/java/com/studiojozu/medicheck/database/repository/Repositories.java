@@ -4,9 +4,6 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.studiojozu.medicheck.database.helper.DbOpenHelper;
-import com.studiojozu.medicheck.database.helper.WritableDatabase;
-
 /**
  * テーブル一覧を管理するクラス
  */

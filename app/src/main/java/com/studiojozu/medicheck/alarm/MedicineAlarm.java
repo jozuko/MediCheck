@@ -18,10 +18,10 @@ import com.studiojozu.medicheck.database.repository.SchedulePlanDateTimeComparat
 import com.studiojozu.medicheck.database.repository.ScheduleRepository;
 import com.studiojozu.medicheck.database.repository.SettingRepository;
 import com.studiojozu.medicheck.database.repository.TimetableRepository;
-import com.studiojozu.medicheck.database.type.ADbType;
-import com.studiojozu.medicheck.database.type.DateType;
-import com.studiojozu.medicheck.database.type.IntType;
-import com.studiojozu.medicheck.database.type.TimeType;
+import com.studiojozu.medicheck.type.ADbType;
+import com.studiojozu.medicheck.type.DateType;
+import com.studiojozu.medicheck.type.IntType;
+import com.studiojozu.medicheck.type.TimeType;
 
 import java.util.Calendar;
 import java.util.List;

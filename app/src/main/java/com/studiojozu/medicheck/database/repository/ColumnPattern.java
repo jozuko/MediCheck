@@ -12,10 +12,12 @@ public enum ColumnPattern {
     TIME("integer"),
     DATETIME("integer"),
     BOOL("integer"),
+    USE_REMIND("integer"),
     REMIND_INTERVAL("integer"),
     REMIND_TIMEOUT("integer"),
     INTERVAL("integer"),
-    INTERVAL_TYPE("integer");
+    INTERVAL_TYPE("integer"),
+    ID("integer");
 
     @NonNull
     private final String mTypeName;

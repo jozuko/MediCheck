@@ -4,8 +4,6 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.studiojozu.medicheck.database.helper.WritableDatabase;
-
 import java.util.ArrayList;
 
 /**
@@ -20,10 +18,10 @@ import java.util.ArrayList;
 public class MediTimeRelationRepository extends ABaseRepository {
     /** 薬ID */
     @SuppressWarnings("WeakerAccess")
-    public static final ColumnBase COLUMN_MEDICINE_ID = new ColumnBase("medicine_id", ColumnPattern.INT, PrimaryPattern.Primary);
+    public static final ColumnBase COLUMN_MEDICINE_ID = new ColumnBase("medicine_id", ColumnPattern.ID, PrimaryPattern.Primary);
     /** タイムテーブルID */
     @SuppressWarnings("WeakerAccess")
-    public static final ColumnBase COLUMN_TIMETABLE_ID = new ColumnBase("timetable_id", ColumnPattern.INT, PrimaryPattern.Primary);
+    public static final ColumnBase COLUMN_TIMETABLE_ID = new ColumnBase("timetable_id", ColumnPattern.ID, PrimaryPattern.Primary);
     /** 頓服？ */
     @SuppressWarnings("WeakerAccess")
     public static final ColumnBase COLUMN_IS_ONE_SHOT = new ColumnBase("is_one_shot", ColumnPattern.BOOL);

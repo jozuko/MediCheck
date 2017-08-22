@@ -1,4 +1,4 @@
-package com.studiojozu.medicheck.database.type;
+package com.studiojozu.medicheck.type;
 
 /**
  * 日付の間隔の型クラス.

@@ -6,11 +6,9 @@ import android.support.annotation.Nullable;
 import android.util.SparseArray;
 
 import com.studiojozu.medicheck.R;
-import com.studiojozu.medicheck.database.helper.ReadonlyDatabase;
-import com.studiojozu.medicheck.database.helper.WritableDatabase;
-import com.studiojozu.medicheck.database.type.ADbType;
-import com.studiojozu.medicheck.database.type.DbTypeFactory;
-import com.studiojozu.medicheck.database.type.TimeType;
+import com.studiojozu.medicheck.type.ADbType;
+import com.studiojozu.medicheck.type.DbTypeFactory;
+import com.studiojozu.medicheck.type.TimeType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,7 +25,7 @@ import java.util.Map;
 public class TimetableRepository extends ABaseRepository {
     /** タイムテーブルID */
     @SuppressWarnings("WeakerAccess")
-    public static final ColumnBase COLUMN_ID = new ColumnBase("_id", ColumnPattern.INT, AutoIncrementPattern.AutoIncrement);
+    public static final ColumnBase COLUMN_ID = new ColumnBase("_id", ColumnPattern.ID, AutoIncrementPattern.AutoIncrement);
     /** 服用タイミング名 */
     @SuppressWarnings("WeakerAccess")
     public static final ColumnBase COLUMN_NAME = new ColumnBase("name", ColumnPattern.TEXT);

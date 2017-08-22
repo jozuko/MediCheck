@@ -1,4 +1,4 @@
-package com.studiojozu.medicheck.database.helper;
+package com.studiojozu.medicheck.database.repository;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
@@ -10,7 +10,7 @@ import org.jetbrains.annotations.Contract;
 /**
  * Writableのデータベースを管理するクラス
  */
-public class WritableDatabase extends ADatabase {
+class WritableDatabase extends ADatabase {
 
     WritableDatabase(@NonNull SQLiteDatabase db) {
         super(db);
@@ -22,16 +22,16 @@ public class WritableDatabase extends ADatabase {
         return db != null && db.isOpen() && !db.isReadOnly();
     }
 
-    public void beginTransaction() {
+    void beginTransaction() {
         mSQLiteDatabase.beginTransaction();
     }
 
-    public void rollbackTransaction() {
+    void rollbackTransaction() {
         if (!inTransaction()) return;
         mSQLiteDatabase.endTransaction();
     }
 
-    public void commitTransaction() {
+    void commitTransaction() {
         if (!inTransaction()) return;
         mSQLiteDatabase.setTransactionSuccessful();
         mSQLiteDatabase.endTransaction();
@@ -41,11 +41,11 @@ public class WritableDatabase extends ADatabase {
         return mSQLiteDatabase.inTransaction();
     }
 
-    public void execSQL(@NonNull String sql) {
+    void execSQL(@NonNull String sql) {
         mSQLiteDatabase.execSQL(sql);
     }
 
-    public long save(@NonNull String tableName, @NonNull ContentValues insertData) {
+    long save(@NonNull String tableName, @NonNull ContentValues insertData) {
         return mSQLiteDatabase.insert(tableName, null, insertData);
     }
 }

@@ -1,4 +1,4 @@
-package com.studiojozu.medicheck.database.type;
+package com.studiojozu.medicheck.type;
 
 import android.content.ContentValues;
 import android.support.annotation.NonNull;
