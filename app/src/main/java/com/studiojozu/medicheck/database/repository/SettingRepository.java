@@ -54,7 +54,7 @@ public class SettingRepository extends ABaseRepository {
 
     @Override
     protected void updateDefaultData(@NonNull Context context, @Nullable WritableDatabase db) {
-        if(db == null) return;
+        if (db == null) return;
         Map<ColumnBase, ADbType> insertData = new HashMap<>();
 
         insertData.put(COLUMN_USE_REMINDER, DbTypeFactory.createInstance(COLUMN_USE_REMINDER.mColumnType, true));
@@ -106,7 +106,7 @@ public class SettingRepository extends ABaseRepository {
      */
     public boolean isUseRemind(@NonNull Context context) {
         getSetting(context);
-        if(mCurrentSetting == null) return false;
+        if (mCurrentSetting == null) return false;
         return (Boolean) mCurrentSetting.get(COLUMN_USE_REMINDER).getDbValue();
     }
 
@@ -121,7 +121,7 @@ public class SettingRepository extends ABaseRepository {
      */
     public boolean isRemindTimeout(@NonNull Context context, @NonNull Calendar now, @NonNull DateType scheduleDate, @NonNull TimeType scheduleTime) {
         getSetting(context);
-        if(mCurrentSetting == null) return true;
+        if (mCurrentSetting == null) return true;
 
         return ((RemindTimeoutType) mCurrentSetting.get(COLUMN_REMIND_TIMEOUT)).isTimeout(new DateTimeType(now), scheduleDate, scheduleTime);
     }
@@ -137,7 +137,7 @@ public class SettingRepository extends ABaseRepository {
      */
     public boolean isRemindTiming(@NonNull Context context, @NonNull Calendar now, @NonNull DateType scheduleDate, @NonNull TimeType scheduleTime) {
         getSetting(context);
-        if(mCurrentSetting == null) return false;
+        if (mCurrentSetting == null) return false;
 
         DateTimeType reminderDateTime = new DateTimeType(scheduleDate, scheduleTime);
         DateTimeType currentDateTime = new DateTimeType(now);

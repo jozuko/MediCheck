@@ -64,7 +64,7 @@ class BitmapWrite {
      */
     @Nullable
     private File saveToNewPngFile() throws IOException {
-        if(mBitmap == null) return null;
+        if (mBitmap == null) return null;
 
         FileOutputStream fileOutputStream = null;
         try {

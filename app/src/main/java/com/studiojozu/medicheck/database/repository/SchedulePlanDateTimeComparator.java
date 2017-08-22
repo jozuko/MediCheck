@@ -62,11 +62,11 @@ public class SchedulePlanDateTimeComparator implements Comparator<Map<ColumnBase
         TimeType timeModel1 = getTimeModel(scheduleRecord1);
         TimeType timeModel2 = getTimeModel(scheduleRecord2);
 
-        if(timeModel1 == null){
-            if(timeModel2 == null) return 0;
+        if (timeModel1 == null) {
+            if (timeModel2 == null) return 0;
             return -1;
         }
-        if(timeModel2 == null) return 1;
+        if (timeModel2 == null) return 1;
 
         return timeModel1.compareTo(timeModel2);
     }
@@ -94,7 +94,7 @@ public class SchedulePlanDateTimeComparator implements Comparator<Map<ColumnBase
     private TimeType getTimeModel(@NonNull Map<ColumnBase, ADbType> scheduleRecord) {
         int timetableId = (Integer) scheduleRecord.get(ScheduleRepository.COLUMN_TIMETABLE_ID).getDbValue();
         Map<ColumnBase, ADbType> timeRepository1 = mTimetableRepository.findTimetable(mContext, timetableId);
-        if(timeRepository1 == null) return null;
+        if (timeRepository1 == null) return null;
         return (TimeType) timeRepository1.get(TimetableRepository.COLUMN_TIME);
     }
 }

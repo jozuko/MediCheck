@@ -46,7 +46,7 @@ public class ParsonRepository extends ABaseRepository {
 
     @Override
     protected void updateDefaultData(@NonNull Context context, @Nullable WritableDatabase db) {
-        if(db == null) return;
+        if (db == null) return;
         Map<ColumnBase, ADbType> insertData = new HashMap<>();
 
         insertData.put(COLUMN_NAME, DbTypeFactory.createInstance(COLUMN_NAME.mColumnType, context.getResources().getString(R.string.parson_self)));

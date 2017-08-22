@@ -50,7 +50,7 @@ public class TimetableRepository extends ABaseRepository {
 
     @Override
     protected void updateDefaultData(@NonNull Context context, @Nullable WritableDatabase db) {
-        if(db == null) return;
+        if (db == null) return;
 
         Map<ColumnBase, ADbType> insertData = new HashMap<>();
         insertData.put(COLUMN_NAME, DbTypeFactory.createInstance(COLUMN_NAME.mColumnType, context.getResources().getString(R.string.timing_morning)));
@@ -166,8 +166,8 @@ public class TimetableRepository extends ABaseRepository {
     public Map<ColumnBase, ADbType> findTimetable(@NonNull Context context, int timetableId) {
         getAllTimetables(context);
 
-        if(mDataArray == null) return null;
-        if(mDataArray.indexOfKey(timetableId) < 0) return null;
+        if (mDataArray == null) return null;
+        if (mDataArray.indexOfKey(timetableId) < 0) return null;
 
         return mDataArray.get(timetableId);
     }

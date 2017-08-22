@@ -36,7 +36,7 @@ public class Gallery {
         if (bitmap == null) return null;
 
         File imageFile = new BitmapWrite(mContext, bitmap).saveToNewPngFileAutoRecycle();
-        if(imageFile ==null) return null;
+        if (imageFile == null) return null;
 
         registerGallery(imageFile, "image/png");
         return Uri.fromFile(imageFile);

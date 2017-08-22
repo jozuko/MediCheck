@@ -32,7 +32,7 @@ public class Repositories {
     }
 
     public void upgradeTables(@NonNull Context context, @Nullable WritableDatabase db, int oldVersion, int newVersion) {
-        if(db == null) return;
+        if (db == null) return;
 
         db.beginTransaction();
         try {
