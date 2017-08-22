@@ -1,4 +1,4 @@
-package com.studiojozu.medicheck.other;
+package com.studiojozu.medicheck.entity;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

@@ -1,4 +1,4 @@
-package com.studiojozu.medicheck.other;
+package com.studiojozu.medicheck.entity;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -37,17 +37,6 @@ public class Parson {
         mId = new ParsonIdType();
         mParsonNameType = new ParsonNameType(name);
         mPhotoPath = new ParsonPhotoType(photoPath);
-    }
-
-    /**
-     * DB登録済み（IDがわかっている）インスタンスを生成するためのコンストラクタ
-     *
-     * @param id 飲む人ID
-     */
-    public Parson(ParsonIdType id) {
-        mId = new ParsonIdType(id.getDbValue());
-        mParsonNameType = new ParsonNameType();
-        mPhotoPath = new ParsonPhotoType();
     }
 
     /**
