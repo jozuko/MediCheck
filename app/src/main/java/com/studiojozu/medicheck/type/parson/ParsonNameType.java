@@ -1,6 +1,7 @@
 package com.studiojozu.medicheck.type.parson;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.studiojozu.medicheck.type.general.TextType;
 
@@ -13,7 +14,7 @@ public class ParsonNameType extends TextType implements Cloneable {
         super("");
     }
 
-    public ParsonNameType(@NonNull Object value) {
+    public ParsonNameType(@Nullable Object value) {
         super(value);
     }
 

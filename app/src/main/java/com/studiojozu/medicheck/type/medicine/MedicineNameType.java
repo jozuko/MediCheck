@@ -1,6 +1,7 @@
 package com.studiojozu.medicheck.type.medicine;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.studiojozu.medicheck.type.general.TextType;
 
@@ -13,7 +14,7 @@ public class MedicineNameType extends TextType implements Cloneable {
         super("");
     }
 
-    public MedicineNameType(@NonNull Object value) {
+    public MedicineNameType(@Nullable Object value) {
         super(value);
     }
 

@@ -2,6 +2,7 @@ package com.studiojozu.medicheck.type.general;
 
 import android.content.ContentValues;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.studiojozu.medicheck.type.ADbType;
 
@@ -18,8 +19,11 @@ public class TextType extends ADbType<String> implements Comparable<TextType> {
         mValue = "";
     }
 
-    public TextType(@NotNull Object value) {
-        mValue = (String) value;
+    public TextType(@Nullable Object value) {
+        if (value == null)
+            mValue = "";
+        else
+            mValue = (String) value;
     }
 
     @Override
