@@ -13,7 +13,7 @@ import java.util.TreeMap;
 /**
  * 設定を画面から受信し、DBに保存する。また、DBのデータを画面表示用に加工する。
  */
-public class Setting {
+class Setting {
 
     /** リマンダ機能を使用するか？ */
     @NonNull

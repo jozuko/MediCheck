@@ -15,7 +15,7 @@ public class BooleanType extends ADbType<Integer> implements Comparable<BooleanT
 
     private final boolean mValue;
 
-    public BooleanType(@NonNull Object value) {
+    protected BooleanType(@NonNull Object value) {
         if (value instanceof Boolean)
             mValue = (boolean) value;
         else if ((value instanceof Long) || (value instanceof Integer))

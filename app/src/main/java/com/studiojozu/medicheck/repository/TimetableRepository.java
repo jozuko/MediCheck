@@ -1,12 +1,14 @@
 package com.studiojozu.medicheck.repository;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.studiojozu.medicheck.R;
 import com.studiojozu.medicheck.type.ADbType;
 import com.studiojozu.medicheck.type.DbTypeFactory;
+import com.studiojozu.medicheck.type.medicine.MedicineIdType;
 import com.studiojozu.medicheck.type.timetable.TimetableIdType;
 import com.studiojozu.medicheck.type.timetable.TimetableTimeType;
 
@@ -168,5 +170,45 @@ public class TimetableRepository extends ABaseRepository {
 
         return null;
     }
+
+    /**
+     * 薬IDに一致するタイムテーブルのレコードをすべて取得する
+     *
+     * @param context    アプリケーションコンテキスト
+     * @param medicineId 薬ID
+     * @return 薬IDに一致するタイムテーブルのレコード一覧
+     */
+    public List<Map<ColumnBase, ADbType>> findByMedicineId(@NonNull Context context, MedicineIdType medicineId) {
+        // SQL生成
+        StringBuilder sqlBuilder = new StringBuilder();
+        sqlBuilder.append("select");
+        sqlBuilder.append(" t1.").append(COLUMN_ID.mColumnName).append(" as ").append(COLUMN_ID.mColumnName);
+        sqlBuilder.append(",t1.").append(COLUMN_NAME.mColumnName).append(" as ").append(COLUMN_NAME.mColumnName);
+        sqlBuilder.append(",t1.").append(COLUMN_TIME.mColumnName).append(" as ").append(COLUMN_TIME.mColumnName);
+        sqlBuilder.append(" from ").append(TABLE_NAME).append(" t1");
+        sqlBuilder.append(" inner join ").append(MediTimeRelationRepository.TABLE_NAME).append(" t2 ");
+        sqlBuilder.append(" on t1.").append(COLUMN_ID.mColumnName).append("=t2.").append(MediTimeRelationRepository.COLUMN_TIMETABLE_ID.mColumnName);
+        sqlBuilder.append(" where ").append(MediTimeRelationRepository.COLUMN_MEDICINE_ID.getEqualsCondition());
+
+        // Where引数生成
+        ArrayList<ADbType> whereList = new ArrayList<>();
+        whereList.add(medicineId);
+
+        ReadonlyDatabase database = new ReadonlyDatabase(context);
+        try {
+            Cursor cursor = null;
+            try {
+                final String sql = sqlBuilder.toString();
+                cursor = database.rawQuery(sql, createWhereArgs(whereList));
+            } finally {
+                if (cursor != null) cursor.close();
+            }
+
+            return COLUMNS.putAllDataList(cursor);
+        } finally {
+            database.close();
+        }
+    }
+
 
 }

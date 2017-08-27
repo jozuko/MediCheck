@@ -8,7 +8,10 @@ import com.studiojozu.medicheck.type.ADbType;
 import com.studiojozu.medicheck.type.medicine.MedicineIdType;
 import com.studiojozu.medicheck.type.parson.ParsonIdType;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
@@ -78,7 +81,7 @@ public class ParsonMediRelationRepository extends ABaseRepository {
      * @return パラメータの薬IDに一致するすべての人ID（想定1件）
      */
     @Nullable
-    public TreeSet<ParsonIdType> findParsonIdsByMedicineId(@NonNull ADatabase database, @NonNull MedicineIdType medicineId) {
+    private TreeSet<ParsonIdType> findParsonIdsByMedicineId(@NonNull ADatabase database, @NonNull MedicineIdType medicineId) {
         ArrayList<ADbType> whereList = new ArrayList<>();
         whereList.add(medicineId);
 
@@ -118,7 +121,7 @@ public class ParsonMediRelationRepository extends ABaseRepository {
      * @return パラメータの人IDに一致するすべての薬ID
      */
     @Nullable
-    public TreeSet<MedicineIdType> findMedicineIdsByParsonId(@NonNull ADatabase database, @NonNull ParsonIdType parsonId) {
+    private TreeSet<MedicineIdType> findMedicineIdsByParsonId(@NonNull ADatabase database, @NonNull ParsonIdType parsonId) {
         ArrayList<ADbType> whereList = new ArrayList<>();
         whereList.add(parsonId);
         List<Map<ColumnBase, ADbType>> relations = find(database, COLUMN_PARSON_ID.getEqualsCondition(), whereList);
@@ -171,5 +174,26 @@ public class ParsonMediRelationRepository extends ABaseRepository {
         ArrayList<ADbType> whereList = new ArrayList<>();
         whereList.add(medicineId);
         delete(database, whereClause, whereList);
+    }
+
+    void save(@NotNull WritableDatabase database, @NonNull ParsonIdType parsonId, @NonNull MedicineIdType medicineId) {
+        // 薬と人が一致するレコードが登録されているかチェックする
+        TreeSet<ParsonIdType> parsonIds = findParsonIdsByMedicineId(database, medicineId);
+
+        // すでに登録されていれば何もせずに終了する
+        if (parsonIds != null && parsonIds.contains(parsonId)) return;
+
+        // 新規データ追加
+        insert(database, parsonId, medicineId);
+    }
+
+    private void insert(@NotNull WritableDatabase database, @NonNull ParsonIdType parsonId, @NonNull MedicineIdType medicineId) {
+        // 追加データの作成
+        Map<ColumnBase, ADbType> insertData = new HashMap<>();
+        insertData.put(COLUMN_PARSON_ID, parsonId);
+        insertData.put(COLUMN_MEDICINE_ID, medicineId);
+
+        // レコード追加
+        insert(database, insertData);
     }
 }

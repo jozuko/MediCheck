@@ -4,10 +4,16 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.studiojozu.medicheck.entity.Medicine;
+import com.studiojozu.medicheck.entity.ScheduleList;
+import com.studiojozu.medicheck.entity.TimetableList;
+import com.studiojozu.medicheck.exception.DatabaseException;
 import com.studiojozu.medicheck.type.ADbType;
 import com.studiojozu.medicheck.type.medicine.MedicineIdType;
+import com.studiojozu.medicheck.type.parson.ParsonIdType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -100,7 +106,7 @@ public class MedicineRepository extends ABaseRepository {
      * @return 薬IDに一致するレコード
      */
     @Nullable
-    public Map<ColumnBase, ADbType> findById(@NonNull ADatabase database, @NonNull MedicineIdType medicineId) {
+    private Map<ColumnBase, ADbType> findById(@NonNull ADatabase database, @NonNull MedicineIdType medicineId) {
         ArrayList<ADbType> whereList = new ArrayList<>();
         whereList.add(medicineId);
 
@@ -135,4 +141,114 @@ public class MedicineRepository extends ABaseRepository {
         // Scheduleテーブルから該当IDを削除
         new ScheduleRepository().deleteIgnoreHistory(database, medicineId);
     }
+
+    /**
+     * DBのテーブルに値を追加、もしくは、既存レコードの更新を行う。
+     *
+     * @param context       アプリケーションコンテキスト
+     * @param parsonId      飲む人ID
+     * @param medicine      薬の情報
+     * @param timetableList タイムテーブルの一覧
+     */
+    public void save(@NonNull Context context, @NonNull ParsonIdType parsonId, @NonNull Medicine medicine, @NonNull TimetableList timetableList) {
+
+        WritableDatabase database = new WritableDatabase(context);
+        try {
+            database.beginTransaction();
+
+            // 薬テーブルへの登録
+            Medicine targetMedicine = registerMedicine(database, medicine);
+
+            // 薬-タイムテーブルへの追加
+            new MediTimeRelationRepository().save(database, targetMedicine.getMedicineId(), timetableList);
+
+            // 飲む人-薬テーブルへの追加
+            new ParsonMediRelationRepository().save(database, parsonId, targetMedicine.getMedicineId());
+
+            // スケジュールへの追加
+            ScheduleList scheduleList = targetMedicine.createScheduleList();
+            new ScheduleRepository().save(database, targetMedicine.getMedicineId(), scheduleList);
+
+            database.commitTransaction();
+        } catch (Exception e) {
+            database.rollbackTransaction();
+            throw e;
+        } finally {
+            database.close();
+        }
+    }
+
+    private Medicine registerMedicine(@NonNull WritableDatabase database, @NonNull Medicine medicine) {
+        if (isNewRecord(database, medicine)) {
+            return insertMedicine(database, medicine);
+        }
+        return updateMedicine(database, medicine);
+    }
+
+    private boolean isNewRecord(@NonNull WritableDatabase database, @NonNull Medicine medicine) {
+        if (medicine.getMedicineId().isUndefined()) return true;
+
+        Map<ColumnBase, ADbType> medicineRecord = findById(database, medicine.getMedicineId());
+        return (medicineRecord == null || medicineRecord.size() == 0);
+    }
+
+    /**
+     * 薬テーブルにデータを追加する。
+     *
+     * @param database Writableなデータベースインスタンス
+     * @param medicine 薬の情報
+     * @return 新規追加した薬ID
+     */
+    private Medicine insertMedicine(@NonNull WritableDatabase database, @NonNull Medicine medicine) {
+        // 追加データの作成
+        Map<ColumnBase, ADbType> insertData = new HashMap<>();
+        insertData.put(COLUMN_NAME, medicine.getMedicineName());
+        insertData.put(COLUMN_TAKE_NUMBER, medicine.getTakeNumber());
+        insertData.put(COLUMN_DATE_NUMBER, medicine.getDateNumber());
+        insertData.put(COLUMN_START_DATETIME, medicine.getStartDatetime());
+        insertData.put(COLUMN_TAKE_INTERVAL, medicine.getTakeInterval());
+        insertData.put(COLUMN_TAKE_INTERVAL_MODE, medicine.getTakeIntervalMode());
+        insertData.put(COLUMN_PHOTO, medicine.getMedicinePhoto());
+
+        // レコード追加
+        long id = insert(database, insertData);
+
+        // IDの取得
+        if (id < 0) throw new DatabaseException("cannot insert medicine.");
+
+        // インスタンスを生成する
+        return new Medicine(id, medicine);
+    }
+
+    /**
+     * 薬テーブルにデータを追加する。
+     *
+     * @param database Writableなデータベースインスタンス
+     * @param medicine 薬の情報
+     * @return 新規追加した薬ID
+     */
+    private Medicine updateMedicine(@NonNull WritableDatabase database, @NonNull Medicine medicine) {
+
+        // 更新データの作成
+        Map<ColumnBase, ADbType> updateData = new HashMap<>();
+        updateData.put(COLUMN_NAME, medicine.getMedicineName());
+        updateData.put(COLUMN_TAKE_NUMBER, medicine.getTakeNumber());
+        updateData.put(COLUMN_DATE_NUMBER, medicine.getDateNumber());
+        updateData.put(COLUMN_START_DATETIME, medicine.getStartDatetime());
+        updateData.put(COLUMN_TAKE_INTERVAL, medicine.getTakeInterval());
+        updateData.put(COLUMN_TAKE_INTERVAL_MODE, medicine.getTakeIntervalMode());
+        updateData.put(COLUMN_PHOTO, medicine.getMedicinePhoto());
+
+        // 検索条件の作成
+        String whereClause = COLUMN_ID.getEqualsCondition();
+        ArrayList<ADbType> whereArgs = new ArrayList<>();
+        whereArgs.add(medicine.getMedicineId());
+
+        // レコード更新
+        update(database, updateData, whereClause, whereArgs);
+
+        // インスタンスを返却する
+        return medicine;
+    }
+
 }

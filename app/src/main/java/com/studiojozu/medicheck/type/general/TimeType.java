@@ -15,9 +15,9 @@ import java.util.Calendar;
 public class TimeType extends ADbType<Long> implements Comparable<TimeType> {
 
     @NonNull
-    private final Calendar mValue;
+    protected final Calendar mValue;
 
-    public TimeType(@NonNull Object millisecond) {
+    protected TimeType(@NonNull Object millisecond) {
         mValue = Calendar.getInstance();
         mValue.setTimeInMillis((long) millisecond);
         mValue.set(Calendar.YEAR, 2000);
@@ -27,7 +27,7 @@ public class TimeType extends ADbType<Long> implements Comparable<TimeType> {
         mValue.set(Calendar.MILLISECOND, 0);
     }
 
-    public TimeType(int hourOfDay, int minute) {
+    protected TimeType(int hourOfDay, int minute) {
         mValue = Calendar.getInstance();
         mValue.set(Calendar.YEAR, 2000);
         mValue.set(Calendar.MONTH, 0);

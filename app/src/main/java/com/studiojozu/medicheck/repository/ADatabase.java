@@ -9,7 +9,7 @@ import android.support.annotation.Nullable;
 /**
  * データベースクラスの基底クラス
  */
-public abstract class ADatabase {
+abstract class ADatabase {
 
     @NonNull
     final SQLiteDatabase mSQLiteDatabase;

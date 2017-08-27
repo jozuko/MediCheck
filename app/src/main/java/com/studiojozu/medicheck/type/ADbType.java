@@ -30,4 +30,15 @@ public abstract class ADbType<T> {
      * @param contentValue 値
      */
     public abstract void setContentValue(@NonNull String columnName, @NonNull ContentValues contentValue);
+
+    @Override
+    public boolean equals(Object obj) {
+        if ((obj == null) || (!(obj instanceof ADbType))) return false;
+        return getDbValue().equals(((ADbType) obj).getDbValue());
+    }
+
+    @Override
+    public int hashCode() {
+        return getDbValue().hashCode();
+    }
 }

@@ -13,6 +13,10 @@ public class TakeIntervalModeType extends ADbType<Integer> implements Comparable
     @NonNull
     private final DateIntervalPattern mValue;
 
+    public TakeIntervalModeType() {
+        mValue = DateIntervalPattern.DAYS;
+    }
+
     public TakeIntervalModeType(@NonNull Object dbValue) {
         if (dbValue instanceof DateIntervalPattern)
             mValue = (DateIntervalPattern) dbValue;
@@ -44,6 +48,15 @@ public class TakeIntervalModeType extends ADbType<Integer> implements Comparable
         } catch (CloneNotSupportedException e) {
             throw new RuntimeException(e.toString(), e);
         }
+    }
+
+    /**
+     * 日パターンであるかをチェックする
+     *
+     * @return 日パターンの場合trueを返却
+     */
+    public boolean isDays() {
+        return (mValue == DateIntervalPattern.DAYS);
     }
 
     public enum DateIntervalPattern {

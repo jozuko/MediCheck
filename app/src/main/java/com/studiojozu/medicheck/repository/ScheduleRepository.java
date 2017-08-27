@@ -4,12 +4,17 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.studiojozu.medicheck.entity.Schedule;
+import com.studiojozu.medicheck.entity.ScheduleList;
 import com.studiojozu.medicheck.type.ADbType;
 import com.studiojozu.medicheck.type.medicine.MedicineIdType;
 import com.studiojozu.medicheck.type.schedule.IsTakeType;
 import com.studiojozu.medicheck.type.schedule.NeedAlarmType;
+import com.studiojozu.medicheck.type.schedule.PlanDateType;
+import com.studiojozu.medicheck.type.timetable.TimetableIdType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -94,16 +99,104 @@ public class ScheduleRepository extends ABaseRepository {
     }
 
     /**
+     * 薬-タイムテーブルに保存する。
+     * 一度すべてを削除し、新規追加する。
+     *
+     * @param database     Writableなデータベースインスタンス
+     * @param medicineId   薬ID
+     * @param scheduleList スケジュール一覧
+     */
+    void save(@NonNull WritableDatabase database, @NonNull MedicineIdType medicineId, @NonNull ScheduleList scheduleList) {
+
+        // データの削除
+        deleteNotTookMedicineByMedicineId(database, medicineId);
+
+        // スケジュールを保存する
+        saveSchedule(database, scheduleList);
+    }
+
+    /**
+     * 薬IDが一致し、服用されていない薬に関して、テーブルから削除する。
+     *
+     * @param database   Writableなデータベースインスタンス
+     * @param medicineId 薬ID
+     */
+    private void deleteNotTookMedicineByMedicineId(@NonNull WritableDatabase database, @NonNull MedicineIdType medicineId) {
+
+        String whereClause = COLUMN_MEDICINE_ID.getEqualsCondition() + " and " + COLUMN_IS_TAKE.getEqualsCondition();
+
+        ArrayList<ADbType> whereList = new ArrayList<>();
+        whereList.add(medicineId);
+        whereList.add(new IsTakeType(true));
+
+        delete(database, whereClause, whereList);
+    }
+
+    /**
      * 薬IDをキーとして、テーブルから該当レコードを削除する。
      *
      * @param database   Writableなデータベースインスタンス
      * @param medicineId 薬ID
      */
     void deleteIgnoreHistory(@NonNull WritableDatabase database, @NonNull MedicineIdType medicineId) {
-        // Medicine-TimetableのRelationテーブルから該当IDを削除
+
         String whereClause = COLUMN_MEDICINE_ID.getEqualsCondition();
+
         ArrayList<ADbType> whereList = new ArrayList<>();
         whereList.add(medicineId);
+
         delete(database, whereClause, whereList);
+    }
+
+    /**
+     * 薬ID, 服用予定日付, タイムテーブルIDを条件としてレコードを取得する
+     *
+     * @param database     データベースインスタンス
+     * @param medicineId   薬ID
+     * @param planDateType 服用予定日付
+     * @param timetableId  タイムテーブルID
+     * @return 条件が一致するレコード(1件 or null)
+     */
+    @Nullable
+    private Map<ColumnBase, ADbType> findByPrimaryKey(@NonNull ADatabase database, @NonNull MedicineIdType medicineId, @NonNull PlanDateType planDateType, @NonNull TimetableIdType timetableId) {
+
+        String whereClause = COLUMN_MEDICINE_ID.getEqualsCondition() + " and " + COLUMN_PLAN_DATE.getEqualsCondition() + " and " + COLUMN_TIMETABLE_ID.getEqualsCondition();
+
+        ArrayList<ADbType> whereList = new ArrayList<>();
+        whereList.add(medicineId);
+        whereList.add(planDateType);
+        whereList.add(timetableId);
+
+        List<Map<ColumnBase, ADbType>> recordList = find(database, whereClause, whereList);
+        if (recordList.size() == 0) return null;
+
+        return recordList.get(0);
+    }
+
+    /**
+     * スケジュール一覧を登録する
+     *
+     * @param database     Writableなデータベースインスタンス
+     * @param scheduleList スケジュール一覧
+     */
+    private void saveSchedule(@NonNull WritableDatabase database, @NonNull ScheduleList scheduleList) {
+
+        for (Schedule schedule : scheduleList) {
+            // PrimaryKeyが一致するレコードが登録済みの場合はスキップする
+            Map<ColumnBase, ADbType> record = findByPrimaryKey(database, schedule.getMedicineId(), schedule.getPlanDate(), schedule.getTimetableId());
+            if (record != null) continue;
+
+            // 追加データの作成
+            Map<ColumnBase, ADbType> insertData = new HashMap<>();
+            insertData.put(COLUMN_MEDICINE_ID, schedule.getMedicineId());
+            insertData.put(COLUMN_PLAN_DATE, schedule.getPlanDate());
+            insertData.put(COLUMN_TIMETABLE_ID, schedule.getTimetableId());
+            insertData.put(COLUMN_NEED_ALERT, schedule.getNeedAlarm());
+            insertData.put(COLUMN_IS_TAKE, schedule.getIsTake());
+            insertData.put(COLUMN_TOOK_DATETIME, schedule.getTookDatetime());
+
+            // レコード追加
+            insert(database, insertData);
+        }
     }
 }

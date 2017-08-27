@@ -15,11 +15,11 @@ public class TextType extends ADbType<String> implements Comparable<TextType> {
     @NotNull
     private final String mValue;
 
-    public TextType() {
+    protected TextType() {
         mValue = "";
     }
 
-    public TextType(@Nullable Object value) {
+    protected TextType(@Nullable Object value) {
         if (value == null)
             mValue = "";
         else

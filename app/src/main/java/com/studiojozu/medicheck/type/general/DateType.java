@@ -17,16 +17,25 @@ public class DateType extends ADbType<Long> implements Comparable<DateType> {
     @NonNull
     private final Calendar mValue;
 
-    public DateType(@NonNull Object millisecond) {
-        mValue = Calendar.getInstance();
-        mValue.setTimeInMillis((Long) millisecond);
+    protected DateType(@NonNull Object millisecond) {
+        if (millisecond instanceof Long) {
+            mValue = Calendar.getInstance();
+            mValue.setTimeInMillis((Long) millisecond);
+        } else if (millisecond instanceof DatetimeType) {
+            DatetimeType datetimeType = (DatetimeType) millisecond;
+            mValue = Calendar.getInstance();
+            mValue.setTimeInMillis(datetimeType.getDbValue());
+        } else {
+            throw new IllegalArgumentException("unknown type.");
+        }
+
         mValue.set(Calendar.HOUR_OF_DAY, 0);
         mValue.set(Calendar.MINUTE, 0);
         mValue.set(Calendar.SECOND, 0);
         mValue.set(Calendar.MILLISECOND, 0);
     }
 
-    public DateType(int year, int month, int day) {
+    protected DateType(int year, int month, int day) {
         mValue = Calendar.getInstance();
         mValue.set(year, month - 1, day, 0, 0, 0);
         mValue.set(Calendar.MILLISECOND, 0);
@@ -68,5 +77,19 @@ public class DateType extends ADbType<Long> implements Comparable<DateType> {
     public String getFormatValue() {
         DateFormat format = SimpleDateFormat.getDateInstance(DateFormat.SHORT);
         return format.format(mValue.getTime());
+    }
+
+    /**
+     * フィールドが保持する日時に、パラメータのdayを日数として追加した値を返却する。
+     *
+     * @param days 加算する日数
+     * @return パラメータ値加算後の値を保持するインスタンス
+     */
+    @NonNull
+    public DateType addDay(int days) {
+        Calendar calendar = (Calendar) mValue.clone();
+        calendar.add(Calendar.DAY_OF_MONTH, days);
+
+        return new DateType(calendar.getTimeInMillis());
     }
 }

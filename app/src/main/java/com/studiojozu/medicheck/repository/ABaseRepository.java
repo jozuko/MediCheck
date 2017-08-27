@@ -95,14 +95,15 @@ abstract class ABaseRepository {
      *
      * @param db      書き込み可能なデータベースインスタンス
      * @param dataMap カラム名と値を持つMap
+     * @return 追加したレコードの_id値
      */
-    void insert(@NonNull WritableDatabase db, @NonNull Map<ColumnBase, ADbType> dataMap) {
+    long insert(@NonNull WritableDatabase db, @NonNull Map<ColumnBase, ADbType> dataMap) {
         ContentValues insertData = new ContentValues();
         for (ColumnBase column : dataMap.keySet()) {
             dataMap.get(column).setContentValue(column.mColumnName, insertData);
         }
 
-        db.insert(TABLE_NAME, insertData);
+        return db.insert(TABLE_NAME, insertData);
     }
 
     /**
@@ -112,14 +113,15 @@ abstract class ABaseRepository {
      * @param dataMap     カラム名と値を持つMap
      * @param whereClause where句
      * @param whereArgs   whereのパラメータ
+     * @return 更新行数
      */
-    void update(@NonNull WritableDatabase db, @NonNull Map<ColumnBase, ADbType> dataMap, String whereClause, ArrayList<ADbType> whereArgs) {
+    long update(@NonNull WritableDatabase db, @NonNull Map<ColumnBase, ADbType> dataMap, String whereClause, ArrayList<ADbType> whereArgs) {
         ContentValues values = new ContentValues();
         for (ColumnBase column : dataMap.keySet()) {
             dataMap.get(column).setContentValue(column.mColumnName, values);
         }
 
-        db.update(TABLE_NAME, values, whereClause, createWhereArgs(whereArgs));
+        return db.update(TABLE_NAME, values, whereClause, createWhereArgs(whereArgs));
     }
 
     /**
@@ -170,7 +172,7 @@ abstract class ABaseRepository {
      */
     @Nullable
     @Contract("null -> null")
-    private String[] createWhereArgs(@Nullable ArrayList<ADbType> whereArgs) {
+    String[] createWhereArgs(@Nullable ArrayList<ADbType> whereArgs) {
         if (whereArgs == null || whereArgs.isEmpty()) return null;
 
         ArrayList<String> args = new ArrayList<>();

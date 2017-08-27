@@ -6,14 +6,17 @@ package com.studiojozu.medicheck.type.general;
 public class IdType extends LongType {
 
     /** 未定義ID まだデータベースに登録されていない場合に使用する */
-    public final static int UNDEFINED_ID = -1;
+    protected final static int UNDEFINED_ID = -1;
 
-    public IdType() {
+    protected IdType() {
         super(UNDEFINED_ID);
     }
 
-    public IdType(Object value) {
+    protected IdType(Object value) {
         super(value);
     }
 
+    public boolean isUndefined() {
+        return (getDbValue() == UNDEFINED_ID);
+    }
 }

@@ -4,10 +4,16 @@ import android.support.annotation.NonNull;
 
 import com.studiojozu.medicheck.type.general.DateType;
 
+import java.util.Calendar;
+
 /**
  * 服用予定日を管理するクラス
  */
 public class PlanDateType extends DateType implements Cloneable {
+
+    public PlanDateType() {
+        this(Calendar.getInstance());
+    }
 
     public PlanDateType(@NonNull Object millisecond) {
         super(millisecond);

@@ -7,7 +7,7 @@ import android.support.annotation.Nullable;
 /**
  * テーブル一覧を管理するクラス
  */
-public class Repositories {
+class Repositories {
 
     @NonNull
     private static final ABaseRepository[] TABLES;

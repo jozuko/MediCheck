@@ -6,10 +6,16 @@ import com.studiojozu.medicheck.type.general.DateType;
 import com.studiojozu.medicheck.type.general.DatetimeType;
 import com.studiojozu.medicheck.type.general.TimeType;
 
+import java.util.Calendar;
+
 /**
  * 服用した日時を管理するクラス
  */
 public class TookDatetime extends DatetimeType implements Cloneable {
+
+    public TookDatetime() {
+        this(Calendar.getInstance());
+    }
 
     public TookDatetime(@NonNull Object millisecond) {
         super(millisecond);
@@ -25,10 +31,6 @@ public class TookDatetime extends DatetimeType implements Cloneable {
 
     @Override
     public TookDatetime clone() {
-        try {
-            return (TookDatetime) super.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new RuntimeException(e.toString(), e);
-        }
+        return (TookDatetime) super.clone();
     }
 }

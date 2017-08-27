@@ -87,7 +87,7 @@ public class ParsonRepository extends ABaseRepository {
     }
 
     /**
-     * テーブルのレコードをすべて削除し、新しく値を保存する。
+     * DBのテーブルに値を追加、もしくは、既存レコードの更新を行う。
      *
      * @param context    アプリケーションコンテキスト
      * @param id         飲む人ID

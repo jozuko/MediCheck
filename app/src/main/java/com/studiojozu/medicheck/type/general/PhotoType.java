@@ -7,11 +7,11 @@ import android.support.annotation.Nullable;
  */
 public class PhotoType extends TextType {
 
-    public PhotoType() {
+    protected PhotoType() {
         super("");
     }
 
-    public PhotoType(@Nullable Object value) {
+    protected PhotoType(@Nullable Object value) {
         super(value);
     }
 }

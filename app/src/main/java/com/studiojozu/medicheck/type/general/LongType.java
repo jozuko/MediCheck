@@ -12,13 +12,14 @@ import org.jetbrains.annotations.NotNull;
  */
 public class LongType extends ADbType<Long> implements Comparable<LongType> {
 
-    private final long mValue;
+    @NonNull
+    private final Long mValue;
 
-    public LongType() {
-        mValue = 0;
+    protected LongType() {
+        this(0L);
     }
 
-    public LongType(@NotNull Object value) {
+    protected LongType(@NotNull Object value) {
         mValue = (long) value;
     }
 

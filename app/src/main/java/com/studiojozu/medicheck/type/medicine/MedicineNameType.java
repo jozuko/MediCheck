@@ -1,6 +1,5 @@
 package com.studiojozu.medicheck.type.medicine;
 
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.studiojozu.medicheck.type.general.TextType;
