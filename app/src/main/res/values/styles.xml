@@ -11,7 +11,7 @@
 
     <!-- ボタンスタイル -->
     <style name="StandardButtonStyle" parent="android:Widget.Button">
-        <item name="android:textColor">@color/button_text_color</item>
+        <item name="android:textColor">@color/button_text</item>
         <item name="android:textSize">@dimen/button_text_size</item>
         <item name="android:layout_margin">@dimen/button_margin</item>
         <item name="android:padding">@dimen/button_padding</item>
@@ -22,31 +22,30 @@
         <item name="android:background">@drawable/standard_button_background</item>
     </style>
 
-    <style name="DescriptionButtonImageStyle" parent="android:Widget">
-        <item name="android:layout_gravity">left|center_vertical</item>
+    <style name="DescriptionButtonChildStyle" parent="android:Widget">
+        <item name="android:clickable">false</item>
+        <item name="android:focusable">false</item>
+        <item name="android:focusableInTouchMode">false</item>
         <item name="android:background">@android:color/transparent</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="DescriptionButtonImageStyle" parent="DescriptionButtonChildStyle">
         <item name="android:padding">@dimen/button_description_padding</item>
     </style>
 
-    <style name="DescriptionButtonTextStyle" parent="android:Widget.Button">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@color/button_text_color</item>
+    <style name="DescriptionButtonTextStyle" parent="DescriptionButtonChildStyle">
+        <item name="android:textColor">@color/button_text</item>
         <item name="android:textSize">@dimen/button_text_size</item>
-        <item name="android:layout_gravity">center</item>
-        <item name="android:background">@android:color/transparent</item>
         <item name="android:padding">@dimen/button_description_padding</item>
     </style>
 
-    <style name="DescriptionButtonMessageStyle" parent="android:Widget.TextView">
+    <style name="DescriptionButtonMessageStyle" parent="DescriptionButtonChildStyle">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@color/button_text_color</item>
-        <item name="android:textSize">@dimen/button_description_text_size</item>
         <item name="android:gravity">right</item>
-        <item name="android:layout_marginBottom">@dimen/button_description_margin</item>
-        <item name="android:layout_marginRight">@dimen/button_description_margin</item>
-        <item name="android:background">@android:color/transparent</item>
+        <item name="android:textColor">@color/button_description_text</item>
+        <item name="android:textSize">@dimen/button_description_text_size</item>
         <item name="android:padding">@dimen/button_description_padding</item>
     </style>
 

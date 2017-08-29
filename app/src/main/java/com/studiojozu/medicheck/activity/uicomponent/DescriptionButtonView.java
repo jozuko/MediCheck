@@ -7,9 +7,9 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.studiojozu.medicheck.R;
@@ -119,8 +119,8 @@ public class DescriptionButtonView extends FrameLayout implements View.OnClickLi
      * @return メインレイアウト
      */
     @NonNull
-    private FrameLayout getMainLayout() {
-        return (FrameLayout) mDescriptionButtonView.findViewById(R.id.description_button_layout);
+    private ViewGroup getMainLayout() {
+        return (ViewGroup) mDescriptionButtonView.findViewById(R.id.description_button_layout);
     }
 
     /**

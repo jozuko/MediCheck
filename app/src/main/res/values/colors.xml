@@ -4,7 +4,8 @@
 
     <color name="text_color">@android:color/white</color>
 
-    <color name="button_text_color">@color/text_color</color>
+    <color name="button_text">@color/text_color</color>
+    <color name="button_description_text">#5e8663</color>
     <color name="button_background">#9ac29f</color>
     <color name="button_background_pressed">#d9de84</color>
     <color name="button_shadow">#7ca481</color>

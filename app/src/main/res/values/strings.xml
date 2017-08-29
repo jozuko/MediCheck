@@ -28,6 +28,9 @@
     <string name="button_description_today_medicine">When you took medicine, click.</string>
     <string name="button_register_medicine">Register Medicine</string>
     <string name="button_description_register_medicine">When you got new medicine, click.</string>
-
+    <string name="button_list_medicine">Medicine List</string>
+    <string name="button_description_list_medicine">When you got the same medicine, click.</string>
+    <string name="button_setting">Setting</string>
+    <string name="button_description_setting">You\'d like to change the person,\n the timetable or the alarm setting, click.</string>
 
 </resources>

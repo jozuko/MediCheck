@@ -22,4 +22,20 @@
         custom:description="@string/button_description_register_medicine"
         custom:drawableLeft="@mipmap/ic_register_medicine"/>
 
+    <com.studiojozu.medicheck.activity.uicomponent.DescriptionButtonView
+        android:id="@+id/menu_button_list_medicine"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        custom:text="@string/button_list_medicine"
+        custom:description="@string/button_description_list_medicine"
+        custom:drawableLeft="@mipmap/ic_list_medicine"/>
+
+    <com.studiojozu.medicheck.activity.uicomponent.DescriptionButtonView
+        android:id="@+id/menu_button_setting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        custom:text="@string/button_setting"
+        custom:description="@string/button_description_setting"
+        custom:drawableLeft="@mipmap/ic_setting"/>
+
 </LinearLayout>

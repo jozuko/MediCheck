@@ -28,4 +28,9 @@
     <string name="button_description_today_medicine">薬を飲んだらココ</string>
     <string name="button_register_medicine">お薬の登録</string>
     <string name="button_description_register_medicine">新しいお薬をもらったらココ</string>
+    <string name="button_list_medicine">お薬の一覧</string>
+    <string name="button_description_list_medicine">同じお薬をもらったらココ</string>
+    <string name="button_setting">設定</string>
+    <string name="button_description_setting">人・服用時刻・アラームの変更はココ</string>
+
 </resources>
