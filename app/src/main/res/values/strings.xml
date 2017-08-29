@@ -25,8 +25,9 @@
     <string name="label_hours">hours</string>
 
     <string name="button_today_medicine">Today\'s Medicine</string>
-    <string name="button_description_today_medicine">When you took medicine, please click this button.</string>
-
+    <string name="button_description_today_medicine">When you took medicine, click.</string>
+    <string name="button_register_medicine">Register Medicine</string>
+    <string name="button_description_register_medicine">When you got new medicine, click.</string>
 
 
 </resources>

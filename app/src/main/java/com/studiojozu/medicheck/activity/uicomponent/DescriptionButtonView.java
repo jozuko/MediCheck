@@ -7,8 +7,9 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.studiojozu.medicheck.R;
@@ -87,11 +88,11 @@ public class DescriptionButtonView extends FrameLayout implements View.OnClickLi
      */
     private void setButtonText(@Nullable TypedArray typedArray) {
         String text = getString(typedArray, R.styleable.description_button_view_text);
-        getButtonInstance().setText(text);
+        getTextInstance().setText(text);
     }
 
     /**
-     * ボタン左端にアイコンを表示する
+     * 左端にアイコンを表示する
      *
      * @param typedArray layout.xmlで指定した引数
      */
@@ -99,7 +100,7 @@ public class DescriptionButtonView extends FrameLayout implements View.OnClickLi
         int drawableLeftResourceId = getReference(typedArray, R.styleable.description_button_view_drawableLeft);
         if (drawableLeftResourceId < 0) return;
 
-        getButtonInstance().setCompoundDrawablesWithIntrinsicBounds(drawableLeftResourceId, 0, 0, 0);
+        getIconInstance().setImageResource(drawableLeftResourceId);
     }
 
     /**
@@ -109,7 +110,7 @@ public class DescriptionButtonView extends FrameLayout implements View.OnClickLi
      */
     private void setDescriptionText(@Nullable TypedArray typedArray) {
         String text = getString(typedArray, R.styleable.description_button_view_description);
-        getDescriptionText().setText(text);
+        getMessageInstance().setText(text);
     }
 
     /**
@@ -123,13 +124,23 @@ public class DescriptionButtonView extends FrameLayout implements View.OnClickLi
     }
 
     /**
-     * Buttonのインスタンスを取得する
+     * 画像のインスタンスを取得する
      *
      * @return Buttonインスタンス
      */
     @NonNull
-    private Button getButtonInstance() {
-        return (Button) mDescriptionButtonView.findViewById(R.id.description_button);
+    private ImageView getIconInstance() {
+        return (ImageView) mDescriptionButtonView.findViewById(R.id.description_button_icon);
+    }
+
+    /**
+     * タイトルのインスタンスを取得する
+     *
+     * @return Buttonインスタンス
+     */
+    @NonNull
+    private TextView getTextInstance() {
+        return (TextView) mDescriptionButtonView.findViewById(R.id.description_button_text);
     }
 
     /**
@@ -138,8 +149,8 @@ public class DescriptionButtonView extends FrameLayout implements View.OnClickLi
      * @return 説明文を表示するTextView
      */
     @NonNull
-    private TextView getDescriptionText() {
-        return (TextView) mDescriptionButtonView.findViewById(R.id.description_text);
+    private TextView getMessageInstance() {
+        return (TextView) mDescriptionButtonView.findViewById(R.id.description_button_message);
     }
 
     /**

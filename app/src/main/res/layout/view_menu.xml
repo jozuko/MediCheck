@@ -7,11 +7,19 @@
               android:orientation="vertical">
 
     <com.studiojozu.medicheck.activity.uicomponent.DescriptionButtonView
-        android:id="@+id/button"
+        android:id="@+id/menu_button_today_medicine"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         custom:text="@string/button_today_medicine"
         custom:description="@string/button_description_today_medicine"
         custom:drawableLeft="@mipmap/ic_take_parson"/>
+
+    <com.studiojozu.medicheck.activity.uicomponent.DescriptionButtonView
+        android:id="@+id/menu_button_register_medicine"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        custom:text="@string/button_register_medicine"
+        custom:description="@string/button_description_register_medicine"
+        custom:drawableLeft="@mipmap/ic_register_medicine"/>
 
 </LinearLayout>

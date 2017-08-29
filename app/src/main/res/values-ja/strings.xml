@@ -25,5 +25,7 @@
     <string name="label_hours">時間</string>
 
     <string name="button_today_medicine">今日のお薬</string>
-    <string name="button_description_today_medicine">薬を飲んだらコレを押す</string>
+    <string name="button_description_today_medicine">薬を飲んだらココ</string>
+    <string name="button_register_medicine">お薬の登録</string>
+    <string name="button_description_register_medicine">新しいお薬をもらったらココ</string>
 </resources>

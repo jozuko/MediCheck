@@ -7,9 +7,10 @@
     <dimen name="view_margin">10dp</dimen>
     <dimen name="button_margin">10dp</dimen>
 
-    <dimen name="button_text_size">25dp</dimen>
-    <dimen name="button_description_text_size">15dp</dimen>
+    <dimen name="button_text_size">26dp</dimen>
+    <dimen name="button_description_text_size">13dp</dimen>
     <dimen name="button_description_margin">1dp</dimen>
+    <dimen name="button_description_padding">0dp</dimen>
     <dimen name="button_padding">10dp</dimen>
     <dimen name="button_background_border">1dp</dimen>
     <dimen name="button_background_border_padding">2dp</dimen>
