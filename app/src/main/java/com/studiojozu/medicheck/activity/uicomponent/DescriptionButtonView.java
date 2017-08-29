@@ -12,13 +12,18 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.studiojozu.medicheck.R;
+import com.studiojozu.medicheck.log.Log;
 
 import org.jetbrains.annotations.Contract;
 
 /**
  * 説明文がついたボタンView
  */
-public class DescriptionButtonView extends FrameLayout {
+public class DescriptionButtonView extends FrameLayout implements View.OnClickListener {
+
+    /** このクラスのインスタンス */
+    @NonNull
+    private final View mDescriptionButtonView;
 
     /**
      * 引数をLayoutに反映するコンストラクタ
@@ -29,12 +34,14 @@ public class DescriptionButtonView extends FrameLayout {
     public DescriptionButtonView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
 
-        View descriptionButtonView = getMainLayout(context);
+        mDescriptionButtonView = getMainLayout(context);
+        setOnClickListener(this);
+
         TypedArray typedArray = getTypedArray(context, attrs);
         try {
-            setButtonText(descriptionButtonView, typedArray);
-            setButtonIcon(descriptionButtonView, typedArray);
-            setDescriptionText(descriptionButtonView, typedArray);
+            setButtonText(typedArray);
+            setButtonIcon(typedArray);
+            setDescriptionText(typedArray);
         } finally {
             if (typedArray != null)
                 typedArray.recycle();
@@ -65,58 +72,74 @@ public class DescriptionButtonView extends FrameLayout {
     }
 
     /**
+     * ClickListerを登録する
+     *
+     * @param listener ClickListener
+     */
+    public void setOnClickListener(View.OnClickListener listener) {
+        getMainLayout().setOnClickListener(listener);
+    }
+
+    /**
      * ボタンにテキストを表示する
      *
-     * @param mainLayout メインView
      * @param typedArray layout.xmlで指定した引数
      */
-    private void setButtonText(@NonNull View mainLayout, @Nullable TypedArray typedArray) {
+    private void setButtonText(@Nullable TypedArray typedArray) {
         String text = getString(typedArray, R.styleable.description_button_view_text);
-        getButtonInstance(mainLayout).setText(text);
+        getButtonInstance().setText(text);
     }
 
     /**
      * ボタン左端にアイコンを表示する
      *
-     * @param mainLayout メインView
      * @param typedArray layout.xmlで指定した引数
      */
-    private void setButtonIcon(@NonNull View mainLayout, @Nullable TypedArray typedArray) {
+    private void setButtonIcon(@Nullable TypedArray typedArray) {
         int drawableLeftResourceId = getReference(typedArray, R.styleable.description_button_view_drawableLeft);
         if (drawableLeftResourceId < 0) return;
 
-        getButtonInstance(mainLayout).setCompoundDrawablesWithIntrinsicBounds(drawableLeftResourceId, 0, 0, 0);
+        getButtonInstance().setCompoundDrawablesWithIntrinsicBounds(drawableLeftResourceId, 0, 0, 0);
     }
 
     /**
      * 説明文にテキストを表示する
      *
-     * @param mainLayout メインView
      * @param typedArray layout.xmlで指定した引数
      */
-    private void setDescriptionText(@NonNull View mainLayout, @Nullable TypedArray typedArray) {
+    private void setDescriptionText(@Nullable TypedArray typedArray) {
         String text = getString(typedArray, R.styleable.description_button_view_description);
-        getDescriptionText(mainLayout).setText(text);
+        getDescriptionText().setText(text);
+    }
+
+    /**
+     * メインレイアウトを取得する
+     *
+     * @return メインレイアウト
+     */
+    @NonNull
+    private FrameLayout getMainLayout() {
+        return (FrameLayout) mDescriptionButtonView.findViewById(R.id.description_button_layout);
     }
 
     /**
      * Buttonのインスタンスを取得する
      *
-     * @param mainLayout メインView
      * @return Buttonインスタンス
      */
-    private Button getButtonInstance(@NonNull View mainLayout) {
-        return (Button) mainLayout.findViewById(R.id.description_button);
+    @NonNull
+    private Button getButtonInstance() {
+        return (Button) mDescriptionButtonView.findViewById(R.id.description_button);
     }
 
     /**
      * 説明文を表示するTextViewを取得する
      *
-     * @param mainLayout メインView
      * @return 説明文を表示するTextView
      */
-    private TextView getDescriptionText(@NonNull View mainLayout) {
-        return (TextView) mainLayout.findViewById(R.id.description_text);
+    @NonNull
+    private TextView getDescriptionText() {
+        return (TextView) mDescriptionButtonView.findViewById(R.id.description_text);
     }
 
     /**
@@ -144,4 +167,8 @@ public class DescriptionButtonView extends FrameLayout {
         return typedArray.getResourceId(styleableId, -1);
     }
 
+    @Override
+    public void onClick(View view) {
+        new Log(this.getClass()).i("Main FrameLayout clicked.");
+    }
 }
