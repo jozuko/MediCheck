@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:id="@+id/description_button_layout"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:background="@drawable/description_button_background">
+
+    <Button
+        android:id="@+id/description_button"
+        android:clickable="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        style="@style/DescriptionButtonStyle" />
+
+    <TextView
+        android:id="@+id/description_text"
+        android:clickable="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        style="@style/DescriptionTextStyle" />
+
+</FrameLayout>

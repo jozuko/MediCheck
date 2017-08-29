@@ -1,8 +1,90 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+    <!-- メインViewのテーマ -->
+    <style name="StandardViewTheme" parent="android:Theme.Black.NoTitleBar">
+        <item name="android:background">@color/background</item>
+        <item name="android:buttonStyle">@style/StandardButtonStyle</item>
+        <item name="android:editTextStyle">@style/StandardEditStyle</item>
+        <item name="android:radioButtonStyle">@style/FlatRadioButton</item>
+        <item name="android:padding">@dimen/view_margin</item>
     </style>
 
+    <!-- ボタンスタイル -->
+    <style name="StandardButtonStyle" parent="android:Widget.Button">
+        <item name="android:textColor">@color/button_text_color</item>
+        <item name="android:textSize">@dimen/button_text_size</item>
+        <item name="android:layout_margin">@dimen/button_margin</item>
+        <item name="android:padding">@dimen/button_padding</item>
+    </style>
+
+    <style name="IconButtonStyle" parent="StandardButtonStyle">
+        <item name="android:gravity">right|center_vertical</item>
+        <item name="android:background">@drawable/standard_button_background</item>
+    </style>
+
+    <style name="DescriptionButtonStyle" parent="android:Widget.Button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/button_text_color</item>
+        <item name="android:textSize">@dimen/button_text_size</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginBottom">@dimen/button_description_text_size</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <style name="DescriptionTextStyle" parent="android:Widget.TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">bottom|end</item>
+        <item name="android:textColor">@color/button_text_color</item>
+        <item name="android:textSize">@dimen/button_description_text_size</item>
+        <item name="android:layout_marginBottom">@dimen/button_description_margin</item>
+        <item name="android:layout_marginRight">@dimen/button_description_margin</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <style name="StandardEditStyle" parent="android:Widget.EditText">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:layout_margin">10dp</item>
+        <item name="android:padding">10dip</item>
+        <item name="android:background">@drawable/edit_shape</item>
+    </style>
+
+    <style name="FlatRadioButton" parent="android:Widget.CompoundButton.RadioButton">
+        <item name="android:button">@null</item>
+        <item name="android:background">@drawable/flat_button</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:layout_margin">10dp</item>
+        <item name="android:padding">10dip</item>
+    </style>
+
+    <!-- メインViewスタイル -->
+    <style name="ExtraViewStyle" parent="android:Theme.Black.NoTitleBar">
+        <item name="android:layout_marginTop">50dp</item>
+        <item name="android:layout_marginBottom">0dp</item>
+        <item name="android:layout_marginLeft">0dp</item>
+        <item name="android:layout_marginRight">0dp</item>
+
+        <item name="android:paddingTop">20dp</item>
+        <item name="android:paddingBottom">20dp</item>
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:paddingRight">20dp</item>
+
+        <item name="android:background">@android:drawable/alert_dark_frame</item>
+    </style>
+
+    <style name="AlertTitleStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:textSize">@dimen/text_size_alert_title</item>
+        <item name="android:background">@drawable/dashed_frame_shape</item>
+    </style>
+
+    <style name="AlertMessageStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/text_size_alert_message</item>
+    </style>
 </resources>

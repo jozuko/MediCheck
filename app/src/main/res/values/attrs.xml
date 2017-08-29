@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="description_button_view">
+        <attr name="text" format="string"/>
+        <attr name="description" format="string"/>
+        <attr name="drawableLeft" format="reference"/>
+    </declare-styleable>
+</resources>

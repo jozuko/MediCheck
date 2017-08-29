@@ -23,4 +23,10 @@
 
     <string name="label_minutes">minutes</string>
     <string name="label_hours">hours</string>
+
+    <string name="button_today_medicine">Today\'s Medicine</string>
+    <string name="button_description_today_medicine">When you took medicine, please click this button.</string>
+
+
+
 </resources>

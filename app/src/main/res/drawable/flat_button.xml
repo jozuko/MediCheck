@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 選択状態の選択肢が押されたとき -->
+    <item
+        android:state_checked="true"
+        android:state_pressed="true">
+        <shape xmlns:android="http://schemas.android.com/apk/res/android"
+            android:shape="rectangle">
+            <solid android:color="@android:color/darker_gray" />
+            <corners android:radius="5dp" />
+            <stroke
+                android:width="3dip"
+                android:color="@android:color/white" />
+        </shape>
+    </item>
+
+    <!-- 選択されていない選択肢が押されたとき -->
+    <item android:state_checked="false" android:state_pressed="true">
+        <shape xmlns:android="http://schemas.android.com/apk/res/android"
+            android:shape="rectangle">
+            <solid android:color="@android:color/darker_gray" />
+            <corners android:radius="5dp" />
+            <stroke
+                android:width="3dip"
+                android:color="@android:color/white" />
+        </shape>
+    </item>
+
+    <!-- 選択されているとき -->
+    <item android:state_checked="true">
+        <shape xmlns:android="http://schemas.android.com/apk/res/android"
+            android:shape="rectangle">
+            <solid android:color="@android:color/darker_gray" />
+            <corners android:radius="5dp" />
+            <stroke
+                android:width="3dip"
+                android:color="@android:color/white" />
+        </shape>
+    </item>
+
+    <!-- 選択されていない選択肢にフォーカスがあたったとき -->
+    <item android:state_checked="false" android:state_focused="true" android:state_pressed="false">
+        <shape xmlns:android="http://schemas.android.com/apk/res/android"
+            android:shape="rectangle">
+            <solid android:color="@android:color/darker_gray" />
+            <corners android:radius="5dp" />
+            <stroke
+                android:width="3dip"
+                android:color="@android:color/white" />
+        </shape>
+    </item>
+
+    <!-- 選択されていない選択肢のデフォルト状態 -->
+    <item android:state_checked="false">
+        <shape>
+            <solid android:color="@android:color/black" />
+            <corners android:radius="5dp" />
+            <stroke android:width="3dip" android:color="@android:color/white" />
+        </shape>
+    </item>
+
+</selector>

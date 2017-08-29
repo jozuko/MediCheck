@@ -23,4 +23,7 @@
 
     <string name="label_minutes">分</string>
     <string name="label_hours">時間</string>
+
+    <string name="button_today_medicine">今日のお薬</string>
+    <string name="button_description_today_medicine">薬を飲んだらコレを押す</string>
 </resources>
