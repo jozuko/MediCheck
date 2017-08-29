@@ -1,4 +1,4 @@
-package com.studiojozu.medicheck.other;
+package com.studiojozu.medicheck.service;
 
 import android.app.Activity;
 import android.content.Intent;

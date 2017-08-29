@@ -30,6 +30,8 @@
     <string name="button_description_register_medicine">When you got new medicine, click.</string>
     <string name="button_list_medicine">Medicine List</string>
     <string name="button_description_list_medicine">When you got the same medicine, click.</string>
+    <string name="button_history_medicine">Medicine Log</string>
+    <string name="button_description_history_medicine">When you\'d like to see the history, click.</string>
     <string name="button_setting">Setting</string>
     <string name="button_description_setting">You\'d like to change the person,\n the timetable or the alarm setting, click.</string>
 
