@@ -78,13 +78,6 @@ public class BitmapViewComponent {
     }
 
     /**
-     * ActivityのonDestory()で必ずコールすること
-     */
-    public void onDestory() {
-        recycle();
-    }
-
-    /**
      * URIからBitmapを取得する
      *
      * @param uri Bitmapのパス
@@ -107,7 +100,7 @@ public class BitmapViewComponent {
      * リサイクル処理
      * setBitmap()を呼び出したライフサイクルと対になる箇所で呼び出すこと
      */
-    private void recycle() {
+    public void recycle() {
         if (mBitmap == null) return;
 
         mImageView.setImageDrawable(null);

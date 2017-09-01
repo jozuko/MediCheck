@@ -59,11 +59,11 @@ public class ImageSpinnerAdapter extends BaseAdapter {
         }
     }
 
-    public ImageSpinnerAdapter(@NonNull Context context, int itemLayoutId) {
-        this(context, itemLayoutId, -1);
+    public ImageSpinnerAdapter(@NonNull Context context) {
+        this(context, -1);
     }
 
-    public ImageSpinnerAdapter(@NonNull Context context, int itemLayoutId, int defaultImageResouceId) {
+    public ImageSpinnerAdapter(@NonNull Context context, int defaultImageResouceId) {
         mContext = context;
         mLayoutInflater = LayoutInflater.from(context);
         mDefaultImageResourceId = defaultImageResouceId;
@@ -78,9 +78,9 @@ public class ImageSpinnerAdapter extends BaseAdapter {
     /**
      * ActivityのonDestory()で必ずコールすること
      */
-    public void onDestory() {
+    public void recycle() {
         for (ViewHolder viewHolder : mViewHolderList) {
-            viewHolder.mBitmapViewComponent.onDestory();
+            viewHolder.mBitmapViewComponent.recycle();
         }
     }
 

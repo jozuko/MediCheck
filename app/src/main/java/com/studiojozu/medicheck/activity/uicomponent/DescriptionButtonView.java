@@ -26,6 +26,9 @@ public class DescriptionButtonView extends RelativeLayout implements View.OnClic
     @NonNull
     private final View mDescriptionButtonView;
 
+    @Nullable
+    private View.OnClickListener mOnClickListener = null;
+
     /**
      * 引数をLayoutに反映するコンストラクタ
      *
@@ -36,7 +39,7 @@ public class DescriptionButtonView extends RelativeLayout implements View.OnClic
         super(context, attrs);
 
         mDescriptionButtonView = getLayoutGroup(context);
-        setOnClickListener(this);
+        getLayoutGroup().setOnClickListener(this);
 
         TypedArray typedArray = getTypedArray(context, attrs);
         try {
@@ -78,7 +81,7 @@ public class DescriptionButtonView extends RelativeLayout implements View.OnClic
      * @param listener ClickListener
      */
     public void setOnClickListener(View.OnClickListener listener) {
-        getLayoutGroup().setOnClickListener(listener);
+        mOnClickListener = listener;
     }
 
     /**
@@ -181,5 +184,7 @@ public class DescriptionButtonView extends RelativeLayout implements View.OnClic
     @Override
     public void onClick(View view) {
         new Log(this.getClass()).i("Main FrameLayout clicked.");
+        if(mOnClickListener != null)
+            mOnClickListener.onClick(this);
     }
 }
