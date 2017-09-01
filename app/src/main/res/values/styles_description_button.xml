@@ -1,9 +1,10 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <style name="DescriptionButtonParentStyle" parent="android:Widget">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">@dimen/input_margin</item>
+        <item name="android:layout_marginTop">@dimen/input_margin</item>
         <item name="android:background">@drawable/description_button_background</item>
+        <item name="android:padding">@dimen/input_padding</item>
     </style>
 
     <style name="DescriptionButtonChildStyle" parent="android:Widget">

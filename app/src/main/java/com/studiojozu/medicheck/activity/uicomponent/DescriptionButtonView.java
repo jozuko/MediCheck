@@ -8,8 +8,8 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.studiojozu.medicheck.R;
@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Contract;
 /**
  * 説明文がついたボタンView
  */
-public class DescriptionButtonView extends FrameLayout implements View.OnClickListener {
+public class DescriptionButtonView extends RelativeLayout implements View.OnClickListener {
 
     /** このクラスのインスタンス */
     @NonNull
@@ -35,7 +35,7 @@ public class DescriptionButtonView extends FrameLayout implements View.OnClickLi
     public DescriptionButtonView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
 
-        mDescriptionButtonView = getMainLayout(context);
+        mDescriptionButtonView = getLayoutGroup(context);
         setOnClickListener(this);
 
         TypedArray typedArray = getTypedArray(context, attrs);
@@ -50,12 +50,12 @@ public class DescriptionButtonView extends FrameLayout implements View.OnClickLi
     }
 
     /**
-     * このViewの一番親となるLayoutを取得する
+     * このViewのインスタンスを取得する
      *
      * @param context アプリケーションコンテキスト
-     * @return このViewの一番親となるLayout
+     * @return このViewのインスタンス
      */
-    private View getMainLayout(@NonNull Context context) {
+    private View getLayoutGroup(@NonNull Context context) {
         return LayoutInflater.from(context).inflate(R.layout.description_button, this);
     }
 
@@ -78,7 +78,7 @@ public class DescriptionButtonView extends FrameLayout implements View.OnClickLi
      * @param listener ClickListener
      */
     public void setOnClickListener(View.OnClickListener listener) {
-        getMainLayout().setOnClickListener(listener);
+        getLayoutGroup().setOnClickListener(listener);
     }
 
     /**
@@ -119,7 +119,7 @@ public class DescriptionButtonView extends FrameLayout implements View.OnClickLi
      * @return メインレイアウト
      */
     @NonNull
-    private ViewGroup getMainLayout() {
+    private ViewGroup getLayoutGroup() {
         return (ViewGroup) mDescriptionButtonView.findViewById(R.id.description_button_layout);
     }
 

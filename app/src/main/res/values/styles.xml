@@ -1,69 +1,29 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- メインViewのテーマ -->
-    <style name="StandardViewTheme" parent="android:Theme.Black.NoTitleBar">
-        <item name="android:background">@color/background</item>
-        <item name="android:buttonStyle">@style/StandardButtonStyle</item>
-        <item name="android:editTextStyle">@style/StandardEditStyle</item>
-        <item name="android:radioButtonStyle">@style/FlatRadioButton</item>
-        <item name="android:padding">@dimen/view_margin</item>
+    <!-- アプリのテーマ -->
+    <style name="AppTheme" parent="android:Theme.Black.NoTitleBar">
+        <item name="android:buttonStyle">@style/StandardButtonTheme</item>
     </style>
 
-    <!-- ボタンスタイル -->
-    <style name="StandardButtonStyle" parent="android:Widget.Button">
+    <!-- Theme - MainLayout -->
+    <style name="StandardViewStyle" parent="AppTheme">
+        <item name="android:background">@color/background</item>
+        <item name="android:padding">@dimen/view_padding</item>
+    </style>
+
+    <!-- Theme - Button -->
+    <style name="StandardButtonTheme" parent="android:Widget.Button">
         <item name="android:textColor">@color/button_text</item>
         <item name="android:textSize">@dimen/button_text_size</item>
-        <item name="android:layout_margin">@dimen/button_margin</item>
-        <item name="android:padding">@dimen/button_padding</item>
-    </style>
-
-    <style name="IconButtonStyle" parent="StandardButtonStyle">
-        <item name="android:gravity">right|center_vertical</item>
         <item name="android:background">@drawable/standard_button_background</item>
     </style>
 
-    <style name="StandardEditStyle" parent="android:Widget.EditText">
-        <item name="android:textColor">@android:color/white</item>
-        <item name="android:layout_margin">10dp</item>
-        <item name="android:padding">10dip</item>
-        <item name="android:background">@drawable/edit_shape</item>
-    </style>
-
-    <style name="FlatRadioButton" parent="android:Widget.CompoundButton.RadioButton">
-        <item name="android:button">@null</item>
-        <item name="android:background">@drawable/flat_button</item>
-        <item name="android:gravity">center_horizontal</item>
-        <item name="android:textColor">@android:color/white</item>
-        <item name="android:layout_margin">10dp</item>
-        <item name="android:padding">10dip</item>
-    </style>
-
-    <!-- メインViewスタイル -->
-    <style name="ExtraViewStyle" parent="android:Theme.Black.NoTitleBar">
-        <item name="android:layout_marginTop">50dp</item>
-        <item name="android:layout_marginBottom">0dp</item>
-        <item name="android:layout_marginLeft">0dp</item>
-        <item name="android:layout_marginRight">0dp</item>
-
-        <item name="android:paddingTop">20dp</item>
-        <item name="android:paddingBottom">20dp</item>
-        <item name="android:paddingLeft">20dp</item>
-        <item name="android:paddingRight">20dp</item>
-
-        <item name="android:background">@android:drawable/alert_dark_frame</item>
-    </style>
-
-    <style name="AlertTitleStyle">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:gravity">center_horizontal</item>
-        <item name="android:textSize">@dimen/text_size_alert_title</item>
-        <item name="android:background">@drawable/dashed_frame_shape</item>
-    </style>
-
-    <style name="AlertMessageStyle">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">@dimen/text_size_alert_message</item>
+    <!-- Style - Spinner -->
+    <style name="StandardSpinnerStyle" parent="android:Widget.Spinner">
+        <item name="android:background">@drawable/spinner_background</item>
+        <item name="android:paddingTop">@dimen/spinner_padding</item>
+        <item name="android:paddingBottom">@dimen/spinner_padding</item>
+        <item name="android:paddingLeft">@dimen/spinner_padding</item>
+        <item name="android:paddingRight">@dimen/spinner_padding_right</item>
     </style>
 </resources>

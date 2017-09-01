@@ -5,7 +5,14 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.view.View;
 import android.widget.ImageView;
+
+import com.studiojozu.medicheck.image.BitmapRead;
+
+import org.jetbrains.annotations.Contract;
+
+import java.io.IOException;
 
 /**
  * Bitmapイメージを表示するImageView
@@ -13,17 +20,17 @@ import android.widget.ImageView;
 public class BitmapViewComponent {
     @NonNull
     private final Context mContext;
+    private final int mDefaultResourceId;
     @NonNull
     private final ImageView mImageView;
-    @NonNull
-    private final Uri mUri;
     @Nullable
     private Bitmap mBitmap;
 
-    public BitmapViewComponent(@NonNull Context context, @NonNull ImageView imageView, @NonNull Uri uri) {
+    public BitmapViewComponent(@NonNull Context context, @NonNull ImageView imageView, int defaultResourceId) {
         mContext = context;
+        mDefaultResourceId = defaultResourceId;
         mImageView = imageView;
-        mUri = uri;
+        mImageView.setImageResource(defaultResourceId);
     }
 
     /**
@@ -32,27 +39,75 @@ public class BitmapViewComponent {
      *
      * @return ImageViewの幅と高さ
      */
-    public Size getImageSize() {
+    @NonNull
+    private Size getImageSize() {
         return new Size(mImageView.getWidth(), mImageView.getHeight());
     }
 
     /**
-     * ImageViewに画像を表示する
+     * ImageViewに画像を表示する。
+     * ImageViewのサイズに合わせたBitmapイメージを読み込むためには、onCreate以降のライフサイクルで実行する必要がある。
      *
-     * @param bitmap 表示するBitmapイメージ
+     * @param uri 表示するBitmapのパス
      */
-    public void setBitmap(@NonNull Bitmap bitmap) {
+    public void showBitmap(@Nullable Uri uri) {
         recycle();
 
-        mBitmap = bitmap;
+        mBitmap = getBitmap(uri);
+        if (mBitmap == null) {
+            showDefaultResouce();
+            return;
+        }
+
+        mImageView.setVisibility(View.VISIBLE);
         mImageView.setImageBitmap(mBitmap);
+    }
+
+    /**
+     * {@link #mDefaultResourceId}に指定されたリソースを表示する。
+     * {@link #mDefaultResourceId}が0未満の場合は、イメージViewのVisibilityをGONEにする。
+     */
+    private void showDefaultResouce() {
+        if (mDefaultResourceId < 0) {
+            mImageView.setVisibility(View.GONE);
+            return;
+        }
+
+        mImageView.setVisibility(View.VISIBLE);
+        mImageView.setImageResource(mDefaultResourceId);
+    }
+
+    /**
+     * ActivityのonDestory()で必ずコールすること
+     */
+    public void onDestory() {
+        recycle();
+    }
+
+    /**
+     * URIからBitmapを取得する
+     *
+     * @param uri Bitmapのパス
+     * @return Bitmapインスタンス
+     */
+    @Contract("null -> null")
+    @Nullable
+    private Bitmap getBitmap(@Nullable Uri uri) {
+        if (uri == null) return null;
+        BitmapRead bitmapRead = new BitmapRead(mContext, uri);
+        Size imageViewSize = getImageSize();
+        try {
+            return bitmapRead.readResizedBitmap(imageViewSize);
+        } catch (IOException e) {
+            return null;
+        }
     }
 
     /**
      * リサイクル処理
      * setBitmap()を呼び出したライフサイクルと対になる箇所で呼び出すこと
      */
-    public void recycle() {
+    private void recycle() {
         if (mBitmap == null) return;
 
         mImageView.setImageDrawable(null);

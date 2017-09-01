@@ -1,0 +1,39 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- メインレイアウト -->
+    <style name="ImageSpinnerItemLayoutStyle" parent="android:Widget.TextView.SpinnerItem">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/image_spinner_item_background</item>
+        <item name="android:padding">@dimen/input_padding</item>
+    </style>
+
+    <!-- 子要素のbaseスタイル -->
+    <style name="ImageSpinnerItemStyle" parent="android:Widget">
+        <item name="android:clickable">false</item>
+        <item name="android:focusable">false</item>
+        <item name="android:focusableInTouchMode">false</item>
+        <item name="android:padding">@dimen/image_spinner_child_padding</item>
+        <item name="android:layout_gravity">center_vertical</item>
+    </style>
+
+    <!-- 子要素-画像のスタイル -->
+    <style name="ImageSpinnerItemImageStyle" parent="ImageSpinnerItemStyle">
+        <item name="android:background">@color/spinner_icon_background</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <!-- 子要素-テキストのスタイル -->
+    <style name="ImageSpinnerItemTextStyle" parent="ImageSpinnerItemStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/spinner_text_background</item>
+        <item name="android:textColor">@color/spinner_text</item>
+        <item name="android:textSize">@dimen/spinner_text_size</item>
+        <item name="android:layout_marginLeft">@dimen/image_spinner_text_margin</item>
+        <item name="android:layout_marginRight">@dimen/image_spinner_text_margin</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">1</item>
+    </style>
+</resources>

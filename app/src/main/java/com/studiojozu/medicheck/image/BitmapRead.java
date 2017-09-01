@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.studiojozu.medicheck.activity.uicomponent.BitmapViewComponent;
 import com.studiojozu.medicheck.activity.uicomponent.Size;
@@ -33,23 +34,20 @@ public class BitmapRead {
     }
 
     /**
-     * パレメータに指定されたbitmapViewComponentに対して、{@link #mUri}の指すbitmapを表示する。
-     * Activity#onCreate()で呼び出すと必ず何も表示できない。
-     * Activity#onCreate()以降のライフサイクルでよびだすか、Activity#onWindowFocusChanged(boolean)で実施すること
+     * パレメータに指定されたviewSizeに合わせた、{@link #mUri}の指すbitmapを返却する。
      *
-     * @param bitmapViewComponent Bitmapを表示するView
+     * @param viewSize Bitmapを表示するViewのサイズ
      * @throws IOException 読み込み時例外
      */
-    public void setImageView(@NonNull BitmapViewComponent bitmapViewComponent) throws IOException {
+    @Nullable
+    public Bitmap readResizedBitmap(@NonNull Size viewSize) throws IOException {
 
         BitmapFactory.Options originalSizeOptions = getOriginalSize();
-        Size viewSize = bitmapViewComponent.getImageSize();
-
         int rate = viewSize.calculateResizeRate(originalSizeOptions.outWidth, originalSizeOptions.outHeight);
-        if (rate == 0) return;
+        if (rate == 0)
+            return decodeResizeBitmapFromFile(1);
 
-        Bitmap bitmap = decodeResizeBitmapFromFile(rate);
-        bitmapViewComponent.setBitmap(bitmap);
+        return decodeResizeBitmapFromFile(rate);
     }
 
     /**

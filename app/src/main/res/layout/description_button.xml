@@ -2,7 +2,9 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/description_button_layout"
-    style="@style/DescriptionButtonParentStyle">
+    style="@style/DescriptionButtonParentStyle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/description_button_icon"
