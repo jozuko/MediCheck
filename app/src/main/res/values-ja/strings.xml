@@ -35,4 +35,11 @@
     <string name="button_setting">設定</string>
     <string name="button_description_setting">人・服用時刻・アラームの変更はココ</string>
 
+    <string name="button_menu">メニューへ戻る</string>
+    <string name="button_previous_day">前の日</string>
+    <string name="button_next_day">次の日</string>
+    <string name="button_calendar">カレンダー</string>
+
+    <string name="label_parson_name">飲む人</string>
+
 </resources>

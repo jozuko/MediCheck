@@ -80,7 +80,7 @@ public class DescriptionButtonView extends RelativeLayout implements View.OnClic
      *
      * @param listener ClickListener
      */
-    public void setOnClickListener(View.OnClickListener listener) {
+    public void setOnClickListener(@Nullable View.OnClickListener listener) {
         mOnClickListener = listener;
     }
 
@@ -184,7 +184,7 @@ public class DescriptionButtonView extends RelativeLayout implements View.OnClic
     @Override
     public void onClick(View view) {
         new Log(this.getClass()).i("Main FrameLayout clicked.");
-        if(mOnClickListener != null)
+        if (mOnClickListener != null)
             mOnClickListener.onClick(this);
     }
 }

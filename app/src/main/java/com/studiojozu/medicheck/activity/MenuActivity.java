@@ -48,7 +48,7 @@ public class MenuActivity extends Activity implements View.OnClickListener {
      *
      * @param resourceId ClickListenerを設定するリソースID
      */
-    private void setClickListener(@NonNull int resourceId) {
+    private void setClickListener(int resourceId) {
         findViewById(resourceId).setOnClickListener(this);
     }
 

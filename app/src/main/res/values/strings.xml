@@ -35,4 +35,12 @@
     <string name="button_setting">Setting</string>
     <string name="button_description_setting">You\'d like to change the person,\n the timetable or the alarm setting, click.</string>
 
+    <string name="button_menu">back to menu</string>
+    <string name="button_previous_day">prev day</string>
+    <string name="button_next_day">next day</string>
+    <string name="button_calendar">calendar</string>
+
+    <string name="label_parson_name">Parson</string>
+
+
 </resources>

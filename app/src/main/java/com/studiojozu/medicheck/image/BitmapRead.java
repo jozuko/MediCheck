@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.studiojozu.medicheck.activity.uicomponent.BitmapViewComponent;
 import com.studiojozu.medicheck.activity.uicomponent.Size;
 
 import java.io.IOException;

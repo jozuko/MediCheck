@@ -3,6 +3,8 @@
     <!-- アプリのテーマ -->
     <style name="AppTheme" parent="android:Theme.Black.NoTitleBar">
         <item name="android:buttonStyle">@style/StandardButtonTheme</item>
+        <item name="android:imageButtonStyle">@style/StandardButtonTheme</item>
+        <item name="android:textViewStyle">@style/StandardTextTheme</item>
     </style>
 
     <!-- Theme - MainLayout -->
@@ -18,6 +20,11 @@
         <item name="android:background">@drawable/standard_button_background</item>
     </style>
 
+    <!-- Theme - TextView -->
+    <style name="StandardTextTheme" parent="android:Widget.TextView">
+        <item name="android:textColor">@color/label_text</item>
+    </style>
+
     <!-- Style - Spinner -->
     <style name="StandardSpinnerStyle" parent="android:Widget.Spinner">
         <item name="android:background">@drawable/spinner_background</item>
@@ -25,5 +32,96 @@
         <item name="android:paddingBottom">@dimen/spinner_padding</item>
         <item name="android:paddingLeft">@dimen/spinner_padding</item>
         <item name="android:paddingRight">@dimen/spinner_padding_right</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
     </style>
+
+    <!-- Style - Label -->
+    <style name="StandardLabelStyle" parent="android:Widget.TextView">
+        <item name="android:textColor">@color/label_text</item>
+        <item name="android:textSize">@dimen/label_text_size</item>
+        <item name="android:layout_marginRight">@dimen/label_margin_right</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <!-- Style - Big text label -->
+    <style name="BigTextLabelStyle" parent="StandardLabelStyle">
+        <item name="android:textSize">@dimen/big_text_size</item>
+    </style>
+
+    <!-- Style - SmallButton -->
+    <style name="SmallButtonStyle" parent="android:Widget.Button">
+        <item name="android:textColor">@color/button_text</item>
+        <item name="android:textSize">@dimen/menu_button_text_size</item>
+        <item name="android:background">@drawable/menu_button_background</item>
+        <item name="android:padding">@dimen/menu_button_padding</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <!-- Style - SmallButton position left -->
+    <style name="SmallButtonLeftStyle" parent="SmallButtonStyle">
+        <item name="android:layout_marginRight">@dimen/menu_button_margin</item>
+    </style>
+
+    <!-- Style - SmallButton position right -->
+    <style name="SmallButtonRightStyle" parent="SmallButtonStyle">
+        <item name="android:layout_marginLeft">@dimen/menu_button_margin</item>
+    </style>
+
+    <!-- Style - icon top SmallButton position left -->
+    <style name="IconTopSmallButtonLeftStyle" parent="SmallButtonLeftStyle">
+        <item name="android:textSize">10sp</item>
+    </style>
+
+    <!-- Style - icon top SmallButton position left -->
+    <style name="IconTopSmallButtonRightStyle" parent="SmallButtonRightStyle">
+        <item name="android:textSize">10sp</item>
+    </style>
+
+    <!-- Style - MenuLayout -->
+    <style name="MenuLayoutStyle" parent="SmallButtonStyle">
+        <item name="android:background">@drawable/border_background</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">10dp</item>
+    </style>
+
+    <!-- Style - TableRow -->
+    <style name="StandardTableRowStyle" parent="android:Widget">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">@dimen/table_row_padding</item>
+        <item name="android:paddingBottom">@dimen/table_row_padding</item>
+        <item name="android:paddingLeft">@dimen/no_padding</item>
+        <item name="android:paddingRight">@dimen/no_padding</item>
+    </style>
+
+    <!-- Style - TableRow with under bar-->
+    <style name="BorderLayoutStyle" parent="StandardTableRowStyle">
+        <item name="android:background">@drawable/dashed_border_background</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_marginBottom">@dimen/border_margin</item>
+    </style>
+
+    <!-- Style - View title icon -->
+    <style name="MenuIconStyle" parent="android:Widget">
+        <item name="android:layout_width">@dimen/menu_icon_size</item>
+        <item name="android:layout_height">@dimen/menu_icon_size</item>
+        <item name="android:layout_gravity">center_vertical</item>
+    </style>
+
+    <!-- Style - View title text -->
+    <style name="MenuTextStyle" parent="android:Widget">
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/menu_text_size</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
 </resources>

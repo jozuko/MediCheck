@@ -8,6 +8,10 @@
     <color name="input_background_shadow">#7ca481</color>
     <color name="input_background_pressed">#d9de84</color>
 
+    <color name="label_text">@android:color/black</color>
+
+    <color name="line">@color/input_background_shadow</color>
+
     <color name="button_text">@color/input_text</color>
     <color name="button_description_text">#5e8663</color>
     <color name="button_background">@color/input_background</color>
@@ -15,7 +19,7 @@
     <color name="button_background_pressed">@color/input_background_pressed</color>
     <color name="button_shadow_pressed">@android:color/transparent</color>
 
-    <color name="spinner_text">@color/input_text</color>
+    <color name="spinner_text">@android:color/white</color>
     <color name="spinner_background">@color/input_background</color>
     <color name="spinner_background_shadow">@color/input_background_shadow</color>
     <color name="spinner_icon_background">@android:color/transparent</color>
@@ -24,5 +28,8 @@
     <color name="spinner_list_item_pressed_background">@color/input_background_pressed</color>
     <color name="spinner_selection_title_background">@android:color/transparent</color>
     <color name="spinner_selection_title_text">@android:color/black</color>
+
+    <color name="check_list_child_background">@android:color/transparent</color>
+    <color name="check_list_child_text">@color/label_text</color>
 
 </resources>

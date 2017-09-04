@@ -44,6 +44,9 @@ public class TodayMedicineActivity extends Activity {
         }
     }
 
+    /**
+     * Spinnerに使用するAdapterを作成する
+     */
     private void createImageSpinnerAdapter() {
         mImageSpinnerAdapter = new ImageSpinnerAdapter(this.getApplicationContext(), R.mipmap.parson_no_image);
     }

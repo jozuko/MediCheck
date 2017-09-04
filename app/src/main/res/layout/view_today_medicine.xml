@@ -6,11 +6,88 @@
               android:orientation="vertical"
               android:theme="@style/AppTheme">
 
-    <Spinner
-        android:id="@+id/today_medicine_parson_spinner"
-        style="@style/StandardSpinnerStyle"
+    <!-- title -->
+    <LinearLayout
+        style="@style/MenuLayoutStyle"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/title_icon"
+            style="@style/MenuIconStyle"
+            android:src="@mipmap/ic_take_parson"/>
+
+        <TextView
+            android:id="@+id/title_text"
+            style="@style/MenuTextStyle"
+            android:layout_weight="1"
+            android:text="@string/button_today_medicine"/>
+
+        <Button
+            android:id="@+id/title_back_to_menu_button"
+            style="@style/SmallButtonStyle"
+            android:layout_weight="0"
+            android:text="@string/button_menu"/>
+    </LinearLayout>
+
+    <!-- parson selector -->
+    <LinearLayout
+        style="@style/BorderLayoutStyle"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/StandardLabelStyle"
+            android:text="@string/label_parson_name"/>
+
+        <Spinner
+            android:id="@+id/today_medicine_parson_spinner"
+            style="@style/StandardSpinnerStyle"/>
+
+    </LinearLayout>
+
+    <!-- date -->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/border_margin"
+        android:orientation="horizontal">
 
+        <Button
+            android:id="@+id/previous_day_button"
+            style="@style/IconTopSmallButtonLeftStyle"
+            android:layout_weight="0"
+            android:drawableTop="@mipmap/ic_arrow_left"
+            android:text="@string/button_previous_day"/>
 
+        <TextView
+            style="@style/BigTextLabelStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="2017/10/01"/>
+
+        <Button
+            android:id="@+id/calendar_button"
+            style="@style/IconTopSmallButtonRightStyle"
+            android:layout_weight="0"
+            android:drawableTop="@mipmap/ic_calendar"
+            android:text="@string/button_calendar"/>
+
+        <Button
+            android:id="@+id/next_day_button"
+            style="@style/IconTopSmallButtonRightStyle"
+            android:layout_weight="0"
+            android:drawableTop="@mipmap/ic_arrow_right"
+            android:text="@string/button_next_day"/>
+
+    </LinearLayout>
+
+    <!-- medicine list -->
+    <ListView
+        android:id="@+id/medicine_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </ListView>
 </LinearLayout>

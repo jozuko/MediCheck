@@ -34,39 +34,14 @@ public class ImageSpinnerAdapter extends BaseAdapter {
 
     private final int mDefaultImageResourceId;
 
-    private static class ValueHolder {
-        private String mText;
-        private Uri mUri;
-
-        private ValueHolder(String text, Uri uri) {
-            mText = text;
-            mUri = uri;
-        }
-    }
-
-    private static class ViewHolder {
-        private BitmapViewComponent mBitmapViewComponent;
-        private TextView mTextView;
-
-        private ViewHolder(TextView textView, BitmapViewComponent bitmapViewComponent) {
-            mBitmapViewComponent = bitmapViewComponent;
-            mTextView = textView;
-        }
-
-        private void showValues(ValueHolder valueHolder) {
-            mBitmapViewComponent.showBitmap(valueHolder.mUri);
-            mTextView.setText(valueHolder.mText);
-        }
-    }
-
     public ImageSpinnerAdapter(@NonNull Context context) {
         this(context, -1);
     }
 
-    public ImageSpinnerAdapter(@NonNull Context context, int defaultImageResouceId) {
+    public ImageSpinnerAdapter(@NonNull Context context, int defaultImageResourceId) {
         mContext = context;
         mLayoutInflater = LayoutInflater.from(context);
-        mDefaultImageResourceId = defaultImageResouceId;
+        mDefaultImageResourceId = defaultImageResourceId;
         mViewHolderList = new ArrayList<>();
         mValueHolderList = new ArrayList<>();
     }
@@ -76,7 +51,7 @@ public class ImageSpinnerAdapter extends BaseAdapter {
     }
 
     /**
-     * ActivityのonDestory()で必ずコールすること
+     * ActivityのonDestroy()で必ずコールすること
      */
     public void recycle() {
         for (ViewHolder viewHolder : mViewHolderList) {
@@ -106,7 +81,7 @@ public class ImageSpinnerAdapter extends BaseAdapter {
     }
 
     /**
-     * ViewHolerを取得する。
+     * ViewHolderを取得する。
      * itemViewのTagにViewHolderが指定されている場合はそのTagを返却する。
      * 指定されていない場合は、新たに生成し、TAGへの追加と一覧への追加を行う。
      *
@@ -145,5 +120,30 @@ public class ImageSpinnerAdapter extends BaseAdapter {
     @Override
     public long getItemId(int position) {
         return position;
+    }
+
+    private static class ValueHolder {
+        private String mText;
+        private Uri mUri;
+
+        private ValueHolder(String text, Uri uri) {
+            mText = text;
+            mUri = uri;
+        }
+    }
+
+    private static class ViewHolder {
+        private BitmapViewComponent mBitmapViewComponent;
+        private TextView mTextView;
+
+        private ViewHolder(TextView textView, BitmapViewComponent bitmapViewComponent) {
+            mBitmapViewComponent = bitmapViewComponent;
+            mTextView = textView;
+        }
+
+        private void showValues(ValueHolder valueHolder) {
+            mBitmapViewComponent.showBitmap(valueHolder.mUri);
+            mTextView.setText(valueHolder.mText);
+        }
     }
 }

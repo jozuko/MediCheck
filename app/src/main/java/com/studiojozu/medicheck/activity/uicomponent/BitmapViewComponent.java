@@ -55,7 +55,7 @@ public class BitmapViewComponent {
 
         mBitmap = getBitmap(uri);
         if (mBitmap == null) {
-            showDefaultResouce();
+            showDefaultResource();
             return;
         }
 
@@ -67,7 +67,7 @@ public class BitmapViewComponent {
      * {@link #mDefaultResourceId}に指定されたリソースを表示する。
      * {@link #mDefaultResourceId}が0未満の場合は、イメージViewのVisibilityをGONEにする。
      */
-    private void showDefaultResouce() {
+    private void showDefaultResource() {
         if (mDefaultResourceId < 0) {
             mImageView.setVisibility(View.GONE);
             return;
