@@ -39,8 +39,18 @@
     <string name="button_previous_day">prev day</string>
     <string name="button_next_day">next day</string>
     <string name="button_calendar">calendar</string>
+    <string name="button_previous_month">prev month</string>
+    <string name="button_next_month">next month</string>
 
     <string name="label_parson_name">Parson</string>
+
+    <string name="calendar_sun">sun</string>
+    <string name="calendar_mon">mon</string>
+    <string name="calendar_tue">tue</string>
+    <string name="calendar_wed">wed</string>
+    <string name="calendar_thu">thu</string>
+    <string name="calendar_fri">fri</string>
+    <string name="calendar_sat">sta</string>
 
 
 </resources>

@@ -39,7 +39,17 @@
     <string name="button_previous_day">前の日</string>
     <string name="button_next_day">次の日</string>
     <string name="button_calendar">カレンダー</string>
+    <string name="button_previous_month">前の月</string>
+    <string name="button_next_month">次の月</string>
 
     <string name="label_parson_name">飲む人</string>
+
+    <string name="calendar_sun">日</string>
+    <string name="calendar_mon">月</string>
+    <string name="calendar_tue">火</string>
+    <string name="calendar_wed">水</string>
+    <string name="calendar_thu">木</string>
+    <string name="calendar_fri">金</string>
+    <string name="calendar_sat">土</string>
 
 </resources>

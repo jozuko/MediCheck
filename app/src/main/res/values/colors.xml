@@ -32,4 +32,7 @@
     <color name="check_list_child_background">@android:color/transparent</color>
     <color name="check_list_child_text">@color/label_text</color>
 
+    <color name="calendar_day_of_week_label">@android:color/white</color>
+    <color name="calendar_day_same_month">@android:color/black</color>
+    <color name="calendar_day_different_month">#aaaaaa</color>
 </resources>

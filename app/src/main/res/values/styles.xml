@@ -40,7 +40,7 @@
     <style name="StandardLabelStyle" parent="android:Widget.TextView">
         <item name="android:textColor">@color/label_text</item>
         <item name="android:textSize">@dimen/label_text_size</item>
-        <item name="android:layout_marginRight">@dimen/label_margin_right</item>
+        <item name="android:layout_marginRight">@dimen/label_margin</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
