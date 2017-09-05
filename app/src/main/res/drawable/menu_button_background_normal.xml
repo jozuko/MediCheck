@@ -17,9 +17,9 @@
             <corners android:radius="@dimen/button_background_border_radius"/>
             <padding
                 android:bottom="@dimen/button_background_border_padding"
-                android:top="@dimen/button_background_border_padding"
                 android:left="@dimen/button_background_border_padding"
-                android:right="@dimen/button_background_border_padding"/>
+                android:right="@dimen/button_background_border_padding"
+                android:top="@dimen/button_background_border_padding"/>
         </shape>
     </item>
 

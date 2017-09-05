@@ -71,8 +71,8 @@
 
         <TextView
             style="@style/CalendarSaturdayDayOfWeekLabelStyle"
-            android:layout_marginRight="@dimen/calendar_border_width"
             android:layout_marginEnd="@dimen/calendar_border_width"
+            android:layout_marginRight="@dimen/calendar_border_width"
             android:text="@string/calendar_sat"/>
     </LinearLayout>
 

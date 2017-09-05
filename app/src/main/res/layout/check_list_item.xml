@@ -7,18 +7,18 @@
 
 
     <ImageView
-        android:layout_gravity="center_vertical"
         style="@style/CheckListItemImageStyle"
-        android:layout_marginRight="@dimen/label_margin"
+        android:layout_gravity="center_vertical"
         android:layout_marginEnd="@dimen/label_margin"
+        android:layout_marginRight="@dimen/label_margin"
         android:src="@mipmap/medicine_no_image"/>
 
     <LinearLayout
-        android:layout_gravity="center_vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="@dimen/label_margin"
+        android:layout_gravity="center_vertical"
         android:layout_marginEnd="@dimen/label_margin"
+        android:layout_marginRight="@dimen/label_margin"
         android:layout_weight="1"
         android:orientation="vertical">
 
@@ -33,9 +33,9 @@
     </LinearLayout>
 
     <ImageView
-        android:layout_gravity="center_vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
         android:layout_weight="0"
         android:src="@mipmap/ic_check_off"/>
 
