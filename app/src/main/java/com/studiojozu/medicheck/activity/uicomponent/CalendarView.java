@@ -16,12 +16,13 @@ import com.studiojozu.medicheck.R;
 import org.jetbrains.annotations.Contract;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 /**
  * カレンダーView
- * TODO need add click event for CalendarDayView
  */
 public class CalendarView extends LinearLayout implements View.OnClickListener {
 
@@ -37,6 +38,10 @@ public class CalendarView extends LinearLayout implements View.OnClickListener {
     /** 表示する年月を表すCalendarインスタンス */
     @Nullable
     private Calendar mDisplayYearMonthCalendar = null;
+    @Nullable
+    private CalendarDayView.OnSelectedDayListener mOnSelectedDayListener = null;
+    @NonNull
+    private List<CalendarDayView> mCalendarDayViewList;
 
     /**
      * カレンダーを生成するコンストラクタ
@@ -47,6 +52,7 @@ public class CalendarView extends LinearLayout implements View.OnClickListener {
     public CalendarView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         mContext = context;
+        mCalendarDayViewList = new ArrayList<>();
         View mainView = LayoutInflater.from(context).inflate(R.layout.calendar, this);
 
         mWeekRowLayout = mainView.findViewById(R.id.week_row_layout);
@@ -95,11 +101,24 @@ public class CalendarView extends LinearLayout implements View.OnClickListener {
      * @param displayMonthCalendar 表示する年月
      */
     public void showCalendar(@NonNull Calendar displayMonthCalendar) {
-        mDisplayYearMonthCalendar = (Calendar)displayMonthCalendar.clone();
+        mDisplayYearMonthCalendar = (Calendar) displayMonthCalendar.clone();
         mDisplayYearMonthCalendar.set(Calendar.DATE, 1);
 
         showDisplayYearMonth();
         createCalendar();
+    }
+
+    /**
+     * 日付を表すViewが選択されたときのイベントを処理するリスナーを設定する
+     *
+     * @param listener 日付を表すViewが選択されたときに発火するリスナー
+     */
+    public void setOnSelectedDayListener(@Nullable CalendarDayView.OnSelectedDayListener listener) {
+        mOnSelectedDayListener = listener;
+
+        for (CalendarDayView calendarDayView : mCalendarDayViewList) {
+            calendarDayView.setOnSelectedDayListener(mOnSelectedDayListener);
+        }
     }
 
     /**
@@ -156,6 +175,7 @@ public class CalendarView extends LinearLayout implements View.OnClickListener {
     private void createCalendar() {
 
         mWeekRowLayout.removeAllViews();
+        mCalendarDayViewList.clear();
 
         Calendar calendar = getCalendarFirstDay();
         if (calendar == null) return;
@@ -166,6 +186,7 @@ public class CalendarView extends LinearLayout implements View.OnClickListener {
                 weekRowLinearLayout = createWeekRowLayout();
                 mWeekRowLayout.addView(weekRowLinearLayout);
             }
+
             weekRowLinearLayout.addView(createCalendarDayView(calendar), createCalendarDayLayoutParams());
             calendar.add(Calendar.DATE, 1);
         }
@@ -212,7 +233,11 @@ public class CalendarView extends LinearLayout implements View.OnClickListener {
     private CalendarDayView createCalendarDayView(@NonNull Calendar displayDay) {
         if (mDisplayYearMonthCalendar == null) return null;
 
-        return new CalendarDayView(mContext, displayDay, mDisplayYearMonthCalendar.get(Calendar.MONTH) + 1);
+        CalendarDayView calendarDayView = new CalendarDayView(mContext, displayDay, mDisplayYearMonthCalendar.get(Calendar.MONTH) + 1);
+        calendarDayView.setOnSelectedDayListener(mOnSelectedDayListener);
+        mCalendarDayViewList.add(calendarDayView);
+
+        return calendarDayView;
     }
 
     /**
@@ -268,5 +293,4 @@ public class CalendarView extends LinearLayout implements View.OnClickListener {
 
         showCalendar(targetYearMonthCalendar);
     }
-
 }

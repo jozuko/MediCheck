@@ -2,8 +2,10 @@ package com.studiojozu.medicheck.activity.uicomponent;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,7 +17,7 @@ import java.util.Calendar;
 /**
  * カレンダーの日付を表示するViewの生成
  */
-public class CalendarDayView extends FrameLayout {
+public class CalendarDayView extends FrameLayout implements View.OnClickListener {
     /** アプリケーションコンテキスト */
     @NonNull
     private final Context mContext;
@@ -33,6 +35,8 @@ public class CalendarDayView extends FrameLayout {
     /** 日付を表示するTextView */
     @NonNull
     private final TextView mDayTextView;
+    @Nullable
+    private OnSelectedDayListener mOnSelectedDayListener = null;
 
     /**
      * 本日日付のカレンダーの日付を表示するViewの生成
@@ -59,6 +63,8 @@ public class CalendarDayView extends FrameLayout {
         mMainLayout = getMainLayout();
         mDayTextView = getDayTextView();
         mTookIconImageView = getTookIconImageView();
+
+        mMainLayout.setOnClickListener(this);
 
         showDate();
         showMedicineHistory();
@@ -127,5 +133,28 @@ public class CalendarDayView extends FrameLayout {
     private void showMedicineHistory() {
         // TODO get repository information... but first, I need to learn of 'DDD'. how do I get the information...
         mTookIconImageView.setImageResource(R.mipmap.ic_sakura_pink);
+    }
+
+    /**
+     * 選択された際に呼び出すListenerを設定する。
+     *
+     * @param listener 選択時Listener
+     */
+    void setOnSelectedDayListener(@Nullable OnSelectedDayListener listener) {
+        mOnSelectedDayListener = listener;
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (mOnSelectedDayListener == null) return;
+
+        mOnSelectedDayListener.onSelected((Calendar) mDisplayDay.clone());
+    }
+
+    /**
+     * 日付を表すViewが選択されたときに発火するイベントリスナー
+     */
+    public interface OnSelectedDayListener {
+        void onSelected(Calendar selectedDateCalendar);
     }
 }
