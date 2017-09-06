@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/BorderLayoutStyle"
+    android:orientation="horizontal">
+
+    <TextView
+        style="@style/StandardLabelStyle"
+        android:text="@string/label_parson_name"/>
+
+    <Spinner
+        android:id="@+id/today_medicine_parson_spinner"
+        style="@style/StandardSpinnerStyle"/>
+
+</LinearLayout>

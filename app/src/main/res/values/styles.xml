@@ -7,12 +7,6 @@
         <item name="android:textViewStyle">@style/StandardTextTheme</item>
     </style>
 
-    <!-- Theme - MainLayout -->
-    <style name="StandardViewStyle" parent="AppTheme">
-        <item name="android:background">@color/background</item>
-        <item name="android:padding">@dimen/view_padding</item>
-    </style>
-
     <!-- Theme - Button -->
     <style name="StandardButtonTheme" parent="android:Widget.Button">
         <item name="android:textColor">@color/button_text</item>
@@ -23,6 +17,18 @@
     <!-- Theme - TextView -->
     <style name="StandardTextTheme" parent="android:Widget.TextView">
         <item name="android:textColor">@color/label_text</item>
+    </style>
+
+    <!-- Style - MainLayout -->
+    <style name="StandardViewStyle" parent="AppTheme">
+        <item name="android:background">@color/background</item>
+        <item name="android:padding">@dimen/view_padding</item>
+    </style>
+
+    <!-- Style - DialogLayout -->
+    <style name="DialogViewStyle" parent="AppTheme">
+        <item name="android:background">@color/dialog_background</item>
+        <item name="android:padding">@dimen/view_padding</item>
     </style>
 
     <!-- Style - Spinner -->
