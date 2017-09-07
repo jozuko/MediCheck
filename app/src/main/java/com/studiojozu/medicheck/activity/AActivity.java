@@ -2,14 +2,12 @@ package com.studiojozu.medicheck.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 
 import com.studiojozu.medicheck.R;
 import com.studiojozu.medicheck.activity.uicomponent.calendar.CalendarDayView;
@@ -47,10 +45,26 @@ public class AActivity extends Activity {
     }
 
     protected void showCalendarDialog(Calendar displayMonthCalendar, View.OnClickListener cancelListener, CalendarDayView.OnSelectedDayListener selectedDayListener) {
-        if(mCalendarDialogView == null) return;
+        if (mCalendarDialogView == null) return;
 
         mCalendarDialogView.setOnCancelButtonClickListener(cancelListener);
         mCalendarDialogView.setOnSelectedDayListener(selectedDayListener);
         mCalendarDialogView.showCalendar(displayMonthCalendar);
     }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && closeDialog()) return false;
+        return super.onKeyDown(keyCode, event);
+    }
+
+    private boolean closeDialog() {
+        if (mCalendarDialogView != null && mCalendarDialogView.isShown()) {
+            mCalendarDialogView.cancelDialog();
+            return true;
+        }
+
+        return false;
+    }
+
 }

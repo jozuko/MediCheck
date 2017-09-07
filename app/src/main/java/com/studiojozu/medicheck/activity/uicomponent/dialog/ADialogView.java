@@ -131,11 +131,14 @@ public abstract class ADialogView<T extends View> extends LinearLayout implement
     }
 
     public void showDialog() {
-        this.setVisibility(VISIBLE);
+        setVisibility(VISIBLE);
     }
 
     private void closeDialog() {
-        this.setVisibility(GONE);
+        setVisibility(GONE);
     }
 
+    public boolean isShown() {
+        return (getVisibility() == VISIBLE);
+    }
 }
