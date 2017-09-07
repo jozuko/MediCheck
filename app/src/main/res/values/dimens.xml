@@ -18,6 +18,10 @@
 
     <dimen name="input_padding">5dp</dimen>
     <dimen name="input_margin">10dp</dimen>
+    <dimen name="input_row_margin">5dp</dimen>
+    <dimen name="input_background_radius">4dp</dimen>
+    <dimen name="input_background_under_bar_margin">4dp</dimen>
+    <dimen name="input_background_under_bar_height">1dp</dimen>
 
     <dimen name="label_margin">10dp</dimen>
     <dimen name="label_text_size">15sp</dimen>
@@ -56,9 +60,9 @@
     <dimen name="image_spinner_child_padding">@dimen/no_padding</dimen>
     <dimen name="image_spinner_text_margin">5dp</dimen>
     <dimen name="image_spinner_text_size">@dimen/text_size_input</dimen>
-    <dimen name="image_spinner_radius">4dp</dimen>
-    <dimen name="image_spinner_under_bar_margin">4dp</dimen>
-    <dimen name="image_spinner_under_bar_height">1dp</dimen>
+    <dimen name="image_spinner_radius">@dimen/input_background_radius</dimen>
+    <dimen name="image_spinner_under_bar_margin">@dimen/input_background_under_bar_margin</dimen>
+    <dimen name="image_spinner_under_bar_height">@dimen/input_background_under_bar_height</dimen>
     <dimen name="image_spinner_selection_title_text">@dimen/text_size_alert_title</dimen>
 
     <dimen name="check_list_child_padding">@dimen/no_padding</dimen>

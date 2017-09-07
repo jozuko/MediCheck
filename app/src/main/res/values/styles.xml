@@ -11,7 +11,7 @@
     <style name="StandardButtonTheme" parent="android:Widget.Button">
         <item name="android:textColor">@color/button_text</item>
         <item name="android:textSize">@dimen/button_text_size</item>
-        <item name="android:background">@drawable/standard_button_background</item>
+        <item name="android:background">@drawable/standard_button_background_selector</item>
     </style>
 
     <!-- Theme - TextView -->
@@ -49,6 +49,7 @@
         <item name="android:layout_marginRight">@dimen/label_margin</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_vertical|right</item>
     </style>
 
     <!-- Style - Big text label -->
@@ -56,11 +57,49 @@
         <item name="android:textSize">@dimen/big_text_size</item>
     </style>
 
+    <!-- Style - Standard Editable TextView -->
+    <style name="StandardEditableLabelStyle" parent="android:Widget.TextView">
+        <item name="android:textColor">@color/input_text</item>
+        <item name="android:textSize">@dimen/text_size_input</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">@dimen/input_padding</item>
+        <item name="android:background">@drawable/edit_background_selector</item>
+        <item name="android:layout_marginRight">@dimen/input_margin</item>
+        <item name="android:clickable">true</item>
+    </style>
+
+    <!-- Style - Standard CheckTextView -->
+    <style name="StandardCheckTextView" parent="StandardEditableLabelStyle">
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:checkMark">@drawable/check_mark_selector</item>
+    </style>
+
+    <!-- Style - Editable TextView -->
+    <style name="EditableLabelStyle" parent="StandardEditableLabelStyle">
+        <item name="android:drawableEnd">@mipmap/ic_edit</item>
+    </style>
+
+    <!-- Style - Calendar TextView -->
+    <style name="CalendarLabelStyle" parent="StandardEditableLabelStyle">
+        <item name="android:drawableEnd">@mipmap/ic_calendar</item>
+    </style>
+
+    <!-- Style - Selectable TextView -->
+    <style name="SelectableLabelStyle" parent="StandardEditableLabelStyle">
+        <item name="android:drawableEnd">@mipmap/ic_arrow_down</item>
+    </style>
+
+    <style name="InputTableRow" parent="android:Widget">
+        <item name="android:layout_marginBottom">@dimen/input_row_margin</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
     <!-- Style - SmallButton -->
     <style name="SmallButtonStyle" parent="android:Widget.Button">
         <item name="android:textColor">@color/button_text</item>
         <item name="android:textSize">@dimen/menu_button_text_size</item>
-        <item name="android:background">@drawable/menu_button_background</item>
+        <item name="android:background">@drawable/menu_button_background_selector</item>
         <item name="android:padding">@dimen/menu_button_padding</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>

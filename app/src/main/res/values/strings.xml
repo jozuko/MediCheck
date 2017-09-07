@@ -23,7 +23,18 @@
 
     <string name="label_minutes">minutes</string>
     <string name="label_hours">hours</string>
+    <string name="label_name">Name</string>
+    <string name="label_start_day">Start day</string>
+    <string name="label_timetables">Timetables</string>
+    <string name="label_take_number">Once of amount</string>
+    <string name="label_photo">Photo</string>
+    <string name="label_alarm">Alarm</string>
+    <string name="label_interval">Interval</string>
+    <string name="label_date_number">Days</string>
 
+    <string name="button_alarm">Missed prevention alarm</string>
+    <string name="button_camera">use a camera</string>
+    <string name="button_gallery">choose a picture</string>
     <string name="button_today_medicine">Today\'s Medicine</string>
     <string name="button_description_today_medicine">When you took medicine, click.</string>
     <string name="button_register_medicine">Register Medicine</string>

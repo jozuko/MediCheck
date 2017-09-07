@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/StandardViewStyle"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:theme="@style/AppTheme">
+
+    <!-- title -->
+    <include layout="@layout/template_header"/>
+
+    <!-- parson selector -->
+    <include layout="@layout/template_parson_select"/>
+
+    <!-- date -->
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="1">
+
+        <TableRow style="@style/InputTableRow">
+
+            <TextView
+                style="@style/StandardLabelStyle"
+                android:text="@string/label_name"/>
+
+            <TextView
+                style="@style/EditableLabelStyle"/>
+        </TableRow>
+
+        <TableRow style="@style/InputTableRow">
+
+            <TextView
+                style="@style/StandardLabelStyle"
+                android:text="@string/label_start_day"/>
+
+            <TextView
+                style="@style/CalendarLabelStyle"/>
+        </TableRow>
+
+        <TableRow style="@style/InputTableRow">
+
+            <TextView
+                style="@style/StandardLabelStyle"
+                android:text="@string/label_timetables"/>
+
+            <TextView
+                style="@style/SelectableLabelStyle"/>
+        </TableRow>
+
+        <TableRow style="@style/InputTableRow">
+
+            <TextView
+                style="@style/StandardLabelStyle"
+                android:text="@string/label_take_number"/>
+
+            <TextView
+                style="@style/EditableLabelStyle"/>
+        </TableRow>
+
+        <TableRow style="@style/InputTableRow">
+
+            <TextView
+                style="@style/StandardLabelStyle"
+                android:text="@string/label_interval"/>
+
+            <TextView
+                style="@style/EditableLabelStyle"/>
+        </TableRow>
+
+        <TableRow style="@style/InputTableRow">
+
+            <TextView
+                style="@style/StandardLabelStyle"
+                android:text="@string/label_date_number"/>
+
+            <TextView
+                style="@style/EditableLabelStyle"/>
+        </TableRow>
+
+        <TableRow style="@style/InputTableRow">
+
+            <TextView
+                style="@style/StandardLabelStyle"
+                android:text="@string/label_photo"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@mipmap/medicine_no_image"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/input_margin"
+                    android:layout_marginRight="@dimen/input_margin"
+                    android:gravity="center_vertical|end"
+                    android:orientation="horizontal">
+
+                    <Button
+                        style="@style/IconTopSmallButtonRightStyle"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0"
+                        android:drawableTop="@mipmap/ic_camera"
+                        android:text="@string/button_camera"/>
+
+                    <Button
+                        style="@style/IconTopSmallButtonRightStyle"
+                        android:layout_weight="0"
+                        android:drawableTop="@mipmap/ic_picture"
+                        android:text="@string/button_gallery"/>
+                </LinearLayout>
+            </LinearLayout>
+        </TableRow>
+
+        <TableRow style="@style/InputTableRow">
+
+            <TextView
+                style="@style/StandardLabelStyle"
+                android:text="@string/label_alarm"/>
+
+            <CheckedTextView
+                style="@style/StandardCheckTextView"
+                android:text="@string/button_alarm"/>
+        </TableRow>
+    </TableLayout>
+
+
+</LinearLayout>

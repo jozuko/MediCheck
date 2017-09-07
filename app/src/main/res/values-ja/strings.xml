@@ -23,7 +23,18 @@
 
     <string name="label_minutes">分</string>
     <string name="label_hours">時間</string>
+    <string name="label_name">名前</string>
+    <string name="label_start_day">始める日</string>
+    <string name="label_timetables">タイミング</string>
+    <string name="label_take_number">1回の量</string>
+    <string name="label_photo">写真</string>
+    <string name="label_alarm">アラーム</string>
+    <string name="label_interval">飲む間隔</string>
+    <string name="label_date_number">日数</string>
 
+    <string name="button_alarm">飲み忘れ防止アラーム</string>
+    <string name="button_camera">カメラで撮影</string>
+    <string name="button_gallery">撮影済みの\n写真から選択</string>
     <string name="button_today_medicine">今日のお薬</string>
     <string name="button_description_today_medicine">薬を飲んだらココ</string>
     <string name="button_register_medicine">お薬の登録</string>

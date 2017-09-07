@@ -33,6 +33,14 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".activity.RegisterMedicineActivity"
+            android:exported="false">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+
         <receiver
             android:name=".alarm.AlarmBroadcastReceiver"
             android:exported="false">

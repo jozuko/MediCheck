@@ -94,8 +94,7 @@ public class MenuActivity extends Activity implements View.OnClickListener {
      */
     private void onClickRegisterMedicineButton(@NonNull View view) {
         if (view.getId() != R.id.menu_button_register_medicine) return;
-
-        // TODO お薬登録画面遷移
+        startNextActivity(RegisterMedicineActivity.class, R.id.menu_button_register_medicine);
     }
 
     /**
