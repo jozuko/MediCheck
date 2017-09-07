@@ -64,17 +64,8 @@
     </LinearLayout>
 
     <!-- calendar dialog -->
-    <LinearLayout
-        style="@style/DialogViewStyle"
+    <com.studiojozu.medicheck.activity.uicomponent.calendar.CalendarDialogView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clickable="true"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="gone">
+        android:layout_height="match_parent"/>
 
-        <com.studiojozu.medicheck.activity.uicomponent.CalendarView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>
 </FrameLayout>

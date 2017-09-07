@@ -1,4 +1,4 @@
-package com.studiojozu.medicheck.activity.uicomponent;
+package com.studiojozu.medicheck.activity.uicomponent.calendar;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

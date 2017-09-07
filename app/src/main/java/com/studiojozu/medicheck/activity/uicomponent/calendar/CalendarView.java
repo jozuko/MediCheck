@@ -1,4 +1,4 @@
-package com.studiojozu.medicheck.activity.uicomponent;
+package com.studiojozu.medicheck.activity.uicomponent.calendar;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -24,7 +24,7 @@ import java.util.Locale;
 /**
  * カレンダーView
  */
-public class CalendarView extends LinearLayout implements View.OnClickListener {
+public class CalendarView extends LinearLayout implements View.OnClickListener, ICalendarAccess {
 
     /** アプリケーションコンテキスト */
     @NonNull
@@ -44,7 +44,16 @@ public class CalendarView extends LinearLayout implements View.OnClickListener {
     private List<CalendarDayView> mCalendarDayViewList;
 
     /**
-     * カレンダーを生成するコンストラクタ
+     * ダイアログとしてカレンダーを生成するときに使用するコンストラクタ
+     *
+     * @param context アプリケーションコンテキスト
+     */
+    CalendarView(@NonNull Context context) {
+        this(context, null);
+    }
+
+    /**
+     * layout.xmlを使用してカレンダーを生成するときに使用するコンストラクタ
      *
      * @param context アプリケーションコンテキスト
      * @param attrs   layout.xmlに指定した引数
@@ -59,7 +68,13 @@ public class CalendarView extends LinearLayout implements View.OnClickListener {
         mYearMonthLabel = mainView.findViewById(R.id.year_month_label);
         setEventListener(mainView);
 
-        TypedArray typedArray = getTypedArray(context, attrs);
+        showCalendarFromAttrs(attrs);
+    }
+
+    private void showCalendarFromAttrs(@Nullable AttributeSet attrs) {
+        if (attrs == null) return;
+
+        TypedArray typedArray = getTypedArray(mContext, attrs);
         try {
             createDisplayYearMonthCalendar(typedArray);
             createCalendar();
@@ -100,6 +115,7 @@ public class CalendarView extends LinearLayout implements View.OnClickListener {
      *
      * @param displayMonthCalendar 表示する年月
      */
+    @Override
     public void showCalendar(@NonNull Calendar displayMonthCalendar) {
         mDisplayYearMonthCalendar = (Calendar) displayMonthCalendar.clone();
         mDisplayYearMonthCalendar.set(Calendar.DATE, 1);
@@ -113,6 +129,7 @@ public class CalendarView extends LinearLayout implements View.OnClickListener {
      *
      * @param listener 日付を表すViewが選択されたときに発火するリスナー
      */
+    @Override
     public void setOnSelectedDayListener(@Nullable CalendarDayView.OnSelectedDayListener listener) {
         mOnSelectedDayListener = listener;
 
