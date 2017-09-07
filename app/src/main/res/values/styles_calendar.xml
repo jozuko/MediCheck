@@ -31,7 +31,7 @@
         <item name="android:layout_marginTop">@dimen/calendar_border_width</item>
         <item name="android:layout_marginRight">@dimen/calendar_border_width</item>
         <item name="android:layout_weight">1</item>
-        <item name="android:background">@android:color/white</item>
+        <item name="android:background">@drawable/white_view_background</item>
     </style>
 
 </resources>

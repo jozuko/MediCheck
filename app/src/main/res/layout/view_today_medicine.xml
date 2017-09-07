@@ -1,71 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/StandardViewStyle"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:theme="@style/AppTheme">
 
+    <!-- title -->
+    <include layout="@layout/template_header"/>
+
+    <!-- parson selector -->
+    <include layout="@layout/template_parson_select"/>
+
+    <!-- date -->
     <LinearLayout
-        style="@style/StandardViewStyle"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:theme="@style/AppTheme">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/border_margin"
+        android:orientation="horizontal">
 
-        <!-- title -->
-        <include layout="@layout/template_header"/>
+        <Button
+            android:id="@+id/previous_day_button"
+            style="@style/IconTopSmallButtonLeftStyle"
+            android:layout_weight="0"
+            android:drawableTop="@mipmap/ic_arrow_left"
+            android:text="@string/button_previous_day"/>
 
-        <!-- parson selector -->
-        <include layout="@layout/template_parson_select"/>
-
-        <!-- date -->
-        <LinearLayout
+        <TextView
+            style="@style/BigTextLabelStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/border_margin"
-            android:orientation="horizontal">
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"/>
 
-            <Button
-                android:id="@+id/previous_day_button"
-                style="@style/IconTopSmallButtonLeftStyle"
-                android:layout_weight="0"
-                android:drawableTop="@mipmap/ic_arrow_left"
-                android:text="@string/button_previous_day"/>
+        <Button
+            android:id="@+id/calendar_button"
+            style="@style/IconTopSmallButtonRightStyle"
+            android:layout_weight="0"
+            android:drawableTop="@mipmap/ic_calendar"
+            android:text="@string/button_calendar"/>
 
-            <TextView
-                style="@style/BigTextLabelStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:gravity="center"/>
+        <Button
+            android:id="@+id/next_day_button"
+            style="@style/IconTopSmallButtonRightStyle"
+            android:layout_weight="0"
+            android:drawableTop="@mipmap/ic_arrow_right"
+            android:text="@string/button_next_day"/>
 
-            <Button
-                android:id="@+id/calendar_button"
-                style="@style/IconTopSmallButtonRightStyle"
-                android:layout_weight="0"
-                android:drawableTop="@mipmap/ic_calendar"
-                android:text="@string/button_calendar"/>
-
-            <Button
-                android:id="@+id/next_day_button"
-                style="@style/IconTopSmallButtonRightStyle"
-                android:layout_weight="0"
-                android:drawableTop="@mipmap/ic_arrow_right"
-                android:text="@string/button_next_day"/>
-
-        </LinearLayout>
-
-        <!-- medicine list -->
-        <ListView
-            android:id="@+id/medicine_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        </ListView>
     </LinearLayout>
 
-    <!-- calendar dialog -->
-    <com.studiojozu.medicheck.activity.uicomponent.calendar.CalendarDialogView
+    <!-- medicine list -->
+    <ListView
+        android:id="@+id/medicine_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
 
-</FrameLayout>
+    </ListView>
+</LinearLayout>

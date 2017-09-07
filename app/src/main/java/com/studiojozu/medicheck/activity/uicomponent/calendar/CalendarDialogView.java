@@ -14,23 +14,21 @@ import java.util.Calendar;
 /**
  *
  */
-public class CalendarDialogView extends ADialogView<CalendarView> implements ICalendarAccess {
+public class CalendarDialogView extends ADialogView<CalendarView> implements ICalendarAccess, CalendarDayView.OnSelectedDayListener {
 
-    private static final ScrollView.LayoutParams LAYOUT_PARAMS;
-
-    static {
-        LAYOUT_PARAMS = new ScrollView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-    }
+    private static final ScrollView.LayoutParams LAYOUT_PARAMS = new ScrollView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
     @NonNull
     private final CalendarView mCalendarView;
+    @Nullable
+    private CalendarDayView.OnSelectedDayListener mOnSelectedDayListener = null;
 
     public CalendarDialogView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        mCalendarView = new CalendarView(context);
 
-        initTargetView(mCalendarView, LAYOUT_PARAMS, true, true);
-        showCalendar(Calendar.getInstance());
+        mCalendarView = new CalendarView(context);
+        mCalendarView.setOnSelectedDayListener(this);
+        initTargetView(mCalendarView, LAYOUT_PARAMS, true, false);
     }
 
     /**
@@ -41,6 +39,7 @@ public class CalendarDialogView extends ADialogView<CalendarView> implements ICa
     @Override
     public void showCalendar(@NonNull Calendar displayMonthCalendar) {
         mCalendarView.showCalendar(displayMonthCalendar);
+        showDialog();
     }
 
     /**
@@ -50,6 +49,14 @@ public class CalendarDialogView extends ADialogView<CalendarView> implements ICa
      */
     @Override
     public void setOnSelectedDayListener(@Nullable CalendarDayView.OnSelectedDayListener listener) {
-        mCalendarView.setOnSelectedDayListener(listener);
+        mOnSelectedDayListener = listener;
+    }
+
+    @Override
+    public void onSelected(Calendar selectedDateCalendar) {
+        if (mOnSelectedDayListener != null)
+            mOnSelectedDayListener.onSelected(selectedDateCalendar);
+
+        cancelDialog();
     }
 }
