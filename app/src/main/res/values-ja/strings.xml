@@ -32,6 +32,13 @@
     <string name="label_interval">飲む間隔</string>
     <string name="label_date_number">日数</string>
 
+    <string name="input_title_medicine_name">薬の名前</string>
+    <string name="input_title_medicine_start_day">薬を飲み始める日時</string>
+    <string name="input_title_medicine_timetables">薬を飲むタイミング</string>
+    <string name="input_title_medicine_take_number">1回の量</string>
+    <string name="input_title_medicine_interval">薬を飲む間隔</string>
+    <string name="input_title_medicine_date_number">薬を飲む日数</string>
+
     <string name="button_alarm">飲み忘れ防止アラーム</string>
     <string name="button_camera">カメラで撮影</string>
     <string name="button_gallery">撮影済みの\n写真から選択</string>
@@ -52,6 +59,7 @@
     <string name="button_calendar">カレンダー</string>
     <string name="button_previous_month">前の月</string>
     <string name="button_next_month">次の月</string>
+    <string name="button_register">登録する</string>
 
     <string name="label_parson_name">飲む人</string>
 

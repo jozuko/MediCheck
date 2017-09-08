@@ -9,7 +9,7 @@
         android:text="@string/label_parson_name"/>
 
     <Spinner
-        android:id="@+id/today_medicine_parson_spinner"
+        android:id="@+id/template_parson_spinner"
         style="@style/StandardSpinnerStyle"/>
 
 </LinearLayout>

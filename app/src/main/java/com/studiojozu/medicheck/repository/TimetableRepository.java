@@ -34,6 +34,8 @@ public class TimetableRepository extends ABaseRepository {
     /** 予定時刻 */
     @SuppressWarnings("WeakerAccess")
     public static final ColumnBase COLUMN_TIME = new ColumnBase("time", ColumnPattern.TIMETABLE_TIME);
+    private static final String TABLE_NAME;
+    private static final Columns COLUMNS;
 
     static {
         TABLE_NAME = "timetable";
@@ -123,6 +125,16 @@ public class TimetableRepository extends ABaseRepository {
         // do nothing.
     }
 
+    @Override
+    protected String getTableName() {
+        return TABLE_NAME;
+    }
+
+    @Override
+    protected Columns getColumns() {
+        return COLUMNS;
+    }
+
     /**
      * すべてのタイムテーブルを取得する
      * すでにフィールドに取得している場合は、フィールド値をクリアし、最新データを取得する
@@ -186,7 +198,7 @@ public class TimetableRepository extends ABaseRepository {
         sqlBuilder.append(",t1.").append(COLUMN_NAME.mColumnName).append(" as ").append(COLUMN_NAME.mColumnName);
         sqlBuilder.append(",t1.").append(COLUMN_TIME.mColumnName).append(" as ").append(COLUMN_TIME.mColumnName);
         sqlBuilder.append(" from ").append(TABLE_NAME).append(" t1");
-        sqlBuilder.append(" inner join ").append(MediTimeRelationRepository.TABLE_NAME).append(" t2 ");
+        sqlBuilder.append(" inner join ").append(new MediTimeRelationRepository().getTableName()).append(" t2 ");
         sqlBuilder.append(" on t1.").append(COLUMN_ID.mColumnName).append("=t2.").append(MediTimeRelationRepository.COLUMN_TIMETABLE_ID.mColumnName);
         sqlBuilder.append(" where ").append(MediTimeRelationRepository.COLUMN_MEDICINE_ID.getEqualsCondition());
 

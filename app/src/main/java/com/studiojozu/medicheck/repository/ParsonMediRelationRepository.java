@@ -31,6 +31,8 @@ public class ParsonMediRelationRepository extends ABaseRepository {
     /** 薬ID */
     @SuppressWarnings("WeakerAccess")
     public static final ColumnBase COLUMN_MEDICINE_ID = new ColumnBase("medicine_id", ColumnPattern.MEDICINE_ID, PrimaryPattern.Primary);
+    private static final String TABLE_NAME;
+    private static final Columns COLUMNS;
 
     static {
         TABLE_NAME = "parson_medi_relation";
@@ -54,6 +56,16 @@ public class ParsonMediRelationRepository extends ABaseRepository {
     @Override
     protected void updateUpgradeData(@NonNull Context context, @Nullable WritableDatabase db, int oldVersion, int newVersion) {
         // do nothing.
+    }
+
+    @Override
+    protected String getTableName() {
+        return TABLE_NAME;
+    }
+
+    @Override
+    protected Columns getColumns() {
+        return COLUMNS;
     }
 
     /**

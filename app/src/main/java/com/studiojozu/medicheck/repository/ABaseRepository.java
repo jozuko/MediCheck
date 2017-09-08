@@ -11,7 +11,6 @@ import com.studiojozu.medicheck.type.ADbType;
 import org.jetbrains.annotations.Contract;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,14 +20,11 @@ import java.util.Map;
  */
 abstract class ABaseRepository {
 
-    static String TABLE_NAME;
-    static Columns COLUMNS;
-
     private String getCreateTableSQL() {
-        return "create table " + TABLE_NAME
+        return "create table " + getTableName()
                 + " ("
-                + COLUMNS.getColumnDefinition()
-                + COLUMNS.getCreatePrimarySql()
+                + getColumns().getColumnDefinition()
+                + getColumns().getCreatePrimarySql()
                 + ");";
     }
 
@@ -37,6 +33,11 @@ abstract class ABaseRepository {
     protected abstract String getUpgradeSQL(int oldVersion, int newVersion);
 
     protected abstract void updateUpgradeData(@NonNull Context context, @Nullable WritableDatabase db, int oldVersion, int newVersion);
+
+    protected abstract String getTableName();
+
+    protected abstract Columns getColumns();
+
 
     /**
      * CREATE TABLEを行う
@@ -103,7 +104,7 @@ abstract class ABaseRepository {
             dataMap.get(column).setContentValue(column.mColumnName, insertData);
         }
 
-        return db.insert(TABLE_NAME, insertData);
+        return db.insert(getTableName(), insertData);
     }
 
     /**
@@ -121,7 +122,7 @@ abstract class ABaseRepository {
             dataMap.get(column).setContentValue(column.mColumnName, values);
         }
 
-        return db.update(TABLE_NAME, values, whereClause, createWhereArgs(whereArgs));
+        return db.update(getTableName(), values, whereClause, createWhereArgs(whereArgs));
     }
 
     /**
@@ -132,7 +133,7 @@ abstract class ABaseRepository {
      * @param whereArgs   whereのパラメータ
      */
     void delete(@NonNull WritableDatabase db, String whereClause, ArrayList<ADbType> whereArgs) {
-        db.delete(TABLE_NAME, whereClause, createWhereArgs(whereArgs));
+        db.delete(getTableName(), whereClause, createWhereArgs(whereArgs));
     }
 
     /**
@@ -141,7 +142,7 @@ abstract class ABaseRepository {
      * @param db 書き込み可能なデータベースインスタンス
      */
     void deleteAll(@NonNull WritableDatabase db) {
-        db.execSQL("deleteByParsonId from " + TABLE_NAME);
+        db.execSQL("deleteByParsonId from " + getTableName());
     }
 
     /**
@@ -153,12 +154,12 @@ abstract class ABaseRepository {
      * @return テーブル検索結果
      */
     @NonNull
-    List<Map<ColumnBase, ADbType>> find(ADatabase database, String whereClause, ArrayList<ADbType> whereArgs) {
+    ArrayList<Map<ColumnBase, ADbType>> find(@NonNull ADatabase database, @Nullable String whereClause, @Nullable ArrayList<ADbType> whereArgs) {
         Cursor cursor = null;
         try {
-            final String sql = "select * from " + TABLE_NAME + " " + whereClause;
+            final String sql = "select * from " + getTableName() + " " + (whereClause != null ? whereClause : "");
             cursor = database.rawQuery(sql, createWhereArgs(whereArgs));
-            return COLUMNS.putAllDataList(cursor);
+            return getColumns().putAllDataList(cursor);
         } finally {
             if (cursor != null) cursor.close();
         }

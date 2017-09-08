@@ -36,6 +36,8 @@ public class MediTimeRelationRepository extends ABaseRepository {
     /** 頓服？ */
     @SuppressWarnings("WeakerAccess")
     public static final ColumnBase COLUMN_IS_ONE_SHOT = new ColumnBase("is_one_shot", ColumnPattern.MEDICINE_IS_ONE_SHOT);
+    private static final String TABLE_NAME;
+    private static final Columns COLUMNS;
 
     static {
         TABLE_NAME = "medi_time_relation";
@@ -60,6 +62,16 @@ public class MediTimeRelationRepository extends ABaseRepository {
     @Override
     protected void updateUpgradeData(@NonNull Context context, @Nullable WritableDatabase db, int oldVersion, int newVersion) {
         // do nothing.
+    }
+
+    @Override
+    protected String getTableName() {
+        return TABLE_NAME;
+    }
+
+    @Override
+    protected Columns getColumns() {
+        return COLUMNS;
     }
 
     /**

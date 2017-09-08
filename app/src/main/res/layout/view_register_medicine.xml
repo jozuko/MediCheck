@@ -13,124 +13,153 @@
     <!-- parson selector -->
     <include layout="@layout/template_parson_select"/>
 
-    <!-- date -->
-    <TableLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:stretchColumns="1">
+        android:layout_height="match_parent">
 
-        <TableRow style="@style/InputTableRow">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <TextView
-                style="@style/StandardLabelStyle"
-                android:text="@string/label_name"/>
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:stretchColumns="1">
 
-            <TextView
-                style="@style/EditableLabelStyle"/>
-        </TableRow>
+                <TableRow style="@style/InputTableRow">
 
-        <TableRow style="@style/InputTableRow">
+                    <TextView
+                        style="@style/StandardLabelStyle"
+                        android:text="@string/label_name"/>
 
-            <TextView
-                style="@style/StandardLabelStyle"
-                android:text="@string/label_start_day"/>
+                    <TextView
+                        android:id="@+id/register_medicine_name_text"
+                        style="@style/EditableLabelStyle"/>
+                </TableRow>
 
-            <TextView
-                style="@style/CalendarLabelStyle"/>
-        </TableRow>
+                <TableRow style="@style/InputTableRow">
 
-        <TableRow style="@style/InputTableRow">
+                    <TextView
+                        style="@style/StandardLabelStyle"
+                        android:text="@string/label_start_day"/>
 
-            <TextView
-                style="@style/StandardLabelStyle"
-                android:text="@string/label_timetables"/>
+                    <TextView
+                        android:id="@+id/register_start_day_text"
+                        style="@style/CalendarLabelStyle"/>
+                </TableRow>
 
-            <TextView
-                style="@style/SelectableLabelStyle"/>
-        </TableRow>
+                <TableRow style="@style/InputTableRow">
 
-        <TableRow style="@style/InputTableRow">
+                    <TextView
+                        style="@style/StandardLabelStyle"
+                        android:text="@string/label_timetables"/>
 
-            <TextView
-                style="@style/StandardLabelStyle"
-                android:text="@string/label_take_number"/>
+                    <TextView
+                        android:id="@+id/register_timetables_text"
+                        style="@style/SelectableLabelStyle"/>
+                </TableRow>
 
-            <TextView
-                style="@style/EditableLabelStyle"/>
-        </TableRow>
+                <TableRow style="@style/InputTableRow">
 
-        <TableRow style="@style/InputTableRow">
+                    <TextView
+                        style="@style/StandardLabelStyle"
+                        android:text="@string/label_take_number"/>
 
-            <TextView
-                style="@style/StandardLabelStyle"
-                android:text="@string/label_interval"/>
+                    <TextView
+                        android:id="@+id/register_take_number_text"
+                        style="@style/EditableLabelStyle"/>
+                </TableRow>
 
-            <TextView
-                style="@style/EditableLabelStyle"/>
-        </TableRow>
+                <TableRow style="@style/InputTableRow">
 
-        <TableRow style="@style/InputTableRow">
+                    <TextView
+                        style="@style/StandardLabelStyle"
+                        android:text="@string/label_interval"/>
 
-            <TextView
-                style="@style/StandardLabelStyle"
-                android:text="@string/label_date_number"/>
+                    <TextView
+                        android:id="@+id/register_interval_text"
+                        style="@style/EditableLabelStyle"/>
+                </TableRow>
 
-            <TextView
-                style="@style/EditableLabelStyle"/>
-        </TableRow>
+                <TableRow style="@style/InputTableRow">
 
-        <TableRow style="@style/InputTableRow">
+                    <TextView
+                        style="@style/StandardLabelStyle"
+                        android:text="@string/label_date_number"/>
 
-            <TextView
-                style="@style/StandardLabelStyle"
-                android:text="@string/label_photo"/>
+                    <TextView
+                        android:id="@+id/register_date_number_text"
+                        style="@style/EditableLabelStyle"/>
+                </TableRow>
 
-            <LinearLayout
+                <TableRow style="@style/InputTableRow">
+
+                    <TextView
+                        style="@style/StandardLabelStyle"
+                        android:text="@string/label_photo"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/register_photo"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:src="@mipmap/medicine_no_image"/>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/input_margin"
+                            android:layout_marginRight="@dimen/input_margin"
+                            android:gravity="center_vertical|end"
+                            android:orientation="horizontal">
+
+                            <Button
+                                android:id="@+id/register_use_camera_button"
+                                style="@style/IconTopSmallButtonRightStyle"
+                                android:layout_height="match_parent"
+                                android:layout_weight="0"
+                                android:drawableTop="@mipmap/ic_camera"
+                                android:text="@string/button_camera"/>
+
+                            <Button
+                                android:id="@+id/register_use_gallery_button"
+                                style="@style/IconTopSmallButtonRightStyle"
+                                android:layout_weight="0"
+                                android:drawableTop="@mipmap/ic_picture"
+                                android:text="@string/button_gallery"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                </TableRow>
+
+                <TableRow style="@style/InputTableRow">
+
+                    <TextView
+                        style="@style/StandardLabelStyle"
+                        android:text="@string/label_alarm"/>
+
+                    <CheckedTextView
+                        android:id="@+id/register_alarm_text"
+                        style="@style/StandardCheckTextView"
+                        android:text="@string/button_alarm"/>
+                </TableRow>
+            </TableLayout>
+
+            <Button
+                android:id="@+id/register_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:src="@mipmap/medicine_no_image"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/input_margin"
-                    android:layout_marginRight="@dimen/input_margin"
-                    android:gravity="center_vertical|end"
-                    android:orientation="horizontal">
-
-                    <Button
-                        style="@style/IconTopSmallButtonRightStyle"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0"
-                        android:drawableTop="@mipmap/ic_camera"
-                        android:text="@string/button_camera"/>
-
-                    <Button
-                        style="@style/IconTopSmallButtonRightStyle"
-                        android:layout_weight="0"
-                        android:drawableTop="@mipmap/ic_picture"
-                        android:text="@string/button_gallery"/>
-                </LinearLayout>
-            </LinearLayout>
-        </TableRow>
-
-        <TableRow style="@style/InputTableRow">
-
-            <TextView
-                style="@style/StandardLabelStyle"
-                android:text="@string/label_alarm"/>
-
-            <CheckedTextView
-                style="@style/StandardCheckTextView"
-                android:text="@string/button_alarm"/>
-        </TableRow>
-    </TableLayout>
-
-
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/button_margin"
+                android:drawableLeft="@mipmap/ic_ok"
+                android:drawableStart="@mipmap/ic_ok"
+                android:padding="@dimen/button_padding"
+                android:text="@string/button_register"/>
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

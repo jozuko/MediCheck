@@ -33,6 +33,8 @@ public class ParsonRepository extends ABaseRepository {
     /** 写真 */
     @SuppressWarnings("WeakerAccess")
     public static final ColumnBase COLUMN_PHOTO = new ColumnBase("photo", ColumnPattern.PARSON_PHOTO);
+    private static final String TABLE_NAME;
+    private static final Columns COLUMNS;
 
     static {
         TABLE_NAME = "parson";
@@ -64,6 +66,16 @@ public class ParsonRepository extends ABaseRepository {
         // do nothing.
     }
 
+    @Override
+    protected String getTableName() {
+        return TABLE_NAME;
+    }
+
+    @Override
+    protected Columns getColumns() {
+        return COLUMNS;
+    }
+
     /**
      * 飲む人IDに一致するレコードを取得する
      *
@@ -81,6 +93,25 @@ public class ParsonRepository extends ABaseRepository {
             List<Map<ColumnBase, ADbType>> dataList = find(readonlyDatabase, COLUMN_ID.getEqualsCondition(), whereList);
             if (dataList.size() == 0) return null;
             return dataList.get(0);
+        } finally {
+            readonlyDatabase.close();
+        }
+    }
+
+    /**
+     * 飲む人全員を取得する
+     *
+     * @param context アプリケーションコンテキスト
+     * @return 飲む人IDに一致するレコード
+     */
+    @Nullable
+    public ArrayList<Map<ColumnBase, ADbType>> findAll(@NonNull Context context) {
+        ReadonlyDatabase readonlyDatabase = new ReadonlyDatabase(context);
+        try {
+            ArrayList<Map<ColumnBase, ADbType>> dataList = find(readonlyDatabase, null, null);
+            if (dataList.size() == 0) return null;
+
+            return dataList;
         } finally {
             readonlyDatabase.close();
         }

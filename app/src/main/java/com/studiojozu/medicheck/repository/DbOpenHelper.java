@@ -35,7 +35,7 @@ class DbOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        if (WritableDatabase.isWritableDatabase(db)) return;
+        if (!WritableDatabase.isWritableDatabase(db)) return;
 
         WritableDatabase writableDatabase = new WritableDatabase(db);
         new Repositories().createTables(mContext, writableDatabase);
@@ -43,7 +43,7 @@ class DbOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        if (WritableDatabase.isWritableDatabase(db)) return;
+        if (!WritableDatabase.isWritableDatabase(db)) return;
 
         WritableDatabase writableDatabase = new WritableDatabase(db);
         new Repositories().upgradeTables(mContext, writableDatabase, oldVersion, newVersion);

@@ -26,6 +26,7 @@ import java.util.Map;
  * </ol>
  */
 public class MedicineRepository extends ABaseRepository {
+
     /** ID */
     @SuppressWarnings("WeakerAccess")
     public static final ColumnBase COLUMN_ID = new ColumnBase("_id", ColumnPattern.MEDICINE_ID, AutoIncrementPattern.AutoIncrement);
@@ -50,6 +51,8 @@ public class MedicineRepository extends ABaseRepository {
     /** 薬の写真ファイルパス */
     @SuppressWarnings("WeakerAccess")
     public static final ColumnBase COLUMN_PHOTO = new ColumnBase("photo", ColumnPattern.MEDICINE_PHOTO);
+    private static final String TABLE_NAME;
+    private static final Columns COLUMNS;
 
     static {
         TABLE_NAME = "medicine";
@@ -79,6 +82,16 @@ public class MedicineRepository extends ABaseRepository {
     @Override
     protected void updateUpgradeData(@NonNull Context context, @Nullable WritableDatabase db, int oldVersion, int newVersion) {
         // do nothing.
+    }
+
+    @Override
+    protected String getTableName() {
+        return TABLE_NAME;
+    }
+
+    @Override
+    protected Columns getColumns() {
+        return COLUMNS;
     }
 
     /**

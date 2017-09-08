@@ -36,8 +36,13 @@ class Columns {
 
             builder.append(column.mColumnName).append(" ");
             builder.append(column.mColumnType.getTypeName()).append(" ");
-            builder.append((column.mNullType == NullPattern.NotNull ? " not null" : "")).append(" ");
-            builder.append((column.mAutoIncrementType == AutoIncrementPattern.AutoIncrement ? " autoincrement" : ""));
+
+            if (column.mAutoIncrementType == AutoIncrementPattern.AutoIncrement) {
+                builder.append("primary key autoincrement");
+                continue;
+            }
+
+            builder.append((column.mNullType == NullPattern.NotNull ? "not null" : "")).append(" ");
         }
 
         return builder.toString();
@@ -52,6 +57,7 @@ class Columns {
     String getCreatePrimarySql() {
         StringBuilder builder = new StringBuilder();
         for (ColumnBase column : mColumns) {
+            if (column.mAutoIncrementType == AutoIncrementPattern.AutoIncrement) return "";
             if (column.mPrimaryType != PrimaryPattern.Primary) continue;
 
             if (builder.length() > 0) builder.append(",");
@@ -72,20 +78,22 @@ class Columns {
     private Map<ColumnBase, ADbType> putAllData(@NonNull Cursor cursor) {
 
         Map<ColumnBase, ADbType> dataMap = new HashMap<>();
-        if (cursor.moveToNext()) {
-            for (ColumnBase column : mColumns) {
-                if (column.mColumnType.getTypeName().equalsIgnoreCase("integer"))
-                    dataMap.put(column, DbTypeFactory.createInstance(column.mColumnType, cursor.getLong(cursor.getColumnIndex(column.mColumnName))));
+        if (cursor.isClosed()) return dataMap;
 
-                if (column.mColumnType.getTypeName().equalsIgnoreCase("text"))
-                    dataMap.put(column, DbTypeFactory.createInstance(column.mColumnType, cursor.getString(cursor.getColumnIndex(column.mColumnName))));
+        for (ColumnBase column : mColumns) {
+            if (column.mColumnType.getTypeName().equalsIgnoreCase("integer"))
+                dataMap.put(column, DbTypeFactory.createInstance(column.mColumnType, cursor.getLong(cursor.getColumnIndex(column.mColumnName))));
 
-                if (column.mColumnType.getTypeName().equalsIgnoreCase("real"))
-                    dataMap.put(column, DbTypeFactory.createInstance(column.mColumnType, cursor.getDouble(cursor.getColumnIndex(column.mColumnName))));
+            if (column.mColumnType.getTypeName().equalsIgnoreCase("text"))
+                dataMap.put(column, DbTypeFactory.createInstance(column.mColumnType, cursor.getString(cursor.getColumnIndex(column.mColumnName))));
 
+            if (column.mColumnType.getTypeName().equalsIgnoreCase("real"))
+                dataMap.put(column, DbTypeFactory.createInstance(column.mColumnType, cursor.getDouble(cursor.getColumnIndex(column.mColumnName))));
+
+            if (column.mColumnType.getTypeName().equalsIgnoreCase("blob"))
                 dataMap.put(column, DbTypeFactory.createInstance(column.mColumnType, cursor.getBlob(cursor.getColumnIndex(column.mColumnName))));
-            }
         }
+
         return dataMap;
     }
 
@@ -96,9 +104,9 @@ class Columns {
      * @return 全レコード分のデータ
      */
     @NonNull
-    List<Map<ColumnBase, ADbType>> putAllDataList(@NonNull Cursor cursor) {
+    ArrayList<Map<ColumnBase, ADbType>> putAllDataList(@NonNull Cursor cursor) {
 
-        List<Map<ColumnBase, ADbType>> entities = new ArrayList<>(cursor.getCount());
+        ArrayList<Map<ColumnBase, ADbType>> entities = new ArrayList<>(cursor.getCount());
         while (cursor.moveToNext()) {
             Map<ColumnBase, ADbType> dataMap = putAllData(cursor);
             entities.add(dataMap);

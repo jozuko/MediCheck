@@ -49,6 +49,8 @@ public class ScheduleRepository extends ABaseRepository {
     /** 服用した日時 */
     @SuppressWarnings("WeakerAccess")
     public static final ColumnBase COLUMN_TOOK_DATETIME = new ColumnBase("took_datetime", ColumnPattern.SCHEDULE_TOOK_DATETIME);
+    private static final String TABLE_NAME;
+    private static final Columns COLUMNS;
 
     static {
         TABLE_NAME = "schedule";
@@ -76,6 +78,16 @@ public class ScheduleRepository extends ABaseRepository {
     @Override
     protected void updateUpgradeData(@NonNull Context context, @Nullable WritableDatabase db, int oldVersion, int newVersion) {
         // do nothing.
+    }
+
+    @Override
+    protected String getTableName() {
+        return TABLE_NAME;
+    }
+
+    @Override
+    protected Columns getColumns() {
+        return COLUMNS;
     }
 
     /**

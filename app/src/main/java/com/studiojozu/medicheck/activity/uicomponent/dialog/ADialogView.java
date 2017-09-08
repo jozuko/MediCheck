@@ -1,15 +1,19 @@
 package com.studiojozu.medicheck.activity.uicomponent.dialog;
 
 import android.content.Context;
+import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
 import com.studiojozu.medicheck.R;
 
@@ -19,11 +23,11 @@ import com.studiojozu.medicheck.R;
 public abstract class ADialogView<T extends View> extends LinearLayout implements View.OnClickListener {
 
     @NonNull
-    private final Context mContext;
+    protected final Context mContext;
     @NonNull
     private final ViewGroup mParentView;
     @NonNull
-    private final ScrollView mDialogMainView;
+    private final FrameLayout mDialogMainView;
     @NonNull
     private final Button mCancelButton;
     @NonNull
@@ -31,7 +35,7 @@ public abstract class ADialogView<T extends View> extends LinearLayout implement
     @Nullable
     private T mDialogTargetView = null;
     @Nullable
-    private ScrollView.LayoutParams mLayoutParams = null;
+    private FrameLayout.LayoutParams mLayoutParams = null;
     @Nullable
     private View.OnClickListener mOnCancelButtonClickListener = null;
     @Nullable
@@ -41,7 +45,7 @@ public abstract class ADialogView<T extends View> extends LinearLayout implement
         super(context, attrs);
         mContext = context;
 
-        View dialogLayout = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.dialog, this);
+        View dialogLayout = LayoutInflater.from(context).inflate(R.layout.dialog, this);
         mParentView = dialogLayout.findViewById(R.id.dialog_parent_layout);
         mDialogMainView = dialogLayout.findViewById(R.id.dialog_main_layout);
         mCancelButton = dialogLayout.findViewById(R.id.dialog_cancel_button);
@@ -57,7 +61,7 @@ public abstract class ADialogView<T extends View> extends LinearLayout implement
         mOKButton.setOnClickListener(this);
     }
 
-    protected void initTargetView(@NonNull T dialogTargetView, @NonNull ScrollView.LayoutParams layoutParams, boolean needCancel, boolean needOk) {
+    protected void initTargetView(@Nullable T dialogTargetView, @NonNull ScrollView.LayoutParams layoutParams, boolean needCancel, boolean needOk) {
         mDialogTargetView = dialogTargetView;
         mLayoutParams = layoutParams;
 
@@ -74,13 +78,31 @@ public abstract class ADialogView<T extends View> extends LinearLayout implement
         mOnOkButtonClickListener = listener;
     }
 
+    public void setDialogTitle(@StringRes int resourceId) {
+        TextView titleText = findViewById(R.id.dialog_title_text);
+        titleText.setText(resourceId);
+        titleText.setVisibility(VISIBLE);
+    }
+
+    public void setDialogMessage(@StringRes int resourceId) {
+        TextView messageText = findViewById(R.id.dialog_message_text);
+        messageText.setText(resourceId);
+        messageText.setVisibility(VISIBLE);
+    }
+
+    public void setDialogMessageColor(@ColorInt int color) {
+        TextView messageText = findViewById(R.id.dialog_message_text);
+        messageText.setTextColor(color);
+    }
+
     private void addChildView() {
         mDialogMainView.removeAllViews();
 
         if (mDialogTargetView == null) return;
-        if (mLayoutParams == null) mLayoutParams = new ScrollView.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        if (mLayoutParams == null) mLayoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
         mDialogMainView.addView(mDialogTargetView, mLayoutParams);
+        mDialogMainView.setVisibility(VISIBLE);
     }
 
     private void showCancelButton(boolean needCancel) {
@@ -119,6 +141,7 @@ public abstract class ADialogView<T extends View> extends LinearLayout implement
 
     private void onClickOkButton(int id) {
         if (id != R.id.dialog_ok_button) return;
+
         if (mOnOkButtonClickListener != null)
             mOnOkButtonClickListener.onClick(mOKButton);
     }
@@ -134,7 +157,7 @@ public abstract class ADialogView<T extends View> extends LinearLayout implement
         setVisibility(VISIBLE);
     }
 
-    private void closeDialog() {
+    protected void closeDialog() {
         setVisibility(GONE);
     }
 

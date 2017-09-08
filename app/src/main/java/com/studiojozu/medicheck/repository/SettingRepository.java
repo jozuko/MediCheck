@@ -37,6 +37,8 @@ public class SettingRepository extends ABaseRepository {
     /** 繰り返し通知最大時間(これ以上は通知しない) */
     @SuppressWarnings("WeakerAccess")
     public static final ColumnBase COLUMN_REMIND_TIMEOUT = new ColumnBase("remind_timeout", ColumnPattern.REMIND_TIMEOUT);
+    private static final String TABLE_NAME;
+    private static final Columns COLUMNS;
 
     static {
         TABLE_NAME = "setting";
@@ -70,6 +72,16 @@ public class SettingRepository extends ABaseRepository {
     @Override
     protected void updateUpgradeData(@NonNull Context context, @Nullable WritableDatabase db, int oldVersion, int newVersion) {
         // do nothing.
+    }
+
+    @Override
+    protected String getTableName() {
+        return TABLE_NAME;
+    }
+
+    @Override
+    protected Columns getColumns() {
+        return COLUMNS;
     }
 
     /**

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,16 +13,22 @@ import android.view.ViewGroup;
 import com.studiojozu.medicheck.R;
 import com.studiojozu.medicheck.activity.uicomponent.calendar.CalendarDayView;
 import com.studiojozu.medicheck.activity.uicomponent.calendar.CalendarDialogView;
+import com.studiojozu.medicheck.activity.uicomponent.dialog.ADialogView;
+import com.studiojozu.medicheck.activity.uicomponent.dialog.InputDialogView;
+
+import org.jetbrains.annotations.Contract;
 
 import java.util.Calendar;
 
 /**
  *
  */
-public class AActivity extends Activity {
+public abstract class AActivity extends Activity {
 
     @Nullable
     private CalendarDialogView mCalendarDialogView = null;
+    @Nullable
+    private InputDialogView mInputDialogView = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,10 +45,21 @@ public class AActivity extends Activity {
         mainLayout.addView(view);
 
         getCalendarDialogView();
+        getInputDialogView();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && closeDialog()) return false;
+        return super.onKeyDown(keyCode, event);
     }
 
     private void getCalendarDialogView() {
         mCalendarDialogView = findViewById(R.id.main_calendar_dialog);
+    }
+
+    private void getInputDialogView() {
+        mInputDialogView = findViewById(R.id.main_input_dialog);
     }
 
     protected void showCalendarDialog(Calendar displayMonthCalendar, View.OnClickListener cancelListener, CalendarDayView.OnSelectedDayListener selectedDayListener) {
@@ -52,19 +70,23 @@ public class AActivity extends Activity {
         mCalendarDialogView.showCalendar(displayMonthCalendar);
     }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && closeDialog()) return false;
-        return super.onKeyDown(keyCode, event);
+    protected void showInputDialog(@StringRes int titleResourceId, @Nullable final InputDialogView.IInputValidator inputValidation, @Nullable final InputDialogView.OnCompletedCorrectInputListener listener) {
+        if (mInputDialogView == null) return;
+
+        mInputDialogView.showInputDialog(titleResourceId, inputValidation, listener);
+    }
+
+    @Contract("null -> false")
+    private boolean closeDialog(@Nullable ADialogView dialogView) {
+        if (dialogView == null) return false;
+        if (!dialogView.isShown()) return false;
+
+        dialogView.cancelDialog();
+        return true;
     }
 
     private boolean closeDialog() {
-        if (mCalendarDialogView != null && mCalendarDialogView.isShown()) {
-            mCalendarDialogView.cancelDialog();
-            return true;
-        }
-
-        return false;
+        if (closeDialog(mCalendarDialogView)) return true;
+        return (closeDialog(mInputDialogView));
     }
-
 }

@@ -1,6 +1,7 @@
 package com.studiojozu.medicheck.entity;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 
 import com.studiojozu.medicheck.repository.ParsonRepository;
@@ -46,7 +47,7 @@ public class Parson {
      * @param parsonName   飲む人名前
      * @param parsonPhoto  飲む人写真パス
      */
-    public Parson(ParsonIdType parsonIdType, ParsonNameType parsonName, ParsonPhotoType parsonPhoto) {
+    public Parson(@NonNull ParsonIdType parsonIdType, @NonNull ParsonNameType parsonName, @NonNull ParsonPhotoType parsonPhoto) {
         mParsonId = parsonIdType.clone();
         mParsonNameType = parsonName.clone();
         mPhotoPath = parsonPhoto.clone();
@@ -68,6 +69,14 @@ public class Parson {
      */
     public void setPhotoPath(@NonNull String photoPath) {
         mPhotoPath = new ParsonPhotoType(photoPath);
+    }
+
+    public String getDisplayParsonName() {
+        return mParsonNameType.getDbValue();
+    }
+
+    public Uri getPhotoUri() {
+        return mPhotoPath.getPhotoUri();
     }
 
     /**
