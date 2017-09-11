@@ -7,7 +7,7 @@
               android:orientation="vertical"
               android:theme="@style/AppTheme">
 
-    <com.studiojozu.medicheck.activity.uicomponent.DescriptionButtonView
+    <com.studiojozu.medicheck.resource.uicomponent.DescriptionButtonView
         android:id="@+id/menu_button_today_medicine"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,7 +15,7 @@
         custom:drawableLeft="@mipmap/ic_take_parson"
         custom:text="@string/button_today_medicine"/>
 
-    <com.studiojozu.medicheck.activity.uicomponent.DescriptionButtonView
+    <com.studiojozu.medicheck.resource.uicomponent.DescriptionButtonView
         android:id="@+id/menu_button_register_medicine"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,7 +23,7 @@
         custom:drawableLeft="@mipmap/ic_register_medicine"
         custom:text="@string/button_register_medicine"/>
 
-    <com.studiojozu.medicheck.activity.uicomponent.DescriptionButtonView
+    <com.studiojozu.medicheck.resource.uicomponent.DescriptionButtonView
         android:id="@+id/menu_button_list_medicine"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -31,7 +31,7 @@
         custom:drawableLeft="@mipmap/ic_list_medicine"
         custom:text="@string/button_list_medicine"/>
 
-    <com.studiojozu.medicheck.activity.uicomponent.DescriptionButtonView
+    <com.studiojozu.medicheck.resource.uicomponent.DescriptionButtonView
         android:id="@+id/menu_button_history_medicine"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -39,7 +39,7 @@
         custom:drawableLeft="@mipmap/ic_history_medicine"
         custom:text="@string/button_history_medicine"/>
 
-    <com.studiojozu.medicheck.activity.uicomponent.DescriptionButtonView
+    <com.studiojozu.medicheck.resource.uicomponent.DescriptionButtonView
         android:id="@+id/menu_button_setting"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
