@@ -9,7 +9,7 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.studiojozu.medicheck.application.BitmapWrite;
+import com.studiojozu.medicheck.application.BitmapWriteService;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,7 +37,7 @@ public class Gallery {
     public Uri register(@Nullable Bitmap bitmap) throws IOException {
         if (bitmap == null) return null;
 
-        File imageFile = new BitmapWrite(mContext, bitmap).saveToNewPngFileAutoRecycle();
+        File imageFile = new BitmapWriteService(mContext, bitmap).saveToNewPngFileAutoRecycle();
         if (imageFile == null) return null;
 
         registerGallery(imageFile, "image/png");

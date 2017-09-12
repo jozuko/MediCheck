@@ -30,12 +30,26 @@ public class Schedule implements Cloneable {
     private TookDatetime mTookDatetime;
 
     public Schedule(@NonNull MedicineIdType medicineId, @NonNull PlanDateType planDate, @NonNull TimetableIdType timetableId) {
-        mMedicineId = medicineId.clone();
-        mPlanDate = planDate.clone();
-        mTimetableId = timetableId.clone();
-        mNeedAlarm = new NeedAlarmType(true);
-        mIsTake = new IsTakeType(false);
+        mMedicineId = medicineId;
+        mPlanDate = planDate;
+        mTimetableId = timetableId;
+        mNeedAlarm = new NeedAlarmType();
+        mIsTake = new IsTakeType();
         mTookDatetime = new TookDatetime();
+    }
+
+    public Schedule(@NonNull MedicineIdType medicineId,
+                    @NonNull PlanDateType planDate,
+                    @NonNull TimetableIdType timetableId,
+                    @NonNull NeedAlarmType needAlarm,
+                    @NonNull IsTakeType isTake,
+                    @NonNull TookDatetime tookDatetime) {
+        mMedicineId = medicineId;
+        mPlanDate = planDate;
+        mTimetableId = timetableId;
+        mNeedAlarm = needAlarm;
+        mIsTake = isTake;
+        mTookDatetime = tookDatetime;
     }
 
     @Override

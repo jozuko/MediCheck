@@ -10,8 +10,8 @@
     <!-- title -->
     <include layout="@layout/template_header"/>
 
-    <!-- parson selector -->
-    <include layout="@layout/template_parson_select"/>
+    <!-- person selector -->
+    <include layout="@layout/template_person_select"/>
 
     <ScrollView
         android:layout_width="match_parent"

@@ -14,15 +14,12 @@ public class ColumnBase {
     final NullPattern mNullType;
     @NonNull
     final PrimaryPattern mPrimaryType;
-    @NonNull
-    final AutoIncrementPattern mAutoIncrementType;
 
-    ColumnBase(@NonNull String columnName, @NonNull ColumnPattern columnPattern, @NonNull AutoIncrementPattern autoIncrementPattern) {
+    ColumnBase(@NonNull String columnName, @NonNull ColumnPattern columnPattern) {
         mColumnName = columnName;
         mColumnType = columnPattern;
         mNullType = NullPattern.NotNull;
         mPrimaryType = PrimaryPattern.Primary;
-        mAutoIncrementType = autoIncrementPattern;
     }
 
     ColumnBase(@NonNull String columnName, @NonNull ColumnPattern columnPattern, @NonNull PrimaryPattern primaryPattern) {
@@ -30,15 +27,13 @@ public class ColumnBase {
         mColumnType = columnPattern;
         mNullType = NullPattern.NotNull;
         mPrimaryType = primaryPattern;
-        mAutoIncrementType = AutoIncrementPattern.NotAutoIncrement;
     }
 
-    ColumnBase(@NonNull String columnName, @NonNull ColumnPattern type) {
-        mColumnName = columnName;
-        mColumnType = type;
+    ColumnBase(@NonNull ColumnBase baseColumn, @NonNull PrimaryPattern primaryPattern) {
+        mColumnName = baseColumn.mColumnName;
+        mColumnType = baseColumn.mColumnType;
         mNullType = NullPattern.NotNull;
-        mPrimaryType = PrimaryPattern.NotPrimary;
-        mAutoIncrementType = AutoIncrementPattern.NotAutoIncrement;
+        mPrimaryType = primaryPattern;
     }
 
     String getEqualsCondition() {

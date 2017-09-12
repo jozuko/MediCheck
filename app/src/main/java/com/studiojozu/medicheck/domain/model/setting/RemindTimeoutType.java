@@ -20,6 +20,10 @@ public class RemindTimeoutType extends ADbType<Integer> implements Comparable<Re
     @NonNull
     private final RemindTimeoutPattern mValue;
 
+    public RemindTimeoutType() {
+        this(RemindTimeoutType.RemindTimeoutPattern.HOUR_24);
+    }
+
     public RemindTimeoutType(@NonNull Object timeoutMinute) {
         if (timeoutMinute instanceof RemindTimeoutPattern)
             mValue = (RemindTimeoutPattern) timeoutMinute;

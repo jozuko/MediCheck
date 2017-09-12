@@ -1,22 +1,17 @@
 package com.studiojozu.common.domain.model.general;
 
+import java.util.UUID;
+
 /**
  * IDを管理するクラス
  */
-public class IdType extends LongType {
-
-    /** 未定義ID まだデータベースに登録されていない場合に使用する */
-    protected final static int UNDEFINED_ID = -1;
+public class IdType extends TextType {
 
     protected IdType() {
-        super(UNDEFINED_ID);
+        super(UUID.randomUUID().toString().toUpperCase().substring(0, 8));
     }
 
     protected IdType(Object value) {
         super(value);
-    }
-
-    public boolean isUndefined() {
-        return (getDbValue() == UNDEFINED_ID);
     }
 }

@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         custom:description="@string/button_description_today_medicine"
-        custom:drawableLeft="@mipmap/ic_take_parson"
+        custom:drawableLeft="@mipmap/ic_take_person"
         custom:text="@string/button_today_medicine"/>
 
     <com.studiojozu.medicheck.resource.uicomponent.DescriptionButtonView

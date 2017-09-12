@@ -1,8 +1,7 @@
 package com.studiojozu.medicheck.infrastructure.persistence;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -18,9 +17,19 @@ import java.util.Map;
  * <p>
  * Created by jozuko on 2017/04/25.
  */
-abstract class ABaseRepository {
+abstract class ABaseRepository extends DatabaseController {
 
-    private String getCreateTableSQL() {
+    abstract void updateDefaultData(@NonNull Context context, @Nullable SQLiteDatabase db);
+
+    abstract String getUpgradeSQL(int oldVersion, int newVersion);
+
+    abstract void updateUpgradeData(@NonNull Context context, @Nullable SQLiteDatabase db, int oldVersion, int newVersion);
+
+    abstract String getTableName();
+
+    abstract Columns getColumns();
+
+    String getCreateTableSQL() {
         return "create table " + getTableName()
                 + " ("
                 + getColumns().getColumnDefinition()
@@ -28,25 +37,15 @@ abstract class ABaseRepository {
                 + ");";
     }
 
-    protected abstract void updateDefaultData(@NonNull Context context, @Nullable WritableDatabase db);
-
-    protected abstract String getUpgradeSQL(int oldVersion, int newVersion);
-
-    protected abstract void updateUpgradeData(@NonNull Context context, @Nullable WritableDatabase db, int oldVersion, int newVersion);
-
-    protected abstract String getTableName();
-
-    protected abstract Columns getColumns();
-
-
     /**
      * CREATE TABLEを行う
      *
      * @param context アプリケーションコンテキスト
      * @param db      書き込み可能データベース接続
      */
-    void createTable(@NonNull Context context, @Nullable WritableDatabase db) {
-        execSQL(db, getCreateTableSQL());
+    void createTable(@NonNull Context context, @Nullable SQLiteDatabase db) {
+        if (db != null)
+            db.execSQL(getCreateTableSQL());
         updateDefaultData(context, db);
     }
 
@@ -58,10 +57,12 @@ abstract class ABaseRepository {
      * @param oldVersion 旧バージョンNo
      * @param newVersion 新バージョンNo
      */
-    void upgradeTable(@NonNull Context context, @Nullable WritableDatabase db, int oldVersion, int newVersion) {
+    void upgradeTable(@NonNull Context context, @Nullable SQLiteDatabase db, int oldVersion, int newVersion) {
         if (!isNewVersion(oldVersion, newVersion)) return;
 
-        execSQL(db, getUpgradeSQL(oldVersion, newVersion));
+        if (db != null)
+            db.execSQL(getUpgradeSQL(oldVersion, newVersion));
+
         updateUpgradeData(context, db, oldVersion, newVersion);
     }
 
@@ -77,110 +78,28 @@ abstract class ABaseRepository {
         return newVersion != 1 && (oldVersion < newVersion);
     }
 
-    /**
-     * SQLを実行する
-     *
-     * @param db  読み込み可能 or 書き込み可能なデータベースインスタンス
-     * @param sql 実行するSQL
-     */
-    private void execSQL(@Nullable WritableDatabase db, @Nullable String sql) {
-        if (db == null) return;
-        if (sql == null) return;
-        if (sql.isEmpty()) return;
-
-        db.execSQL(sql);
+    long insert(@NonNull Context context, @NonNull Map<ColumnBase, ADbType> dataMap) {
+        return insert(context, getTableName(), dataMap);
     }
 
-    /**
-     * データベースへのinsertを行う
-     *
-     * @param db      書き込み可能なデータベースインスタンス
-     * @param dataMap カラム名と値を持つMap
-     * @return 追加したレコードの_id値
-     */
-    long insert(@NonNull WritableDatabase db, @NonNull Map<ColumnBase, ADbType> dataMap) {
-        ContentValues insertData = new ContentValues();
-        for (ColumnBase column : dataMap.keySet()) {
-            dataMap.get(column).setContentValue(column.mColumnName, insertData);
-        }
-
-        return db.insert(getTableName(), insertData);
+    long insert(@NonNull SQLiteDatabase database, @NonNull Map<ColumnBase, ADbType> dataMap) {
+        return insert(new WritableDatabase(database), getTableName(), dataMap);
     }
 
-    /**
-     * データベースへのupdateを行う
-     *
-     * @param db          書き込み可能なデータベースインスタンス
-     * @param dataMap     カラム名と値を持つMap
-     * @param whereClause where句
-     * @param whereArgs   whereのパラメータ
-     * @return 更新行数
-     */
-    long update(@NonNull WritableDatabase db, @NonNull Map<ColumnBase, ADbType> dataMap, String whereClause, ArrayList<ADbType> whereArgs) {
-        ContentValues values = new ContentValues();
-        for (ColumnBase column : dataMap.keySet()) {
-            dataMap.get(column).setContentValue(column.mColumnName, values);
-        }
-
-        return db.update(getTableName(), values, whereClause, createWhereArgs(whereArgs));
+    long update(@NonNull Context context, @NonNull Map<ColumnBase, ADbType> dataMap, String whereClause, ArrayList<ADbType> whereArgs) {
+        return update(context, getTableName(), dataMap, whereClause, whereArgs);
     }
 
-    /**
-     * テーブルから条件に一致するレコードを削除する
-     *
-     * @param db          書き込み可能なデータベースインスタンス
-     * @param whereClause where句
-     * @param whereArgs   whereのパラメータ
-     */
-    void delete(@NonNull WritableDatabase db, String whereClause, ArrayList<ADbType> whereArgs) {
-        db.delete(getTableName(), whereClause, createWhereArgs(whereArgs));
+    void delete(@NonNull Context context, String whereClause, ArrayList<ADbType> whereArgs) {
+        delete(context, getTableName(), whereClause, whereArgs);
     }
 
-    /**
-     * 対象テーブルのレコードをすべて削除する
-     *
-     * @param db 書き込み可能なデータベースインスタンス
-     */
-    void deleteAll(@NonNull WritableDatabase db) {
-        db.execSQL("deleteByParsonId from " + getTableName());
+    void deleteAll(@NonNull Context context) {
+        deleteAll(context, getTableName());
     }
 
-    /**
-     * データベースの検索を行うメソッド
-     *
-     * @param database    読み込み可能 or 書き込み可能なデータベースインスタンス
-     * @param whereClause where句
-     * @param whereArgs   whereのパラメータ
-     * @return テーブル検索結果
-     */
     @NonNull
-    ArrayList<Map<ColumnBase, ADbType>> find(@NonNull ADatabase database, @Nullable String whereClause, @Nullable ArrayList<ADbType> whereArgs) {
-        Cursor cursor = null;
-        try {
-            final String sql = "select * from " + getTableName() + " " + (whereClause != null ? whereClause : "");
-            cursor = database.rawQuery(sql, createWhereArgs(whereArgs));
-            return getColumns().putAllDataList(cursor);
-        } finally {
-            if (cursor != null) cursor.close();
-        }
-    }
-
-    /**
-     * where句のパラメータの型変換を行う
-     *
-     * @param whereArgs where句のパラメータ
-     * @return where句のパラメータのString配列
-     */
-    @Nullable
-    @Contract("null -> null")
-    String[] createWhereArgs(@Nullable ArrayList<ADbType> whereArgs) {
-        if (whereArgs == null || whereArgs.isEmpty()) return null;
-
-        ArrayList<String> args = new ArrayList<>();
-        for (ADbType model : whereArgs) {
-            args.add(model.getDbWhereValue());
-        }
-
-        return args.toArray(new String[0]);
+    ArrayList<Map<ColumnBase, ADbType>> find(@NonNull Context context, @Nullable String whereClause, @Nullable ArrayList<ADbType> whereArgs, @Nullable String orderBy) {
+        return find(context, getTableName(), getColumns(), whereClause, whereArgs, orderBy);
     }
 }

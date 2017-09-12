@@ -9,7 +9,7 @@ import com.studiojozu.common.domain.model.general.IdType;
  */
 public class TimetableIdType extends IdType implements Cloneable {
     public TimetableIdType() {
-        super(UNDEFINED_ID);
+        super();
     }
 
     public TimetableIdType(@NonNull Object value) {

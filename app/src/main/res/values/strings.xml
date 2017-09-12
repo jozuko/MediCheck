@@ -17,7 +17,7 @@
     <string name="timing_between_meals_morning">Between meals(Breakfast - Lunch)</string>
     <string name="timing_between_meals_afternoon">Between meals(Lunch - Dinner)</string>
 
-    <string name="parson_self">Myself</string>
+    <string name="person_self">Myself</string>
 
     <string name="notification_medicine_title">Time of the medicine</string>
 
@@ -61,7 +61,7 @@
     <string name="button_next_month">next month</string>
     <string name="button_register">Register</string>
 
-    <string name="label_parson_name">Parson</string>
+    <string name="label_person_name">Person</string>
 
     <string name="calendar_sun">sun</string>
     <string name="calendar_mon">mon</string>

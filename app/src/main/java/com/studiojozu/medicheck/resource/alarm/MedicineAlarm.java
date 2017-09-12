@@ -9,152 +9,52 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.studiojozu.common.domain.model.ADbType;
-import com.studiojozu.common.domain.model.general.DateType;
-import com.studiojozu.common.domain.model.general.TimeType;
 import com.studiojozu.medicheck.R;
-import com.studiojozu.medicheck.domain.model.medicine.MedicineIdType;
-import com.studiojozu.medicheck.domain.model.parson.ParsonIdType;
-import com.studiojozu.medicheck.domain.model.setting.TimetableIdType;
-import com.studiojozu.medicheck.infrastructure.persistence.ColumnBase;
-import com.studiojozu.medicheck.infrastructure.persistence.MedicineRepository;
-import com.studiojozu.medicheck.infrastructure.persistence.ParsonMediRelationRepository;
-import com.studiojozu.medicheck.infrastructure.persistence.ParsonRepository;
-import com.studiojozu.medicheck.infrastructure.persistence.SchedulePlanDateTimeComparator;
-import com.studiojozu.medicheck.infrastructure.persistence.ScheduleRepository;
-import com.studiojozu.medicheck.infrastructure.persistence.SettingRepository;
-import com.studiojozu.medicheck.infrastructure.persistence.TimetableRepository;
+import com.studiojozu.medicheck.application.AlarmScheduleService;
+import com.studiojozu.medicheck.domain.model.PersonMediRelationRepository;
+import com.studiojozu.medicheck.domain.model.alarm.AlarmSchedule;
+import com.studiojozu.medicheck.domain.model.medicine.MedicineRepository;
+import com.studiojozu.medicheck.domain.model.person.PersonRepository;
+import com.studiojozu.medicheck.infrastructure.adapter.PersistenceAdapter;
 
-import java.util.Calendar;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeSet;
 
 /**
  * アラームクラス
  */
 class MedicineAlarm {
 
-    /** 薬NotificationのID */
     private static final int NOTIFICATION_MEDICINE = 1;
-
-    /** アプリケーションコンテキスト */
     @NonNull
     private final Context mContext;
-
-    /** NotificationManagerインスタンス */
     @NonNull
     private final NotificationManager mNotificationManager;
-
-    /** タイムテーブルRepository */
     @NonNull
-    private final TimetableRepository mTimetableRepository;
-
-    /** 設定Repository */
+    private final PersonMediRelationRepository mPersonMediRelationRepository = PersistenceAdapter.getPersonMediRelationRepository();
     @NonNull
-    private final SettingRepository mSettingRepository;
-
-    /** 飲む人-薬 RelationRepository */
+    private final MedicineRepository mMedicineRepository = PersistenceAdapter.getMedicineRepository();
     @NonNull
-    private final ParsonMediRelationRepository mParsonMediRelationRepository;
-
-    /** 薬Repository */
+    private final PersonRepository mPersonRepository = PersistenceAdapter.getPersonRepository();
     @NonNull
-    private final MedicineRepository mMedicineRepository;
+    private final AlarmScheduleService mAlarmScheduleService = new AlarmScheduleService();
 
-    /** 飲む人Repository */
-    @NonNull
-    private final ParsonRepository mParsonRepository;
-
-    /** 飲む人Repository */
-    @NonNull
-    private final ScheduleRepository mScheduleRepository;
 
     MedicineAlarm(@NonNull Context context) {
         mContext = context.getApplicationContext();
         mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-        mTimetableRepository = new TimetableRepository();
-        mSettingRepository = new SettingRepository();
-        mParsonMediRelationRepository = new ParsonMediRelationRepository();
-        mMedicineRepository = new MedicineRepository();
-        mParsonRepository = new ParsonRepository();
-        mScheduleRepository = new ScheduleRepository();
     }
 
     /**
      * データベースに登録されているスケジュールから、アラームが必要なスケジュールを抽出し、スケジュール設定する。
      */
     void showNotification() {
-        // アラームが必要なスケジュールを取得する。
-        List<Map<ColumnBase, ADbType>> needAlarmSchedules = getNeedAlarmSchedules();
-        if (needAlarmSchedules.size() == 0) return;
-
-        // アラームが必要なスケジュールを投薬予定時刻順に並べ替える
-        TreeSet<Map<ColumnBase, ADbType>> targetSchedules = new TreeSet<>(new SchedulePlanDateTimeComparator(mContext));
-        for (Map<ColumnBase, ADbType> scheduleRecord : needAlarmSchedules) {
-            if (isNeedAlarm(scheduleRecord)) targetSchedules.add(scheduleRecord);
-        }
-        if (targetSchedules.size() == 0) return;
+        List<AlarmSchedule> alarmTargetSchedules = mAlarmScheduleService.getNeedAlarmSchedules(mContext);
+        if (alarmTargetSchedules.size() == 0) return;
 
         // 通知を生成する
-        Notification notification = createNotification(targetSchedules);
+        Notification notification = createNotification(alarmTargetSchedules);
         mNotificationManager.cancelAll();
         mNotificationManager.notify(NOTIFICATION_MEDICINE, notification);
-    }
-
-    /**
-     * アラームが必要で、まだ服用されていないスケジュールを取得する。
-     *
-     * @return アラームが必要なスケジュール一覧
-     */
-    @NonNull
-    private List<Map<ColumnBase, ADbType>> getNeedAlarmSchedules() {
-        return mScheduleRepository.getNeedAlerts(mContext);
-    }
-
-    /**
-     * スケジュールがアラーム対象であるかをチェックする。
-     * 対象条件（OR条件）
-     * ・服用予定日時＋服用時分が、現在日時＋現在時分と一致する
-     * ・服用予定日時＋服用時分が、現在日時＋現在時分を超過しており、リマンダタイミングと一致する
-     *
-     * @param scheduleRecord スケジュール
-     * @return アラーム対象の場合trueを返却する
-     */
-    private boolean isNeedAlarm(Map<ColumnBase, ADbType> scheduleRecord) {
-
-        // 現在日時を取得する
-        Calendar now = Calendar.getInstance();
-        now.setTimeInMillis(System.currentTimeMillis());
-
-        // 年月日時分が一致する場合は、trueを返却して終了する
-        DateType alarmDate = (DateType) scheduleRecord.get(ScheduleRepository.COLUMN_PLAN_DATE);
-        TimeType alarmTime = getScheduleTime((TimetableIdType) scheduleRecord.get(ScheduleRepository.COLUMN_TIMETABLE_ID));
-        if (alarmTime == null) return false;
-        if (alarmDate.equalsDate(now) && (alarmTime.equalsTime(now))) return true;
-
-        // リマインダが不要ならAlertも不要
-        if (!mSettingRepository.isUseRemind(mContext)) return false;
-
-        // リマインダタイムアウトならAlertは不要
-        if (mSettingRepository.isRemindTimeout(mContext, now, alarmDate, alarmTime)) return false;
-
-        // リマインドタイミングならAlertする
-        return (mSettingRepository.isRemindTiming(mContext, now, alarmDate, alarmTime));
-    }
-
-    /**
-     * タイムテーブルRepositoryからIDに一致する時分を取得する
-     *
-     * @param timetableId タイムテーブルID
-     * @return タイムテーブルに登録されている時分
-     */
-    @Nullable
-    private TimeType getScheduleTime(TimetableIdType timetableId) {
-        Map<ColumnBase, ADbType> timetable = mTimetableRepository.findTimetable(mContext, timetableId);
-        if (timetable == null) return null;
-
-        return (TimeType) timetable.get(TimetableRepository.COLUMN_TIME);
     }
 
     /**
@@ -165,7 +65,7 @@ class MedicineAlarm {
      */
     @Nullable
     @SuppressWarnings("deprecation")
-    private Notification createNotification(TreeSet<Map<ColumnBase, ADbType>> targetSchedules) {
+    private Notification createNotification(@NonNull List<AlarmSchedule> targetSchedules) {
 
         String notificationMessage = getNotificationMessage(targetSchedules);
         if (notificationMessage.length() == 0) return null;
@@ -197,40 +97,13 @@ class MedicineAlarm {
      * @return Notificationに表示するメッセージ
      */
     @NonNull
-    private String getNotificationMessage(TreeSet<Map<ColumnBase, ADbType>> targetSchedules) {
+    private String getNotificationMessage(@NonNull List<AlarmSchedule> targetSchedules) {
 
         StringBuilder builder = new StringBuilder();
-        for (Map<ColumnBase, ADbType> targetSchedule : targetSchedules) {
-            TreeSet<ParsonIdType> parsonIds = mParsonMediRelationRepository.findParsonIdsByMedicineId(mContext, (MedicineIdType) targetSchedule.get(ScheduleRepository.COLUMN_MEDICINE_ID));
-            if (parsonIds == null) continue;
-
-            Map<ColumnBase, ADbType> medicines = mMedicineRepository.findById(mContext, (MedicineIdType) targetSchedule.get(ScheduleRepository.COLUMN_MEDICINE_ID));
-            if (medicines == null) continue;
-
-            builder.append(createMedicineLine(parsonIds, medicines));
-        }
-
-        return builder.toString();
-    }
-
-    /**
-     * 飲む人＋薬名の行文字列を作成する。
-     *
-     * @param parsonIds 飲む人ID
-     * @param medicines 薬一覧
-     * @return 飲む人＋薬名の行文字列
-     */
-    @NonNull
-    private String createMedicineLine(@NonNull TreeSet<ParsonIdType> parsonIds, Map<ColumnBase, ADbType> medicines) {
-        StringBuilder builder = new StringBuilder();
-
-        for (ParsonIdType parsonId : parsonIds) {
-            Map<ColumnBase, ADbType> parson = mParsonRepository.findById(mContext, parsonId);
-            if (parson == null) continue;
-
-            builder.append(parson.get(ParsonRepository.COLUMN_NAME).getDbValue());
+        for (AlarmSchedule targetSchedule : targetSchedules) {
+            builder.append(targetSchedule.getPersonName());
             builder.append(" ");
-            builder.append(medicines.get(MedicineRepository.COLUMN_NAME).getDbValue());
+            builder.append(targetSchedule.getMedicineName());
             builder.append("\n");
         }
 

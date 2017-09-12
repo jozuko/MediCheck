@@ -27,7 +27,11 @@ abstract class ADatabase {
         return mSQLiteDatabase.rawQuery(sql, args);
     }
 
-    public void close() {
+    void close() {
         if (mSQLiteDatabase.isOpen()) mSQLiteDatabase.close();
+    }
+
+    boolean isClosed() {
+        return !mSQLiteDatabase.isOpen();
     }
 }

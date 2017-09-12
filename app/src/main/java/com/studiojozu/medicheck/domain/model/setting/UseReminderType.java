@@ -9,6 +9,10 @@ import com.studiojozu.common.domain.model.general.BooleanType;
  */
 public class UseReminderType extends BooleanType implements Cloneable {
 
+    public UseReminderType() {
+        this(true);
+    }
+
     public UseReminderType(@NonNull Object value) {
         super(value);
     }

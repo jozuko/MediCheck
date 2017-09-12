@@ -9,7 +9,7 @@ import com.studiojozu.common.domain.model.general.IdType;
  */
 public class MedicineIdType extends IdType implements Cloneable {
     public MedicineIdType() {
-        super(UNDEFINED_ID);
+        super();
     }
 
     public MedicineIdType(@NonNull Object value) {

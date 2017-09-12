@@ -1,7 +1,6 @@
 package com.studiojozu.medicheck.infrastructure.persistence;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,21 +12,24 @@ import org.jetbrains.annotations.Contract;
  */
 class WritableDatabase extends ADatabase {
 
-    WritableDatabase(@NonNull Context context) {
-        super(ADatabase.getDbOpenHelper(context).getWritableDatabase());
+    WritableDatabase(@NonNull DbOpenHelper dbOpenHelper) {
+        super(dbOpenHelper.getWritableDatabase());
     }
 
     WritableDatabase(@NonNull SQLiteDatabase db) {
         super(db);
-        if (!isWritableDatabase(db)) throw new IllegalArgumentException("db is not writable.");
+
+        if (!isWritableDatabase(db))
+            throw new IllegalArgumentException("db is not writable.");
     }
 
     @Contract("null -> false")
-    static boolean isWritableDatabase(@Nullable SQLiteDatabase db) {
+    boolean isWritableDatabase(@Nullable SQLiteDatabase db) {
         return db != null && db.isOpen() && !db.isReadOnly();
     }
 
     void beginTransaction() {
+        if (!inTransaction()) return;
         mSQLiteDatabase.beginTransaction();
     }
 
@@ -42,8 +44,8 @@ class WritableDatabase extends ADatabase {
         mSQLiteDatabase.endTransaction();
     }
 
-    private boolean inTransaction() {
-        return mSQLiteDatabase.inTransaction();
+    boolean inTransaction() {
+        return (mSQLiteDatabase.isOpen() && mSQLiteDatabase.inTransaction());
     }
 
     void execSQL(@NonNull String sql) {

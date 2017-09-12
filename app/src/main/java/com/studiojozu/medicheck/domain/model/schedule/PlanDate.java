@@ -47,10 +47,6 @@ public class PlanDate implements Cloneable {
         return mTimetableId;
     }
 
-    public boolean isUndefinedTimetableId() {
-        return mTimetableId.isUndefined();
-    }
-
     @Override
     public PlanDate clone() {
         try {

@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 
-import com.studiojozu.medicheck.application.AlarmController;
+import com.studiojozu.medicheck.application.AlarmService;
 
 /**
  * 投薬アラームを受信して通知を表示するBroadcastReceiver
@@ -35,7 +35,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
      */
     private void resetAlarm() {
         if (mContext == null) return;
-        new AlarmController(mContext).resetAlarm();
+        new AlarmService(mContext).resetAlarm();
     }
 
     /**

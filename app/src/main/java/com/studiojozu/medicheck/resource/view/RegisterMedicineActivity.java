@@ -16,10 +16,10 @@ import com.studiojozu.medicheck.resource.uicomponent.dialog.InputDialogView;
 /**
  * 今日のお薬を一覧表示する。
  */
-public class RegisterMedicineActivity extends AActivity implements View.OnClickListener, TemplateHeaderView.TemplateHeaderIncludeActivity, TemplateParsonSelectView.TemplateParsonSelectIncludeActivity {
+public class RegisterMedicineActivity extends AActivity implements View.OnClickListener, TemplateHeaderView.TemplateHeaderIncludeActivity, TemplatePersonSelectView.TemplatePersonSelectIncludeActivity {
 
     @Nullable
-    private TemplateParsonSelectView mTemplateParsonSelectView = null;
+    private TemplatePersonSelectView mTemplatePersonSelectView = null;
     @Nullable
     private TextView mMedicineNameTextView = null;
     @Nullable
@@ -47,7 +47,7 @@ public class RegisterMedicineActivity extends AActivity implements View.OnClickL
         setContentView(R.layout.view_register_medicine);
 
         initTemplateHeaderView();
-        initTemplateParsonSelectView();
+        initTemplatePersonSelectView();
         getAllView();
 
         setClickListener();
@@ -67,8 +67,8 @@ public class RegisterMedicineActivity extends AActivity implements View.OnClickL
     @Override
     protected void onDestroy() {
         try {
-            if (mTemplateParsonSelectView != null)
-                mTemplateParsonSelectView.recycle();
+            if (mTemplatePersonSelectView != null)
+                mTemplatePersonSelectView.recycle();
         } finally {
             super.onDestroy();
         }
@@ -177,9 +177,9 @@ public class RegisterMedicineActivity extends AActivity implements View.OnClickL
     }
 
     @Override
-    public void initTemplateParsonSelectView() {
-        mTemplateParsonSelectView = new TemplateParsonSelectView(this);
-        mTemplateParsonSelectView.init();
+    public void initTemplatePersonSelectView() {
+        mTemplatePersonSelectView = new TemplatePersonSelectView(this);
+        mTemplatePersonSelectView.init();
     }
 
     @Override

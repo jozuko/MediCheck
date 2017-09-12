@@ -22,6 +22,9 @@ public class Timetable implements Cloneable {
     /** タイムテーブルの時刻 */
     @NonNull
     private TimetableTimeType mTimetableTime;
+    /** タイムテーブルの並び順 */
+    @NonNull
+    private TimetableDisplayOrderType mTimetableDisplayOrderType;
 
     /**
      * DB未登録データ用のコンストラクタ
@@ -30,6 +33,7 @@ public class Timetable implements Cloneable {
         mTimetableId = new TimetableIdType();
         mTimetableName = new TimetableNameType();
         mTimetableTime = new TimetableTimeType();
+        mTimetableDisplayOrderType = new TimetableDisplayOrderType();
     }
 
     /**
@@ -39,19 +43,11 @@ public class Timetable implements Cloneable {
      * @param timetableName タイムテーブルの名前
      * @param timetableTime タイムテーブルの時刻
      */
-    public Timetable(@NonNull TimetableIdType timetableId, @NonNull TimetableNameType timetableName, @NonNull TimetableTimeType timetableTime) {
+    public Timetable(@NonNull TimetableIdType timetableId, @NonNull TimetableNameType timetableName, @NonNull TimetableTimeType timetableTime, @NonNull TimetableDisplayOrderType timetableDisplayOrderType) {
         mTimetableId = timetableId;
         mTimetableName = timetableName;
         mTimetableTime = timetableTime;
-    }
-
-    /**
-     * タイムテーブル名を変更する
-     *
-     * @param timetableName 新しく使用するタイムテーブルの名前
-     */
-    public void setTimetableName(@NotNull String timetableName) {
-        mTimetableName = new TimetableNameType(timetableName);
+        mTimetableDisplayOrderType = timetableDisplayOrderType;
     }
 
     /**
@@ -76,22 +72,33 @@ public class Timetable implements Cloneable {
         return new PlanDate(planDatetime, planDate, mTimetableId);
     }
 
-    /**
-     * タイムテーブルのIDを返却する
-     *
-     * @return タイムテーブルIDのクローン
-     */
+    @NonNull
     public TimetableIdType getTimetableId() {
-        return mTimetableId.clone();
+        return mTimetableId;
+    }
+
+    @NonNull
+    public TimetableTimeType getTimetableTime() {
+        return mTimetableTime;
+    }
+
+    @NonNull
+    public TimetableDisplayOrderType getTimetableDisplayOrderType() {
+        return mTimetableDisplayOrderType;
+    }
+
+    @NonNull
+    public TimetableNameType getTimetableName() {
+        return mTimetableName;
     }
 
     /**
-     * タイムテーブルの時刻を返却する
+     * タイムテーブル名を変更する
      *
-     * @return タイムテーブル時刻のクローン
+     * @param timetableName 新しく使用するタイムテーブルの名前
      */
-    public TimetableTimeType getTimetableTime() {
-        return mTimetableTime.clone();
+    public void setTimetableName(@NotNull String timetableName) {
+        mTimetableName = new TimetableNameType(timetableName);
     }
 
     @Override

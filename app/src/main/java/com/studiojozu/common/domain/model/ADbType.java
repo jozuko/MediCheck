@@ -12,7 +12,7 @@ public abstract class ADbType<T> {
      *
      * @return データベース値
      */
-    public abstract T getDbValue();
+    protected abstract T getDbValue();
 
     /**
      * Where句で使用するための、{@link #getDbValue()}のString値

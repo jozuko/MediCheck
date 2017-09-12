@@ -4,7 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.studiojozu.medicheck.application.AlarmController;
+import com.studiojozu.medicheck.application.AlarmService;
 
 /**
  * お薬アラームのリセットを行うためのBroadcastReceiver
@@ -21,7 +21,7 @@ public class ResetAlarmBroadcastReceiver extends BroadcastReceiver {
      */
     @Override
     public void onReceive(Context context, Intent intent) {
-        AlarmController alarmController = new AlarmController(context);
+        AlarmService alarmController = new AlarmService(context);
         alarmController.resetAlarm();
     }
 }

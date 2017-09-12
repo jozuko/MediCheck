@@ -17,6 +17,10 @@ public class RemindIntervalType extends ADbType<Integer> implements Comparable<R
     @NonNull
     private final RemindIntervalPattern mValue;
 
+    public RemindIntervalType() {
+        this(RemindIntervalType.RemindIntervalPattern.MINUTE_5);
+    }
+
     public RemindIntervalType(@NonNull Object intervalMinutes) {
         if (intervalMinutes instanceof RemindIntervalPattern)
             mValue = (RemindIntervalPattern) intervalMinutes;

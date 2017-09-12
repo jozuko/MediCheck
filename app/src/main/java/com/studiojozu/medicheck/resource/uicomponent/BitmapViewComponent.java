@@ -8,7 +8,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.studiojozu.medicheck.application.BitmapRead;
+import com.studiojozu.medicheck.application.BitmapReadService;
 
 import org.jetbrains.annotations.Contract;
 
@@ -17,7 +17,7 @@ import java.io.IOException;
 /**
  * Bitmapイメージを表示するImageView
  */
-public class BitmapViewComponent {
+class BitmapViewComponent {
     @NonNull
     private final Context mContext;
     private final int mDefaultResourceId;
@@ -87,7 +87,7 @@ public class BitmapViewComponent {
     @Nullable
     private Bitmap getBitmap(@Nullable Uri uri) {
         if (uri == null) return null;
-        BitmapRead bitmapRead = new BitmapRead(mContext, uri);
+        BitmapReadService bitmapRead = new BitmapReadService(mContext, uri);
         Size imageViewSize = getImageSize();
         try {
             return bitmapRead.readResizedBitmap(imageViewSize);
@@ -98,7 +98,7 @@ public class BitmapViewComponent {
 
     /**
      * リサイクル処理
-     * setBitmap()を呼び出したライフサイクルと対になる箇所で呼び出すこと
+     * {@link #showBitmap(Uri)}を呼び出したライフサイクルと対になる箇所で呼び出すこと
      */
     public void recycle() {
         if (mBitmap == null) return;

@@ -8,7 +8,7 @@ import java.util.Calendar;
 /**
  * カレンダーViewにアクセスするインターフェース定義
  */
-public interface ICalendarAccess {
+interface ICalendarAccess {
 
     /**
      * カレンダーを任意の年月で表示する

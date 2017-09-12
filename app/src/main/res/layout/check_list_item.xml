@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/image_spinner_layout"
     style="@style/CheckListItemLayoutStyle"
     android:orientation="horizontal">
@@ -24,11 +25,13 @@
 
         <TextView
             style="@style/CheckListItemBigTextStyle"
-            android:text="薬の名前"/>
+            android:text="薬の名前"
+            tools:ignore="HardcodedText"/>
 
         <TextView
             style="@style/CheckListItemNormalTextStyle"
-            android:text="朝食後(9:00) 1錠"/>
+            android:text="朝食後(9:00) 1錠"
+            tools:ignore="HardcodedText"/>
 
     </LinearLayout>
 

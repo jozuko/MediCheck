@@ -2,9 +2,9 @@ package com.studiojozu.medicheck.infrastructure.persistence;
 
 import android.database.Cursor;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.studiojozu.common.domain.model.ADbType;
-import com.studiojozu.common.port.adapter.DbTypeFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,13 +35,7 @@ class Columns {
             if (builder.length() > 0) builder.append(",");
 
             builder.append(column.mColumnName).append(" ");
-            builder.append(column.mColumnType.getTypeName()).append(" ");
-
-            if (column.mAutoIncrementType == AutoIncrementPattern.AutoIncrement) {
-                builder.append("primary key autoincrement");
-                continue;
-            }
-
+            builder.append(column.mColumnType.getSqliteTypeNamePattern()).append(" ");
             builder.append((column.mNullType == NullPattern.NotNull ? "not null" : "")).append(" ");
         }
 
@@ -57,9 +51,7 @@ class Columns {
     String getCreatePrimarySql() {
         StringBuilder builder = new StringBuilder();
         for (ColumnBase column : mColumns) {
-            if (column.mAutoIncrementType == AutoIncrementPattern.AutoIncrement) return "";
             if (column.mPrimaryType != PrimaryPattern.Primary) continue;
-
             if (builder.length() > 0) builder.append(",");
             builder.append(column.mColumnName);
         }
@@ -80,21 +72,29 @@ class Columns {
         Map<ColumnBase, ADbType> dataMap = new HashMap<>();
         if (cursor.isClosed()) return dataMap;
 
-        for (ColumnBase column : mColumns) {
-            if (column.mColumnType.getTypeName().equalsIgnoreCase("integer"))
-                dataMap.put(column, DbTypeFactory.createInstance(column.mColumnType, cursor.getLong(cursor.getColumnIndex(column.mColumnName))));
-
-            if (column.mColumnType.getTypeName().equalsIgnoreCase("text"))
-                dataMap.put(column, DbTypeFactory.createInstance(column.mColumnType, cursor.getString(cursor.getColumnIndex(column.mColumnName))));
-
-            if (column.mColumnType.getTypeName().equalsIgnoreCase("real"))
-                dataMap.put(column, DbTypeFactory.createInstance(column.mColumnType, cursor.getDouble(cursor.getColumnIndex(column.mColumnName))));
-
-            if (column.mColumnType.getTypeName().equalsIgnoreCase("blob"))
-                dataMap.put(column, DbTypeFactory.createInstance(column.mColumnType, cursor.getBlob(cursor.getColumnIndex(column.mColumnName))));
+        for (ColumnBase columnBase : mColumns) {
+            Object value = getValue(columnBase, cursor);
+            dataMap.put(columnBase, columnBase.mColumnType.createNewInstance(value));
         }
 
         return dataMap;
+    }
+
+    @Nullable
+    private Object getValue(@NonNull ColumnBase columnBase, @NonNull Cursor cursor) {
+        if (columnBase.mColumnType.getSqliteTypeNamePattern().equalsIgnoreCase("integer"))
+            return cursor.getLong(cursor.getColumnIndex(columnBase.mColumnName));
+
+        if (columnBase.mColumnType.getSqliteTypeNamePattern().equalsIgnoreCase("text"))
+            return cursor.getString(cursor.getColumnIndex(columnBase.mColumnName));
+
+        if (columnBase.mColumnType.getSqliteTypeNamePattern().equalsIgnoreCase("real"))
+            return cursor.getDouble(cursor.getColumnIndex(columnBase.mColumnName));
+
+        if (columnBase.mColumnType.getSqliteTypeNamePattern().equalsIgnoreCase("blob"))
+            return cursor.getBlob(cursor.getColumnIndex(columnBase.mColumnName));
+
+        return null;
     }
 
     /**
@@ -112,5 +112,17 @@ class Columns {
             entities.add(dataMap);
         }
         return entities;
+    }
+
+    @NonNull
+    String getAllColumnNameSplitComma() {
+        StringBuilder builder = new StringBuilder();
+        for (ColumnBase column : mColumns) {
+            if (builder.length() > 0)
+                builder.append(",");
+            builder.append(column.mColumnName);
+        }
+
+        return builder.toString();
     }
 }

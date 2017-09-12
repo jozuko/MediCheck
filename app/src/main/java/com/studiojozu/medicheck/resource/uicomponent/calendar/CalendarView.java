@@ -41,7 +41,7 @@ public class CalendarView extends LinearLayout implements View.OnClickListener, 
     @Nullable
     private CalendarDayView.OnSelectedDayListener mOnSelectedDayListener = null;
     @NonNull
-    private List<CalendarDayView> mCalendarDayViewList;
+    private final List<CalendarDayView> mCalendarDayViewList = new ArrayList<>();
 
     /**
      * ダイアログとしてカレンダーを生成するときに使用するコンストラクタ
@@ -61,7 +61,6 @@ public class CalendarView extends LinearLayout implements View.OnClickListener, 
     public CalendarView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         mContext = context;
-        mCalendarDayViewList = new ArrayList<>();
         View mainView = LayoutInflater.from(context).inflate(R.layout.calendar, this);
 
         mWeekRowLayout = mainView.findViewById(R.id.week_row_layout);

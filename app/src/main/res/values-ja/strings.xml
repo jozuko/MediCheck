@@ -17,7 +17,7 @@
     <string name="timing_between_meals_morning">食間(朝食 - 昼食)</string>
     <string name="timing_between_meals_afternoon">食間(昼食 - 夕食)</string>
 
-    <string name="parson_self">自分</string>
+    <string name="person_self">自分</string>
 
     <string name="notification_medicine_title">お薬の時間です</string>
 
@@ -61,7 +61,7 @@
     <string name="button_next_month">次の月</string>
     <string name="button_register">登録する</string>
 
-    <string name="label_parson_name">飲む人</string>
+    <string name="label_person_name">飲む人</string>
 
     <string name="calendar_sun">日</string>
     <string name="calendar_mon">月</string>

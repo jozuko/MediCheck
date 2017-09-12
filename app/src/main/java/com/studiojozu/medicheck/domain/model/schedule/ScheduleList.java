@@ -1,14 +1,14 @@
 package com.studiojozu.medicheck.domain.model.schedule;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.studiojozu.common.domain.model.general.DatetimeType;
 import com.studiojozu.medicheck.domain.model.medicine.DateNumberType;
-import com.studiojozu.medicheck.domain.model.medicine.MedicineIdType;
-import com.studiojozu.medicheck.domain.model.medicine.StartDatetimeType;
-import com.studiojozu.medicheck.domain.model.medicine.TakeIntervalModeType;
-import com.studiojozu.medicheck.domain.model.medicine.TakeIntervalType;
-import com.studiojozu.medicheck.domain.model.setting.TimetableList;
+import com.studiojozu.medicheck.domain.model.medicine.Medicine;
+import com.studiojozu.medicheck.domain.model.medicine.MedicineTimetableList;
+
+import org.jetbrains.annotations.Contract;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -53,22 +53,12 @@ public class ScheduleList implements Cloneable, Iterator<Schedule>, Iterable<Sch
         return mScheduleList.iterator();
     }
 
-    /**
-     * 薬の情報からスケジュールを作成する。
-     *
-     * @param medicineId       薬ID
-     * @param startDatetime    開始日時
-     * @param takeInterval     服用間隔
-     * @param takeIntervalMode 服用間隔タイプ(日or月)
-     * @param timetableList    タイムテーブル一覧
-     * @param dateNumber       服用日数
-     */
-    public void createScheduleList(@NonNull MedicineIdType medicineId, @NonNull StartDatetimeType startDatetime, @NonNull TakeIntervalType takeInterval, @NonNull TakeIntervalModeType takeIntervalMode, @NonNull TimetableList timetableList, @NonNull DateNumberType dateNumber) {
+    public void createScheduleList(@NonNull Medicine medicine) {
         // 服用回数を計算する（タイムテーブルの回数×服用日数）
-        int medicineNumber = calculateMedicineNumber(timetableList, dateNumber);
+        int medicineNumber = calculateMedicineNumber(medicine.getTimetableList(), medicine.getDateNumber());
 
         // タイムテーブルを作成する
-        createScheduleList(medicineId, startDatetime, takeInterval, takeIntervalMode, timetableList, medicineNumber);
+        createScheduleList(medicine, medicineNumber);
     }
 
     /**
@@ -78,36 +68,32 @@ public class ScheduleList implements Cloneable, Iterator<Schedule>, Iterable<Sch
      * @param dateNumber    服用日数
      * @return （タイムテーブルの回数×服用日数）頓服の場合は0を返却する
      */
-    private int calculateMedicineNumber(@NonNull TimetableList timetableList, @NonNull DateNumberType dateNumber) {
-        if (timetableList.isOneShot()) return 0;
+    private int calculateMedicineNumber(@NonNull MedicineTimetableList timetableList, @NonNull DateNumberType dateNumber) {
+        if (timetableList.isOneShotMedicine()) return 0;
         return timetableList.getCount() * dateNumber.getDbValue().intValue();
     }
 
     /**
      * スケジュールを作成する。
      *
-     * @param medicineId       薬ID
-     * @param startDatetime    開始日時
-     * @param takeInterval     服用間隔
-     * @param takeIntervalMode 服用間隔タイプ(日or月)
-     * @param timetableList    タイムテーブル一覧
-     * @param medicineNumber   服用回数
+     * @param medicine       薬
+     * @param medicineNumber 服用回数
      */
-    private void createScheduleList(@NonNull MedicineIdType medicineId, @NonNull StartDatetimeType startDatetime, @NonNull TakeIntervalType takeInterval, @NonNull TakeIntervalModeType takeIntervalMode, @NonNull TimetableList timetableList, int medicineNumber) {
+    private void createScheduleList(@NonNull Medicine medicine, int medicineNumber) {
         clearScheduleList();
 
         // 服用予定日時を初期化する
-        PlanDate planDate = new PlanDate(startDatetime);
+        PlanDate planDate = null;
 
         for (int medicine_i = 0; medicine_i < medicineNumber; medicine_i++) {
             // 服用予定算出基準日時を取得する
-            DatetimeType standardDatetime = getNextStartDatetime(timetableList, planDate, takeInterval, takeIntervalMode);
+            DatetimeType standardDatetime = getNextStartDatetime(medicine, planDate);
 
             // 服用予定日時を取得する
-            planDate = timetableList.getPlanDate(standardDatetime);
+            planDate = medicine.getTimetableList().getPlanDate(standardDatetime);
 
             // 服用予定日時を一覧に追加する
-            Schedule schedule = new Schedule(medicineId, planDate.getPlanDate(), planDate.getTimetableId());
+            Schedule schedule = new Schedule(medicine.getMedicineId(), planDate.getPlanDate(), planDate.getTimetableId());
             mScheduleList.add(schedule);
         }
     }
@@ -117,17 +103,18 @@ public class ScheduleList implements Cloneable, Iterator<Schedule>, Iterable<Sch
         mScheduleList.clear();
     }
 
-    private DatetimeType getNextStartDatetime(@NonNull TimetableList timetableList, @NonNull PlanDate planDate, @NonNull TakeIntervalType takeInterval, @NonNull TakeIntervalModeType takeIntervalMode) {
+    @Contract("_, null -> !null")
+    private DatetimeType getNextStartDatetime(@NonNull Medicine medicine, @Nullable PlanDate planDate) {
 
         // 予定時刻が初期値の場合は予定日時を返却する
-        if (planDate.isUndefinedTimetableId())
-            return planDate.getPlanDatetime();
+        if (planDate == null)
+            return medicine.getStartDatetime();
 
         // 予定日時で使用しているTimetableIdがTimetableListの最終時刻ではなかった場合は予定日時を返却する
-        if (!timetableList.isFinalTime(planDate.getTimetableId()))
+        if (!medicine.getTimetableList().isFinalTime(planDate.getTimetableId()))
             return planDate.getPlanDatetime();
 
         // 予定日時にInterval日数(or月数)を加算した日(時分秒は0初期化)を返却する
-        return takeInterval.getNextDatetime(planDate.getPlanDatetime(), takeIntervalMode);
+        return medicine.getTakeInterval().getNextDatetime(planDate.getPlanDatetime(), medicine.getTakeIntervalMode());
     }
 }

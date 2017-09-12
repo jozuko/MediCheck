@@ -1,12 +1,6 @@
 package com.studiojozu.medicheck.domain.model.medicine;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
-
-import com.studiojozu.medicheck.domain.model.parson.ParsonIdType;
-import com.studiojozu.medicheck.domain.model.schedule.ScheduleList;
-import com.studiojozu.medicheck.domain.model.setting.TimetableList;
-import com.studiojozu.medicheck.infrastructure.persistence.MedicineRepository;
 
 /**
  * 薬を管理するクラス
@@ -41,7 +35,7 @@ public class Medicine {
      * タイムテーブルのサイズが0の場合は、頓服扱いとなる。
      */
     @NonNull
-    private TimetableList mTimetableList;
+    private MedicineTimetableList mTimetableList;
 
     /**
      * DB登録前のインスタンスを生成するためのコンストラクタ.
@@ -56,7 +50,7 @@ public class Medicine {
         mTakeInterval = new TakeIntervalType();
         mTakeIntervalMode = new TakeIntervalModeType();
         mMedicinePhoto = new MedicinePhotoType();
-        mTimetableList = new TimetableList();
+        mTimetableList = new MedicineTimetableList();
     }
 
     /**
@@ -67,76 +61,122 @@ public class Medicine {
      */
     public Medicine(long medicineId, @NonNull Medicine medicine) {
         mMedicineId = new MedicineIdType(medicineId);
-        mMedicineName = medicine.mMedicineName.clone();
-        mTakeNumber = medicine.mTakeNumber.clone();
-        mDateNumber = medicine.mDateNumber.clone();
-        mStartDatetime = medicine.mStartDatetime.clone();
-        mTakeInterval = medicine.mTakeInterval.clone();
-        mTakeIntervalMode = medicine.mTakeIntervalMode.clone();
-        mMedicinePhoto = medicine.mMedicinePhoto.clone();
-        mTimetableList = medicine.mTimetableList.clone();
-    }
-
-    public void save(@NonNull Context context, @NonNull ParsonIdType parsonId) {
-        // 薬を登録する
-        MedicineRepository medicineRepository = new MedicineRepository();
-        medicineRepository.save(context, parsonId, this, mTimetableList);
+        mMedicineName = medicine.mMedicineName;
+        mTakeNumber = medicine.mTakeNumber;
+        mDateNumber = medicine.mDateNumber;
+        mStartDatetime = medicine.mStartDatetime;
+        mTakeInterval = medicine.mTakeInterval;
+        mTakeIntervalMode = medicine.mTakeIntervalMode;
+        mMedicinePhoto = medicine.mMedicinePhoto;
+        mTimetableList = medicine.mTimetableList;
     }
 
     /**
-     * 薬情報を元にスケジュールを生成する
+     * DB登録前のインスタンスを生成するためのコンストラクタ.
      *
-     * @return 生成したスケジュール一覧インスタンス
+     * @param medicineName     薬名
+     * @param takeNumber       服用数
+     * @param dateNumber       服用日数
+     * @param startDatetime    服用開始日
+     * @param takeInterval     服用間隔(数値)
+     * @param takeIntervalMode 服用間隔(日or月)
+     * @param medicinePhoto    写真パス
+     * @param timetableList    タイムテーブル一覧
      */
-    public ScheduleList createScheduleList() {
-        ScheduleList scheduleList = new ScheduleList();
-        scheduleList.createScheduleList(mMedicineId, mStartDatetime, mTakeInterval, mTakeIntervalMode, mTimetableList, mDateNumber);
+    public Medicine(@NonNull MedicineNameType medicineName,
+                    @NonNull TakeNumberType takeNumber,
+                    @NonNull DateNumberType dateNumber,
+                    @NonNull StartDatetimeType startDatetime,
+                    @NonNull TakeIntervalType takeInterval,
+                    @NonNull TakeIntervalModeType takeIntervalMode,
+                    @NonNull MedicinePhotoType medicinePhoto,
+                    @NonNull MedicineTimetableList timetableList) {
+        this(new MedicineIdType(),
+                medicineName,
+                takeNumber,
+                dateNumber,
+                startDatetime,
+                takeInterval,
+                takeIntervalMode,
+                medicinePhoto,
+                timetableList);
+    }
 
-        return scheduleList;
+    /**
+     * DB登録済み（IDがわかっている）インスタンスを生成するためのコンストラクタ
+     *
+     * @param medicineId       薬ID
+     * @param medicineName     薬名
+     * @param takeNumber       服用数
+     * @param dateNumber       服用日数
+     * @param startDatetime    服用開始日
+     * @param takeInterval     服用間隔(数値)
+     * @param takeIntervalMode 服用間隔(日or月)
+     * @param medicinePhoto    写真パス
+     * @param timetableList    タイムテーブル一覧
+     */
+    public Medicine(@NonNull MedicineIdType medicineId,
+                    @NonNull MedicineNameType medicineName,
+                    @NonNull TakeNumberType takeNumber,
+                    @NonNull DateNumberType dateNumber,
+                    @NonNull StartDatetimeType startDatetime,
+                    @NonNull TakeIntervalType takeInterval,
+                    @NonNull TakeIntervalModeType takeIntervalMode,
+                    @NonNull MedicinePhotoType medicinePhoto,
+                    @NonNull MedicineTimetableList timetableList) {
+        mMedicineId = medicineId;
+        mMedicineName = medicineName;
+        mTakeNumber = takeNumber;
+        mDateNumber = dateNumber;
+        mStartDatetime = startDatetime;
+        mTakeInterval = takeInterval;
+        mTakeIntervalMode = takeIntervalMode;
+        mMedicinePhoto = medicinePhoto;
+        mTimetableList = timetableList;
     }
 
     @NonNull
     public MedicineIdType getMedicineId() {
-        return mMedicineId.clone();
+        return mMedicineId;
     }
 
     @NonNull
     public MedicineNameType getMedicineName() {
-        return mMedicineName.clone();
+        return mMedicineName;
     }
 
     @NonNull
     public TakeNumberType getTakeNumber() {
-        return mTakeNumber.clone();
+        return mTakeNumber;
     }
 
     @NonNull
     public DateNumberType getDateNumber() {
-        return mDateNumber.clone();
+        return mDateNumber;
     }
 
     @NonNull
     public StartDatetimeType getStartDatetime() {
-        return mStartDatetime.clone();
+        return mStartDatetime;
     }
 
     @NonNull
     public TakeIntervalType getTakeInterval() {
-        return mTakeInterval.clone();
+        return mTakeInterval;
     }
 
     @NonNull
     public TakeIntervalModeType getTakeIntervalMode() {
-        return mTakeIntervalMode.clone();
+        return mTakeIntervalMode;
     }
 
     @NonNull
     public MedicinePhotoType getMedicinePhoto() {
-        return mMedicinePhoto.clone();
+        return mMedicinePhoto;
     }
 
     @NonNull
-    public TimetableList getTimetableList() {
-        return mTimetableList.clone();
+    public MedicineTimetableList getTimetableList() {
+        return mTimetableList;
     }
 }

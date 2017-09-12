@@ -1,6 +1,5 @@
 package com.studiojozu.medicheck.infrastructure.persistence;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 
 /**
@@ -8,7 +7,7 @@ import android.support.annotation.NonNull;
  */
 class ReadonlyDatabase extends ADatabase {
 
-    ReadonlyDatabase(@NonNull Context context) {
-        super(ADatabase.getDbOpenHelper(context).getReadableDatabase());
+    ReadonlyDatabase(@NonNull DbOpenHelper dbOpenHelper) {
+        super(dbOpenHelper.getReadableDatabase());
     }
 }

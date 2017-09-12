@@ -3,25 +3,20 @@ package com.studiojozu.medicheck.resource.view;
 import android.app.Activity;
 import android.support.annotation.NonNull;
 
-import com.studiojozu.medicheck.application.ParsonService;
-
 /**
  *
  */
-class TemplateParsonSelectView {
+class TemplatePersonSelectView {
 
     @NonNull
-    private final TemplateParsonSelectIncludeActivity mTemplateParsonSelectIncludeActivity;
+    private final TemplatePersonSelectIncludeActivity mTemplatePersonSelectIncludeActivity;
     @NonNull
     private final Activity mParentActivity;
-    @NonNull
-    private final ParsonService mParsonService;
 
 
-    TemplateParsonSelectView(@NonNull TemplateParsonSelectIncludeActivity parentActivity) {
-        mTemplateParsonSelectIncludeActivity = parentActivity;
-        mParentActivity = mTemplateParsonSelectIncludeActivity.getActivity();
-        mParsonService = new ParsonService();
+    TemplatePersonSelectView(@NonNull TemplatePersonSelectIncludeActivity parentActivity) {
+        mTemplatePersonSelectIncludeActivity = parentActivity;
+        mParentActivity = mTemplatePersonSelectIncludeActivity.getActivity();
     }
 
     void init() {
@@ -30,8 +25,8 @@ class TemplateParsonSelectView {
     void recycle() {
     }
 
-    interface TemplateParsonSelectIncludeActivity {
-        void initTemplateParsonSelectView();
+    interface TemplatePersonSelectIncludeActivity {
+        void initTemplatePersonSelectView();
 
         Activity getActivity();
     }

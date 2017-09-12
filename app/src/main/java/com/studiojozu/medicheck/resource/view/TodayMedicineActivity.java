@@ -73,7 +73,7 @@ public class TodayMedicineActivity extends AActivity implements View.OnClickList
 
     @Override
     public void initTemplateHeaderView() {
-        new TemplateHeaderView(this, R.mipmap.ic_take_parson, R.string.button_today_medicine);
+        new TemplateHeaderView(this, R.mipmap.ic_take_person, R.string.button_today_medicine);
     }
 
     @Override
