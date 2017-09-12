@@ -7,7 +7,7 @@ import android.widget.Toast;
 
 import com.studiojozu.medicheck.R;
 import com.studiojozu.medicheck.resource.uicomponent.calendar.CalendarDayView;
-import com.studiojozu.medicheck.resource.uicomponent.view.TemplateHeaderView;
+import com.studiojozu.medicheck.resource.uicomponent.template.TemplateHeaderView;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

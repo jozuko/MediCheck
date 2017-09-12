@@ -9,7 +9,7 @@
     android:theme="@style/AppTheme">
 
     <!-- title -->
-    <com.studiojozu.medicheck.resource.uicomponent.view.TemplateHeaderView
+    <com.studiojozu.medicheck.resource.uicomponent.template.TemplateHeaderView
         android:id="@+id/header_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

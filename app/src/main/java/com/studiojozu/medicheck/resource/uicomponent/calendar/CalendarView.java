@@ -12,8 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.studiojozu.medicheck.R;
-
-import org.jetbrains.annotations.Contract;
+import com.studiojozu.medicheck.resource.uicomponent.ACustomView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -24,25 +23,21 @@ import java.util.Locale;
 /**
  * カレンダーView
  */
-public class CalendarView extends LinearLayout implements View.OnClickListener, ICalendarAccess {
+public class CalendarView extends ACustomView<CalendarView> implements View.OnClickListener, ICalendarAccess {
 
-    /** アプリケーションコンテキスト */
-    @NonNull
-    private final Context mContext;
     /** 日付行を格納するLayout */
     @NonNull
     private final LinearLayout mWeekRowLayout;
     /** 年・月を表示するTextView */
     @NonNull
     private final TextView mYearMonthLabel;
+    @NonNull
+    private final List<CalendarDayView> mCalendarDayViewList = new ArrayList<>();
     /** 表示する年月を表すCalendarインスタンス */
     @Nullable
     private Calendar mDisplayYearMonthCalendar = null;
     @Nullable
-    private CalendarDayView.OnSelectedDayListener mOnSelectedDayListener = null;
-    @NonNull
-    private final List<CalendarDayView> mCalendarDayViewList = new ArrayList<>();
-
+    private CalendarDayView.OnSelectedDayListener mClientOnSelectedDayListener = null;
     /**
      * ダイアログとしてカレンダーを生成するときに使用するコンストラクタ
      *
@@ -52,15 +47,9 @@ public class CalendarView extends LinearLayout implements View.OnClickListener, 
         this(context, null);
     }
 
-    /**
-     * layout.xmlを使用してカレンダーを生成するときに使用するコンストラクタ
-     *
-     * @param context アプリケーションコンテキスト
-     * @param attrs   layout.xmlに指定した引数
-     */
     public CalendarView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        mContext = context;
+
         View mainView = LayoutInflater.from(context).inflate(R.layout.calendar, this);
 
         mWeekRowLayout = mainView.findViewById(R.id.week_row_layout);
@@ -70,10 +59,21 @@ public class CalendarView extends LinearLayout implements View.OnClickListener, 
         showCalendarFromAttrs(attrs);
     }
 
+    @Override
+    protected int layoutResource() {
+        return R.layout.calendar;
+    }
+
+    @Nullable
+    @Override
+    protected int[] styleableResources() {
+        return R.styleable.calendar_view;
+    }
+
     private void showCalendarFromAttrs(@Nullable AttributeSet attrs) {
         if (attrs == null) return;
 
-        TypedArray typedArray = getTypedArray(mContext, attrs);
+        TypedArray typedArray = getTypedArray(attrs);
         try {
             createDisplayYearMonthCalendar(typedArray);
             createCalendar();
@@ -89,11 +89,11 @@ public class CalendarView extends LinearLayout implements View.OnClickListener, 
      * @param typedArray layout.xmlの引数
      */
     private void createDisplayYearMonthCalendar(TypedArray typedArray) {
-        int year = getYear(typedArray);
-        if (year < 0) return;
+        int year = getAttributeInteger(typedArray, R.styleable.calendar_view_year);
+        if (year == RESOURCE_DEFAULT_INTEGER) return;
 
-        int month = getMonth(typedArray);
-        if (month < 0) return;
+        int month = getAttributeInteger(typedArray, R.styleable.calendar_view_month);
+        if (month == RESOURCE_DEFAULT_INTEGER) return;
 
         mDisplayYearMonthCalendar = Calendar.getInstance();
         mDisplayYearMonthCalendar.set(year, month - 1, 1);
@@ -128,12 +128,11 @@ public class CalendarView extends LinearLayout implements View.OnClickListener, 
      *
      * @param listener 日付を表すViewが選択されたときに発火するリスナー
      */
-    @Override
-    public void setOnSelectedDayListener(@Nullable CalendarDayView.OnSelectedDayListener listener) {
-        mOnSelectedDayListener = listener;
+    public void setClientOnSelectedDayListener(@Nullable CalendarDayView.OnSelectedDayListener listener) {
+        mClientOnSelectedDayListener = listener;
 
         for (CalendarDayView calendarDayView : mCalendarDayViewList) {
-            calendarDayView.setOnSelectedDayListener(mOnSelectedDayListener);
+            calendarDayView.setClientOnSelectedDayListener(mClientOnSelectedDayListener);
         }
     }
 
@@ -148,41 +147,6 @@ public class CalendarView extends LinearLayout implements View.OnClickListener, 
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM", Locale.getDefault());
         mYearMonthLabel.setText(dateFormat.format(mDisplayYearMonthCalendar.getTime()));
-    }
-
-    /**
-     * AttributeSetからこのViewで使用可能なTypedArrayを取得する
-     *
-     * @param context アプリケーションコンテキスト
-     * @param attrs   layout.xmlで指定したAttributeSet
-     * @return このViewで使用可能なTypedArray
-     */
-    @Contract("_, null -> null")
-    private TypedArray getTypedArray(@NonNull Context context, @Nullable AttributeSet attrs) {
-        if (attrs == null) return null;
-        return context.obtainStyledAttributes(attrs, R.styleable.calendar_view);
-    }
-
-    /**
-     * layout.xmlに指定した引数からyearに指定した値を取得する
-     *
-     * @param typedArray layout.xmlに指定した引数
-     * @return yearの値
-     */
-    private int getYear(@Nullable TypedArray typedArray) {
-        if (typedArray == null) return -1;
-        return typedArray.getInt(R.styleable.calendar_view_year, -1);
-    }
-
-    /**
-     * layout.xmlに指定した引数からmonthに指定した値を取得する
-     *
-     * @param typedArray layout.xmlに指定した引数
-     * @return monthの値
-     */
-    private int getMonth(@Nullable TypedArray typedArray) {
-        if (typedArray == null) return -1;
-        return typedArray.getInt(R.styleable.calendar_view_month, -1);
     }
 
     /**
@@ -250,7 +214,7 @@ public class CalendarView extends LinearLayout implements View.OnClickListener, 
         if (mDisplayYearMonthCalendar == null) return null;
 
         CalendarDayView calendarDayView = new CalendarDayView(mContext, displayDay, mDisplayYearMonthCalendar.get(Calendar.MONTH) + 1);
-        calendarDayView.setOnSelectedDayListener(mOnSelectedDayListener);
+        calendarDayView.setClientOnSelectedDayListener(mClientOnSelectedDayListener);
         mCalendarDayViewList.add(calendarDayView);
 
         return calendarDayView;

@@ -22,5 +22,5 @@ interface ICalendarAccess {
      *
      * @param listener 選択時Listener
      */
-    void setOnSelectedDayListener(@Nullable CalendarDayView.OnSelectedDayListener listener);
+    void setClientOnSelectedDayListener(@Nullable CalendarDayView.OnSelectedDayListener listener);
 }

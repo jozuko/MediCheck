@@ -67,7 +67,7 @@ public abstract class AActivity extends Activity {
         if (mCalendarDialogView == null) return;
 
         mCalendarDialogView.setOnCancelButtonClickListener(cancelListener);
-        mCalendarDialogView.setOnSelectedDayListener(selectedDayListener);
+        mCalendarDialogView.setClientOnSelectedDayListener(selectedDayListener);
         mCalendarDialogView.showCalendar(displayMonthCalendar);
     }
 

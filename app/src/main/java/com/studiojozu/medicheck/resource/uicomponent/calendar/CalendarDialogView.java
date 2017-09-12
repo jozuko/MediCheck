@@ -27,7 +27,7 @@ public class CalendarDialogView extends ADialogView<CalendarView> implements ICa
         super(context, attrs);
 
         mCalendarView = new CalendarView(context);
-        mCalendarView.setOnSelectedDayListener(this);
+        mCalendarView.setClientOnSelectedDayListener(this);
         initTargetView(mCalendarView, LAYOUT_PARAMS, true, false);
     }
 
@@ -47,8 +47,7 @@ public class CalendarDialogView extends ADialogView<CalendarView> implements ICa
      *
      * @param listener 選択時Listener
      */
-    @Override
-    public void setOnSelectedDayListener(@Nullable CalendarDayView.OnSelectedDayListener listener) {
+    public void setClientOnSelectedDayListener(@Nullable CalendarDayView.OnSelectedDayListener listener) {
         mOnSelectedDayListener = listener;
     }
 

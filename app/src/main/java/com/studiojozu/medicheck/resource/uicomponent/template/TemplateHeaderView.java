@@ -1,4 +1,4 @@
-package com.studiojozu.medicheck.resource.uicomponent.view;
+package com.studiojozu.medicheck.resource.uicomponent.template;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -10,12 +10,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.studiojozu.medicheck.R;
+import com.studiojozu.medicheck.resource.uicomponent.ACustomView;
 
 public class TemplateHeaderView extends ACustomView<TemplateHeaderView> implements View.OnClickListener {
-
-    public interface OnFinishingListener {
-        boolean onFinishing();
-    }
 
     @Nullable
     private OnFinishingListener mClientOnFinishingListener = null;
@@ -36,12 +33,13 @@ public class TemplateHeaderView extends ACustomView<TemplateHeaderView> implemen
     }
 
     @Override
-    int layoutResource() {
+    protected int layoutResource() {
         return R.layout.template_header;
     }
 
+    @Nullable
     @Override
-    int[] styleableResources() {
+    protected int[] styleableResources() {
         return R.styleable.template_header_view;
     }
 
@@ -81,5 +79,9 @@ public class TemplateHeaderView extends ACustomView<TemplateHeaderView> implemen
 
         if (mActivity != null)
             mActivity.finish();
+    }
+
+    public interface OnFinishingListener {
+        boolean onFinishing();
     }
 }

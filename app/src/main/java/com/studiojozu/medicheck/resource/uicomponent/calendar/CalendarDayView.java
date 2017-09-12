@@ -36,7 +36,7 @@ public class CalendarDayView extends FrameLayout implements View.OnClickListener
     @NonNull
     private final TextView mDayTextView;
     @Nullable
-    private OnSelectedDayListener mOnSelectedDayListener = null;
+    private OnSelectedDayListener mClientOnSelectedDayListener = null;
 
     /**
      * 本日日付のカレンダーの日付を表示するViewの生成
@@ -140,15 +140,15 @@ public class CalendarDayView extends FrameLayout implements View.OnClickListener
      *
      * @param listener 選択時Listener
      */
-    void setOnSelectedDayListener(@Nullable OnSelectedDayListener listener) {
-        mOnSelectedDayListener = listener;
+    void setClientOnSelectedDayListener(@Nullable OnSelectedDayListener listener) {
+        mClientOnSelectedDayListener = listener;
     }
 
     @Override
     public void onClick(View view) {
-        if (mOnSelectedDayListener == null) return;
+        if (mClientOnSelectedDayListener == null) return;
 
-        mOnSelectedDayListener.onSelected((Calendar) mDisplayDay.clone());
+        mClientOnSelectedDayListener.onSelected((Calendar) mDisplayDay.clone());
     }
 
     /**

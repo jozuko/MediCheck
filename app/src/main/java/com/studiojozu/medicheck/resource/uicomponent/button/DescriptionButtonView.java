@@ -1,4 +1,4 @@
-package com.studiojozu.medicheck.resource.uicomponent.view;
+package com.studiojozu.medicheck.resource.uicomponent.button;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -10,10 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.studiojozu.common.log.Log;
 import com.studiojozu.medicheck.R;
-
-import org.jetbrains.annotations.Contract;
+import com.studiojozu.medicheck.resource.uicomponent.ACustomView;
 
 /**
  * 説明文がついたボタンView
@@ -40,12 +38,13 @@ public class DescriptionButtonView extends ACustomView<DescriptionButtonView> im
     }
 
     @Override
-    int layoutResource() {
+    protected int layoutResource() {
         return R.layout.description_button;
     }
 
+    @Nullable
     @Override
-    int[] styleableResources() {
+    protected int[] styleableResources() {
         return R.styleable.description_button_view;
     }
 

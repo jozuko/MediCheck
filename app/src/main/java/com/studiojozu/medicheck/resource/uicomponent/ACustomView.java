@@ -1,4 +1,4 @@
-package com.studiojozu.medicheck.resource.uicomponent.view;
+package com.studiojozu.medicheck.resource.uicomponent;
 
 import android.app.Activity;
 import android.content.Context;
@@ -14,69 +14,71 @@ import android.widget.LinearLayout;
 
 import org.jetbrains.annotations.Contract;
 
-abstract class ACustomView<T> extends LinearLayout {
+public abstract class ACustomView<T> extends LinearLayout {
 
-    final int UNKNOWN_RESOURCE_ID = -1;
-    final String STRING_RESOURCE_DEFAULT = "";
+    protected final int RESOURCE_DEFAULT_INTEGER = Integer.MIN_VALUE;
+    protected final String RESOURCE_DEFAULT_STRING = "";
+    protected final int UNKNOWN_RESOURCE_ID = -1;
 
     @NonNull
-    final Context mContext;
+    protected final Context mContext;
     @NonNull
-    final LayoutInflater mLayoutInflater;
+    protected final T mCustomView;
     @NonNull
-    final T mCustomView;
+    private final LayoutInflater mLayoutInflater;
     @Nullable
-    Activity mActivity = null;
-
-    public ACustomView(@NonNull Context context) {
-        this(context, null);
-    }
+    protected Activity mActivity = null;
 
     public ACustomView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
 
         mContext = context;
         mLayoutInflater = LayoutInflater.from(context);
-        mCustomView = getCurrentView(context);
+        mCustomView = getCurrentView();
     }
 
     @LayoutRes
-    abstract int layoutResource();
+    protected abstract int layoutResource();
 
     @Nullable
     @StyleableRes
-    abstract int[] styleableResources();
+    protected abstract int[] styleableResources();
 
     @SuppressWarnings("unchecked")
     @NonNull
-    private T getCurrentView(@NonNull Context context) {
+    private T getCurrentView() {
         return (T) mLayoutInflater.inflate(layoutResource(), this);
     }
 
     @Contract("null -> null")
     @Nullable
-    TypedArray getTypedArray(@Nullable AttributeSet attrs) {
+    protected TypedArray getTypedArray(@Nullable AttributeSet attrs) {
         if (attrs == null) return null;
 
         int[] styleableResources = styleableResources();
-        if(styleableResources == null) return null;
+        if (styleableResources == null) return null;
 
         return mContext.obtainStyledAttributes(attrs, styleableResources);
     }
 
     @NonNull
     @Contract("null, _ -> !null")
-    String getAttributeString(@Nullable TypedArray typedArray, @StyleableRes int styleableId) {
-        if (typedArray == null) return STRING_RESOURCE_DEFAULT;
+    protected String getAttributeString(@Nullable TypedArray typedArray, @StyleableRes int styleableId) {
+        if (typedArray == null) return RESOURCE_DEFAULT_STRING;
 
         String data = typedArray.getString(styleableId);
 
-        if(data == null) return STRING_RESOURCE_DEFAULT;
+        if (data == null) return RESOURCE_DEFAULT_STRING;
         return data;
     }
 
+    protected int getAttributeInteger(@Nullable TypedArray typedArray, @StyleableRes int styleableId) {
+        if (typedArray == null) return RESOURCE_DEFAULT_INTEGER;
+        return typedArray.getInt(styleableId, RESOURCE_DEFAULT_INTEGER);
+    }
+
     @DrawableRes
-    int getAttributeDrawableResourceId(@Nullable TypedArray typedArray, @StyleableRes int styleableId) {
+    protected int getAttributeDrawableResourceId(@Nullable TypedArray typedArray, @StyleableRes int styleableId) {
         if (typedArray == null) return UNKNOWN_RESOURCE_ID;
         return typedArray.getResourceId(styleableId, UNKNOWN_RESOURCE_ID);
     }

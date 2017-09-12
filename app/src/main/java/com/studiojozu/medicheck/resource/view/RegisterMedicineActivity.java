@@ -1,6 +1,5 @@
 package com.studiojozu.medicheck.resource.view;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,7 +11,7 @@ import android.widget.TextView;
 import com.studiojozu.medicheck.R;
 import com.studiojozu.medicheck.domain.model.medicine.MedicineNameValidator;
 import com.studiojozu.medicheck.resource.uicomponent.dialog.InputDialogView;
-import com.studiojozu.medicheck.resource.uicomponent.view.TemplateHeaderView;
+import com.studiojozu.medicheck.resource.uicomponent.template.TemplateHeaderView;
 
 /**
  * 今日のお薬を一覧表示する。
