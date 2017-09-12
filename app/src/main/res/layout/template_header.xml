@@ -5,17 +5,16 @@
     android:orientation="horizontal">
 
     <ImageView
-        android:id="@+id/header_icon"
-        style="@style/MenuIconStyle"
-        android:src="@mipmap/ic_take_person"/>
+        android:id="@+id/template_header_icon"
+        style="@style/MenuIconStyle" />
 
     <TextView
-        android:id="@+id/header_title"
+        android:id="@+id/template_header_title"
         style="@style/MenuTextStyle"
         android:layout_weight="1"/>
 
     <Button
-        android:id="@+id/header_title_back_to_menu_button"
+        android:id="@+id/header_back_to_menu_button"
         style="@style/SmallButtonStyle"
         android:layout_weight="0"
         android:text="@string/button_menu"/>

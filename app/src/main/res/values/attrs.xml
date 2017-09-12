@@ -11,4 +11,8 @@
         <attr name="month" format="integer"/>
     </declare-styleable>
 
+    <declare-styleable name="template_header_view">
+        <attr name="header_icon" format="reference" />
+        <attr name="header_title" format="string" />
+    </declare-styleable>
 </resources>

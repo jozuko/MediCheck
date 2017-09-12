@@ -12,14 +12,13 @@ import android.widget.TextView;
 import com.studiojozu.medicheck.R;
 import com.studiojozu.medicheck.domain.model.medicine.MedicineNameValidator;
 import com.studiojozu.medicheck.resource.uicomponent.dialog.InputDialogView;
+import com.studiojozu.medicheck.resource.uicomponent.view.TemplateHeaderView;
 
 /**
  * 今日のお薬を一覧表示する。
  */
-public class RegisterMedicineActivity extends AActivity implements View.OnClickListener, TemplateHeaderView.TemplateHeaderIncludeActivity, TemplatePersonSelectView.TemplatePersonSelectIncludeActivity {
+public class RegisterMedicineActivity extends AActivity implements View.OnClickListener {
 
-    @Nullable
-    private TemplatePersonSelectView mTemplatePersonSelectView = null;
     @Nullable
     private TextView mMedicineNameTextView = null;
     @Nullable
@@ -46,32 +45,9 @@ public class RegisterMedicineActivity extends AActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_register_medicine);
 
-        initTemplateHeaderView();
-        initTemplatePersonSelectView();
+        initHeaderParent();
         getAllView();
-
         setClickListener();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    protected void onDestroy() {
-        try {
-            if (mTemplatePersonSelectView != null)
-                mTemplatePersonSelectView.recycle();
-        } finally {
-            super.onDestroy();
-        }
     }
 
     private void getAllView() {
@@ -171,26 +147,15 @@ public class RegisterMedicineActivity extends AActivity implements View.OnClickL
         // TODO 登録ボタンクリック処理
     }
 
-    @Override
-    public void initTemplateHeaderView() {
-        new TemplateHeaderView(this, R.mipmap.ic_register_medicine, R.string.button_register_medicine);
-    }
-
-    @Override
-    public void initTemplatePersonSelectView() {
-        mTemplatePersonSelectView = new TemplatePersonSelectView(this);
-        mTemplatePersonSelectView.init();
-    }
-
-    @Override
-    public Activity getActivity() {
-        return this;
-    }
-
-    @Override
-    public boolean beforeFinish() {
-        // TODO 入力内容がキャンセルされますが、よろしいですか？アラートダイアログを表示したい。
-
-        return true;
+    private void initHeaderParent() {
+        TemplateHeaderView templateHeaderView = findViewById(R.id.header_view);
+        templateHeaderView.setParentActivity(this);
+        templateHeaderView.setOnFinishingListener(new TemplateHeaderView.OnFinishingListener() {
+            @Override
+            public boolean onFinishing() {
+                // TODO do something...
+                return true;
+            }
+        });
     }
 }

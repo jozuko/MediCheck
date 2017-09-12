@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     style="@style/StandardViewStyle"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,7 +9,12 @@
     android:theme="@style/AppTheme">
 
     <!-- title -->
-    <include layout="@layout/template_header"/>
+    <com.studiojozu.medicheck.resource.uicomponent.view.TemplateHeaderView
+        android:id="@+id/header_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        custom:header_icon="@mipmap/ic_take_person"
+        custom:header_title="@string/button_today_medicine"/>
 
     <!-- person selector -->
     <include layout="@layout/template_person_select"/>

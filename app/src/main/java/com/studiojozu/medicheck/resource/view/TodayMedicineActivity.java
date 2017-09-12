@@ -1,6 +1,5 @@
 package com.studiojozu.medicheck.resource.view;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -8,6 +7,7 @@ import android.widget.Toast;
 
 import com.studiojozu.medicheck.R;
 import com.studiojozu.medicheck.resource.uicomponent.calendar.CalendarDayView;
+import com.studiojozu.medicheck.resource.uicomponent.view.TemplateHeaderView;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -15,7 +15,7 @@ import java.util.Calendar;
 /**
  * 今日のお薬を一覧表示する。
  */
-public class TodayMedicineActivity extends AActivity implements View.OnClickListener, TemplateHeaderView.TemplateHeaderIncludeActivity {
+public class TodayMedicineActivity extends AActivity implements View.OnClickListener {
 
     /** 表示日付 */
     private Calendar mDisplayDate;
@@ -25,7 +25,7 @@ public class TodayMedicineActivity extends AActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_today_medicine);
 
-        initTemplateHeaderView();
+        initHeaderParent();
 
         mDisplayDate = Calendar.getInstance();
         mDisplayDate.setTimeInMillis(System.currentTimeMillis());
@@ -33,20 +33,16 @@ public class TodayMedicineActivity extends AActivity implements View.OnClickList
         setClickListener();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    private void initHeaderParent() {
+        TemplateHeaderView templateHeaderView = findViewById(R.id.header_view);
+        templateHeaderView.setParentActivity(this);
+        templateHeaderView.setOnFinishingListener(new TemplateHeaderView.OnFinishingListener() {
+            @Override
+            public boolean onFinishing() {
+                // TODO do something...
+                return true;
+            }
+        });
     }
 
     private void setClickListener() {
@@ -70,20 +66,4 @@ public class TodayMedicineActivity extends AActivity implements View.OnClickList
             }
         });
     }
-
-    @Override
-    public void initTemplateHeaderView() {
-        new TemplateHeaderView(this, R.mipmap.ic_take_person, R.string.button_today_medicine);
-    }
-
-    @Override
-    public Activity getActivity() {
-        return this;
-    }
-
-    @Override
-    public boolean beforeFinish() {
-        return true;
-    }
-
 }
