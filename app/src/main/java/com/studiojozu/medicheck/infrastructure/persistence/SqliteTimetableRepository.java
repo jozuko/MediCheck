@@ -57,75 +57,87 @@ public class SqliteTimetableRepository extends ABaseRepository implements Timeta
     protected void updateDefaultData(@NonNull Context context, @Nullable SQLiteDatabase database) {
         if (database == null) return;
 
-        int order = 1;
+        long order = 1L;
 
         Map<ColumnBase, ADbType> insertData = new HashMap<>();
+        insertData.put(COLUMN_ID, COLUMN_ID.mColumnType.createNewInstance(null));
         insertData.put(COLUMN_NAME, COLUMN_NAME.mColumnType.createNewInstance(context.getResources().getString(R.string.timing_morning)));
         insertData.put(COLUMN_TIME, COLUMN_TIME.mColumnType.createNewInstance(new TimetableTimeType(7, 0).getDbValue()));
         insertData.put(COLUMN_DISPLAY_ORDER, COLUMN_DISPLAY_ORDER.mColumnType.createNewInstance(order++));
         insert(database, insertData);
 
         insertData.clear();
+        insertData.put(COLUMN_ID, COLUMN_ID.mColumnType.createNewInstance(null));
         insertData.put(COLUMN_NAME, COLUMN_NAME.mColumnType.createNewInstance(context.getResources().getString(R.string.timing_noon)));
         insertData.put(COLUMN_TIME, COLUMN_TIME.mColumnType.createNewInstance(new TimetableTimeType(12, 0).getDbValue()));
         insertData.put(COLUMN_DISPLAY_ORDER, COLUMN_DISPLAY_ORDER.mColumnType.createNewInstance(order++));
         insert(database, insertData);
 
         insertData.clear();
+        insertData.put(COLUMN_ID, COLUMN_ID.mColumnType.createNewInstance(null));
         insertData.put(COLUMN_NAME, COLUMN_NAME.mColumnType.createNewInstance(context.getResources().getString(R.string.timing_night)));
         insertData.put(COLUMN_TIME, COLUMN_TIME.mColumnType.createNewInstance(new TimetableTimeType(19, 0).getDbValue()));
         insertData.put(COLUMN_DISPLAY_ORDER, COLUMN_DISPLAY_ORDER.mColumnType.createNewInstance(order++));
         insert(database, insertData);
 
         insertData.clear();
+        insertData.put(COLUMN_ID, COLUMN_ID.mColumnType.createNewInstance(null));
         insertData.put(COLUMN_NAME, COLUMN_NAME.mColumnType.createNewInstance(context.getResources().getString(R.string.timing_before_sleep)));
         insertData.put(COLUMN_TIME, COLUMN_TIME.mColumnType.createNewInstance(new TimetableTimeType(22, 0).getDbValue()));
         insertData.put(COLUMN_DISPLAY_ORDER, COLUMN_DISPLAY_ORDER.mColumnType.createNewInstance(order++));
         insert(database, insertData);
 
         insertData.clear();
+        insertData.put(COLUMN_ID, COLUMN_ID.mColumnType.createNewInstance(null));
         insertData.put(COLUMN_NAME, COLUMN_NAME.mColumnType.createNewInstance(context.getResources().getString(R.string.timing_before_breakfast)));
         insertData.put(COLUMN_TIME, COLUMN_TIME.mColumnType.createNewInstance(new TimetableTimeType(6, 30).getDbValue()));
         insertData.put(COLUMN_DISPLAY_ORDER, COLUMN_DISPLAY_ORDER.mColumnType.createNewInstance(order++));
         insert(database, insertData);
 
         insertData.clear();
+        insertData.put(COLUMN_ID, COLUMN_ID.mColumnType.createNewInstance(null));
         insertData.put(COLUMN_NAME, COLUMN_NAME.mColumnType.createNewInstance(context.getResources().getString(R.string.timing_before_lunch)));
         insertData.put(COLUMN_TIME, COLUMN_TIME.mColumnType.createNewInstance(new TimetableTimeType(11, 30).getDbValue()));
         insertData.put(COLUMN_DISPLAY_ORDER, COLUMN_DISPLAY_ORDER.mColumnType.createNewInstance(order++));
         insert(database, insertData);
 
         insertData.clear();
+        insertData.put(COLUMN_ID, COLUMN_ID.mColumnType.createNewInstance(null));
         insertData.put(COLUMN_NAME, COLUMN_NAME.mColumnType.createNewInstance(context.getResources().getString(R.string.timing_before_dinner)));
         insertData.put(COLUMN_TIME, COLUMN_TIME.mColumnType.createNewInstance(new TimetableTimeType(18, 30).getDbValue()));
         insertData.put(COLUMN_DISPLAY_ORDER, COLUMN_DISPLAY_ORDER.mColumnType.createNewInstance(order++));
         insert(database, insertData);
 
         insertData.clear();
+        insertData.put(COLUMN_ID, COLUMN_ID.mColumnType.createNewInstance(null));
         insertData.put(COLUMN_NAME, COLUMN_NAME.mColumnType.createNewInstance(context.getResources().getString(R.string.timing_after_breakfast)));
         insertData.put(COLUMN_TIME, COLUMN_TIME.mColumnType.createNewInstance(new TimetableTimeType(7, 30).getDbValue()));
         insertData.put(COLUMN_DISPLAY_ORDER, COLUMN_DISPLAY_ORDER.mColumnType.createNewInstance(order++));
         insert(database, insertData);
 
         insertData.clear();
+        insertData.put(COLUMN_ID, COLUMN_ID.mColumnType.createNewInstance(null));
         insertData.put(COLUMN_NAME, COLUMN_NAME.mColumnType.createNewInstance(context.getResources().getString(R.string.timing_after_lunch)));
         insertData.put(COLUMN_TIME, COLUMN_TIME.mColumnType.createNewInstance(new TimetableTimeType(12, 30).getDbValue()));
         insertData.put(COLUMN_DISPLAY_ORDER, COLUMN_DISPLAY_ORDER.mColumnType.createNewInstance(order++));
         insert(database, insertData);
 
         insertData.clear();
+        insertData.put(COLUMN_ID, COLUMN_ID.mColumnType.createNewInstance(null));
         insertData.put(COLUMN_NAME, COLUMN_NAME.mColumnType.createNewInstance(context.getResources().getString(R.string.timing_after_dinner)));
         insertData.put(COLUMN_TIME, COLUMN_TIME.mColumnType.createNewInstance(new TimetableTimeType(19, 30).getDbValue()));
         insertData.put(COLUMN_DISPLAY_ORDER, COLUMN_DISPLAY_ORDER.mColumnType.createNewInstance(order++));
         insert(database, insertData);
 
         insertData.clear();
+        insertData.put(COLUMN_ID, COLUMN_ID.mColumnType.createNewInstance(null));
         insertData.put(COLUMN_NAME, COLUMN_NAME.mColumnType.createNewInstance(context.getResources().getString(R.string.timing_between_meals_morning)));
         insertData.put(COLUMN_TIME, COLUMN_TIME.mColumnType.createNewInstance(new TimetableTimeType(10, 0).getDbValue()));
         insertData.put(COLUMN_DISPLAY_ORDER, COLUMN_DISPLAY_ORDER.mColumnType.createNewInstance(order++));
         insert(database, insertData);
 
         insertData.clear();
+        insertData.put(COLUMN_ID, COLUMN_ID.mColumnType.createNewInstance(null));
         insertData.put(COLUMN_NAME, COLUMN_NAME.mColumnType.createNewInstance(context.getResources().getString(R.string.timing_between_meals_afternoon)));
         insertData.put(COLUMN_TIME, COLUMN_TIME.mColumnType.createNewInstance(new TimetableTimeType(16, 0).getDbValue()));
         insertData.put(COLUMN_DISPLAY_ORDER, COLUMN_DISPLAY_ORDER.mColumnType.createNewInstance(order));

@@ -12,6 +12,7 @@ import com.studiojozu.medicheck.domain.model.medicine.StartDatetimeType;
 import com.studiojozu.medicheck.domain.model.medicine.TakeIntervalModeType;
 import com.studiojozu.medicheck.domain.model.medicine.TakeIntervalType;
 import com.studiojozu.medicheck.domain.model.medicine.TakeNumberType;
+import com.studiojozu.medicheck.domain.model.person.PersonDisplayOrderType;
 import com.studiojozu.medicheck.domain.model.person.PersonIdType;
 import com.studiojozu.medicheck.domain.model.person.PersonNameType;
 import com.studiojozu.medicheck.domain.model.person.PersonPhotoType;
@@ -47,6 +48,7 @@ public enum ColumnPattern {
     PARSON_ID(SqliteTypeNamePattern.Text, PersonIdType.class),
     PARSON_NAME(SqliteTypeNamePattern.Text, PersonNameType.class),
     PARSON_PHOTO(SqliteTypeNamePattern.Text, PersonPhotoType.class),
+    PARSON_DISPLAY_ORDER(SqliteTypeNamePattern.Integer, PersonDisplayOrderType.class),
 
     SCHEDULE_IS_TAKE(SqliteTypeNamePattern.Integer, IsTakeType.class),
     SCHEDULE_NEED_ALARM(SqliteTypeNamePattern.Integer, NeedAlarmType.class),

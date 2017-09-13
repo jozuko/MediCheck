@@ -2,6 +2,7 @@ package com.studiojozu.medicheck.domain.model.person;
 
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -22,66 +23,62 @@ public class Person {
     @NotNull
     private PersonPhotoType mPhotoPath;
 
-    /**
-     * DB登録前のインスタンスを生成するためのコンストラクタ
-     *
-     * @param name      飲む人の名前
-     * @param photoPath 飲む人の写真パス
-     */
+    /** 表示順 */
+    @NotNull
+    private PersonDisplayOrderType mPersonDisplayOrder;
+
+    public Person() {
+        mPersonId = new PersonIdType();
+        mPersonName = new PersonNameType();
+        mPhotoPath = new PersonPhotoType();
+        mPersonDisplayOrder = new PersonDisplayOrderType(-1);
+    }
+
     public Person(String name, String photoPath) {
         mPersonId = new PersonIdType();
         mPersonName = new PersonNameType(name);
         mPhotoPath = new PersonPhotoType(photoPath);
+        mPersonDisplayOrder = new PersonDisplayOrderType(-1);
     }
 
-    /**
-     * DB登録済み（IDがわかっている）インスタンスを生成するためのコンストラクタ
-     *
-     * @param personIdType 飲む人ID
-     * @param personName   飲む人名前
-     * @param personPhoto  飲む人写真パス
-     */
-    public Person(@NonNull PersonIdType personIdType, @NonNull PersonNameType personName, @NonNull PersonPhotoType personPhoto) {
-        mPersonId = personIdType.clone();
-        mPersonName = personName.clone();
-        mPhotoPath = personPhoto.clone();
+    public Person(@NonNull PersonIdType personIdType, @NonNull PersonNameType personName, @NonNull PersonPhotoType personPhoto, @NonNull PersonDisplayOrderType personDisplayOrder) {
+        mPersonId = personIdType;
+        mPersonName = personName;
+        mPhotoPath = personPhoto;
+        mPersonDisplayOrder = personDisplayOrder;
     }
 
-    /**
-     * 飲む人の写真パスを変更する。
-     *
-     * @param photoPath 飲む人の写真パス
-     */
-    public void setPhotoPath(@NonNull String photoPath) {
-        mPhotoPath = new PersonPhotoType(photoPath);
-    }
-
+    @NonNull
     public String getDisplayPersonName() {
         return mPersonName.getDbValue();
     }
 
+    @Nullable
     public Uri getPhotoUri() {
         return mPhotoPath.getPhotoUri();
     }
 
+    @NonNull
     public PersonIdType getPersonId() {
-        return mPersonId.clone();
+        return mPersonId;
     }
 
+    @NonNull
     public PersonNameType getPersonName() {
-        return mPersonName.clone();
+        return mPersonName;
     }
 
-    /**
-     * 飲む人の名前を変更する。
-     *
-     * @param name 飲む人の名前
-     */
-    public void setPersonName(@NotNull String name) {
-        mPersonName = new PersonNameType(name);
-    }
-
+    @NotNull
     public PersonPhotoType getPersonPhoto() {
-        return mPhotoPath.clone();
+        return mPhotoPath;
+    }
+
+    @NotNull
+    public PersonDisplayOrderType getPersonDisplayOrder() {
+        return mPersonDisplayOrder;
+    }
+
+    public void setDisplayOrder(int personDisplayOrder) {
+        mPersonDisplayOrder = new PersonDisplayOrderType(personDisplayOrder);
     }
 }

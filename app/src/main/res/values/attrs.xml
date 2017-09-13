@@ -12,7 +12,12 @@
     </declare-styleable>
 
     <declare-styleable name="template_header_view">
-        <attr name="header_icon" format="reference" />
-        <attr name="header_title" format="string" />
+        <attr name="header_icon" format="reference"/>
+        <attr name="header_title" format="string"/>
+    </declare-styleable>
+
+    <declare-styleable name="template_person_select_view">
+        <attr name="use_all" format="boolean"/>
+        <attr name="use_add_user" format="boolean"/>
     </declare-styleable>
 </resources>

@@ -18,6 +18,7 @@ public class PhotoType extends TextType {
         super(value);
     }
 
+    @Nullable
     public Uri getPhotoUri() {
         if (getDbValue().equals("")) return null;
 

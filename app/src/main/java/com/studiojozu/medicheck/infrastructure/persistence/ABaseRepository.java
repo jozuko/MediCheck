@@ -46,6 +46,7 @@ abstract class ABaseRepository extends DatabaseController {
     void createTable(@NonNull Context context, @Nullable SQLiteDatabase db) {
         if (db != null)
             db.execSQL(getCreateTableSQL());
+
         updateDefaultData(context, db);
     }
 

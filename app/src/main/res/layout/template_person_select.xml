@@ -8,8 +8,7 @@
         style="@style/StandardLabelStyle"
         android:text="@string/label_person_name"/>
 
-    <Spinner
-        android:id="@+id/template_person_spinner"
-        style="@style/StandardSpinnerStyle"/>
-
+    <TextView
+        android:id="@+id/person_select"
+        style="@style/SelectableLabelStyle"/>
 </LinearLayout>

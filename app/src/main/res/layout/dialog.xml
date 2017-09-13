@@ -51,7 +51,7 @@
                 android:drawableLeft="@mipmap/ic_cancel"
                 android:drawableStart="@mipmap/ic_cancel"
                 android:text="@android:string/cancel"
-                tools:ignore="NestedWeights"/>
+                tools:ignore="ButtonStyle,NestedWeights"/>
 
             <Button
                 android:id="@+id/dialog_ok_button"
@@ -62,7 +62,8 @@
                 android:layout_weight="1"
                 android:drawableLeft="@mipmap/ic_ok"
                 android:drawableStart="@mipmap/ic_ok"
-                android:text="@android:string/ok"/>
+                android:text="@android:string/ok"
+                tools:ignore="ButtonStyle"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

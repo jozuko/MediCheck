@@ -47,7 +47,20 @@ public class SqlitePersonMediViewRepository extends ABaseRepository implements P
         StringBuilder builder = new StringBuilder();
         builder.append("create view ").append(TABLE_NAME);
         builder.append(" as ");
-        builder.append("select ").append(COLUMNS.getAllColumnNameSplitComma());
+        builder.append("select");
+
+        builder.append(" ").append(SqliteMedicineRepository.TABLE_NAME).append(".").append(SqliteMedicineRepository.COLUMN_ID.mColumnName).append(" as ").append(SqliteMedicineRepository.COLUMN_ID.mColumnName);
+        builder.append(",").append(SqliteMedicineRepository.TABLE_NAME).append(".").append(SqliteMedicineRepository.COLUMN_NAME.mColumnName).append(" as ").append(SqliteMedicineRepository.COLUMN_NAME.mColumnName);
+        builder.append(",").append(SqliteMedicineRepository.TABLE_NAME).append(".").append(SqliteMedicineRepository.COLUMN_TAKE_NUMBER.mColumnName).append(" as ").append(SqliteMedicineRepository.COLUMN_TAKE_NUMBER.mColumnName);
+        builder.append(",").append(SqliteMedicineRepository.TABLE_NAME).append(".").append(SqliteMedicineRepository.COLUMN_DATE_NUMBER.mColumnName).append(" as ").append(SqliteMedicineRepository.COLUMN_DATE_NUMBER.mColumnName);
+        builder.append(",").append(SqliteMedicineRepository.TABLE_NAME).append(".").append(SqliteMedicineRepository.COLUMN_START_DATETIME.mColumnName).append(" as ").append(SqliteMedicineRepository.COLUMN_START_DATETIME.mColumnName);
+        builder.append(",").append(SqliteMedicineRepository.TABLE_NAME).append(".").append(SqliteMedicineRepository.COLUMN_TAKE_INTERVAL.mColumnName).append(" as ").append(SqliteMedicineRepository.COLUMN_TAKE_INTERVAL.mColumnName);
+        builder.append(",").append(SqliteMedicineRepository.TABLE_NAME).append(".").append(SqliteMedicineRepository.COLUMN_TAKE_INTERVAL_MODE.mColumnName).append(" as ").append(SqliteMedicineRepository.COLUMN_TAKE_INTERVAL_MODE.mColumnName);
+        builder.append(",").append(SqliteMedicineRepository.TABLE_NAME).append(".").append(SqliteMedicineRepository.COLUMN_PHOTO.mColumnName).append(" as ").append(SqliteMedicineRepository.COLUMN_PHOTO.mColumnName);
+
+        builder.append(",").append(SqlitePersonRepository.TABLE_NAME).append(".").append(SqlitePersonRepository.COLUMN_ID.mColumnName).append(" as ").append(SqlitePersonRepository.COLUMN_ID.mColumnName);
+        builder.append(",").append(SqlitePersonRepository.TABLE_NAME).append(".").append(SqlitePersonRepository.COLUMN_NAME.mColumnName).append(" as ").append(SqlitePersonRepository.COLUMN_NAME.mColumnName);
+        builder.append(",").append(SqlitePersonRepository.TABLE_NAME).append(".").append(SqlitePersonRepository.COLUMN_PHOTO.mColumnName).append(" as ").append(SqlitePersonRepository.COLUMN_PHOTO.mColumnName);
 
         builder.append(" from ");
         builder.append(SqlitePersonMediRelationRepository.TABLE_NAME).append(",");
@@ -123,7 +136,14 @@ public class SqlitePersonMediViewRepository extends ABaseRepository implements P
 
     @Override
     public boolean existByPersonIdMedicineId(@NonNull Context context, @NonNull PersonIdType personIdType, @NonNull MedicineIdType medicineIdType) {
-        return (getPersonNumberByMedicineId(context, medicineIdType) > 0);
+        ArrayList<ADbType> whereList = new ArrayList<>();
+        whereList.add(personIdType);
+        whereList.add(medicineIdType);
+
+        String where = SqlitePersonRepository.COLUMN_ID.getEqualsCondition() + " and " + SqliteMedicineRepository.COLUMN_ID.getEqualsCondition();
+
+        List<Map<ColumnBase, ADbType>> databaseRecords = find(context, where, whereList, null);
+        return (databaseRecords.size() > 0);
     }
 
     @Override

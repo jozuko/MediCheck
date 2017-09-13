@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.studiojozu.common.domain.model.IValidator;
@@ -20,7 +19,7 @@ import com.studiojozu.common.domain.model.IValidator;
  */
 public class InputDialogView extends ADialogView<TextView> {
 
-    private static final ScrollView.LayoutParams LAYOUT_PARAMS = new ScrollView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+    private static final ViewGroup.LayoutParams LAYOUT_PARAMS = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
     @NonNull
     private final InputMethodManager mInputMethodManager;
@@ -61,6 +60,7 @@ public class InputDialogView extends ADialogView<TextView> {
                     listener.onCompleted(data);
 
                 mInputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+
                 closeDialog();
             }
         });
@@ -71,6 +71,7 @@ public class InputDialogView extends ADialogView<TextView> {
             @Override
             public void onClick(View view) {
                 mInputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                closeDialog();
             }
         });
     }

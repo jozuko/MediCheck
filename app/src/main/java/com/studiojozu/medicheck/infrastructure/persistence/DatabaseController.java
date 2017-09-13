@@ -90,8 +90,8 @@ abstract class DatabaseController {
     @NonNull
     ArrayList<Map<ColumnBase, ADbType>> find(@NonNull Context context, @NonNull String tableName, @NonNull Columns columns, @Nullable String whereClause, @Nullable ArrayList<ADbType> whereArgs, @Nullable String orderBy) {
         final String sql = "select * from " + tableName + " "
-                + (whereClause != null ? whereClause + " " : "")
-                + (orderBy != null ? orderBy + " " : "");
+                + (whereClause != null ? "where " + whereClause + " " : "")
+                + (orderBy != null ? "order by " + orderBy + " " : "");
 
         return rawQuery(context, columns, sql, whereArgs);
     }

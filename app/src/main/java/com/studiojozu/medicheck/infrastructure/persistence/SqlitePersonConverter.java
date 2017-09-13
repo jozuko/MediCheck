@@ -4,6 +4,7 @@ import android.support.annotation.Nullable;
 
 import com.studiojozu.common.domain.model.ADbType;
 import com.studiojozu.medicheck.domain.model.person.Person;
+import com.studiojozu.medicheck.domain.model.person.PersonDisplayOrderType;
 import com.studiojozu.medicheck.domain.model.person.PersonIdType;
 import com.studiojozu.medicheck.domain.model.person.PersonNameType;
 import com.studiojozu.medicheck.domain.model.person.PersonPhotoType;
@@ -28,7 +29,8 @@ class SqlitePersonConverter extends ASqliteConverter<Person> {
         return new Person(
                 getPersonIdType(),
                 getPersonNameType(),
-                getPersonPhotoType()
+                getPersonPhotoType(),
+                getPersonDisplayOrder()
         );
     }
 
@@ -48,5 +50,11 @@ class SqlitePersonConverter extends ASqliteConverter<Person> {
         PersonPhotoType personPhotoType = (PersonPhotoType) getData(SqlitePersonRepository.COLUMN_PHOTO);
         if (personPhotoType != null) return personPhotoType;
         return new PersonPhotoType();
+    }
+
+    private PersonDisplayOrderType getPersonDisplayOrder() {
+        PersonDisplayOrderType personDisplayOrderType = (PersonDisplayOrderType) getData(SqlitePersonRepository.COLUMN_DISPLAY_ORDER);
+        if (personDisplayOrderType != null) return personDisplayOrderType;
+        return new PersonDisplayOrderType(-1);
     }
 }

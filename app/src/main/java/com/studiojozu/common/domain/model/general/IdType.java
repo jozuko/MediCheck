@@ -1,5 +1,7 @@
 package com.studiojozu.common.domain.model.general;
 
+import android.support.annotation.NonNull;
+
 import java.util.UUID;
 
 /**
@@ -8,10 +10,15 @@ import java.util.UUID;
 public class IdType extends TextType {
 
     protected IdType() {
-        super(UUID.randomUUID().toString().toUpperCase().substring(0, 8));
+        super(newId());
     }
 
     protected IdType(Object value) {
-        super(value);
+        super((value == null ? newId() : value));
+    }
+
+    @NonNull
+    private static String newId() {
+        return UUID.randomUUID().toString().toUpperCase().substring(0, 8);
     }
 }

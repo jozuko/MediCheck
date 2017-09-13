@@ -24,7 +24,7 @@ class WritableDatabase extends ADatabase {
     }
 
     @Contract("null -> false")
-    boolean isWritableDatabase(@Nullable SQLiteDatabase db) {
+    private boolean isWritableDatabase(@Nullable SQLiteDatabase db) {
         return db != null && db.isOpen() && !db.isReadOnly();
     }
 

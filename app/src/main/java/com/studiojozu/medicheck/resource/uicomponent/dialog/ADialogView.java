@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.studiojozu.medicheck.R;
@@ -23,7 +22,7 @@ import com.studiojozu.medicheck.R;
 public abstract class ADialogView<T extends View> extends LinearLayout implements View.OnClickListener {
 
     @NonNull
-    protected final Context mContext;
+    final Context mContext;
     @NonNull
     private final ViewGroup mParentView;
     @NonNull
@@ -35,11 +34,13 @@ public abstract class ADialogView<T extends View> extends LinearLayout implement
     @Nullable
     private T mDialogTargetView = null;
     @Nullable
-    private FrameLayout.LayoutParams mLayoutParams = null;
+    private ViewGroup.LayoutParams mLayoutParams = null;
     @Nullable
     private View.OnClickListener mOnCancelButtonClickListener = null;
     @Nullable
     private View.OnClickListener mOnOkButtonClickListener = null;
+    @Nullable
+    private OnCloseListener mOnCloseListener = null;
 
     public ADialogView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -61,7 +62,7 @@ public abstract class ADialogView<T extends View> extends LinearLayout implement
         mOKButton.setOnClickListener(this);
     }
 
-    protected void initTargetView(@Nullable T dialogTargetView, @NonNull ScrollView.LayoutParams layoutParams, boolean needCancel, boolean needOk) {
+    void initTargetView(@Nullable T dialogTargetView, @NonNull ViewGroup.LayoutParams layoutParams, boolean needCancel, boolean needOk) {
         mDialogTargetView = dialogTargetView;
         mLayoutParams = layoutParams;
 
@@ -70,27 +71,31 @@ public abstract class ADialogView<T extends View> extends LinearLayout implement
         showOkButton(needOk);
     }
 
-    public void setOnCancelButtonClickListener(@Nullable View.OnClickListener listener) {
+    void setOnCancelButtonClickListener(@Nullable View.OnClickListener listener) {
         mOnCancelButtonClickListener = listener;
     }
 
-    public void setOnOkButtonClickListener(@Nullable View.OnClickListener listener) {
+    void setOnOkButtonClickListener(@Nullable View.OnClickListener listener) {
         mOnOkButtonClickListener = listener;
     }
 
-    public void setDialogTitle(@StringRes int resourceId) {
+    public void setOnCloseListener(@Nullable OnCloseListener listener) {
+        mOnCloseListener = listener;
+    }
+
+    void setDialogTitle(@StringRes int resourceId) {
         TextView titleText = findViewById(R.id.dialog_title_text);
         titleText.setText(resourceId);
         titleText.setVisibility(VISIBLE);
     }
 
-    public void setDialogMessage(@StringRes int resourceId) {
+    void setDialogMessage(@StringRes int resourceId) {
         TextView messageText = findViewById(R.id.dialog_message_text);
         messageText.setText(resourceId);
         messageText.setVisibility(VISIBLE);
     }
 
-    public void setDialogMessageColor(@ColorInt int color) {
+    void setDialogMessageColor(@ColorInt int color) {
         TextView messageText = findViewById(R.id.dialog_message_text);
         messageText.setTextColor(color);
     }
@@ -142,26 +147,39 @@ public abstract class ADialogView<T extends View> extends LinearLayout implement
     private void onClickOkButton(int id) {
         if (id != R.id.dialog_ok_button) return;
 
-        if (mOnOkButtonClickListener != null)
-            mOnOkButtonClickListener.onClick(mOKButton);
+        if (mOnOkButtonClickListener == null) {
+            closeDialog();
+            return;
+        }
+
+        mOnOkButtonClickListener.onClick(mOKButton);
     }
 
     public void cancelDialog() {
-        if (mOnCancelButtonClickListener != null)
-            mOnCancelButtonClickListener.onClick(mCancelButton);
+        if (mOnCancelButtonClickListener == null) {
+            closeDialog();
+            return;
+        }
 
-        closeDialog();
+        mOnCancelButtonClickListener.onClick(mCancelButton);
     }
 
     public void showDialog() {
         setVisibility(VISIBLE);
     }
 
-    protected void closeDialog() {
+    void closeDialog() {
+        if (mOnCloseListener != null)
+            mOnCloseListener.onClose();
+
         setVisibility(GONE);
     }
 
     public boolean isShown() {
         return (getVisibility() == VISIBLE);
+    }
+
+    public interface OnCloseListener {
+        void onClose();
     }
 }

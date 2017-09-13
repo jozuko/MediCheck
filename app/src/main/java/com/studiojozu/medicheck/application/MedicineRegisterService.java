@@ -42,7 +42,7 @@ public class MedicineRegisterService {
         try {
             mPersistenceTransaction.beginTransaction();
 
-            mMedicineRepository.add(mContext, personIdType, medicine);
+            mMedicineRepository.add(mContext, medicine);
             mMediTimeRelationRepository.add(mContext, medicine.getMedicineId(), medicine.getTimetableList());
             mPersonMediRelationRepository.add(mContext, personIdType, medicine.getMedicineId());
 

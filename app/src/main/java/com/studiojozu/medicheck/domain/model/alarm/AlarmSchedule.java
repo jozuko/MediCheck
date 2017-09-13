@@ -70,7 +70,7 @@ public class AlarmSchedule {
     }
 
     @NonNull
-    TimetableTimeType getTimetableTimeType() {
+    private TimetableTimeType getTimetableTimeType() {
         return mTimetable.getTimetableTime();
     }
 }

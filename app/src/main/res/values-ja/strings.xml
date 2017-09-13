@@ -31,6 +31,7 @@
     <string name="label_alarm">アラーム</string>
     <string name="label_interval">飲む間隔</string>
     <string name="label_date_number">日数</string>
+    <string name="label_add">新しく登録する</string>
 
     <string name="input_title_medicine_name">薬の名前</string>
     <string name="input_title_medicine_start_day">薬を飲み始める日時</string>

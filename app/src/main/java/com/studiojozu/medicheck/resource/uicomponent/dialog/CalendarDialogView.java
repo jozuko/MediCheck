@@ -1,13 +1,14 @@
-package com.studiojozu.medicheck.resource.uicomponent.calendar;
+package com.studiojozu.medicheck.resource.uicomponent.dialog;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
-import android.widget.ScrollView;
 
-import com.studiojozu.medicheck.resource.uicomponent.dialog.ADialogView;
+import com.studiojozu.medicheck.resource.uicomponent.calendar.CalendarDayView;
+import com.studiojozu.medicheck.resource.uicomponent.calendar.CalendarView;
+import com.studiojozu.medicheck.resource.uicomponent.calendar.ICalendarAccess;
 
 import java.util.Calendar;
 
@@ -16,7 +17,7 @@ import java.util.Calendar;
  */
 public class CalendarDialogView extends ADialogView<CalendarView> implements ICalendarAccess, CalendarDayView.OnSelectedDayListener {
 
-    private static final ScrollView.LayoutParams LAYOUT_PARAMS = new ScrollView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+    private static final ViewGroup.LayoutParams LAYOUT_PARAMS = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
     @NonNull
     private final CalendarView mCalendarView;

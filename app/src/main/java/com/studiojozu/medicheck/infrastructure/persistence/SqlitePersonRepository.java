@@ -15,8 +15,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
 
 /**
  * 薬を飲む人テーブル
@@ -35,6 +33,9 @@ public class SqlitePersonRepository extends ABaseRepository implements PersonRep
     /** 写真 */
     @SuppressWarnings("WeakerAccess")
     public static final ColumnBase COLUMN_PHOTO = new ColumnBase("person_photo", ColumnPattern.PARSON_PHOTO);
+    /** 写真 */
+    @SuppressWarnings("WeakerAccess")
+    public static final ColumnBase COLUMN_DISPLAY_ORDER = new ColumnBase("person_display_order", ColumnPattern.PARSON_DISPLAY_ORDER);
     static final String TABLE_NAME = "person";
     private static final Columns COLUMNS;
 
@@ -43,6 +44,7 @@ public class SqlitePersonRepository extends ABaseRepository implements PersonRep
         columns.add(COLUMN_ID);
         columns.add(COLUMN_NAME);
         columns.add(COLUMN_PHOTO);
+        columns.add(COLUMN_DISPLAY_ORDER);
         COLUMNS = new Columns(columns);
     }
 
@@ -51,8 +53,11 @@ public class SqlitePersonRepository extends ABaseRepository implements PersonRep
         if (db == null) return;
         Map<ColumnBase, ADbType> insertData = new HashMap<>();
 
+        insertData.put(COLUMN_ID, COLUMN_ID.mColumnType.createNewInstance(null));
         insertData.put(COLUMN_NAME, COLUMN_NAME.mColumnType.createNewInstance(context.getResources().getString(R.string.person_self)));
         insertData.put(COLUMN_PHOTO, COLUMN_PHOTO.mColumnType.createNewInstance(""));
+        insertData.put(COLUMN_DISPLAY_ORDER, COLUMN_DISPLAY_ORDER.mColumnType.createNewInstance(1L));
+
         insert(db, insertData);
     }
 
@@ -90,14 +95,14 @@ public class SqlitePersonRepository extends ABaseRepository implements PersonRep
 
     @Override
     @Nullable
-    public Set<Person> findAll(@NonNull Context context) {
-        List<Map<ColumnBase, ADbType>> databaseRecords = find(context, null, null, null);
+    public List<Person> findAll(@NonNull Context context) {
+        List<Map<ColumnBase, ADbType>> databaseRecords = find(context, null, null, COLUMN_DISPLAY_ORDER.mColumnName);
         if (databaseRecords.size() == 0)
             return null;
 
-        Set<Person> personSet = new TreeSet<>();
+        List<Person> personSet = new ArrayList<>();
         for (Map<ColumnBase, ADbType> record : databaseRecords) {
-            Person person = new SqlitePersonConverter(databaseRecords.get(0)).createFromRecord();
+            Person person = new SqlitePersonConverter(record).createFromRecord();
             personSet.add(person);
         }
 
@@ -105,18 +110,19 @@ public class SqlitePersonRepository extends ABaseRepository implements PersonRep
     }
 
     @Override
-    public int existPersonById(@NonNull Context context, @NonNull PersonIdType personIdType) {
+    public boolean existPersonById(@NonNull Context context, @NonNull PersonIdType personIdType) {
         ArrayList<ADbType> whereList = new ArrayList<>();
         whereList.add(personIdType);
 
         List<Map<ColumnBase, ADbType>> dataList = find(context, COLUMN_ID.getEqualsCondition(), whereList, null);
-        return dataList.size();
+        return (dataList.size() != 0);
     }
 
     @Override
     public void add(@NonNull Context context, @NonNull Person person) {
-        int size = existPersonById(context, person.getPersonId());
-        if (size <= 0) {
+        if (!existPersonById(context, person.getPersonId())) {
+            int personCount = size(context);
+            person.setDisplayOrder(personCount + 1);
             insert(context, person);
             return;
         }
@@ -125,9 +131,16 @@ public class SqlitePersonRepository extends ABaseRepository implements PersonRep
     }
 
     @Override
+    public int size(@NonNull Context context) {
+        List<Person> personList = findAll(context);
+
+        if (personList == null) return 0;
+        return personList.size();
+    }
+
+    @Override
     public void remove(@NonNull Context context, @NonNull PersonIdType personIdType) {
-        int size = existPersonById(context, personIdType);
-        if (size <= 0) return;
+        if (!existPersonById(context, personIdType)) return;
 
         String whereClause = COLUMN_ID.getEqualsCondition();
 
@@ -142,6 +155,7 @@ public class SqlitePersonRepository extends ABaseRepository implements PersonRep
         insertData.put(COLUMN_ID, person.getPersonId());
         insertData.put(COLUMN_NAME, person.getPersonName());
         insertData.put(COLUMN_PHOTO, person.getPersonPhoto());
+        insertData.put(COLUMN_DISPLAY_ORDER, person.getPersonDisplayOrder());
         insert(context, insertData);
     }
 
@@ -149,6 +163,7 @@ public class SqlitePersonRepository extends ABaseRepository implements PersonRep
         Map<ColumnBase, ADbType> values = new HashMap<>();
         values.put(COLUMN_NAME, person.getPersonName());
         values.put(COLUMN_PHOTO, person.getPersonPhoto());
+        values.put(COLUMN_DISPLAY_ORDER, person.getPersonDisplayOrder());
 
         String whereClause = COLUMN_ID.getEqualsCondition();
 

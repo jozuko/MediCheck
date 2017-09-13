@@ -38,12 +38,13 @@ public class CalendarView extends ACustomView<CalendarView> implements View.OnCl
     private Calendar mDisplayYearMonthCalendar = null;
     @Nullable
     private CalendarDayView.OnSelectedDayListener mClientOnSelectedDayListener = null;
+
     /**
      * ダイアログとしてカレンダーを生成するときに使用するコンストラクタ
      *
      * @param context アプリケーションコンテキスト
      */
-    CalendarView(@NonNull Context context) {
+    public CalendarView(@NonNull Context context) {
         this(context, null);
     }
 

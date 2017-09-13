@@ -2,17 +2,17 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/image_spinner_layout"
     style="@style/ImageSpinnerItemLayoutStyle"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    tools:ignore="UseCompoundDrawables">
 
     <ImageView
-        android:id="@+id/image_spinner_item_icon"
+        android:id="@+id/icon"
         style="@style/ImageSpinnerItemImageStyle"
         android:src="@mipmap/person_no_image"/>
 
     <TextView
-        android:id="@+id/image_spinner_item_text"
+        android:id="@+id/text"
         style="@style/ImageSpinnerItemTextStyle"
         android:text="test_text,test_text,test_text,test_text"
         tools:ignore="HardcodedText"/>

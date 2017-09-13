@@ -17,7 +17,7 @@ import java.io.IOException;
 /**
  * Bitmapイメージを表示するImageView
  */
-class BitmapViewComponent {
+public class BitmapViewComponent {
     @NonNull
     private final Context mContext;
     private final int mDefaultResourceId;

@@ -6,7 +6,7 @@
 
     <ImageView
         android:id="@+id/template_header_icon"
-        style="@style/MenuIconStyle" />
+        style="@style/MenuIconStyle"/>
 
     <TextView
         android:id="@+id/template_header_title"

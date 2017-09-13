@@ -3,19 +3,25 @@ package com.studiojozu.medicheck.resource.view;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
 
 import com.studiojozu.common.domain.model.IValidator;
 import com.studiojozu.medicheck.R;
+import com.studiojozu.medicheck.application.PersonSelectService;
 import com.studiojozu.medicheck.resource.uicomponent.calendar.CalendarDayView;
-import com.studiojozu.medicheck.resource.uicomponent.calendar.CalendarDialogView;
 import com.studiojozu.medicheck.resource.uicomponent.dialog.ADialogView;
+import com.studiojozu.medicheck.resource.uicomponent.dialog.CalendarDialogView;
 import com.studiojozu.medicheck.resource.uicomponent.dialog.InputDialogView;
+import com.studiojozu.medicheck.resource.uicomponent.dialog.SelectorDialogView;
+import com.studiojozu.medicheck.resource.uicomponent.listview.ImageSingleSelectArrayAdapter;
 
 import org.jetbrains.annotations.Contract;
 
@@ -27,9 +33,13 @@ import java.util.Calendar;
 public abstract class AActivity extends Activity {
 
     @Nullable
+    ImageSingleSelectArrayAdapter mSelectPersonAdapter = null;
+    @Nullable
     private CalendarDialogView mCalendarDialogView = null;
     @Nullable
     private InputDialogView mInputDialogView = null;
+    @Nullable
+    private SelectorDialogView mSelectorDialogView = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,6 +57,7 @@ public abstract class AActivity extends Activity {
 
         getCalendarDialogView();
         getInputDialogView();
+        getSelectorDialogView();
     }
 
     @Override
@@ -63,18 +74,42 @@ public abstract class AActivity extends Activity {
         mInputDialogView = findViewById(R.id.main_input_dialog);
     }
 
-    protected void showCalendarDialog(Calendar displayMonthCalendar, View.OnClickListener cancelListener, CalendarDayView.OnSelectedDayListener selectedDayListener) {
+    private void getSelectorDialogView() {
+        mSelectorDialogView = findViewById(R.id.main_selector_dialog);
+    }
+
+    void showCalendarDialog(Calendar displayMonthCalendar, CalendarDayView.OnSelectedDayListener selectedDayListener) {
         if (mCalendarDialogView == null) return;
 
-        mCalendarDialogView.setOnCancelButtonClickListener(cancelListener);
         mCalendarDialogView.setClientOnSelectedDayListener(selectedDayListener);
         mCalendarDialogView.showCalendar(displayMonthCalendar);
     }
 
-    protected void showInputDialog(@StringRes int titleResourceId, @Nullable final IValidator validator, @Nullable final InputDialogView.OnCompletedCorrectInputListener listener) {
+    void showInputDialog(@StringRes int titleResourceId, @Nullable final IValidator validator, @Nullable final InputDialogView.OnCompletedCorrectInputListener listener) {
         if (mInputDialogView == null) return;
 
         mInputDialogView.showInputDialog(titleResourceId, validator, listener);
+    }
+
+    void showPersonSelectorDialog(@Nullable ListView.OnItemClickListener itemClickListener) {
+        initSelectPerson();
+        if (mSelectPersonAdapter == null) return;
+
+        showSelectorDialog(mSelectPersonAdapter, itemClickListener, new ADialogView.OnCloseListener() {
+            @Override
+            public void onClose() {
+                finalSelectPerson();
+            }
+        });
+    }
+
+    private void showSelectorDialog(@NonNull BaseAdapter adapter, @Nullable ListView.OnItemClickListener itemClickListener, @Nullable ADialogView.OnCloseListener closeListener) {
+        if (mSelectorDialogView == null) return;
+
+        mSelectorDialogView.setListViewAdapter(adapter);
+        mSelectorDialogView.setOnItemSelectedListener(itemClickListener);
+        mSelectorDialogView.setOnCloseListener(closeListener);
+        mSelectorDialogView.showDialog();
     }
 
     @Contract("null -> false")
@@ -90,4 +125,17 @@ public abstract class AActivity extends Activity {
         if (closeDialog(mCalendarDialogView)) return true;
         return (closeDialog(mInputDialogView));
     }
+
+    private void initSelectPerson() {
+        PersonSelectService personSelectService = new PersonSelectService(getApplicationContext(), true);
+        mSelectPersonAdapter = personSelectService.getPersonSelectAdapter();
+    }
+
+    private void finalSelectPerson() {
+        if (mSelectPersonAdapter == null)
+            return;
+
+        mSelectPersonAdapter.recycle();
+    }
+
 }

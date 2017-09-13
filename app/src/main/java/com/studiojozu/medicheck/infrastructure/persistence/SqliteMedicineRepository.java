@@ -9,7 +9,6 @@ import com.studiojozu.common.domain.model.ADbType;
 import com.studiojozu.medicheck.domain.model.medicine.Medicine;
 import com.studiojozu.medicheck.domain.model.medicine.MedicineIdType;
 import com.studiojozu.medicheck.domain.model.medicine.MedicineRepository;
-import com.studiojozu.medicheck.domain.model.person.PersonIdType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -104,8 +103,13 @@ public class SqliteMedicineRepository extends ABaseRepository implements Medicin
     }
 
     @Override
-    public void add(@NonNull Context context, @NonNull PersonIdType personId, @NonNull Medicine medicine) {
-        registerMedicine(context, medicine);
+    public void add(@NonNull Context context, @NonNull Medicine medicine) {
+        if (isNewRecord(context, medicine.getMedicineId())) {
+            insertMedicine(context, medicine);
+            return;
+        }
+
+        updateMedicine(context, medicine);
     }
 
     @Override
@@ -116,15 +120,6 @@ public class SqliteMedicineRepository extends ABaseRepository implements Medicin
         ArrayList<ADbType> whereList = new ArrayList<>();
         whereList.add(medicineIdType);
         delete(context, whereClause, whereList);
-    }
-
-    private void registerMedicine(@NonNull Context context, @NonNull Medicine medicine) {
-        if (isNewRecord(context, medicine.getMedicineId())) {
-            insertMedicine(context, medicine);
-            return;
-        }
-
-        updateMedicine(context, medicine);
     }
 
     private boolean isNewRecord(@NonNull Context context, @NonNull MedicineIdType medicineIdType) {

@@ -20,7 +20,12 @@ public class LongType extends ADbType<Long> implements Comparable<LongType> {
     }
 
     protected LongType(@NotNull Object value) {
-        mValue = (long) value;
+        if (value instanceof Long)
+            mValue = (long) value;
+        else if (value instanceof Integer)
+            mValue = (long) (int) value;
+        else
+            mValue = -1L;
     }
 
     @Override

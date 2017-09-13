@@ -51,7 +51,23 @@ public class SqliteMediTimeViewRepository extends ABaseRepository implements Med
 
         builder.append("create view ").append(TABLE_NAME);
         builder.append(" as ");
-        builder.append("select ").append(COLUMNS.getAllColumnNameSplitComma());
+        builder.append("select");
+
+        builder.append(" ").append(SqliteMedicineRepository.TABLE_NAME).append(".").append(SqliteMedicineRepository.COLUMN_ID.mColumnName).append(" as ").append(SqliteMedicineRepository.COLUMN_ID.mColumnName);
+        builder.append(",").append(SqliteMedicineRepository.TABLE_NAME).append(".").append(SqliteMedicineRepository.COLUMN_NAME.mColumnName).append(" as ").append(SqliteMedicineRepository.COLUMN_NAME.mColumnName);
+        builder.append(",").append(SqliteMedicineRepository.TABLE_NAME).append(".").append(SqliteMedicineRepository.COLUMN_TAKE_NUMBER.mColumnName).append(" as ").append(SqliteMedicineRepository.COLUMN_TAKE_NUMBER.mColumnName);
+        builder.append(",").append(SqliteMedicineRepository.TABLE_NAME).append(".").append(SqliteMedicineRepository.COLUMN_DATE_NUMBER.mColumnName).append(" as ").append(SqliteMedicineRepository.COLUMN_DATE_NUMBER.mColumnName);
+        builder.append(",").append(SqliteMedicineRepository.TABLE_NAME).append(".").append(SqliteMedicineRepository.COLUMN_START_DATETIME.mColumnName).append(" as ").append(SqliteMedicineRepository.COLUMN_START_DATETIME.mColumnName);
+        builder.append(",").append(SqliteMedicineRepository.TABLE_NAME).append(".").append(SqliteMedicineRepository.COLUMN_TAKE_INTERVAL.mColumnName).append(" as ").append(SqliteMedicineRepository.COLUMN_TAKE_INTERVAL.mColumnName);
+        builder.append(",").append(SqliteMedicineRepository.TABLE_NAME).append(".").append(SqliteMedicineRepository.COLUMN_TAKE_INTERVAL_MODE.mColumnName).append(" as ").append(SqliteMedicineRepository.COLUMN_TAKE_INTERVAL_MODE.mColumnName);
+        builder.append(",").append(SqliteMedicineRepository.TABLE_NAME).append(".").append(SqliteMedicineRepository.COLUMN_PHOTO.mColumnName).append(" as ").append(SqliteMedicineRepository.COLUMN_PHOTO.mColumnName);
+
+        builder.append(",").append(SqliteTimetableRepository.TABLE_NAME).append(".").append(SqliteTimetableRepository.COLUMN_ID.mColumnName).append(" as ").append(SqliteTimetableRepository.COLUMN_ID.mColumnName);
+        builder.append(",").append(SqliteTimetableRepository.TABLE_NAME).append(".").append(SqliteTimetableRepository.COLUMN_NAME.mColumnName).append(" as ").append(SqliteTimetableRepository.COLUMN_NAME.mColumnName);
+        builder.append(",").append(SqliteTimetableRepository.TABLE_NAME).append(".").append(SqliteTimetableRepository.COLUMN_TIME.mColumnName).append(" as ").append(SqliteTimetableRepository.COLUMN_TIME.mColumnName);
+        builder.append(",").append(SqliteTimetableRepository.TABLE_NAME).append(".").append(SqliteTimetableRepository.COLUMN_DISPLAY_ORDER.mColumnName).append(" as ").append(SqliteTimetableRepository.COLUMN_DISPLAY_ORDER.mColumnName);
+
+        builder.append(",").append(SqliteMediTimeRelationRepository.TABLE_NAME).append(".").append(SqliteMediTimeRelationRepository.COLUMN_IS_ONE_SHOT.mColumnName).append(" as ").append(SqliteMediTimeRelationRepository.COLUMN_IS_ONE_SHOT.mColumnName);
 
         builder.append(" from ");
         builder.append(SqliteMediTimeRelationRepository.TABLE_NAME).append(",");
