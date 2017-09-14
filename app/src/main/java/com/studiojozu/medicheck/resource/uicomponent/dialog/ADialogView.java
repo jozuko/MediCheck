@@ -71,11 +71,11 @@ public abstract class ADialogView<T extends View> extends LinearLayout implement
         showOkButton(needOk);
     }
 
-    void setOnCancelButtonClickListener(@Nullable View.OnClickListener listener) {
+    public void setOnCancelButtonClickListener(@Nullable View.OnClickListener listener) {
         mOnCancelButtonClickListener = listener;
     }
 
-    void setOnOkButtonClickListener(@Nullable View.OnClickListener listener) {
+    public void setOnOkButtonClickListener(@Nullable View.OnClickListener listener) {
         mOnOkButtonClickListener = listener;
     }
 
@@ -110,7 +110,7 @@ public abstract class ADialogView<T extends View> extends LinearLayout implement
         mDialogMainView.setVisibility(VISIBLE);
     }
 
-    private void showCancelButton(boolean needCancel) {
+    void showCancelButton(boolean needCancel) {
         if (needCancel) {
             mCancelButton.setVisibility(VISIBLE);
             return;
@@ -118,7 +118,7 @@ public abstract class ADialogView<T extends View> extends LinearLayout implement
         mCancelButton.setVisibility(GONE);
     }
 
-    private void showOkButton(boolean needOk) {
+    void showOkButton(boolean needOk) {
         if (needOk) {
             mOKButton.setVisibility(VISIBLE);
             return;

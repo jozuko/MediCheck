@@ -95,7 +95,7 @@ public abstract class AActivity extends Activity {
         initSelectPerson();
         if (mSelectPersonAdapter == null) return;
 
-        showSelectorDialog(mSelectPersonAdapter, itemClickListener, new ADialogView.OnCloseListener() {
+        showSingleSelectorDialog(mSelectPersonAdapter, itemClickListener, new ADialogView.OnCloseListener() {
             @Override
             public void onClose() {
                 finalSelectPerson();
@@ -103,13 +103,22 @@ public abstract class AActivity extends Activity {
         });
     }
 
-    private void showSelectorDialog(@NonNull BaseAdapter adapter, @Nullable ListView.OnItemClickListener itemClickListener, @Nullable ADialogView.OnCloseListener closeListener) {
+    private void showSingleSelectorDialog(@NonNull BaseAdapter adapter, @Nullable ListView.OnItemClickListener itemClickListener, @Nullable ADialogView.OnCloseListener closeListener) {
         if (mSelectorDialogView == null) return;
 
         mSelectorDialogView.setListViewAdapter(adapter);
         mSelectorDialogView.setOnItemSelectedListener(itemClickListener);
         mSelectorDialogView.setOnCloseListener(closeListener);
-        mSelectorDialogView.showDialog();
+        mSelectorDialogView.showSelectorDialog(false, false);
+    }
+
+    private void showMultiSelectorDialog(@NonNull BaseAdapter adapter, @Nullable View.OnClickListener okClickListener, @Nullable View.OnClickListener cancelClickListener) {
+        if (mSelectorDialogView == null) return;
+
+        mSelectorDialogView.setListViewAdapter(adapter);
+        mSelectorDialogView.setOnCancelButtonClickListener(okClickListener);
+        mSelectorDialogView.setOnCancelButtonClickListener(cancelClickListener);
+        mSelectorDialogView.showSelectorDialog(true, true);
     }
 
     @Contract("null -> false")
