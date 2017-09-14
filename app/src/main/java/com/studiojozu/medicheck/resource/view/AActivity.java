@@ -21,7 +21,7 @@ import com.studiojozu.medicheck.resource.uicomponent.dialog.ADialogView;
 import com.studiojozu.medicheck.resource.uicomponent.dialog.CalendarDialogView;
 import com.studiojozu.medicheck.resource.uicomponent.dialog.InputDialogView;
 import com.studiojozu.medicheck.resource.uicomponent.dialog.SelectorDialogView;
-import com.studiojozu.medicheck.resource.uicomponent.listview.ImageSingleSelectArrayAdapter;
+import com.studiojozu.medicheck.resource.uicomponent.listview.SingleSelectArrayAdapter;
 
 import org.jetbrains.annotations.Contract;
 
@@ -33,7 +33,7 @@ import java.util.Calendar;
 public abstract class AActivity extends Activity {
 
     @Nullable
-    ImageSingleSelectArrayAdapter mSelectPersonAdapter = null;
+    SingleSelectArrayAdapter mSelectPersonAdapter = null;
     @Nullable
     private CalendarDialogView mCalendarDialogView = null;
     @Nullable

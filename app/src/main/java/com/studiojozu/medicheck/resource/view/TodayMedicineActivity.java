@@ -11,7 +11,7 @@ import android.widget.Toast;
 import com.studiojozu.medicheck.R;
 import com.studiojozu.medicheck.domain.model.person.Person;
 import com.studiojozu.medicheck.resource.uicomponent.calendar.CalendarDayView;
-import com.studiojozu.medicheck.resource.uicomponent.listview.ImageSingleSelectItem;
+import com.studiojozu.medicheck.resource.uicomponent.listview.SingleSelectItem;
 import com.studiojozu.medicheck.resource.uicomponent.template.TemplateHeaderView;
 
 import java.text.SimpleDateFormat;
@@ -81,10 +81,10 @@ public class TodayMedicineActivity extends AActivity implements View.OnClickList
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 if (mSelectPersonAdapter == null) return;
 
-                List<ImageSingleSelectItem> itemList = mSelectPersonAdapter.getItemList();
+                List<SingleSelectItem> itemList = mSelectPersonAdapter.getItemList();
                 if (itemList.size() == 0) return;
 
-                ImageSingleSelectItem item = itemList.get(position);
+                SingleSelectItem item = itemList.get(position);
                 Person person = (Person) item.getTag();
                 if (person == null) {
                     Toast.makeText(getApplicationContext(), "null", Toast.LENGTH_SHORT).show();

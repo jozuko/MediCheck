@@ -6,7 +6,7 @@
         android:state_pressed="false"/>
 
     <item
-        android:drawable="@color/spinner_list_item_pressed_background"
+        android:drawable="@color/check_list_item_pressed_background"
         android:state_pressed="true"/>
 
 </selector>

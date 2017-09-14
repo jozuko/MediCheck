@@ -7,8 +7,8 @@ import com.studiojozu.medicheck.R;
 import com.studiojozu.medicheck.domain.model.person.Person;
 import com.studiojozu.medicheck.domain.model.person.PersonRepository;
 import com.studiojozu.medicheck.infrastructure.adapter.PersistenceAdapter;
-import com.studiojozu.medicheck.resource.uicomponent.listview.ImageSingleSelectArrayAdapter;
-import com.studiojozu.medicheck.resource.uicomponent.listview.ImageSingleSelectItem;
+import com.studiojozu.medicheck.resource.uicomponent.listview.SingleSelectArrayAdapter;
+import com.studiojozu.medicheck.resource.uicomponent.listview.SingleSelectItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,33 +29,41 @@ public class PersonSelectService {
     }
 
     @NonNull
-    public ImageSingleSelectArrayAdapter getPersonSelectAdapter() {
-        List<ImageSingleSelectItem> itemList = getPersonSelectItemList();
-        return new ImageSingleSelectArrayAdapter(mContext, itemList, R.mipmap.person_no_image);
+    public SingleSelectArrayAdapter getPersonSelectAdapter() {
+        List<SingleSelectItem> itemList = getPersonSelectItemList();
+        return new SingleSelectArrayAdapter(mContext, itemList, false, R.mipmap.person_no_image);
     }
 
-    private List<ImageSingleSelectItem> getPersonSelectItemList() {
-        List<ImageSingleSelectItem> itemList = new ArrayList<>();
+    private List<SingleSelectItem> getPersonSelectItemList() {
+        List<SingleSelectItem> itemList = new ArrayList<>();
         addPerson(itemList);
         addUserAdd(itemList);
         return itemList;
     }
 
-    private void addPerson(@NonNull List<ImageSingleSelectItem> listItem) {
+    private void addPerson(@NonNull List<SingleSelectItem> listItem) {
         List<Person> personList = mPersonRepository.findAll(mContext);
         if (personList == null) return;
 
         for (Person person : personList) {
-            ImageSingleSelectItem<Person> item = new ImageSingleSelectItem<>(person.getDisplayPersonName(), person.getPhotoUri(), person);
+            SingleSelectItem<Person> item = new SingleSelectItem.Builder<Person>(person.getDisplayPersonName())
+                    .setImageFileUri(person.getPhotoUri())
+                    .setTag(person)
+                    .build();
+
             listItem.add(item);
         }
     }
 
-    private void addUserAdd(@NonNull List<ImageSingleSelectItem> listItem) {
+    private void addUserAdd(@NonNull List<SingleSelectItem> listItem) {
         if (!mUseUserAdd) return;
 
         String text = mContext.getResources().getString(R.string.label_add);
-        ImageSingleSelectItem<Person> item = new ImageSingleSelectItem<>(text, R.mipmap.add_person, new Person());
+        SingleSelectItem<Person> item = new SingleSelectItem.Builder<Person>(text)
+                .setImageResourceId(R.mipmap.add_person)
+                .setTag(new Person())
+                .build();
+
         listItem.add(item);
     }
 

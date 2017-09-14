@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/image_spinner_layout"
     style="@style/CheckListItemLayoutStyle"
     android:orientation="horizontal">
 
-
     <ImageView
+        android:id="@+id/icon"
         style="@style/CheckListItemImageStyle"
         android:layout_gravity="center_vertical"
         android:layout_marginEnd="@dimen/label_margin"
@@ -24,18 +22,19 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/main_text"
             style="@style/CheckListItemBigTextStyle"
-            android:text="薬の名前"
-            tools:ignore="HardcodedText"/>
+            android:text="@android:string/unknownName" />
 
         <TextView
+            android:id="@+id/sub_text"
             style="@style/CheckListItemNormalTextStyle"
-            android:text="朝食後(9:00) 1錠"
-            tools:ignore="HardcodedText"/>
+            android:text="@android:string/unknownName" />
 
     </LinearLayout>
 
     <ImageView
+        android:id="@+id/checked"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"

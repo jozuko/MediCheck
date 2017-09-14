@@ -19,18 +19,10 @@
     <color name="button_background_pressed">@color/input_background_pressed</color>
     <color name="button_shadow_pressed">@android:color/transparent</color>
 
-    <color name="spinner_text">@android:color/white</color>
-    <color name="spinner_background">@color/input_background</color>
-    <color name="spinner_background_shadow">@color/input_background_shadow</color>
-    <color name="spinner_icon_background">@android:color/transparent</color>
-    <color name="spinner_text_background">@android:color/transparent</color>
-    <color name="spinner_list_item_background">@color/input_background</color>
-    <color name="spinner_list_item_pressed_background">@color/input_background_pressed</color>
-    <color name="spinner_selection_title_background">@android:color/transparent</color>
-    <color name="spinner_selection_title_text">@android:color/black</color>
-
+    <color name="check_list_item_background">@color/input_background</color>
+    <color name="check_list_item_pressed_background">@color/input_background_pressed</color>
     <color name="check_list_child_background">@android:color/transparent</color>
-    <color name="check_list_child_text">@color/label_text</color>
+    <color name="check_list_child_text">@color/input_text</color>
 
     <color name="calendar_day_of_week_label">@android:color/white</color>
     <color name="calendar_day_same_month">@android:color/black</color>
