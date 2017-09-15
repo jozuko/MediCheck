@@ -28,7 +28,7 @@ import java.util.Calendar;
 /**
  *
  */
-public abstract class AMainActivity extends Activity {
+public abstract class AMainActivity extends AActivity {
 
     @Nullable
     private CalendarDialogView mCalendarDialogView = null;

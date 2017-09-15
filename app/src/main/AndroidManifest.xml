@@ -41,6 +41,14 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".resource.activities.RegisterMedicineChoiceActivity"
+            android:exported="false">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+
         <receiver
             android:name=".resource.alarm.AlarmBroadcastReceiver"
             android:exported="false">

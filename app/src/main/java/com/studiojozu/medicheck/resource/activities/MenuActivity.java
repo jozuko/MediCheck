@@ -7,7 +7,7 @@ import android.view.View;
 
 import com.studiojozu.medicheck.R;
 
-public class MenuActivity extends Activity {
+public class MenuActivity extends AActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +71,7 @@ public class MenuActivity extends Activity {
         findViewById(R.id.menu_button_register_medicine).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startNextActivity(RegisterMedicineActivity.class, R.id.menu_button_register_medicine);
+                startNextActivity(RegisterMedicineChoiceActivity.class, R.id.menu_button_register_medicine);
             }
         });
     }

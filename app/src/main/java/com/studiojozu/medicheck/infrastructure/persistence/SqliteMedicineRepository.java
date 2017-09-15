@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * 薬テーブル
@@ -90,6 +92,7 @@ public class SqliteMedicineRepository extends ABaseRepository implements Medicin
         return COLUMNS;
     }
 
+    @Override
     @Nullable
     public Medicine findMedicineById(@NonNull Context context, @NonNull MedicineIdType medicineIdType) {
         ArrayList<ADbType> whereList = new ArrayList<>();
@@ -100,6 +103,23 @@ public class SqliteMedicineRepository extends ABaseRepository implements Medicin
             return null;
 
         return new SqliteMedicineConverter(dataList.get(0)).createFromRecord();
+    }
+
+    @Override
+    @Nullable
+    public Set<Medicine> findAll(@NonNull Context context) {
+        List<Map<ColumnBase, ADbType>> databaseRecords = find(context, null, null, null);
+
+        if (databaseRecords.size() == 0)
+            return null;
+
+        Set<Medicine> medicineSet = new TreeSet<>();
+        for(Map<ColumnBase, ADbType> record : databaseRecords) {
+            Medicine medicine = new SqliteMedicineConverter(record).createFromRecord();
+            medicineSet.add(medicine);
+        }
+
+        return medicineSet;
     }
 
     @Override

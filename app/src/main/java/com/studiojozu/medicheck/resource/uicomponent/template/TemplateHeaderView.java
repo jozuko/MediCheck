@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.studiojozu.medicheck.R;
+import com.studiojozu.medicheck.resource.activities.AActivity;
 import com.studiojozu.medicheck.resource.uicomponent.ACustomView;
 
 public class TemplateHeaderView extends ACustomView<TemplateHeaderView> implements View.OnClickListener {
@@ -76,9 +77,10 @@ public class TemplateHeaderView extends ACustomView<TemplateHeaderView> implemen
         if (resourceId != R.id.header_back_to_menu_button) return;
 
         if (mClientOnFinishingListener != null && !mClientOnFinishingListener.onFinishing()) return;
+        if (mActivity == null) return;
 
-        if (mActivity != null)
-            mActivity.finish();
+        mActivity.setResult(AActivity.RESULT_BACK_TO_MENU);
+        mActivity.finish();
     }
 
     public interface OnFinishingListener {

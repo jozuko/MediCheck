@@ -24,20 +24,20 @@
         custom:text="@string/button_register_medicine"/>
 
     <com.studiojozu.medicheck.resource.uicomponent.button.DescriptionButtonView
-        android:id="@+id/menu_button_list_medicine"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        custom:description="@string/button_description_list_medicine"
-        custom:drawableLeft="@mipmap/ic_list_medicine"
-        custom:text="@string/button_list_medicine"/>
-
-    <com.studiojozu.medicheck.resource.uicomponent.button.DescriptionButtonView
         android:id="@+id/menu_button_history_medicine"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         custom:description="@string/button_description_history_medicine"
         custom:drawableLeft="@mipmap/ic_history_medicine"
         custom:text="@string/button_history_medicine"/>
+
+    <com.studiojozu.medicheck.resource.uicomponent.button.DescriptionButtonView
+        android:id="@+id/menu_button_list_medicine"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        custom:description="@string/button_description_list_medicine"
+        custom:drawableLeft="@mipmap/ic_list_medicine"
+        custom:text="@string/button_list_medicine"/>
 
     <com.studiojozu.medicheck.resource.uicomponent.button.DescriptionButtonView
         android:id="@+id/menu_button_setting"

@@ -46,14 +46,19 @@
     <string name="button_today_medicine">今日のお薬</string>
     <string name="button_description_today_medicine">薬を飲んだらココ</string>
     <string name="button_register_medicine">お薬の登録</string>
-    <string name="button_description_register_medicine">新しいお薬をもらったらココ</string>
+    <string name="button_description_register_medicine">お薬をもらったらココ</string>
     <string name="button_list_medicine">お薬の一覧</string>
-    <string name="button_description_list_medicine">同じお薬をもらったらココ</string>
+    <string name="button_description_list_medicine">お薬の削除はココ</string>
     <string name="button_history_medicine">服用履歴</string>
     <string name="button_description_history_medicine">飲んだお薬の履歴を見るにはココ</string>
     <string name="button_setting">設定</string>
     <string name="button_description_setting">人・服用時刻・アラームの変更はココ</string>
     <string name="button_one_shot">頓服薬</string>
+
+    <string name="button_register_new_medicine">新しい薬を登録</string>
+    <string name="button_description_register_new_medicine">新しい薬をもらったらココ</string>
+    <string name="button_register_copy_medicine">前の薬をコピー</string>
+    <string name="button_description_register_copy_medicine">前と同じ薬をもらったらココ</string>
 
     <string name="button_menu">メニューへ戻る</string>
     <string name="button_previous_day">前の日</string>
