@@ -10,17 +10,18 @@ import com.studiojozu.medicheck.domain.model.medicine.MedicineTimetableList;
 
 import org.jetbrains.annotations.Contract;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 /**
  * スケジュールの一覧を管理するクラス
  */
-public class ScheduleList implements Cloneable, Iterator<Schedule>, Iterable<Schedule> {
+public class ScheduleList implements Cloneable, Iterator<Schedule>, Iterable<Schedule>, Serializable {
 
-    private List<Schedule> mScheduleList;
-    private Iterator<Schedule> mScheduleIterator;
+    private static final long serialVersionUID = -4901152259481847837L;
+    private ArrayList<Schedule> mScheduleList;
+    private transient Iterator<Schedule> mScheduleIterator;
 
     @Override
     public ScheduleList clone() {

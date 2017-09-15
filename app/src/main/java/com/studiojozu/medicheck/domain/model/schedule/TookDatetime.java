@@ -11,7 +11,9 @@ import java.util.Calendar;
 /**
  * 服用した日時を管理するクラス
  */
-public class TookDatetime extends DatetimeType<TookDatetime> implements Cloneable {
+public class TookDatetime extends DatetimeType<TookDatetime> {
+
+    private static final long serialVersionUID = 4076300522326519800L;
 
     public TookDatetime() {
         this(Calendar.getInstance());
@@ -27,11 +29,6 @@ public class TookDatetime extends DatetimeType<TookDatetime> implements Cloneabl
 
     public TookDatetime(@NonNull DateType dateModel, @NonNull TimeType timeModel) {
         super(dateModel, timeModel);
-    }
-
-    @Override
-    public TookDatetime clone() {
-        return (TookDatetime) super.clone();
     }
 
     @Override

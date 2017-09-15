@@ -7,7 +7,9 @@ import java.util.UUID;
 /**
  * IDを管理するクラス
  */
-public abstract class IdType extends TextType {
+public abstract class IdType<C extends IdType<C>> extends TextType<C> {
+
+    private static final long serialVersionUID = 2407858114489390816L;
 
     protected IdType() {
         super(newId());

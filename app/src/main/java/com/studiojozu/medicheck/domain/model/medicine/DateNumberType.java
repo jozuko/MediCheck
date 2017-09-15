@@ -7,7 +7,9 @@ import com.studiojozu.common.domain.model.general.LongType;
 /**
  * 服用日数を管理するクラス
  */
-public class DateNumberType extends LongType implements Cloneable {
+public class DateNumberType extends LongType<DateNumberType> {
+    private static final long serialVersionUID = 4831886646728241799L;
+
     public DateNumberType() {
         super(0);
     }
@@ -16,12 +18,4 @@ public class DateNumberType extends LongType implements Cloneable {
         super(value);
     }
 
-    @Override
-    public DateNumberType clone() {
-        try {
-            return (DateNumberType) super.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new RuntimeException(e.toString(), e);
-        }
-    }
 }

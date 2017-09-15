@@ -9,22 +9,15 @@ import com.studiojozu.common.domain.model.general.LongType;
  * 日付の間隔の型クラス.
  * 〇日おき、毎月〇日の〇を表す
  */
-public class TakeIntervalType extends LongType implements Cloneable {
+public class TakeIntervalType extends LongType<TakeIntervalType> {
+    private static final long serialVersionUID = 1399242371014805824L;
+
     public TakeIntervalType() {
         super(0);
     }
 
     public TakeIntervalType(@NonNull Object value) {
         super(value);
-    }
-
-    @Override
-    public TakeIntervalType clone() {
-        try {
-            return (TakeIntervalType) super.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new RuntimeException(e.toString(), e);
-        }
     }
 
     /**

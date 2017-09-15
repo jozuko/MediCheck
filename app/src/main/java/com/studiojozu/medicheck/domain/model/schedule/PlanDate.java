@@ -5,14 +5,17 @@ import android.support.annotation.NonNull;
 import com.studiojozu.common.domain.model.general.DatetimeType;
 import com.studiojozu.medicheck.domain.model.setting.TimetableIdType;
 
+import java.io.Serializable;
+
 /**
  * 服用予定日時と日付、タイムテーブルIDを持つクラス
  */
-public class PlanDate implements Cloneable {
+public class PlanDate implements Cloneable, Serializable {
+    private static final long serialVersionUID = 1510995332489280524L;
 
     /** 服用予定日時 */
     @NonNull
-    private DatetimeType mPlanDatetime;
+    private DatetimeType<?> mPlanDatetime;
 
     /** 服用予定日付 */
     @NonNull
@@ -26,10 +29,10 @@ public class PlanDate implements Cloneable {
         this(planDatetime, new PlanDateType(), new TimetableIdType());
     }
 
-    public PlanDate(@NonNull DatetimeType planDatetime, @NonNull PlanDateType planDate, @NonNull TimetableIdType timetableId) {
-        mPlanDatetime = planDatetime.clone();
-        mPlanDate = planDate.clone();
-        mTimetableId = timetableId.clone();
+    public PlanDate(@NonNull DatetimeType<?> planDatetime, @NonNull PlanDateType planDate, @NonNull TimetableIdType timetableId) {
+        mPlanDatetime = planDatetime;
+        mPlanDate = planDate;
+        mTimetableId = timetableId;
     }
 
     @NonNull

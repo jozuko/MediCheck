@@ -8,11 +8,14 @@ import com.studiojozu.medicheck.domain.model.schedule.PlanDateType;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Serializable;
+
 /**
  * タイムテーブルのデータを管理するクラス
  */
-public class Timetable implements Cloneable {
+public class Timetable implements Cloneable, Serializable {
 
+    private static final long serialVersionUID = -6460483527021583480L;
     /** タイムテーブルID */
     @NonNull
     private final TimetableIdType mTimetableId;

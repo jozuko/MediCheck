@@ -9,7 +9,9 @@ import java.util.Calendar;
 /**
  * 服用予定日を管理するクラス
  */
-public class PlanDateType extends DateType<PlanDateType> implements Cloneable {
+public class PlanDateType extends DateType<PlanDateType> {
+
+    private static final long serialVersionUID = 9088775597942158497L;
 
     public PlanDateType() {
         this(Calendar.getInstance());
@@ -21,15 +23,6 @@ public class PlanDateType extends DateType<PlanDateType> implements Cloneable {
 
     public PlanDateType(int year, int month, int day) {
         super(year, month, day);
-    }
-
-    @Override
-    public PlanDateType clone() {
-        try {
-            return (PlanDateType) super.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new RuntimeException(e.toString(), e);
-        }
     }
 
     /**

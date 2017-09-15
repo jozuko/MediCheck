@@ -6,10 +6,13 @@ import android.support.annotation.Nullable;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Serializable;
+
 /**
  * 飲む人を画面から受信し、DBに保存する。また、DBのデータを画面表示用に加工する。
  */
-public class Person {
+public class Person implements Serializable {
+    private static final long serialVersionUID = -4752297475972711988L;
 
     /** 飲む人ID */
     @NonNull

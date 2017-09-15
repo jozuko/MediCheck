@@ -12,7 +12,7 @@ import java.util.Calendar;
 /**
  * 日付を表す型クラス
  */
-public abstract class DateType<T extends DateType<T>> extends ADbType<Long> implements Comparable<DateType> {
+public abstract class DateType<C extends DateType<C>> extends ADbType<Long, C> implements Comparable<DateType> {
 
     @NonNull
     protected final Calendar mValue;
@@ -79,5 +79,5 @@ public abstract class DateType<T extends DateType<T>> extends ADbType<Long> impl
         return format.format(mValue.getTime());
     }
 
-    public abstract T addDay(int days);
+    public abstract C addDay(int days);
 }

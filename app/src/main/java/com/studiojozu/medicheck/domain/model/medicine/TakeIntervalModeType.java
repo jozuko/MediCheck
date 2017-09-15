@@ -8,7 +8,8 @@ import com.studiojozu.common.domain.model.ADbType;
 /**
  * 薬の服用間隔（日or月）タイプを管理するクラス
  */
-public class TakeIntervalModeType extends ADbType<Integer> implements Comparable<TakeIntervalModeType>, Cloneable {
+public class TakeIntervalModeType extends ADbType<Integer, TakeIntervalModeType> implements Comparable<TakeIntervalModeType> {
+    private static final long serialVersionUID = -469466334517497620L;
 
     @NonNull
     private final DateIntervalPattern mValue;
@@ -39,15 +40,6 @@ public class TakeIntervalModeType extends ADbType<Integer> implements Comparable
     @Override
     public int compareTo(@NonNull TakeIntervalModeType target) {
         return getDbValue().compareTo(target.getDbValue());
-    }
-
-    @Override
-    public TakeIntervalModeType clone() {
-        try {
-            return (TakeIntervalModeType) super.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new RuntimeException(e.toString(), e);
-        }
     }
 
     /**

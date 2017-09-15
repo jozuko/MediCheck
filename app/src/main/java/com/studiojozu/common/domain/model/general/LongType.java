@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * longの型クラス
  */
-public class LongType extends ADbType<Long> implements Comparable<LongType> {
+public class LongType<C extends LongType<C>> extends ADbType<Long, C> implements Comparable<LongType> {
 
     @NonNull
     private final Long mValue;

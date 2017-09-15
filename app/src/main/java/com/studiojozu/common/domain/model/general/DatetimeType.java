@@ -12,7 +12,7 @@ import java.util.Calendar;
 /**
  * 時間を表す型クラス
  */
-public abstract class DatetimeType<T extends DatetimeType<T>> extends ADbType<Long> implements Cloneable, Comparable<DatetimeType> {
+public abstract class DatetimeType<C extends DatetimeType<C>> extends ADbType<Long, C> implements Comparable<DatetimeType> {
 
     @NonNull
     protected final Calendar mValue;
@@ -65,15 +65,6 @@ public abstract class DatetimeType<T extends DatetimeType<T>> extends ADbType<Lo
         return (getDbValue().compareTo(target.getDbValue()));
     }
 
-    @Override
-    public DatetimeType clone() {
-        try {
-            return (DatetimeType) super.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new RuntimeException(e.toString(), e);
-        }
-    }
-
     /**
      * フィールドが保持する日時とパラメータの示す日時の差分を分単位で返却する
      *
@@ -113,9 +104,9 @@ public abstract class DatetimeType<T extends DatetimeType<T>> extends ADbType<Lo
         return format.format(mValue.getTime());
     }
 
-    public abstract T addMinute(int minute);
+    public abstract C addMinute(int minute);
 
-    public abstract T addDay(int day);
+    public abstract C addDay(int day);
 
-    public abstract T addMonth(int month);
+    public abstract C addMonth(int month);
 }

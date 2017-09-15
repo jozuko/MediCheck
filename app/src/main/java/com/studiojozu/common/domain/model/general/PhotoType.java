@@ -8,7 +8,9 @@ import java.io.File;
 /**
  * 写真パスを管理するクラス
  */
-public abstract class PhotoType extends TextType {
+public abstract class PhotoType<C extends PhotoType<C>> extends TextType<C> {
+
+    private static final long serialVersionUID = 4343775991858053805L;
 
     protected PhotoType() {
         super("");

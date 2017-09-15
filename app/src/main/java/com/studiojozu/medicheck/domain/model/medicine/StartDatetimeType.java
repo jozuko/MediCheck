@@ -11,7 +11,8 @@ import java.util.Calendar;
 /**
  * 服用開始日時を管理するクラス
  */
-public class StartDatetimeType extends DatetimeType<StartDatetimeType> implements Cloneable {
+public class StartDatetimeType extends DatetimeType<StartDatetimeType> {
+    private static final long serialVersionUID = 7612988577243783674L;
 
     public StartDatetimeType() {
         super(Calendar.getInstance().getTimeInMillis());
@@ -27,11 +28,6 @@ public class StartDatetimeType extends DatetimeType<StartDatetimeType> implement
 
     public StartDatetimeType(@NonNull DateType dateModel, @NonNull TimeType timeModel) {
         super(dateModel, timeModel);
-    }
-
-    @Override
-    public StartDatetimeType clone() {
-        return (StartDatetimeType) super.clone();
     }
 
     @Override

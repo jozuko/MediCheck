@@ -12,8 +12,9 @@ import java.util.TreeMap;
 /**
  * 通知の繰り返し間隔を表す型クラス
  */
-public class RemindIntervalType extends ADbType<Integer> implements Comparable<RemindIntervalType>, Cloneable {
+public class RemindIntervalType extends ADbType<Integer, RemindIntervalType> implements Comparable<RemindIntervalType> {
 
+    private static final long serialVersionUID = -2200953636883165844L;
     @NonNull
     private final RemindIntervalPattern mValue;
 
@@ -79,15 +80,6 @@ public class RemindIntervalType extends ADbType<Integer> implements Comparable<R
     @Override
     public int compareTo(@NonNull RemindIntervalType target) {
         return mValue.compareTo(target.mValue);
-    }
-
-    @Override
-    public RemindIntervalType clone() {
-        try {
-            return (RemindIntervalType) super.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new RuntimeException(e.toString(), e);
-        }
     }
 
     public enum RemindIntervalPattern {

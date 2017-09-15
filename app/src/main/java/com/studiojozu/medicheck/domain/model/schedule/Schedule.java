@@ -5,11 +5,14 @@ import android.support.annotation.NonNull;
 import com.studiojozu.medicheck.domain.model.medicine.MedicineIdType;
 import com.studiojozu.medicheck.domain.model.setting.TimetableIdType;
 
+import java.io.Serializable;
+
 /**
  * Schedule Entity
  */
-public class Schedule implements Cloneable {
+public class Schedule implements Cloneable, Serializable {
 
+    private static final long serialVersionUID = 8903872909322659419L;
     /** 薬ID */
     @NonNull
     private final MedicineIdType mMedicineId;

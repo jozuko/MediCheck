@@ -7,21 +7,14 @@ import com.studiojozu.common.domain.model.general.BooleanType;
 /**
  * アラームの要否を管理するクラス
  */
-public class NeedAlarmType extends BooleanType implements Cloneable {
+public class NeedAlarmType extends BooleanType<NeedAlarmType> {
+    private static final long serialVersionUID = -1817659640674585986L;
+
     public NeedAlarmType() {
         super(true);
     }
 
     public NeedAlarmType(@NonNull Object value) {
         super(value);
-    }
-
-    @Override
-    public NeedAlarmType clone() {
-        try {
-            return (NeedAlarmType) super.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new RuntimeException(e.toString(), e);
-        }
     }
 }

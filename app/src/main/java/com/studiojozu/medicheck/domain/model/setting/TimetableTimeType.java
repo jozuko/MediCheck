@@ -10,7 +10,9 @@ import java.util.Calendar;
 /**
  * タイムテーブルの時刻を管理するクラス
  */
-public class TimetableTimeType extends TimeType implements Cloneable {
+public class TimetableTimeType extends TimeType<TimetableTimeType> {
+    private static final long serialVersionUID = 5169596478420128156L;
+
     public TimetableTimeType() {
         super(Calendar.getInstance().getTimeInMillis());
     }
@@ -25,14 +27,5 @@ public class TimetableTimeType extends TimeType implements Cloneable {
 
     public DatetimeType replaceHourMinute(@NonNull DatetimeType datetimeType) {
         return datetimeType.setHourMinute(mValue.get(Calendar.HOUR_OF_DAY), mValue.get(Calendar.MINUTE));
-    }
-
-    @Override
-    public TimetableTimeType clone() {
-        try {
-            return (TimetableTimeType) super.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new RuntimeException(e.toString(), e);
-        }
     }
 }

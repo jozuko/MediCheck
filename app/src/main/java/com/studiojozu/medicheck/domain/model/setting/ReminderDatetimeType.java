@@ -10,6 +10,8 @@ import java.util.Calendar;
 
 class ReminderDatetimeType extends DatetimeType<ReminderDatetimeType> {
 
+    private static final long serialVersionUID = 8355513483581527244L;
+
     ReminderDatetimeType(@NonNull Object millisecond) {
         super(millisecond);
     }

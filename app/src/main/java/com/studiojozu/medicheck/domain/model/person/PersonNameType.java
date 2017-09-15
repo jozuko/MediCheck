@@ -7,7 +7,9 @@ import com.studiojozu.common.domain.model.general.TextType;
 /**
  * 飲む人の名前を管理するクラス
  */
-public class PersonNameType extends TextType implements Cloneable {
+public class PersonNameType extends TextType<PersonNameType> {
+
+    private static final long serialVersionUID = 5123729176127085413L;
 
     public PersonNameType() {
         super("");
@@ -15,14 +17,5 @@ public class PersonNameType extends TextType implements Cloneable {
 
     public PersonNameType(@Nullable Object value) {
         super(value);
-    }
-
-    @Override
-    public PersonNameType clone() {
-        try {
-            return (PersonNameType) super.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new RuntimeException(e.toString(), e);
-        }
     }
 }

@@ -6,14 +6,16 @@ import android.support.annotation.NonNull;
 import com.studiojozu.common.domain.model.general.DateType;
 import com.studiojozu.common.domain.model.general.TimeType;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.TreeMap;
 
 /**
  * 設定を画面から受信し、DBに保存する。また、DBのデータを画面表示用に加工する。
  */
-public class Setting {
+public class Setting implements Serializable {
 
+    private static final long serialVersionUID = -8960841441881026848L;
     /** リマンダ機能を使用するか？ */
     @NonNull
     private UseReminderType mUseReminder = new UseReminderType();

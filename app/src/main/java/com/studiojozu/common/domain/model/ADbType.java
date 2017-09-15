@@ -3,10 +3,15 @@ package com.studiojozu.common.domain.model;
 import android.content.ContentValues;
 import android.support.annotation.NonNull;
 
+import java.io.Serializable;
+
 /**
  * データベースモデル
  */
-public abstract class ADbType<T> {
+public abstract class ADbType<T, C extends ADbType> implements Serializable, Cloneable {
+
+    private static final long serialVersionUID = -7199799314817003653L;
+
     /**
      * データベースで保持する値を返却する
      *
@@ -41,4 +46,15 @@ public abstract class ADbType<T> {
     public int hashCode() {
         return getDbValue().hashCode();
     }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public C clone() {
+        try {
+            return (C) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e.toString(), e);
+        }
+    }
+
 }

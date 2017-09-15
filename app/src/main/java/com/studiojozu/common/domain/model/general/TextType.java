@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * intの型クラス
  */
-public abstract class TextType extends ADbType<String> implements Comparable<TextType> {
+public abstract class TextType<C extends TextType<C>> extends ADbType<String, C> implements Comparable<TextType> {
     @NotNull
     private final String mValue;
 

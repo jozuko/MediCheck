@@ -11,17 +11,19 @@ import com.studiojozu.medicheck.domain.model.setting.TimetableIdType;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-public class MedicineTimetableList implements Cloneable, Iterable<Timetable>, Iterator<Timetable> {
+public class MedicineTimetableList implements Iterable<Timetable>, Iterator<Timetable>, Cloneable, Serializable {
+    private static final long serialVersionUID = -6268967129299051940L;
 
     @NonNull
     private ArrayList<Timetable> mTimetables = new ArrayList<>();
     @Nullable
-    private Iterator<Timetable> mTimetableIterator = null;
+    private transient Iterator<Timetable> mTimetableIterator = null;
 
     public MedicineTimetableList() {
     }

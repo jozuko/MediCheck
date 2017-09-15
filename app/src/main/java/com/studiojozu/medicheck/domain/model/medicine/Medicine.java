@@ -2,10 +2,14 @@ package com.studiojozu.medicheck.domain.model.medicine;
 
 import android.support.annotation.NonNull;
 
+import java.io.Serializable;
+
 /**
  * 薬を管理するクラス
  */
-public class Medicine {
+public class Medicine implements Serializable {
+    private static final long serialVersionUID = -3626443464441488492L;
+
     /** 薬ID */
     @NonNull
     private final MedicineIdType mMedicineId;

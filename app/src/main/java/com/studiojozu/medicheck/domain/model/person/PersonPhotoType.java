@@ -7,21 +7,14 @@ import com.studiojozu.common.domain.model.general.PhotoType;
 /**
  * 薬の写真を管理するクラス
  */
-public class PersonPhotoType extends PhotoType implements Cloneable {
+public class PersonPhotoType extends PhotoType<PersonPhotoType> {
+    private static final long serialVersionUID = -8138608804947506518L;
+
     public PersonPhotoType() {
         super("");
     }
 
     public PersonPhotoType(@NonNull Object value) {
         super(value);
-    }
-
-    @Override
-    public PersonPhotoType clone() {
-        try {
-            return (PersonPhotoType) super.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new RuntimeException(e.toString(), e);
-        }
     }
 }
