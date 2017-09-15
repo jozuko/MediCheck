@@ -8,7 +8,7 @@ import java.io.File;
 /**
  * 写真パスを管理するクラス
  */
-public class PhotoType extends TextType {
+public abstract class PhotoType extends TextType {
 
     protected PhotoType() {
         super("");

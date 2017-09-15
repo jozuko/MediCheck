@@ -7,7 +7,7 @@ import java.util.UUID;
 /**
  * IDを管理するクラス
  */
-public class IdType extends TextType {
+public abstract class IdType extends TextType {
 
     protected IdType() {
         super(newId());

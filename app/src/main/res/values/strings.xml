@@ -53,6 +53,7 @@
     <string name="button_description_history_medicine">When you\'d like to see the history, click.</string>
     <string name="button_setting">Setting</string>
     <string name="button_description_setting">You\'d like to change the person,\n the timetable or the alarm setting, click.</string>
+    <string name="button_one_shot">one shot medicine</string>
 
     <string name="button_menu">back to menu</string>
     <string name="button_previous_day">prev day</string>

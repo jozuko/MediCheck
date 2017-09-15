@@ -11,7 +11,7 @@ import java.util.Calendar;
 /**
  * 服用した日時を管理するクラス
  */
-public class TookDatetime extends DatetimeType implements Cloneable {
+public class TookDatetime extends DatetimeType<TookDatetime> implements Cloneable {
 
     public TookDatetime() {
         this(Calendar.getInstance());
@@ -32,5 +32,32 @@ public class TookDatetime extends DatetimeType implements Cloneable {
     @Override
     public TookDatetime clone() {
         return (TookDatetime) super.clone();
+    }
+
+    @Override
+    @NonNull
+    public TookDatetime addMinute(int minute) {
+        Calendar calendar = (Calendar) mValue.clone();
+        calendar.add(Calendar.MINUTE, minute);
+
+        return new TookDatetime(calendar.getTimeInMillis());
+    }
+
+    @Override
+    @NonNull
+    public TookDatetime addDay(int days) {
+        Calendar calendar = (Calendar) mValue.clone();
+        calendar.add(Calendar.DAY_OF_MONTH, days);
+
+        return new TookDatetime(calendar.getTimeInMillis());
+    }
+
+    @Override
+    @NonNull
+    public TookDatetime addMonth(int months) {
+        Calendar calendar = (Calendar) mValue.clone();
+        calendar.add(Calendar.MONTH, months);
+
+        return new TookDatetime(calendar.getTimeInMillis());
     }
 }

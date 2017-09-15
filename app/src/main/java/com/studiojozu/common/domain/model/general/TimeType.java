@@ -12,7 +12,7 @@ import java.util.Calendar;
 /**
  * 時間を表す型クラス
  */
-public class TimeType extends ADbType<Long> implements Comparable<TimeType> {
+public abstract class TimeType extends ADbType<Long> implements Comparable<TimeType> {
 
     @NonNull
     protected final Calendar mValue;

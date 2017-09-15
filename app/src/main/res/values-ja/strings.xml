@@ -53,6 +53,7 @@
     <string name="button_description_history_medicine">飲んだお薬の履歴を見るにはココ</string>
     <string name="button_setting">設定</string>
     <string name="button_description_setting">人・服用時刻・アラームの変更はココ</string>
+    <string name="button_one_shot">頓服薬</string>
 
     <string name="button_menu">メニューへ戻る</string>
     <string name="button_previous_day">前の日</string>

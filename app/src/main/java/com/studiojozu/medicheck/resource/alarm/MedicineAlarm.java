@@ -11,11 +11,7 @@ import android.support.annotation.Nullable;
 
 import com.studiojozu.medicheck.R;
 import com.studiojozu.medicheck.application.AlarmScheduleService;
-import com.studiojozu.medicheck.domain.model.PersonMediRelationRepository;
 import com.studiojozu.medicheck.domain.model.alarm.AlarmSchedule;
-import com.studiojozu.medicheck.domain.model.medicine.MedicineRepository;
-import com.studiojozu.medicheck.domain.model.person.PersonRepository;
-import com.studiojozu.medicheck.infrastructure.adapter.PersistenceAdapter;
 
 import java.util.List;
 
@@ -29,12 +25,6 @@ class MedicineAlarm {
     private final Context mContext;
     @NonNull
     private final NotificationManager mNotificationManager;
-    @NonNull
-    private final PersonMediRelationRepository mPersonMediRelationRepository = PersistenceAdapter.getPersonMediRelationRepository();
-    @NonNull
-    private final MedicineRepository mMedicineRepository = PersistenceAdapter.getMedicineRepository();
-    @NonNull
-    private final PersonRepository mPersonRepository = PersistenceAdapter.getPersonRepository();
     @NonNull
     private final AlarmScheduleService mAlarmScheduleService = new AlarmScheduleService();
 

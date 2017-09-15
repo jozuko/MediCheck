@@ -12,12 +12,12 @@ import java.util.Calendar;
 /**
  * 時間を表す型クラス
  */
-public class DatetimeType extends ADbType<Long> implements Cloneable, Comparable<DatetimeType> {
+public abstract class DatetimeType<T extends DatetimeType<T>> extends ADbType<Long> implements Cloneable, Comparable<DatetimeType> {
 
     @NonNull
-    private final Calendar mValue;
+    protected final Calendar mValue;
 
-    public DatetimeType(@NonNull Object millisecond) {
+    protected DatetimeType(@NonNull Object millisecond) {
         long timeInMillis;
         if (millisecond instanceof Calendar)
             timeInMillis = ((Calendar) millisecond).getTimeInMillis();
@@ -38,7 +38,7 @@ public class DatetimeType extends ADbType<Long> implements Cloneable, Comparable
         mValue.set(Calendar.MILLISECOND, 0);
     }
 
-    public DatetimeType(@NonNull DateType dateModel, @NonNull TimeType timeModel) {
+    protected DatetimeType(@NonNull DateType dateModel, @NonNull TimeType timeModel) {
         Calendar dateCalendar = Calendar.getInstance();
         dateCalendar.setTimeInMillis(dateModel.getDbValue());
 
@@ -72,48 +72,6 @@ public class DatetimeType extends ADbType<Long> implements Cloneable, Comparable
         } catch (CloneNotSupportedException e) {
             throw new RuntimeException(e.toString(), e);
         }
-    }
-
-    /**
-     * フィールドが保持する日時に、パラメータのminuteを分として追加した値を返却する。
-     *
-     * @param minute 加算する分
-     * @return パラメータ値加算後の値を保持するインスタンス
-     */
-    @NonNull
-    public DatetimeType addMinute(int minute) {
-        Calendar calendar = (Calendar) mValue.clone();
-        calendar.add(Calendar.MINUTE, minute);
-
-        return new DatetimeType(calendar.getTimeInMillis());
-    }
-
-    /**
-     * フィールドが保持する日時に、パラメータのdayを日数として追加した値を返却する。
-     *
-     * @param days 加算する日数
-     * @return パラメータ値加算後の値を保持するインスタンス
-     */
-    @NonNull
-    public DatetimeType addDay(int days) {
-        Calendar calendar = (Calendar) mValue.clone();
-        calendar.add(Calendar.DAY_OF_MONTH, days);
-
-        return new DatetimeType(calendar.getTimeInMillis());
-    }
-
-    /**
-     * フィールドが保持する日時に、パラメータのmonthsを月数として追加した値を返却する。
-     *
-     * @param months 加算する月数
-     * @return パラメータ値加算後の値を保持するインスタンス
-     */
-    @NonNull
-    public DatetimeType addMonth(int months) {
-        Calendar calendar = (Calendar) mValue.clone();
-        calendar.add(Calendar.MONTH, months);
-
-        return new DatetimeType(calendar.getTimeInMillis());
     }
 
     /**
@@ -154,4 +112,10 @@ public class DatetimeType extends ADbType<Long> implements Cloneable, Comparable
         DateFormat format = SimpleDateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
         return format.format(mValue.getTime());
     }
+
+    public abstract T addMinute(int minute);
+
+    public abstract T addDay(int day);
+
+    public abstract T addMonth(int month);
 }

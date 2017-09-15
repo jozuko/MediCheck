@@ -76,7 +76,7 @@
 
     <!-- Style - Selectable TextView -->
     <style name="SelectableLabelStyle" parent="StandardEditableLabelStyle">
-        <item name="android:drawableEnd">@mipmap/ic_arrow_down</item>
+        <item name="android:drawableEnd">@drawable/arrow_down</item>
     </style>
 
     <style name="InputTableRow" parent="android:Widget">

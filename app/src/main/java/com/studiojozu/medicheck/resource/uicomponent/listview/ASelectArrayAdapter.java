@@ -28,16 +28,16 @@ public abstract class ASelectArrayAdapter<T extends ASelectItem> extends ArrayAd
     @LayoutRes
     private final static int ITEM_LAYOUT = R.layout.list_item_select;
     @NonNull
-    final Context mContext;
+    private final Context mContext;
     @NonNull
-    final List<T> mItemList;
+    private final List<T> mItemList;
     @DrawableRes
-    final int mDefaultImageResourceId;
+    private final int mDefaultImageResourceId;
     @NonNull
-    final LayoutInflater mLayoutInflater;
-    final boolean mUseSubText;
+    private final LayoutInflater mLayoutInflater;
+    private final boolean mUseSubText;
 
-    public ASelectArrayAdapter(@NonNull Context context, @NonNull List<T> itemList, boolean useSubText) {
+    ASelectArrayAdapter(@NonNull Context context, @NonNull List<T> itemList, boolean useSubText) {
         super(context, ITEM_LAYOUT, itemList);
 
         mContext = context;
@@ -47,7 +47,7 @@ public abstract class ASelectArrayAdapter<T extends ASelectItem> extends ArrayAd
         mUseSubText = useSubText;
     }
 
-    public ASelectArrayAdapter(@NonNull Context context, @NonNull List<T> itemList, boolean useSubText, @DrawableRes int defaultImageResourceId) {
+    ASelectArrayAdapter(@NonNull Context context, @NonNull List<T> itemList, boolean useSubText, @DrawableRes int defaultImageResourceId) {
         super(context, ITEM_LAYOUT, itemList);
 
         mContext = context;

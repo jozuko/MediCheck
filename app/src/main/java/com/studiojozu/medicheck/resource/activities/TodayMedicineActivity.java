@@ -1,28 +1,26 @@
-package com.studiojozu.medicheck.resource.view;
+package com.studiojozu.medicheck.resource.activities;
 
 import android.os.Bundle;
 import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.studiojozu.medicheck.R;
 import com.studiojozu.medicheck.domain.model.person.Person;
 import com.studiojozu.medicheck.resource.uicomponent.calendar.CalendarDayView;
-import com.studiojozu.medicheck.resource.uicomponent.listview.SingleSelectItem;
 import com.studiojozu.medicheck.resource.uicomponent.template.TemplateHeaderView;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Locale;
 
 /**
  * 今日のお薬を一覧表示する。
  */
-public class TodayMedicineActivity extends AActivity implements View.OnClickListener {
+public class TodayMedicineActivity extends APersonSelectActivity implements View.OnClickListener {
 
     /** 表示日付 */
     private Calendar mDisplayDate;
@@ -33,6 +31,8 @@ public class TodayMedicineActivity extends AActivity implements View.OnClickList
         setContentView(R.layout.view_today_medicine);
 
         initHeaderParent();
+        initPersonSelect();
+
         mDisplayDate = nowCalendar();
         setClickListener();
     }
@@ -51,14 +51,12 @@ public class TodayMedicineActivity extends AActivity implements View.OnClickList
 
     private void setClickListener() {
         findViewById(R.id.calendar_button).setOnClickListener(this);
-        findViewById(R.id.person_select).setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
         int id = view.getId();
         onClickCalendarButton(id);
-        onClickSelectPerson(id);
     }
 
     private void onClickCalendarButton(@IdRes int id) {
@@ -73,32 +71,22 @@ public class TodayMedicineActivity extends AActivity implements View.OnClickList
         });
     }
 
-    private void onClickSelectPerson(@IdRes int id) {
-        if (id != R.id.person_select) return;
-
-        showPersonSelectorDialog(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                if (mSelectPersonAdapter == null) return;
-
-                List<SingleSelectItem> itemList = mSelectPersonAdapter.getItemList();
-                if (itemList.size() == 0) return;
-
-                SingleSelectItem item = itemList.get(position);
-                Person person = (Person) item.getTag();
-                if (person == null) {
-                    Toast.makeText(getApplicationContext(), "null", Toast.LENGTH_SHORT).show();
-                } else {
-                    ((TextView) findViewById(R.id.person_select)).setText(person.getDisplayPersonName());
-                }
-            }
-        });
-    }
 
     private Calendar nowCalendar() {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
 
         return calendar;
+    }
+
+    @Nullable
+    @Override
+    OnSelectedPersonListener createOnSelectedPersonListener() {
+        return new OnSelectedPersonListener() {
+            @Override
+            public void onSelectedPerson(@NonNull Person person) {
+                Toast.makeText(getApplicationContext(), ((TextView) findViewById(R.id.person_select)).getText(), Toast.LENGTH_SHORT).show();
+            }
+        };
     }
 }

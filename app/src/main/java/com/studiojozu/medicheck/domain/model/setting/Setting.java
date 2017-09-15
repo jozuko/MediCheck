@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.studiojozu.common.domain.model.general.DateType;
-import com.studiojozu.common.domain.model.general.DatetimeType;
 import com.studiojozu.common.domain.model.general.TimeType;
 
 import java.util.Calendar;
@@ -74,7 +73,8 @@ public class Setting {
      * @return リマインド機能の限界時間を超えている場合はtrueを返却する
      */
     public boolean isRemindTimeout(@NonNull Calendar now, @NonNull DateType scheduleDate, @NonNull TimeType scheduleTime) {
-        return mRemindTimeout.isTimeout(new DatetimeType(now.getTimeInMillis()), scheduleDate, scheduleTime);
+        ReminderDatetimeType reminderDatetimeType = new ReminderDatetimeType(now.getTimeInMillis());
+        return mRemindTimeout.isTimeout(reminderDatetimeType, scheduleDate, scheduleTime);
     }
 
     /**
@@ -86,10 +86,10 @@ public class Setting {
      * @return リマインド時刻である場合はtrueを返却する
      */
     public boolean isRemindTiming(@NonNull Calendar now, @NonNull DateType scheduleDate, @NonNull TimeType scheduleTime) {
-        DatetimeType reminderDateTime = new DatetimeType(scheduleDate, scheduleTime);
-        DatetimeType currentDateTime = new DatetimeType(now.getTimeInMillis());
-        long diffMinutes = reminderDateTime.diffMinutes(currentDateTime);
+        ReminderDatetimeType reminderDateTime = new ReminderDatetimeType(scheduleDate, scheduleTime);
+        ReminderDatetimeType currentDateTime = new ReminderDatetimeType(now.getTimeInMillis());
 
+        long diffMinutes = reminderDateTime.diffMinutes(currentDateTime);
         return (diffMinutes % mRemindInterval.getDbValue() == 0);
     }
 

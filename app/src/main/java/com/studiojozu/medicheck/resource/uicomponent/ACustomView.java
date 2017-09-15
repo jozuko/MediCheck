@@ -77,11 +77,6 @@ public abstract class ACustomView<T> extends LinearLayout {
         return typedArray.getInt(styleableId, RESOURCE_DEFAULT_INTEGER);
     }
 
-    protected boolean getAttributeBoolean(@Nullable TypedArray typedArray, @StyleableRes int styleableId, boolean defaultValue) {
-        if (typedArray == null) return defaultValue;
-        return typedArray.getBoolean(styleableId, defaultValue);
-    }
-
     @DrawableRes
     protected int getAttributeDrawableResourceId(@Nullable TypedArray typedArray, @StyleableRes int styleableId) {
         if (typedArray == null) return UNKNOWN_RESOURCE_ID;

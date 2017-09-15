@@ -4,12 +4,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.studiojozu.common.domain.model.general.DatetimeType;
-import com.studiojozu.medicheck.domain.model.MediTimeViewRepository;
 import com.studiojozu.medicheck.domain.model.schedule.PlanDate;
 import com.studiojozu.medicheck.domain.model.setting.Timetable;
 import com.studiojozu.medicheck.domain.model.setting.TimetableComparator;
 import com.studiojozu.medicheck.domain.model.setting.TimetableIdType;
-import com.studiojozu.medicheck.infrastructure.adapter.PersistenceAdapter;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -24,8 +22,6 @@ public class MedicineTimetableList implements Cloneable, Iterable<Timetable>, It
     private ArrayList<Timetable> mTimetables = new ArrayList<>();
     @Nullable
     private Iterator<Timetable> mTimetableIterator = null;
-    @NonNull
-    private MediTimeViewRepository mMediTimeViewRepository = PersistenceAdapter.getMediTimeViewRepository();
 
     public MedicineTimetableList() {
     }

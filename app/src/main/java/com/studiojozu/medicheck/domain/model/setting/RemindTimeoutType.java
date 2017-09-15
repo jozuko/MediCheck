@@ -95,7 +95,7 @@ public class RemindTimeoutType extends ADbType<Integer> implements Comparable<Re
      * @return リマインド機能の限界時間を超えている場合はtrueを返却する
      */
     public boolean isTimeout(@NonNull DatetimeType now, @NonNull DateType scheduleDate, @NonNull TimeType scheduleTime) {
-        DatetimeType reminderDateTime = new DatetimeType(scheduleDate, scheduleTime).addMinute(getDbValue());
+        ReminderDatetimeType reminderDateTime = new ReminderDatetimeType(scheduleDate, scheduleTime).addMinute(getDbValue());
         return (reminderDateTime.compareTo(now) < 0);
     }
 

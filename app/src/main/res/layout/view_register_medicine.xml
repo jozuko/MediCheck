@@ -55,7 +55,9 @@
                         style="@style/CalendarLabelStyle"/>
                 </TableRow>
 
-                <TableRow style="@style/InputTableRow">
+                <TableRow
+                    style="@style/InputTableRow"
+                    android:gravity="top">
 
                     <TextView
                         style="@style/StandardLabelStyle"
@@ -64,6 +66,21 @@
                     <TextView
                         android:id="@+id/register_timetables_text"
                         style="@style/SelectableLabelStyle"/>
+
+                </TableRow>
+
+                <TableRow
+                    style="@style/InputTableRow"
+                    android:gravity="top">
+
+                    <TextView
+                        style="@style/StandardLabelStyle"
+                        android:text=""/>
+
+                    <CheckedTextView
+                        android:id="@+id/register_one_shot_text"
+                        style="@style/StandardCheckTextView"
+                        android:text="@string/button_one_shot"/>
                 </TableRow>
 
                 <TableRow style="@style/InputTableRow">

@@ -8,7 +8,7 @@ import com.studiojozu.common.domain.model.ADbType;
 /**
  * booleanの型クラス
  */
-public class BooleanType extends ADbType<Integer> implements Comparable<BooleanType> {
+public abstract class BooleanType extends ADbType<Integer> implements Comparable<BooleanType> {
 
     private static final int TRUE_VALUE = 1;
     private static final int FALSE_VALUE = 0;

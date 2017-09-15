@@ -12,7 +12,7 @@ public class PlanDate implements Cloneable {
 
     /** 服用予定日時 */
     @NonNull
-    private final DatetimeType mPlanDatetime;
+    private DatetimeType mPlanDatetime;
 
     /** 服用予定日付 */
     @NonNull
@@ -63,8 +63,8 @@ public class PlanDate implements Cloneable {
      * @return パラメータ値加算後の値を保持するインスタンス
      */
     public PlanDate addDay(int days) {
-        mPlanDatetime.addDay(days);
-        mPlanDate.addDay(days);
+        mPlanDatetime = mPlanDatetime.addDay(days);
+        mPlanDate = mPlanDate.addDay(days);
 
         return clone();
     }

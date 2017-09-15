@@ -12,10 +12,10 @@ import java.util.Calendar;
 /**
  * 日付を表す型クラス
  */
-public class DateType extends ADbType<Long> implements Comparable<DateType> {
+public abstract class DateType<T extends DateType<T>> extends ADbType<Long> implements Comparable<DateType> {
 
     @NonNull
-    private final Calendar mValue;
+    protected final Calendar mValue;
 
     protected DateType(@NonNull Object millisecond) {
         if (millisecond instanceof Long) {
@@ -79,17 +79,5 @@ public class DateType extends ADbType<Long> implements Comparable<DateType> {
         return format.format(mValue.getTime());
     }
 
-    /**
-     * フィールドが保持する日時に、パラメータのdayを日数として追加した値を返却する。
-     *
-     * @param days 加算する日数
-     * @return パラメータ値加算後の値を保持するインスタンス
-     */
-    @NonNull
-    public DateType addDay(int days) {
-        Calendar calendar = (Calendar) mValue.clone();
-        calendar.add(Calendar.DAY_OF_MONTH, days);
-
-        return new DateType(calendar.getTimeInMillis());
-    }
+    public abstract T addDay(int days);
 }

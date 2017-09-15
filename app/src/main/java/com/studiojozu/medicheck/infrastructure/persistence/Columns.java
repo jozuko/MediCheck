@@ -113,16 +113,4 @@ class Columns {
         }
         return entities;
     }
-
-    @NonNull
-    String getAllColumnNameSplitComma() {
-        StringBuilder builder = new StringBuilder();
-        for (ColumnBase column : mColumns) {
-            if (builder.length() > 0)
-                builder.append(",");
-            builder.append(column.mColumnName);
-        }
-
-        return builder.toString();
-    }
 }

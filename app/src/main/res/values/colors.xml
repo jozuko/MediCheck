@@ -7,6 +7,8 @@
     <color name="input_background">#9ac29f</color>
     <color name="input_background_shadow">#7ca481</color>
     <color name="input_background_pressed">#d9de84</color>
+    <color name="input_background_disabled">#6d6d6d</color>
+    <color name="input_background_shadow_disabled">#a5a5a5</color>
 
     <color name="label_text">@android:color/black</color>
 

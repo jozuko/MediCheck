@@ -87,7 +87,7 @@ abstract class ASelectItem<T> {
 
     abstract static class Builder<B extends Builder<B, T>, T> {
         @NonNull
-        String mBuilderMainText;
+        final String mBuilderMainText;
         @Nullable
         Uri mBuilderImageFileUri = null;
         @Nullable

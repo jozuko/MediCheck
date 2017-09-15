@@ -56,5 +56,7 @@ public class SelectorDialogView extends ADialogView<ListView> implements ListVie
     public void showSelectorDialog(boolean needOK, boolean needCancel) {
         showOkButton(needOK);
         showCancelButton(needCancel);
+
+        showDialog();
     }
 }

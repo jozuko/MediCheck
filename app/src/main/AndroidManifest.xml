@@ -16,7 +16,7 @@
         tools:ignore="GoogleAppIndexingWarning">
 
         <activity
-            android:name=".resource.view.MenuActivity"
+            android:name=".resource.activities.MenuActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -26,7 +26,7 @@
         </activity>
 
         <activity
-            android:name=".resource.view.TodayMedicineActivity"
+            android:name=".resource.activities.TodayMedicineActivity"
             android:exported="false">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT"/>
@@ -34,7 +34,7 @@
         </activity>
 
         <activity
-            android:name=".resource.view.RegisterMedicineActivity"
+            android:name=".resource.activities.RegisterMedicineActivity"
             android:exported="false">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT"/>

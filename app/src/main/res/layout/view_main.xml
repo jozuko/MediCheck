@@ -23,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-    <!-- input dialog -->
+    <!-- selector_dialog -->
     <com.studiojozu.medicheck.resource.uicomponent.dialog.SelectorDialogView
         android:id="@+id/main_selector_dialog"
         android:layout_width="match_parent"

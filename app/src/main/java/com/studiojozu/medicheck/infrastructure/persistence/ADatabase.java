@@ -1,6 +1,5 @@
 package com.studiojozu.medicheck.infrastructure.persistence;
 
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
@@ -18,17 +17,9 @@ abstract class ADatabase {
         mSQLiteDatabase = sqLiteDatabase;
     }
 
-    static DbOpenHelper getDbOpenHelper(@NonNull Context context) {
-        return DbOpenHelper.getInstance(context.getApplicationContext());
-    }
-
     @NonNull
     public Cursor rawQuery(@NonNull String sql, @Nullable String[] args) {
         return mSQLiteDatabase.rawQuery(sql, args);
-    }
-
-    void close() {
-        if (mSQLiteDatabase.isOpen()) mSQLiteDatabase.close();
     }
 
     boolean isClosed() {
