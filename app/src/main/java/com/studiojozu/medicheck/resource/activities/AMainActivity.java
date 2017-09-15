@@ -1,6 +1,5 @@
 package com.studiojozu.medicheck.resource.activities;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;

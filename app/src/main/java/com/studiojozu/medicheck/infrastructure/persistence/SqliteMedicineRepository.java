@@ -114,7 +114,7 @@ public class SqliteMedicineRepository extends ABaseRepository implements Medicin
             return null;
 
         Set<Medicine> medicineSet = new TreeSet<>();
-        for(Map<ColumnBase, ADbType> record : databaseRecords) {
+        for (Map<ColumnBase, ADbType> record : databaseRecords) {
             Medicine medicine = new SqliteMedicineConverter(record).createFromRecord();
             medicineSet.add(medicine);
         }
