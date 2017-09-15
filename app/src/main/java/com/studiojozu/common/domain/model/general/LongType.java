@@ -12,6 +12,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public class LongType<C extends LongType<C>> extends ADbType<Long, C> implements Comparable<LongType> {
 
+    private static final long serialVersionUID = 7610652992905703415L;
     @NonNull
     private final Long mValue;
 

@@ -14,6 +14,7 @@ import java.util.Calendar;
  */
 public abstract class TimeType<C extends TimeType<C>> extends ADbType<Long, C> implements Comparable<TimeType> {
 
+    private static final long serialVersionUID = 2498883479425278479L;
     @NonNull
     protected final Calendar mValue;
 

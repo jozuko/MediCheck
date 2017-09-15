@@ -12,6 +12,7 @@ import org.jetbrains.annotations.NotNull;
  * intの型クラス
  */
 public abstract class TextType<C extends TextType<C>> extends ADbType<String, C> implements Comparable<TextType> {
+    private static final long serialVersionUID = -4630676994700703038L;
     @NotNull
     private final String mValue;
 

@@ -10,6 +10,7 @@ import com.studiojozu.common.domain.model.ADbType;
  */
 public abstract class BooleanType<C extends BooleanType<C>> extends ADbType<Integer, C> implements Comparable<BooleanType> {
 
+    private static final long serialVersionUID = -2292450454310417909L;
     private static final int TRUE_VALUE = 1;
     private static final int FALSE_VALUE = 0;
 
