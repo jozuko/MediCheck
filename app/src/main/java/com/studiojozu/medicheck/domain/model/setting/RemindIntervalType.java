@@ -2,7 +2,9 @@ package com.studiojozu.medicheck.domain.model.setting;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.res.Resources;
 import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
 
 import com.studiojozu.common.domain.model.ADbType;
 import com.studiojozu.medicheck.R;
@@ -83,23 +85,45 @@ public class RemindIntervalType extends ADbType<Integer, RemindIntervalType> imp
     }
 
     public enum RemindIntervalPattern {
-        MINUTE_1(1),
-        MINUTE_5(5),
-        MINUTE_10(10),
-        MINUTE_15(15),
-        MINUTE_30(30),
-        HOUR_1(60);
+        MINUTE_1(1, 1, R.string.interval_minute),
+        MINUTE_5(5, 5, R.string.interval_minutes),
+        MINUTE_10(10,10, R.string.interval_minutes),
+        MINUTE_15(15,15, R.string.interval_minutes),
+        MINUTE_30(30,30, R.string.interval_minutes),
+        HOUR_1(60,1, R.string.interval_hour);
 
         private final int mIntervalMinutes;
+        private final int mDisplayValue;
+        @StringRes
+        private final int mStringRes;
 
-        RemindIntervalPattern(int intervalMinutes) {
+        RemindIntervalPattern(int intervalMinutes, int displayValue, @StringRes int stringRes) {
             mIntervalMinutes = intervalMinutes;
+            mDisplayValue = displayValue;
+            mStringRes = stringRes;
         }
 
         static int valueOfIntervalMinutes(RemindIntervalPattern type) {
             for (RemindIntervalPattern remindIntervalType : values()) {
                 if (remindIntervalType == type)
                     return remindIntervalType.mIntervalMinutes;
+            }
+            return 0;
+        }
+
+        static int valueOfDisplayValue(RemindIntervalPattern type) {
+            for (RemindIntervalPattern remindIntervalType : values()) {
+                if (remindIntervalType == type)
+                    return remindIntervalType.mDisplayValue;
+            }
+            return 0;
+        }
+
+        @StringRes
+        static int valueOfStringRes(RemindIntervalPattern type) {
+            for (RemindIntervalPattern remindIntervalType : values()) {
+                if (remindIntervalType == type)
+                    return remindIntervalType.mStringRes;
             }
             return 0;
         }
@@ -112,5 +136,20 @@ public class RemindIntervalType extends ADbType<Integer, RemindIntervalType> imp
             }
             return RemindIntervalPattern.MINUTE_5;
         }
+    }
+
+    @NonNull
+    @Override
+    public String getDisplayValue() {
+        throw new RuntimeException("you need to call getDisplayValue(TakeIntervalModeType).");
+    }
+
+    @NonNull
+    public String getDisplayValue(@NonNull Resources resources) {
+        int stringRes = RemindIntervalPattern.valueOfStringRes(mValue);
+        if (stringRes == 0)
+            return "";
+
+        return resources.getString(stringRes, RemindIntervalPattern.valueOfDisplayValue(mValue));
     }
 }

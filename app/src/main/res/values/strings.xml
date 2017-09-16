@@ -87,4 +87,8 @@
     <string name="interval_every_few_days">every %1$d days</string>
     <string name="interval_every_1st_month">%1$s every month</string>
 
+    <string name="interval_minute">%1$d minute</string>
+    <string name="interval_hour">%1$d hour</string>
+    <string name="interval_minutes">%1$d minutes</string>
+    <string name="interval_hours">%1$d hours</string>
 </resources>

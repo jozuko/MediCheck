@@ -27,30 +27,22 @@ import java.util.TreeSet;
  */
 public class SqliteMedicineRepository extends ABaseRepository implements MedicineRepository {
 
-    /** 名前 */
-    @SuppressWarnings("WeakerAccess")
-    public static final ColumnBase COLUMN_NAME = new ColumnBase("medicine_name", ColumnPattern.MEDICINE_NAME);
-    /** 服用数 */
-    @SuppressWarnings("WeakerAccess")
-    public static final ColumnBase COLUMN_TAKE_NUMBER = new ColumnBase("medicine_take_number", ColumnPattern.MEDICINE_TAKE_NUMBER);
-    /** 服用日数 */
-    @SuppressWarnings("WeakerAccess")
-    public static final ColumnBase COLUMN_DATE_NUMBER = new ColumnBase("medicine_date_number", ColumnPattern.MEDICINE_DATE_NUMBER);
-    /** 服用開始日時 */
-    @SuppressWarnings("WeakerAccess")
-    public static final ColumnBase COLUMN_START_DATETIME = new ColumnBase("medicine_start_datetime", ColumnPattern.MEDICINE_START_DATETIME);
-    /** 服用間隔 */
-    @SuppressWarnings("WeakerAccess")
-    public static final ColumnBase COLUMN_TAKE_INTERVAL = new ColumnBase("medicine_interval", ColumnPattern.MEDICINE_TAKE_INTERVAL);
-    /** 服用間隔タイプ */
-    @SuppressWarnings("WeakerAccess")
-    public static final ColumnBase COLUMN_TAKE_INTERVAL_MODE = new ColumnBase("medicine_interval_mode", ColumnPattern.MEDICINE_TAKE_INTERVAL_MODE);
-    /** 薬の写真ファイルパス */
-    @SuppressWarnings("WeakerAccess")
-    public static final ColumnBase COLUMN_PHOTO = new ColumnBase("medicine_photo", ColumnPattern.MEDICINE_PHOTO);
     /** ID */
-    @SuppressWarnings("WeakerAccess")
-    protected static final ColumnBase COLUMN_ID = new ColumnBase("medicine_id", ColumnPattern.MEDICINE_ID, PrimaryPattern.Primary);
+    static final ColumnBase COLUMN_ID = new ColumnBase("medicine_id", ColumnPattern.MEDICINE_ID, PrimaryPattern.Primary);
+    /** 名前 */
+    static final ColumnBase COLUMN_NAME = new ColumnBase("medicine_name", ColumnPattern.MEDICINE_NAME);
+    /** 服用数 */
+    static final ColumnBase COLUMN_TAKE_NUMBER = new ColumnBase("medicine_take_number", ColumnPattern.MEDICINE_TAKE_NUMBER);
+    /** 服用日数 */
+    static final ColumnBase COLUMN_DATE_NUMBER = new ColumnBase("medicine_date_number", ColumnPattern.MEDICINE_DATE_NUMBER);
+    /** 服用開始日時 */
+    static final ColumnBase COLUMN_START_DATETIME = new ColumnBase("medicine_start_datetime", ColumnPattern.MEDICINE_START_DATETIME);
+    /** 服用間隔 */
+    static final ColumnBase COLUMN_TAKE_INTERVAL = new ColumnBase("medicine_interval", ColumnPattern.MEDICINE_TAKE_INTERVAL);
+    /** 服用間隔タイプ */
+    static final ColumnBase COLUMN_TAKE_INTERVAL_MODE = new ColumnBase("medicine_interval_mode", ColumnPattern.MEDICINE_TAKE_INTERVAL_MODE);
+    /** 薬の写真ファイルパス */
+    static final ColumnBase COLUMN_PHOTO = new ColumnBase("medicine_photo", ColumnPattern.MEDICINE_PHOTO);
     static final String TABLE_NAME = "medicine";
     private static final Columns COLUMNS;
 

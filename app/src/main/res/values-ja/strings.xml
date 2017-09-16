@@ -87,4 +87,9 @@
     <string name="interval_every_few_days">%1$d日おき</string>
     <string name="interval_every_month">毎月 %1$s日</string>
 
+    <string name="interval_minute">%1$d分</string>
+    <string name="interval_hour">%1$d時間</string>
+    <string name="interval_minutes">%1$d分</string>
+    <string name="interval_hours">%1$d時間</string>
+
 </resources>
