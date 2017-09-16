@@ -44,4 +44,9 @@ public abstract class BooleanType<C extends BooleanType<C>> extends ADbType<Inte
     public boolean isTrue() {
         return mValue;
     }
+
+    @Override
+    public String getDisplayValue() {
+        return (isTrue() ? "true" : "false");
+    }
 }

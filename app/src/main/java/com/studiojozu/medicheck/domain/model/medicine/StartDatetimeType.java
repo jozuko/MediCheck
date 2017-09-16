@@ -15,7 +15,7 @@ public class StartDatetimeType extends DatetimeType<StartDatetimeType> {
     private static final long serialVersionUID = 7612988577243783674L;
 
     public StartDatetimeType() {
-        super(Calendar.getInstance().getTimeInMillis());
+        super(System.currentTimeMillis());
     }
 
     public StartDatetimeType(@NonNull Object millisecond) {

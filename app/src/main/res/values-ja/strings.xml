@@ -78,4 +78,13 @@
     <string name="calendar_fri">金</string>
     <string name="calendar_sat">土</string>
 
+    <string name="day_1">1</string>
+    <string name="day_2">2</string>
+    <string name="day_3">3</string>
+    <string name="day_4_over">%1$d</string>
+    <string name="interval_every_day">毎日</string>
+    <string name="interval_every_other_day">1日おき</string>
+    <string name="interval_every_few_days">%1$d日おき</string>
+    <string name="interval_every_month">毎月 %1$s日</string>
+
 </resources>

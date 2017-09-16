@@ -43,4 +43,10 @@ public class LongType<C extends LongType<C>> extends ADbType<Long, C> implements
     public int compareTo(@NonNull LongType intModel) {
         return (getDbValue().compareTo(intModel.getDbValue()));
     }
+
+    @NonNull
+    @Override
+    public String getDisplayValue() {
+        return String.valueOf(mValue);
+    }
 }

@@ -14,7 +14,7 @@ public class TimetableTimeType extends TimeType<TimetableTimeType> {
     private static final long serialVersionUID = 5169596478420128156L;
 
     public TimetableTimeType() {
-        super(Calendar.getInstance().getTimeInMillis());
+        super(System.currentTimeMillis());
     }
 
     public TimetableTimeType(@NonNull Object millisecond) {

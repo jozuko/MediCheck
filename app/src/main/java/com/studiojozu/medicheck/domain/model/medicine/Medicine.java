@@ -1,5 +1,6 @@
 package com.studiojozu.medicheck.domain.model.medicine;
 
+import android.content.res.Resources;
 import android.support.annotation.NonNull;
 
 import java.io.Serializable;
@@ -183,4 +184,35 @@ public class Medicine implements Serializable {
     public MedicineTimetableList getTimetableList() {
         return mTimetableList;
     }
+
+    @NonNull
+    public String getDisplayMedicineName() {
+        return mMedicineName.getDisplayValue();
+    }
+
+    @NonNull
+    public String getDisplayTakeNumber() {
+        return mTakeNumber.getDisplayValue();
+    }
+
+    @NonNull
+    public String getDisplayDateNumber() {
+        return mDateNumber.getDisplayValue();
+    }
+
+    @NonNull
+    public String getDisplayStartDatetime() {
+        return mStartDatetime.getDisplayValue();
+    }
+
+    @NonNull
+    public String getDisplayTakeInterval(@NonNull Resources resources) {
+        return mTakeInterval.getDisplayValue(resources, mTakeIntervalMode);
+    }
+
+    @NonNull
+    public String getDisplayTimetableList() {
+        return mTimetableList.getDisplayValue();
+    }
+
 }

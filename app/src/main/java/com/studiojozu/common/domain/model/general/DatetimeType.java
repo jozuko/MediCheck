@@ -100,7 +100,9 @@ public abstract class DatetimeType<C extends DatetimeType<C>> extends ADbType<Lo
      *
      * @return 画面表示用文字列
      */
-    public String getFormatValue() {
+    @NonNull
+    @Override
+    public String getDisplayValue() {
         DateFormat format = SimpleDateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
         return format.format(mValue.getTime());
     }

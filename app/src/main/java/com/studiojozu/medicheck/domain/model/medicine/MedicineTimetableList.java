@@ -138,4 +138,24 @@ public class MedicineTimetableList implements Iterable<Timetable>, Iterator<Time
         Timetable lastTimetable = timetables.get(timetables.size() - 1);
         return lastTimetable.getTimetableId().equals(timetableId);
     }
+
+    public String getDisplayValue() {
+        if (isOneShotMedicine()) {
+            return "";
+        }
+
+        StringBuilder builder = new StringBuilder();
+        for (Timetable timetable : mTimetables) {
+            if(builder.length() != 0) builder.append(" / ");
+            builder.append(getTimetableDisplayValue(timetable));
+        }
+
+        return builder.toString();
+    }
+
+    private String getTimetableDisplayValue(@NonNull Timetable timetable) {
+        String name = timetable.getTimetableName().getDbValue();
+        String time = timetable.getTimetableTime().getDisplayValue();
+        return name + "(" + time + ")";
+    }
 }

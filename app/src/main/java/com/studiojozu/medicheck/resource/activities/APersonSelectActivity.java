@@ -17,6 +17,8 @@ import java.util.List;
 
 abstract class APersonSelectActivity extends AMainActivity {
 
+    static final String EXTRA_KEY_PERSON_ID = "person_id";
+
     @Nullable
     private SingleSelectArrayAdapter mSelectPersonAdapter = null;
     @Nullable

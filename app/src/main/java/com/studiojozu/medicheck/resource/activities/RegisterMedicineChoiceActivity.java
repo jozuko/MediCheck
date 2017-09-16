@@ -7,7 +7,10 @@ import android.view.View;
 
 import com.studiojozu.medicheck.R;
 import com.studiojozu.medicheck.application.MedicineFinderService;
+import com.studiojozu.medicheck.domain.model.medicine.MedicineIdType;
 import com.studiojozu.medicheck.resource.uicomponent.template.TemplateHeaderView;
+
+import static com.studiojozu.medicheck.resource.activities.RegisterMedicineActivity.EXTRA_KEY_MEDICINE_ID;
 
 public class RegisterMedicineChoiceActivity extends AActivity {
 
@@ -90,6 +93,7 @@ public class RegisterMedicineChoiceActivity extends AActivity {
 
     private void moveToNewRegisterMedicine(int requestCode) {
         Intent intent = new Intent(this, RegisterMedicineActivity.class);
+        intent.putExtra(EXTRA_KEY_MEDICINE_ID, new MedicineIdType());
         startActivityForResult(intent, requestCode);
     }
 

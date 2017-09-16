@@ -75,7 +75,9 @@ public abstract class DateType<C extends DateType<C>> extends ADbType<Long, C> i
      *
      * @return 画面表示用文字列
      */
-    public String getFormatValue() {
+    @NonNull
+    @Override
+    public String getDisplayValue() {
         DateFormat format = SimpleDateFormat.getDateInstance(DateFormat.SHORT);
         return format.format(mValue.getTime());
     }

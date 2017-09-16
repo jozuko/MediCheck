@@ -1,22 +1,33 @@
 package com.studiojozu.medicheck.resource.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckedTextView;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.studiojozu.medicheck.R;
+import com.studiojozu.medicheck.application.MedicineFinderService;
+import com.studiojozu.medicheck.domain.model.medicine.Medicine;
+import com.studiojozu.medicheck.domain.model.medicine.MedicineIdType;
 import com.studiojozu.medicheck.domain.model.medicine.MedicineNameValidator;
 import com.studiojozu.medicheck.domain.model.person.Person;
 import com.studiojozu.medicheck.resource.uicomponent.dialog.InputDialogView;
 import com.studiojozu.medicheck.resource.uicomponent.template.TemplateHeaderView;
 
+import java.io.Serializable;
+
 public class RegisterMedicineActivity extends APersonSelectActivity {
 
+    final static String EXTRA_KEY_MEDICINE_ID = "medicine_id";
+
+    @Nullable
+    private Medicine mMedicine = null;
     @Nullable
     private TextView mMedicineNameTextView = null;
     @Nullable
@@ -32,6 +43,8 @@ public class RegisterMedicineActivity extends APersonSelectActivity {
     @Nullable
     private TextView mDateNumberTextView = null;
     @Nullable
+    private ImageView mPhotoImageView = null;
+    @Nullable
     private Button mUseCameraButton = null;
     @Nullable
     private Button mUseGalleryButton = null;
@@ -39,6 +52,9 @@ public class RegisterMedicineActivity extends APersonSelectActivity {
     private CheckedTextView mAlarmCheckTextView = null;
     @Nullable
     private Button mRegisterButton = null;
+
+    @Nullable
+    private MedicineFinderService mMedicineFinderService = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,22 +64,8 @@ public class RegisterMedicineActivity extends APersonSelectActivity {
         initHeaderParent();
         initPersonSelect();
 
-        getAllView();
         setClickListener();
-    }
-
-    private void getAllView() {
-        mMedicineNameTextView = findViewById(R.id.register_medicine_name_text);
-        mStartDayTextView = findViewById(R.id.register_start_day_text);
-        mTimetablesTextView = findViewById(R.id.register_timetables_text);
-        mOneShotCheckTextView = findViewById(R.id.register_one_shot_text);
-        mTakeNumberTextView = findViewById(R.id.register_take_number_text);
-        mIntervalTextView = findViewById(R.id.register_interval_text);
-        mDateNumberTextView = findViewById(R.id.register_date_number_text);
-        mUseCameraButton = findViewById(R.id.register_use_camera_button);
-        mUseGalleryButton = findViewById(R.id.register_use_gallery_button);
-        mAlarmCheckTextView = findViewById(R.id.register_alarm_text);
-        mRegisterButton = findViewById(R.id.register_button);
+        showMedicineInformation();
     }
 
     private void setClickListener() {
@@ -80,15 +82,104 @@ public class RegisterMedicineActivity extends APersonSelectActivity {
         setRegisterButtonClickListener();
     }
 
+    @NonNull
+    private TextView getMedicineNameTextView() {
+        if (mMedicineNameTextView == null)
+            mMedicineNameTextView = findViewById(R.id.register_medicine_name_text);
+        return mMedicineNameTextView;
+    }
+
+    @NonNull
+    private TextView getStartDayTextView() {
+        if (mStartDayTextView == null)
+            mStartDayTextView = findViewById(R.id.register_start_day_text);
+        return mStartDayTextView;
+    }
+
+    @NonNull
+    private TextView getTimetablesTextView() {
+        if (mTimetablesTextView == null)
+            mTimetablesTextView = findViewById(R.id.register_timetables_text);
+        return mTimetablesTextView;
+    }
+
+    @NonNull
+    private CheckedTextView getOneShotCheckTextView() {
+        if (mOneShotCheckTextView == null)
+            mOneShotCheckTextView = findViewById(R.id.register_one_shot_text);
+        return mOneShotCheckTextView;
+    }
+
+    @NonNull
+    private TextView getTakeNumberTextView() {
+        if (mTakeNumberTextView == null)
+            mTakeNumberTextView = findViewById(R.id.register_take_number_text);
+        return mTakeNumberTextView;
+    }
+
+    @NonNull
+    private TextView getIntervalTextView() {
+        if (mIntervalTextView == null)
+            mIntervalTextView = findViewById(R.id.register_interval_text);
+        return mIntervalTextView;
+    }
+
+    @NonNull
+    private TextView getDateNumberTextView() {
+        if (mDateNumberTextView == null)
+            mDateNumberTextView = findViewById(R.id.register_date_number_text);
+        return mDateNumberTextView;
+    }
+
+    private ImageView getPhotoImageView() {
+        if (mPhotoImageView == null)
+            mPhotoImageView = findViewById(R.id.register_medicine_photo_image);
+        return mPhotoImageView;
+    }
+
+    @NonNull
+    private Button getUseCameraButton() {
+        if (mUseCameraButton == null)
+            mUseCameraButton = findViewById(R.id.register_use_camera_button);
+        return mUseCameraButton;
+    }
+
+    @NonNull
+    private Button getUseGalleryButton() {
+        if (mUseGalleryButton == null)
+            mUseGalleryButton = findViewById(R.id.register_use_gallery_button);
+        return mUseGalleryButton;
+    }
+
+    @NonNull
+    private CheckedTextView getAlarmCheckTextView() {
+        if (mAlarmCheckTextView == null)
+            mAlarmCheckTextView = findViewById(R.id.register_alarm_text);
+        return mAlarmCheckTextView;
+    }
+
+    @NonNull
+    private Button getRegisterButton() {
+        if (mRegisterButton == null)
+            mRegisterButton = findViewById(R.id.register_button);
+        return mRegisterButton;
+    }
+
+    @NonNull
+    private MedicineFinderService getMedicineFinderService() {
+        if (mMedicineFinderService == null)
+            mMedicineFinderService = new MedicineFinderService(getApplicationContext());
+        return mMedicineFinderService;
+    }
+
     private void setMedicineNameTextViewClickListener() {
-        if (mMedicineNameTextView == null) return;
-        mMedicineNameTextView.setOnClickListener(new View.OnClickListener() {
+        getMedicineNameTextView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showInputDialog(R.string.input_title_medicine_name, new MedicineNameValidator(), new InputDialogView.OnCompletedCorrectInputListener() {
                     @Override
                     public void onCompleted(String data) {
-                        mMedicineNameTextView.setText(data);
+                        getMedicineNameTextView().setText(data);
                     }
                 });
             }
@@ -96,8 +187,7 @@ public class RegisterMedicineActivity extends APersonSelectActivity {
     }
 
     private void setStartDayTextViewClickListener() {
-        if (mStartDayTextView == null) return;
-        mStartDayTextView.setOnClickListener(new View.OnClickListener() {
+        getStartDayTextView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // TODO 開始日クリック処理
@@ -106,8 +196,7 @@ public class RegisterMedicineActivity extends APersonSelectActivity {
     }
 
     private void setTimetablesTextViewClickListener() {
-        if (mTimetablesTextView == null) return;
-        mTimetablesTextView.setOnClickListener(new View.OnClickListener() {
+        getTimetablesTextView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // TODO Timetableクリック処理
@@ -116,19 +205,17 @@ public class RegisterMedicineActivity extends APersonSelectActivity {
     }
 
     private void setOneShotCheckTextViewClickListener() {
-        if (mOneShotCheckTextView == null || mTimetablesTextView == null) return;
-        mOneShotCheckTextView.setOnClickListener(new View.OnClickListener() {
+        getOneShotCheckTextView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mOneShotCheckTextView.setChecked(!mOneShotCheckTextView.isChecked());
-                mTimetablesTextView.setEnabled(!mOneShotCheckTextView.isChecked());
+                getOneShotCheckTextView().setChecked(!getOneShotCheckTextView().isChecked());
+                getTimetablesTextView().setEnabled(!getOneShotCheckTextView().isChecked());
             }
         });
     }
 
     private void setTakeNumberTextViewClickListener() {
-        if (mTakeNumberTextView == null) return;
-        mTakeNumberTextView.setOnClickListener(new View.OnClickListener() {
+        getTakeNumberTextView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // TODO 服用数クリック処理
@@ -137,8 +224,7 @@ public class RegisterMedicineActivity extends APersonSelectActivity {
     }
 
     private void setIntervalTextViewClickListener() {
-        if (mIntervalTextView == null) return;
-        mIntervalTextView.setOnClickListener(new View.OnClickListener() {
+        getIntervalTextView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // TODO 服用間隔クリック処理
@@ -147,8 +233,7 @@ public class RegisterMedicineActivity extends APersonSelectActivity {
     }
 
     private void setDateNumberTextViewClickListener() {
-        if (mDateNumberTextView == null) return;
-        mDateNumberTextView.setOnClickListener(new View.OnClickListener() {
+        getDateNumberTextView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // TODO 服用日数クリック処理
@@ -157,8 +242,7 @@ public class RegisterMedicineActivity extends APersonSelectActivity {
     }
 
     private void setUseCameraButtonClickListener() {
-        if (mUseCameraButton == null) return;
-        mUseCameraButton.setOnClickListener(new View.OnClickListener() {
+        getUseCameraButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // TODO カメラ使用クリック処理
@@ -167,8 +251,7 @@ public class RegisterMedicineActivity extends APersonSelectActivity {
     }
 
     private void setUseGalleryButtonClickListener() {
-        if (mUseGalleryButton == null) return;
-        mUseGalleryButton.setOnClickListener(new View.OnClickListener() {
+        getUseGalleryButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // TODO ギャラリー使用クリック処理
@@ -177,18 +260,16 @@ public class RegisterMedicineActivity extends APersonSelectActivity {
     }
 
     private void setAlarmCheckTextViewClickListener() {
-        if (mAlarmCheckTextView == null) return;
-        mAlarmCheckTextView.setOnClickListener(new View.OnClickListener() {
+        getAlarmCheckTextView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mAlarmCheckTextView.setChecked(!mAlarmCheckTextView.isChecked());
+                getAlarmCheckTextView().setChecked(!getAlarmCheckTextView().isChecked());
             }
         });
     }
 
     private void setRegisterButtonClickListener() {
-        if (mRegisterButton == null) return;
-        mRegisterButton.setOnClickListener(new View.OnClickListener() {
+        getRegisterButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // TODO 登録ボタンクリック処理
@@ -217,5 +298,40 @@ public class RegisterMedicineActivity extends APersonSelectActivity {
                 Toast.makeText(getApplicationContext(), ((TextView) findViewById(R.id.person_select)).getText(), Toast.LENGTH_SHORT).show();
             }
         };
+    }
+
+    private void showMedicineInformation() {
+        Medicine medicine = getActivityParameterMedicine();
+
+        getMedicineNameTextView().setText(medicine.getDisplayMedicineName());
+        getStartDayTextView().setText(medicine.getDisplayStartDatetime());
+        getTimetablesTextView().setText(medicine.getDisplayTimetableList());
+        getOneShotCheckTextView().setChecked(medicine.getTimetableList().isOneShotMedicine());
+        getTakeNumberTextView().setText(medicine.getDisplayTakeNumber());
+        getIntervalTextView().setText(medicine.getDisplayTakeInterval(getResources()));
+        getDateNumberTextView().setText(medicine.getDisplayDateNumber());
+    }
+
+    private Medicine getActivityParameterMedicine() {
+        if (mMedicine == null) {
+            MedicineIdType medicineIdType = getActivityParameterMedicineId();
+            mMedicine = getMedicineFinderService().findById(medicineIdType);
+        }
+        return mMedicine;
+    }
+
+    private MedicineIdType getActivityParameterMedicineId() {
+        Intent activityParameter = getIntent();
+        if (activityParameter == null)
+            return new MedicineIdType();
+
+        if (!activityParameter.hasExtra(EXTRA_KEY_MEDICINE_ID))
+            return new MedicineIdType();
+
+        Serializable serializable = activityParameter.getSerializableExtra(EXTRA_KEY_MEDICINE_ID);
+        if (!(serializable instanceof Medicine))
+            return new MedicineIdType();
+
+        return (MedicineIdType) serializable;
     }
 }

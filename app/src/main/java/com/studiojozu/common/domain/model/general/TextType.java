@@ -41,4 +41,11 @@ public abstract class TextType<C extends TextType<C>> extends ADbType<String, C>
     public int compareTo(@NonNull TextType target) {
         return getDbValue().compareTo(target.getDbValue());
     }
+
+    @NonNull
+    @Override
+    public String getDisplayValue() {
+        return mValue;
+
+    }
 }

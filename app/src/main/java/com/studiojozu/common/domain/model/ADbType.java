@@ -36,6 +36,8 @@ public abstract class ADbType<T, C extends ADbType> implements Serializable, Clo
      */
     public abstract void setContentValue(@NonNull String columnName, @NonNull ContentValues contentValue);
 
+    public abstract String getDisplayValue();
+
     @Override
     public boolean equals(Object obj) {
         if ((obj == null) || (!(obj instanceof ADbType))) return false;
