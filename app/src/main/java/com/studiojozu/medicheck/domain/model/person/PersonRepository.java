@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import java.util.List;
 
 public interface PersonRepository {
+    @NonNull
     Person getDefaultPerson(@NonNull Context context);
 
     Person findPersonById(@NonNull Context context, @NonNull PersonIdType personIdType);

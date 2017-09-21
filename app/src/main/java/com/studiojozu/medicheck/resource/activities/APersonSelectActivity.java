@@ -9,6 +9,8 @@ import android.widget.TextView;
 import com.studiojozu.medicheck.R;
 import com.studiojozu.medicheck.application.PersonSelectService;
 import com.studiojozu.medicheck.domain.model.person.Person;
+import com.studiojozu.medicheck.domain.model.person.PersonRepository;
+import com.studiojozu.medicheck.infrastructure.adapter.PersistenceAdapter;
 import com.studiojozu.medicheck.resource.uicomponent.dialog.ADialogView;
 import com.studiojozu.medicheck.resource.uicomponent.listview.SingleSelectArrayAdapter;
 import com.studiojozu.medicheck.resource.uicomponent.listview.SingleSelectItem;
@@ -23,9 +25,26 @@ abstract class APersonSelectActivity extends AMainActivity {
     private SingleSelectArrayAdapter mSelectPersonAdapter = null;
     @Nullable
     private OnSelectedPersonListener mOnSelectedPersonListener = null;
+    @NonNull
+    private PersonRepository mPersonRepository = PersistenceAdapter.getPersonRepository();
+    @Nullable
+    private Person mSelectedPerson = null;
+    @Nullable
+    private TextView mPersonSelectTextView = null;
 
     void initPersonSelect() {
-        findViewById(R.id.person_select).setOnClickListener(createPersonTextClickListener());
+        if (mSelectedPerson == null)
+            mSelectedPerson = mPersonRepository.getDefaultPerson(getApplicationContext());
+
+        getPersonSelectTextView().setText(mSelectedPerson.getDisplayPersonName());
+        getPersonSelectTextView().setOnClickListener(createPersonTextClickListener());
+    }
+
+    private TextView getPersonSelectTextView() {
+        if (mPersonSelectTextView != null)
+            return mPersonSelectTextView;
+        mPersonSelectTextView = findViewById(R.id.person_select);
+        return mPersonSelectTextView;
     }
 
     private void showPersonSelectorDialog() {
