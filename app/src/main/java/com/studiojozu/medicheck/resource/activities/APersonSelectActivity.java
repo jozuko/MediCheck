@@ -83,10 +83,11 @@ abstract class APersonSelectActivity extends AMainActivity {
                 SingleSelectItem item = itemList.get(position);
                 Person person = (Person) item.getTag();
                 if (person == null) return;
+                mSelectedPerson = person;
 
-                ((TextView) findViewById(R.id.person_select)).setText(person.getDisplayPersonName());
+                ((TextView) findViewById(R.id.person_select)).setText(mSelectedPerson.getDisplayPersonName());
                 if (mOnSelectedPersonListener != null)
-                    mOnSelectedPersonListener.onSelectedPerson(person);
+                    mOnSelectedPersonListener.onSelectedPerson(mSelectedPerson);
             }
         };
     }

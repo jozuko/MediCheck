@@ -17,8 +17,10 @@ import com.studiojozu.medicheck.R;
 import com.studiojozu.medicheck.resource.uicomponent.calendar.CalendarDayView;
 import com.studiojozu.medicheck.resource.uicomponent.dialog.ADialogView;
 import com.studiojozu.medicheck.resource.uicomponent.dialog.CalendarDialogView;
+import com.studiojozu.medicheck.resource.uicomponent.dialog.DatePickerDialogView;
 import com.studiojozu.medicheck.resource.uicomponent.dialog.InputDialogView;
 import com.studiojozu.medicheck.resource.uicomponent.dialog.SelectorDialogView;
+import com.studiojozu.medicheck.resource.uicomponent.dialog.TimePickerDialogView;
 
 import org.jetbrains.annotations.Contract;
 
@@ -35,6 +37,10 @@ public abstract class AMainActivity extends AActivity {
     private InputDialogView mInputDialogView = null;
     @Nullable
     private SelectorDialogView mSelectorDialogView = null;
+    @Nullable
+    private DatePickerDialogView mDatePickerDialogView = null;
+    @Nullable
+    private TimePickerDialogView mTimePickerDialogView = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,6 +59,8 @@ public abstract class AMainActivity extends AActivity {
         getCalendarDialogView();
         getInputDialogView();
         getSelectorDialogView();
+        getDatePickerDialogView();
+        getTimePickerDialogView();
     }
 
     @Override
@@ -71,6 +79,14 @@ public abstract class AMainActivity extends AActivity {
 
     private void getSelectorDialogView() {
         mSelectorDialogView = findViewById(R.id.main_selector_dialog);
+    }
+
+    private void getDatePickerDialogView() {
+        mDatePickerDialogView = findViewById(R.id.main_date_picker_dialog);
+    }
+
+    private void getTimePickerDialogView() {
+        mTimePickerDialogView = findViewById(R.id.main_time_picker_dialog);
     }
 
     void showCalendarDialog(Calendar displayMonthCalendar, CalendarDayView.OnSelectedDayListener selectedDayListener) {
@@ -99,9 +115,19 @@ public abstract class AMainActivity extends AActivity {
         if (mSelectorDialogView == null) return;
 
         mSelectorDialogView.setListViewAdapter(adapter);
-        mSelectorDialogView.setOnCancelButtonClickListener(okClickListener);
+        mSelectorDialogView.setOnOkButtonClickListener(okClickListener);
         mSelectorDialogView.setOnCancelButtonClickListener(cancelClickListener);
         mSelectorDialogView.showSelectorDialog(true, true);
+    }
+
+    void showDatePickerDialog(int year, int month, int dayOfMonth, @Nullable DatePickerDialogView.OnDateSelectedListener onDateSelectedListener) {
+        if (mDatePickerDialogView == null) return;
+        mDatePickerDialogView.showDatePickerDialog(year, month, dayOfMonth, onDateSelectedListener);
+    }
+
+    void showTimePickerDialog(int hourOfDay, int minute, @Nullable TimePickerDialogView.OnTimeSelectedListener onTimeSelectedListener) {
+        if (mTimePickerDialogView == null) return;
+        mTimePickerDialogView.showTimePickerDialog(hourOfDay, minute, onTimeSelectedListener);
     }
 
     @Contract("null -> false")
@@ -113,8 +139,14 @@ public abstract class AMainActivity extends AActivity {
         return true;
     }
 
+    @SuppressWarnings("RedundantIfStatement")
     private boolean closeDialog() {
         if (closeDialog(mCalendarDialogView)) return true;
-        return (closeDialog(mInputDialogView));
+        if (closeDialog(mInputDialogView)) return true;
+        if (closeDialog(mSelectorDialogView)) return true;
+        if (closeDialog(mDatePickerDialogView)) return true;
+        if (closeDialog(mTimePickerDialogView)) return true;
+
+        return false;
     }
 }

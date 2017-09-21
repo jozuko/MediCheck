@@ -9,15 +9,16 @@ import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.studiojozu.medicheck.R;
 import com.studiojozu.medicheck.application.MedicineFinderService;
 import com.studiojozu.medicheck.domain.model.medicine.Medicine;
 import com.studiojozu.medicheck.domain.model.medicine.MedicineIdType;
 import com.studiojozu.medicheck.domain.model.medicine.MedicineNameValidator;
-import com.studiojozu.medicheck.domain.model.person.Person;
+import com.studiojozu.medicheck.domain.model.medicine.StartDatetimeType;
+import com.studiojozu.medicheck.resource.uicomponent.dialog.DatePickerDialogView;
 import com.studiojozu.medicheck.resource.uicomponent.dialog.InputDialogView;
+import com.studiojozu.medicheck.resource.uicomponent.dialog.TimePickerDialogView;
 import com.studiojozu.medicheck.resource.uicomponent.template.TemplateHeaderView;
 
 import java.io.Serializable;
@@ -179,7 +180,8 @@ public class RegisterMedicineActivity extends APersonSelectActivity {
                 showInputDialog(R.string.input_title_medicine_name, new MedicineNameValidator(), new InputDialogView.OnCompletedCorrectInputListener() {
                     @Override
                     public void onCompleted(String data) {
-                        getMedicineNameTextView().setText(data);
+                        getActivityParameterMedicine().setMedicineName(data);
+                        showDisplayMedicineName();
                     }
                 });
             }
@@ -190,9 +192,31 @@ public class RegisterMedicineActivity extends APersonSelectActivity {
         getStartDayTextView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO 開始日クリック処理
+                selectStartDatetime();
             }
         });
+    }
+
+    private void selectStartDatetime() {
+        final Medicine medicine = getActivityParameterMedicine();
+        final StartDatetimeType startDatetime = medicine.getStartDatetime();
+
+        showDatePickerDialog(
+                startDatetime.getYear(),
+                startDatetime.getMonth(),
+                startDatetime.getDayOfMonth(),
+                new DatePickerDialogView.OnDateSelectedListener() {
+                    @Override
+                    public void onDateSelected(final int year, final int monthOfYear, final int dayOfMonth) {
+                        showTimePickerDialog(startDatetime.getHourOfDay(), startDatetime.getMinute(), new TimePickerDialogView.OnTimeSelectedListener() {
+                            @Override
+                            public void onTimeChanged(final int hourOfDay, final int minute) {
+                                medicine.setStartDatetime(year, monthOfYear + 1, dayOfMonth, hourOfDay, minute);
+                                showDisplayStartDay();
+                            }
+                        });
+                    }
+                });
     }
 
     private void setTimetablesTextViewClickListener() {
@@ -208,8 +232,9 @@ public class RegisterMedicineActivity extends APersonSelectActivity {
         getOneShotCheckTextView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getOneShotCheckTextView().setChecked(!getOneShotCheckTextView().isChecked());
-                getTimetablesTextView().setEnabled(!getOneShotCheckTextView().isChecked());
+                Medicine medicine = getActivityParameterMedicine();
+                medicine.setOneShowMedicine(!medicine.isOneShowMedicine());
+                showDisplayTimetable();
             }
         });
     }
@@ -263,7 +288,9 @@ public class RegisterMedicineActivity extends APersonSelectActivity {
         getAlarmCheckTextView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getAlarmCheckTextView().setChecked(!getAlarmCheckTextView().isChecked());
+                Medicine medicine = getActivityParameterMedicine();
+                medicine.setNeedAlarm(!medicine.isNeedAlarm());
+                showDisplayNeedAlarm();
             }
         });
     }
@@ -292,24 +319,57 @@ public class RegisterMedicineActivity extends APersonSelectActivity {
     @Nullable
     @Override
     OnSelectedPersonListener createOnSelectedPersonListener() {
-        return new OnSelectedPersonListener() {
-            @Override
-            public void onSelectedPerson(@NonNull Person person) {
-                Toast.makeText(getApplicationContext(), ((TextView) findViewById(R.id.person_select)).getText(), Toast.LENGTH_SHORT).show();
-            }
-        };
+        return null;
     }
 
     private void showMedicineInformation() {
+        showDisplayMedicineName();
+        showDisplayStartDay();
+        showDisplayTimetable();
+        showDisplayTakeNumber();
+        showDisplayInterval();
+        showDisplayDateNumber();
+        showDisplayNeedAlarm();
+    }
+
+    private void showDisplayMedicineName() {
+        Medicine medicine = getActivityParameterMedicine();
+        getMedicineNameTextView().setText(medicine.getDisplayMedicineName());
+    }
+
+    private void showDisplayStartDay() {
+        Medicine medicine = getActivityParameterMedicine();
+        getStartDayTextView().setText(medicine.getDisplayStartDatetime());
+    }
+
+    private void showDisplayTimetable() {
         Medicine medicine = getActivityParameterMedicine();
 
-        getMedicineNameTextView().setText(medicine.getDisplayMedicineName());
-        getStartDayTextView().setText(medicine.getDisplayStartDatetime());
+        boolean isOneShot = medicine.isOneShowMedicine();
+        getOneShotCheckTextView().setChecked(isOneShot);
+        getTimetablesTextView().setEnabled(!isOneShot);
+
         getTimetablesTextView().setText(medicine.getDisplayTimetableList());
-        getOneShotCheckTextView().setChecked(medicine.getTimetableList().isOneShotMedicine());
+    }
+
+    private void showDisplayTakeNumber() {
+        Medicine medicine = getActivityParameterMedicine();
         getTakeNumberTextView().setText(medicine.getDisplayTakeNumber());
+    }
+
+    private void showDisplayInterval() {
+        Medicine medicine = getActivityParameterMedicine();
         getIntervalTextView().setText(medicine.getDisplayTakeInterval(getResources()));
+    }
+
+    private void showDisplayDateNumber() {
+        Medicine medicine = getActivityParameterMedicine();
         getDateNumberTextView().setText(medicine.getDisplayDateNumber());
+    }
+
+    private void showDisplayNeedAlarm() {
+        Medicine medicine = getActivityParameterMedicine();
+        getAlarmCheckTextView().setChecked(medicine.isNeedAlarm());
     }
 
     private Medicine getActivityParameterMedicine() {

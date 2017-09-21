@@ -29,4 +29,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
+    <!-- date picker dialog -->
+    <com.studiojozu.medicheck.resource.uicomponent.dialog.DatePickerDialogView
+        android:id="@+id/main_date_picker_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <!-- time picker dialog -->
+    <com.studiojozu.medicheck.resource.uicomponent.dialog.TimePickerDialogView
+        android:id="@+id/main_time_picker_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
 </FrameLayout>

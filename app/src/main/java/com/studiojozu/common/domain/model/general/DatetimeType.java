@@ -112,4 +112,24 @@ public abstract class DatetimeType<C extends DatetimeType<C>> extends ADbType<Lo
     public abstract C addDay(int day);
 
     public abstract C addMonth(int month);
+
+    public int getYear() {
+        return mValue.get(Calendar.YEAR);
+    }
+
+    public int getMonth() {
+        return mValue.get(Calendar.MONTH);
+    }
+
+    public int getDayOfMonth() {
+        return mValue.get(Calendar.DAY_OF_MONTH);
+    }
+
+    public int getHourOfDay() {
+        return mValue.get(Calendar.HOUR_OF_DAY);
+    }
+
+    public int getMinute() {
+        return mValue.get(Calendar.MINUTE);
+    }
 }

@@ -24,6 +24,7 @@ public class MedicineTimetableList implements Iterable<Timetable>, Iterator<Time
     private ArrayList<Timetable> mTimetables = new ArrayList<>();
     @Nullable
     private transient Iterator<Timetable> mTimetableIterator = null;
+    private boolean mIsOneShotMedicine = false;
 
     public MedicineTimetableList() {
     }
@@ -86,7 +87,11 @@ public class MedicineTimetableList implements Iterable<Timetable>, Iterator<Time
     }
 
     public boolean isOneShotMedicine() {
-        return (mTimetables.size() == 0);
+        return mIsOneShotMedicine;
+    }
+
+    public void setOneShotMedicine(boolean isOneShotMedicine) {
+        mIsOneShotMedicine = isOneShotMedicine;
     }
 
     public int getCount() {

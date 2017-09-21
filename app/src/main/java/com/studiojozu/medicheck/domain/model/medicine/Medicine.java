@@ -182,6 +182,10 @@ public class Medicine implements Serializable {
         return mMedicineName;
     }
 
+    public void setMedicineName(@NonNull String medicineName) {
+        mMedicineName = new MedicineNameType(medicineName);
+    }
+
     @NonNull
     public TakeNumberType getTakeNumber() {
         return mTakeNumber;
@@ -224,7 +228,7 @@ public class Medicine implements Serializable {
 
     @NonNull
     public String getDisplayTakeNumber() {
-        return mTakeNumber.getDisplayValue();
+        return mTakeNumber.getDisplayValue() + mMedicineUnit.getDisplayValue();
     }
 
     @NonNull
@@ -265,5 +269,25 @@ public class Medicine implements Serializable {
     @NonNull
     public MedicineUnitIdType getMedicineUnitId() {
         return mMedicineUnit.getMedicineUnitId();
+    }
+
+    public void setStartDatetime(int year, int month, int dayOfMonth, int hourOfDay, int minute) {
+        mStartDatetime = new StartDatetimeType(year, month, dayOfMonth, hourOfDay, minute);
+    }
+
+    public boolean isOneShowMedicine() {
+        return mTimetableList.isOneShotMedicine();
+    }
+
+    public void setOneShowMedicine(boolean isOneShotMedicine) {
+        mTimetableList.setOneShotMedicine(isOneShotMedicine);
+    }
+
+    public boolean isNeedAlarm() {
+        return mNeedAlarmType.isTrue();
+    }
+
+    public void setNeedAlarm(boolean needAlarm) {
+        mNeedAlarmType = new MedicineNeedAlarmType(needAlarm);
     }
 }

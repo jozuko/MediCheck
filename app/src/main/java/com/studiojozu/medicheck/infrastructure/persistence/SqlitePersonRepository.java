@@ -83,6 +83,7 @@ public class SqlitePersonRepository extends ABaseRepository implements PersonRep
     }
 
     @Override
+    @NonNull
     public Person getDefaultPerson(@NonNull Context context) {
         PreferenceRepository preferenceRepository = new PreferenceRepository(context);
         PersonIdType personIdType = preferenceRepository.getDefaultPersonId();

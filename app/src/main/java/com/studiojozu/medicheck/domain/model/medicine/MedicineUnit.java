@@ -48,4 +48,9 @@ public class MedicineUnit implements Serializable {
     public void setMedicineUnitDisplayOrder(@NonNull MedicineUnitDisplayOrderType medicineUnitDisplayOrder) {
         mMedicineUnitDisplayOrder = medicineUnitDisplayOrder;
     }
+
+    @NonNull
+    public String getDisplayValue() {
+        return mMedicineUnitValue.getDisplayValue();
+    }
 }
