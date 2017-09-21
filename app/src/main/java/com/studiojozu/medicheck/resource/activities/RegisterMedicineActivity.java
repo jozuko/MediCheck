@@ -329,9 +329,8 @@ public class RegisterMedicineActivity extends APersonSelectActivity {
             return new MedicineIdType();
 
         Serializable serializable = activityParameter.getSerializableExtra(EXTRA_KEY_MEDICINE_ID);
-        if (!(serializable instanceof Medicine))
-            return new MedicineIdType();
-
-        return (MedicineIdType) serializable;
+        if (serializable instanceof MedicineIdType)
+            return (MedicineIdType) serializable;
+        return new MedicineIdType();
     }
 }

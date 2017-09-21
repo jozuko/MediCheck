@@ -84,13 +84,28 @@ public class RemindIntervalType extends ADbType<Integer, RemindIntervalType> imp
         return mValue.compareTo(target.mValue);
     }
 
+    @NonNull
+    @Override
+    public String getDisplayValue() {
+        throw new RuntimeException("you need to call getDisplayValue(TakeIntervalModeType).");
+    }
+
+    @NonNull
+    public String getDisplayValue(@NonNull Resources resources) {
+        int stringRes = RemindIntervalPattern.valueOfStringRes(mValue);
+        if (stringRes == 0)
+            return "";
+
+        return resources.getString(stringRes, RemindIntervalPattern.valueOfDisplayValue(mValue));
+    }
+
     public enum RemindIntervalPattern {
         MINUTE_1(1, 1, R.string.interval_minute),
         MINUTE_5(5, 5, R.string.interval_minutes),
-        MINUTE_10(10,10, R.string.interval_minutes),
-        MINUTE_15(15,15, R.string.interval_minutes),
-        MINUTE_30(30,30, R.string.interval_minutes),
-        HOUR_1(60,1, R.string.interval_hour);
+        MINUTE_10(10, 10, R.string.interval_minutes),
+        MINUTE_15(15, 15, R.string.interval_minutes),
+        MINUTE_30(30, 30, R.string.interval_minutes),
+        HOUR_1(60, 1, R.string.interval_hour);
 
         private final int mIntervalMinutes;
         private final int mDisplayValue;
@@ -136,20 +151,5 @@ public class RemindIntervalType extends ADbType<Integer, RemindIntervalType> imp
             }
             return RemindIntervalPattern.MINUTE_5;
         }
-    }
-
-    @NonNull
-    @Override
-    public String getDisplayValue() {
-        throw new RuntimeException("you need to call getDisplayValue(TakeIntervalModeType).");
-    }
-
-    @NonNull
-    public String getDisplayValue(@NonNull Resources resources) {
-        int stringRes = RemindIntervalPattern.valueOfStringRes(mValue);
-        if (stringRes == 0)
-            return "";
-
-        return resources.getString(stringRes, RemindIntervalPattern.valueOfDisplayValue(mValue));
     }
 }

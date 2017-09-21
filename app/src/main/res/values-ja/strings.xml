@@ -92,4 +92,5 @@
     <string name="interval_minutes">%1$d分</string>
     <string name="interval_hours">%1$d時間</string>
 
+    <string name="medicine_unit_1">つ</string>
 </resources>

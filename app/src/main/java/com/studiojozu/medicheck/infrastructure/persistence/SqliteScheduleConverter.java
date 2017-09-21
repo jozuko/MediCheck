@@ -5,9 +5,9 @@ import android.support.annotation.Nullable;
 import com.studiojozu.common.domain.model.ADbType;
 import com.studiojozu.medicheck.domain.model.medicine.MedicineIdType;
 import com.studiojozu.medicheck.domain.model.schedule.IsTakeType;
-import com.studiojozu.medicheck.domain.model.schedule.NeedAlarmType;
 import com.studiojozu.medicheck.domain.model.schedule.PlanDateType;
 import com.studiojozu.medicheck.domain.model.schedule.Schedule;
+import com.studiojozu.medicheck.domain.model.schedule.ScheduleNeedAlarmType;
 import com.studiojozu.medicheck.domain.model.schedule.TookDatetime;
 import com.studiojozu.medicheck.domain.model.setting.TimetableIdType;
 
@@ -55,10 +55,10 @@ class SqliteScheduleConverter extends ASqliteConverter<Schedule> {
         return new TimetableIdType();
     }
 
-    private NeedAlarmType getNeedAlarmType() {
-        NeedAlarmType needAlarmType = (NeedAlarmType) getData(SqliteScheduleRepository.COLUMN_NEED_ALERT);
-        if (needAlarmType != null) return needAlarmType;
-        return new NeedAlarmType();
+    private ScheduleNeedAlarmType getNeedAlarmType() {
+        ScheduleNeedAlarmType scheduleNeedAlarmType = (ScheduleNeedAlarmType) getData(SqliteScheduleRepository.COLUMN_NEED_ALERT);
+        if (scheduleNeedAlarmType != null) return scheduleNeedAlarmType;
+        return new ScheduleNeedAlarmType();
     }
 
     private IsTakeType getIsTakeType() {

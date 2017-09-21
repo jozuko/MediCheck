@@ -7,7 +7,7 @@ import com.studiojozu.medicheck.domain.model.PersonMediViewRepository;
 import com.studiojozu.medicheck.domain.model.alarm.AlarmSchedule;
 import com.studiojozu.medicheck.domain.model.alarm.AlarmScheduleComparator;
 import com.studiojozu.medicheck.domain.model.medicine.Medicine;
-import com.studiojozu.medicheck.domain.model.medicine.MedicineRepository;
+import com.studiojozu.medicheck.domain.model.medicine.MedicineViewRepository;
 import com.studiojozu.medicheck.domain.model.person.Person;
 import com.studiojozu.medicheck.domain.model.schedule.Schedule;
 import com.studiojozu.medicheck.domain.model.schedule.ScheduleRepository;
@@ -36,7 +36,7 @@ public class AlarmScheduleService {
     @NonNull
     private final PersonMediViewRepository mPersonMediViewRepository = PersistenceAdapter.getPersonMediViewRepository();
     @NonNull
-    private final MedicineRepository mMedicineRepository = PersistenceAdapter.getMedicineRepository();
+    private final MedicineViewRepository mMedicineViewRepository = PersistenceAdapter.getMedicineRepository();
 
     @NonNull
     public List<AlarmSchedule> getNeedAlarmSchedules(@NonNull Context context) {
@@ -60,7 +60,7 @@ public class AlarmScheduleService {
         Timetable timetable = mTimetableRepository.findTimetableById(context, schedule.getTimetableId());
         if (timetable == null) return null;
 
-        Medicine medicine = mMedicineRepository.findMedicineById(context, schedule.getMedicineId());
+        Medicine medicine = mMedicineViewRepository.findMedicineById(context, schedule.getMedicineId());
         if (medicine == null) return null;
 
         Person person = mPersonMediViewRepository.findPersonByMedicineId(context, schedule.getMedicineId());

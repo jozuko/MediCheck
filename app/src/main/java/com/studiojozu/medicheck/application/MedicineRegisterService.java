@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 import com.studiojozu.medicheck.domain.model.MediTimeRelationRepository;
 import com.studiojozu.medicheck.domain.model.PersonMediRelationRepository;
 import com.studiojozu.medicheck.domain.model.medicine.Medicine;
-import com.studiojozu.medicheck.domain.model.medicine.MedicineRepository;
+import com.studiojozu.medicheck.domain.model.medicine.MedicineViewRepository;
 import com.studiojozu.medicheck.domain.model.person.PersonIdType;
 import com.studiojozu.medicheck.domain.model.schedule.ScheduleList;
 import com.studiojozu.medicheck.domain.model.schedule.ScheduleRepository;
@@ -19,7 +19,7 @@ public class MedicineRegisterService {
     @NonNull
     private final Context mContext;
     @NonNull
-    private final MedicineRepository mMedicineRepository;
+    private final MedicineViewRepository mMedicineViewRepository;
     @NonNull
     private final PersonMediRelationRepository mPersonMediRelationRepository;
     @NonNull
@@ -32,7 +32,7 @@ public class MedicineRegisterService {
     public MedicineRegisterService(@NonNull Context context) {
         mContext = context;
         mPersistenceTransaction = PersistenceAdapter.getPersistenceTransaction(mContext);
-        mMedicineRepository = PersistenceAdapter.getMedicineRepository();
+        mMedicineViewRepository = PersistenceAdapter.getMedicineRepository();
         mPersonMediRelationRepository = PersistenceAdapter.getPersonMediRelationRepository();
         mMediTimeRelationRepository = PersistenceAdapter.getMediTimeRelationRepository();
         mScheduleRepository = PersistenceAdapter.getScheduleRepository();
@@ -42,7 +42,7 @@ public class MedicineRegisterService {
         try {
             mPersistenceTransaction.beginTransaction();
 
-            mMedicineRepository.add(mContext, medicine);
+            mMedicineViewRepository.add(mContext, medicine);
             mMediTimeRelationRepository.add(mContext, medicine.getMedicineId(), medicine.getTimetableList());
             mPersonMediRelationRepository.add(mContext, personIdType, medicine.getMedicineId());
 

@@ -91,4 +91,7 @@
     <string name="interval_hour">%1$d hour</string>
     <string name="interval_minutes">%1$d minutes</string>
     <string name="interval_hours">%1$d hours</string>
+
+    <string name="medicine_unit_1">shot</string>
+
 </resources>

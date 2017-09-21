@@ -6,7 +6,7 @@ import android.support.annotation.Nullable;
 
 import com.studiojozu.medicheck.domain.model.medicine.Medicine;
 import com.studiojozu.medicheck.domain.model.medicine.MedicineIdType;
-import com.studiojozu.medicheck.domain.model.medicine.MedicineRepository;
+import com.studiojozu.medicheck.domain.model.medicine.MedicineViewRepository;
 import com.studiojozu.medicheck.infrastructure.adapter.PersistenceAdapter;
 
 import java.util.Set;
@@ -16,14 +16,14 @@ public class MedicineFinderService {
     @NonNull
     private final Context mContext;
     @NonNull
-    private final MedicineRepository mMedicineRepository = PersistenceAdapter.getMedicineRepository();
+    private final MedicineViewRepository mMedicineViewRepository = PersistenceAdapter.getMedicineRepository();
 
     public MedicineFinderService(@NonNull Context context) {
         mContext = context;
     }
 
     public boolean existMedicine() {
-        Set<Medicine> medicineSet = mMedicineRepository.findAll(mContext);
+        Set<Medicine> medicineSet = mMedicineViewRepository.findAll(mContext);
         if (medicineSet == null)
             return false;
 
@@ -32,11 +32,11 @@ public class MedicineFinderService {
 
     @NonNull
     public Medicine findById(@Nullable MedicineIdType medicineIdType) {
-        if(medicineIdType == null)
+        if (medicineIdType == null)
             return new Medicine();
 
-        Medicine medicine = mMedicineRepository.findMedicineById(mContext, medicineIdType);
-        if(medicine == null)
+        Medicine medicine = mMedicineViewRepository.findMedicineById(mContext, medicineIdType);
+        if (medicine == null)
             return new Medicine();
 
         return medicine;

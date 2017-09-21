@@ -15,7 +15,7 @@ class SqliteRepositories {
 
     static {
         TABLES = new ABaseRepository[]{
-                new SqliteMedicineRepository(),
+                new SqliteMedicineViewRepository(),
                 new SqliteMediTimeRelationRepository(),
                 new SqlitePersonRepository(),
                 new SqlitePersonMediRelationRepository(),

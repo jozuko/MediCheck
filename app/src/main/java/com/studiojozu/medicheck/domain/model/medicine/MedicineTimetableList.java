@@ -146,7 +146,7 @@ public class MedicineTimetableList implements Iterable<Timetable>, Iterator<Time
 
         StringBuilder builder = new StringBuilder();
         for (Timetable timetable : mTimetables) {
-            if(builder.length() != 0) builder.append(" / ");
+            if (builder.length() != 0) builder.append(" / ");
             builder.append(getTimetableDisplayValue(timetable));
         }
 

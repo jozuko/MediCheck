@@ -7,7 +7,7 @@ import com.studiojozu.medicheck.domain.model.MediTimeRelationRepository;
 import com.studiojozu.medicheck.domain.model.MediTimeViewRepository;
 import com.studiojozu.medicheck.domain.model.PersonMediRelationRepository;
 import com.studiojozu.medicheck.domain.model.PersonMediViewRepository;
-import com.studiojozu.medicheck.domain.model.medicine.MedicineRepository;
+import com.studiojozu.medicheck.domain.model.medicine.MedicineViewRepository;
 import com.studiojozu.medicheck.domain.model.person.PersonRepository;
 import com.studiojozu.medicheck.domain.model.schedule.ScheduleRepository;
 import com.studiojozu.medicheck.domain.model.setting.SettingRepository;
@@ -15,7 +15,7 @@ import com.studiojozu.medicheck.domain.model.setting.TimetableRepository;
 import com.studiojozu.medicheck.infrastructure.persistence.DbOpenHelper;
 import com.studiojozu.medicheck.infrastructure.persistence.SqliteMediTimeRelationRepository;
 import com.studiojozu.medicheck.infrastructure.persistence.SqliteMediTimeViewRepository;
-import com.studiojozu.medicheck.infrastructure.persistence.SqliteMedicineRepository;
+import com.studiojozu.medicheck.infrastructure.persistence.SqliteMedicineViewRepository;
 import com.studiojozu.medicheck.infrastructure.persistence.SqlitePersonMediRelationRepository;
 import com.studiojozu.medicheck.infrastructure.persistence.SqlitePersonMediViewRepository;
 import com.studiojozu.medicheck.infrastructure.persistence.SqlitePersonRepository;
@@ -34,8 +34,8 @@ public class PersistenceAdapter {
     }
 
     @NonNull
-    public static MedicineRepository getMedicineRepository() {
-        return new SqliteMedicineRepository();
+    public static MedicineViewRepository getMedicineRepository() {
+        return new SqliteMedicineViewRepository();
     }
 
     @NonNull

@@ -3,11 +3,16 @@ package com.studiojozu.medicheck.infrastructure.persistence;
 import android.support.annotation.NonNull;
 
 import com.studiojozu.common.domain.model.ADbType;
-import com.studiojozu.medicheck.domain.model.medicine.DateNumberType;
+import com.studiojozu.medicheck.domain.model.medicine.DeleteFlagType;
 import com.studiojozu.medicheck.domain.model.medicine.IsOneShotType;
+import com.studiojozu.medicheck.domain.model.medicine.MedicineDateNumberType;
 import com.studiojozu.medicheck.domain.model.medicine.MedicineIdType;
 import com.studiojozu.medicheck.domain.model.medicine.MedicineNameType;
+import com.studiojozu.medicheck.domain.model.medicine.MedicineNeedAlarmType;
 import com.studiojozu.medicheck.domain.model.medicine.MedicinePhotoType;
+import com.studiojozu.medicheck.domain.model.medicine.MedicineUnitDisplayOrderType;
+import com.studiojozu.medicheck.domain.model.medicine.MedicineUnitIdType;
+import com.studiojozu.medicheck.domain.model.medicine.MedicineUnitValueType;
 import com.studiojozu.medicheck.domain.model.medicine.StartDatetimeType;
 import com.studiojozu.medicheck.domain.model.medicine.TakeIntervalModeType;
 import com.studiojozu.medicheck.domain.model.medicine.TakeIntervalType;
@@ -17,8 +22,8 @@ import com.studiojozu.medicheck.domain.model.person.PersonIdType;
 import com.studiojozu.medicheck.domain.model.person.PersonNameType;
 import com.studiojozu.medicheck.domain.model.person.PersonPhotoType;
 import com.studiojozu.medicheck.domain.model.schedule.IsTakeType;
-import com.studiojozu.medicheck.domain.model.schedule.NeedAlarmType;
 import com.studiojozu.medicheck.domain.model.schedule.PlanDateType;
+import com.studiojozu.medicheck.domain.model.schedule.ScheduleNeedAlarmType;
 import com.studiojozu.medicheck.domain.model.schedule.TookDatetime;
 import com.studiojozu.medicheck.domain.model.setting.RemindIntervalType;
 import com.studiojozu.medicheck.domain.model.setting.RemindTimeoutType;
@@ -34,8 +39,8 @@ import java.lang.reflect.InvocationTargetException;
 /**
  * データベースのカラム型を表すクラス
  */
-public enum ColumnPattern {
-    MEDICINE_DATE_NUMBER(SqliteTypeNamePattern.Integer, DateNumberType.class),
+enum ColumnPattern {
+    MEDICINE_DATE_NUMBER(SqliteTypeNamePattern.Integer, MedicineDateNumberType.class),
     MEDICINE_IS_ONE_SHOT(SqliteTypeNamePattern.Integer, IsOneShotType.class),
     MEDICINE_ID(SqliteTypeNamePattern.Text, MedicineIdType.class),
     MEDICINE_NAME(SqliteTypeNamePattern.Text, MedicineNameType.class),
@@ -44,6 +49,9 @@ public enum ColumnPattern {
     MEDICINE_TAKE_INTERVAL_MODE(SqliteTypeNamePattern.Integer, TakeIntervalModeType.class),
     MEDICINE_TAKE_INTERVAL(SqliteTypeNamePattern.Integer, TakeIntervalType.class),
     MEDICINE_TAKE_NUMBER(SqliteTypeNamePattern.Integer, TakeNumberType.class),
+    MEDICINE_TAKE_NUMBER_UNIT(SqliteTypeNamePattern.Integer, MedicineUnitIdType.class),
+    MEDICINE_NEED_ALARM(SqliteTypeNamePattern.Integer, MedicineNeedAlarmType.class),
+    MEDICINE_DELETE_FLAG(SqliteTypeNamePattern.Integer, DeleteFlagType.class),
 
     PARSON_ID(SqliteTypeNamePattern.Text, PersonIdType.class),
     PARSON_NAME(SqliteTypeNamePattern.Text, PersonNameType.class),
@@ -51,7 +59,7 @@ public enum ColumnPattern {
     PARSON_DISPLAY_ORDER(SqliteTypeNamePattern.Integer, PersonDisplayOrderType.class),
 
     SCHEDULE_IS_TAKE(SqliteTypeNamePattern.Integer, IsTakeType.class),
-    SCHEDULE_NEED_ALARM(SqliteTypeNamePattern.Integer, NeedAlarmType.class),
+    SCHEDULE_NEED_ALARM(SqliteTypeNamePattern.Integer, ScheduleNeedAlarmType.class),
     SCHEDULE_PLAN_DATE(SqliteTypeNamePattern.Integer, PlanDateType.class),
     SCHEDULE_TOOK_DATETIME(SqliteTypeNamePattern.Integer, TookDatetime.class),
 
@@ -62,7 +70,11 @@ public enum ColumnPattern {
     TIMETABLE_ID(SqliteTypeNamePattern.Text, TimetableIdType.class),
     TIMETABLE_NAME(SqliteTypeNamePattern.Text, TimetableNameType.class),
     TIMETABLE_TIME(SqliteTypeNamePattern.Integer, TimetableTimeType.class),
-    TIMETABLE_DISPLAY_ORDER(SqliteTypeNamePattern.Integer, TimetableDisplayOrderType.class);
+    TIMETABLE_DISPLAY_ORDER(SqliteTypeNamePattern.Integer, TimetableDisplayOrderType.class),
+
+    MEDICINE_UNIT_ID(SqliteTypeNamePattern.Text, MedicineUnitIdType.class),
+    MEDICINE_UNIT_VALUE(SqliteTypeNamePattern.Text, MedicineUnitValueType.class),
+    MEDICINE_UNIT_DISPLAY_ORDER(SqliteTypeNamePattern.Integer, MedicineUnitDisplayOrderType.class);
 
     @NonNull
     private final SqliteTypeNamePattern mSqliteTypeNamePattern;

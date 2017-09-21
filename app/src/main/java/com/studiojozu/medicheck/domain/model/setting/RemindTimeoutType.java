@@ -93,6 +93,21 @@ public class RemindTimeoutType extends ADbType<Integer, RemindTimeoutType> imple
         return (reminderDateTime.compareTo(now) < 0);
     }
 
+    @NonNull
+    @Override
+    public String getDisplayValue() {
+        throw new RuntimeException("you need to call getDisplayValue(TakeIntervalModeType).");
+    }
+
+    @NonNull
+    public String getDisplayValue(@NonNull Resources resources) {
+        int stringRes = RemindTimeoutPattern.valueOfStringRes(mValue);
+        if (stringRes == 0)
+            return "";
+
+        return resources.getString(stringRes, RemindTimeoutPattern.valueOfDisplayValue(mValue));
+    }
+
     public enum RemindTimeoutPattern {
         MINUTE_1(1, 1, R.string.interval_minute),
         MINUTE_5(5, 5, R.string.interval_minutes),
@@ -149,20 +164,5 @@ public class RemindTimeoutType extends ADbType<Integer, RemindTimeoutType> imple
             }
             return RemindTimeoutPattern.HOUR_24;
         }
-    }
-
-    @NonNull
-    @Override
-    public String getDisplayValue() {
-        throw new RuntimeException("you need to call getDisplayValue(TakeIntervalModeType).");
-    }
-
-    @NonNull
-    public String getDisplayValue(@NonNull Resources resources) {
-        int stringRes = RemindTimeoutPattern.valueOfStringRes(mValue);
-        if (stringRes == 0)
-            return "";
-
-        return resources.getString(stringRes, RemindTimeoutPattern.valueOfDisplayValue(mValue));
     }
 }

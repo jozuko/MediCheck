@@ -7,14 +7,14 @@ import com.studiojozu.common.domain.model.general.LongType;
 /**
  * 服用日数を管理するクラス
  */
-public class DateNumberType extends LongType<DateNumberType> {
+public class MedicineDateNumberType extends LongType<MedicineDateNumberType> {
     private static final long serialVersionUID = 4831886646728241799L;
 
-    public DateNumberType() {
+    public MedicineDateNumberType() {
         super(0);
     }
 
-    public DateNumberType(@NonNull Object value) {
+    public MedicineDateNumberType(@NonNull Object value) {
         super(value);
     }
 

@@ -6,24 +6,18 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.studiojozu.common.domain.model.ADbType;
-import com.studiojozu.medicheck.domain.model.PersonMediViewRepository;
 import com.studiojozu.medicheck.domain.model.medicine.Medicine;
 import com.studiojozu.medicheck.domain.model.medicine.MedicineIdType;
-import com.studiojozu.medicheck.domain.model.person.Person;
-import com.studiojozu.medicheck.domain.model.person.PersonIdType;
+import com.studiojozu.medicheck.domain.model.medicine.MedicineViewRepository;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
-/**
- * Medicine-Timetable-MediTimeRelationの結合View
- */
-public class SqlitePersonMediViewRepository extends ABaseRepository implements PersonMediViewRepository {
-
-    private static final String TABLE_NAME = "person_medi_view";
+public class SqliteMedicineViewRepository extends ABaseRepository implements MedicineViewRepository {
+    static final String TABLE_NAME = "medicine_view";
     private static final Columns COLUMNS;
 
     static {
@@ -41,16 +35,16 @@ public class SqlitePersonMediViewRepository extends ABaseRepository implements P
 
         columns.add(SqliteMedicineUnitRepository.COLUMN_ID);
         columns.add(SqliteMedicineUnitRepository.COLUMN_VALUE);
-
-        columns.add(SqlitePersonRepository.COLUMN_ID);
-        columns.add(SqlitePersonRepository.COLUMN_NAME);
-        columns.add(SqlitePersonRepository.COLUMN_PHOTO);
         COLUMNS = new Columns(columns);
     }
+
+    private final SqliteMedicineRepository mSqliteMedicineRepository = new SqliteMedicineRepository();
+    private final SqliteMedicineUnitRepository mSqliteMedicineUnitRepository = new SqliteMedicineUnitRepository();
 
     @Override
     protected String getCreateTableSQL() {
         StringBuilder builder = new StringBuilder();
+
         builder.append("create view ").append(TABLE_NAME);
         builder.append(" as ");
         builder.append("select");
@@ -69,25 +63,11 @@ public class SqlitePersonMediViewRepository extends ABaseRepository implements P
         builder.append(",").append(SqliteMedicineUnitRepository.TABLE_NAME).append(".").append(SqliteMedicineUnitRepository.COLUMN_ID.mColumnName).append(" as ").append(SqliteMedicineUnitRepository.COLUMN_ID.mColumnName);
         builder.append(",").append(SqliteMedicineUnitRepository.TABLE_NAME).append(".").append(SqliteMedicineUnitRepository.COLUMN_VALUE.mColumnName).append(" as ").append(SqliteMedicineUnitRepository.COLUMN_VALUE.mColumnName);
 
-        builder.append(",").append(SqlitePersonRepository.TABLE_NAME).append(".").append(SqlitePersonRepository.COLUMN_ID.mColumnName).append(" as ").append(SqlitePersonRepository.COLUMN_ID.mColumnName);
-        builder.append(",").append(SqlitePersonRepository.TABLE_NAME).append(".").append(SqlitePersonRepository.COLUMN_NAME.mColumnName).append(" as ").append(SqlitePersonRepository.COLUMN_NAME.mColumnName);
-        builder.append(",").append(SqlitePersonRepository.TABLE_NAME).append(".").append(SqlitePersonRepository.COLUMN_PHOTO.mColumnName).append(" as ").append(SqlitePersonRepository.COLUMN_PHOTO.mColumnName);
-
         builder.append(" from ");
-        builder.append(SqlitePersonMediRelationRepository.TABLE_NAME).append(",");
         builder.append(SqliteMedicineRepository.TABLE_NAME).append(",");
-        builder.append(SqliteMedicineUnitRepository.TABLE_NAME).append(",");
-        builder.append(SqlitePersonRepository.TABLE_NAME);
+        builder.append(SqliteMedicineUnitRepository.TABLE_NAME);
 
         builder.append(" where ");
-        builder.append(SqlitePersonMediRelationRepository.TABLE_NAME).append(".").append(SqliteMedicineRepository.COLUMN_ID.mColumnName).append("=");
-        builder.append(SqliteMedicineRepository.TABLE_NAME).append(".").append(SqliteMedicineRepository.COLUMN_ID.mColumnName);
-
-        builder.append(" and ");
-        builder.append(SqlitePersonMediRelationRepository.TABLE_NAME).append(".").append(SqlitePersonRepository.COLUMN_ID.mColumnName).append("=");
-        builder.append(SqlitePersonRepository.TABLE_NAME).append(".").append(SqlitePersonRepository.COLUMN_ID.mColumnName);
-
-        builder.append(" and ");
         builder.append(SqliteMedicineRepository.TABLE_NAME).append(".").append(SqliteMedicineUnitRepository.COLUMN_ID.mColumnName).append("=");
         builder.append(SqliteMedicineUnitRepository.TABLE_NAME).append(".").append(SqliteMedicineUnitRepository.COLUMN_ID.mColumnName);
 
@@ -119,64 +99,45 @@ public class SqlitePersonMediViewRepository extends ABaseRepository implements P
         return COLUMNS;
     }
 
-    @Nullable
     @Override
-    public Person findPersonByMedicineId(@NonNull Context context, @NonNull MedicineIdType medicineIdType) {
+    @Nullable
+    public Medicine findMedicineById(@NonNull Context context, @NonNull MedicineIdType medicineIdType) {
         ArrayList<ADbType> whereList = new ArrayList<>();
         whereList.add(medicineIdType);
 
-        List<Map<ColumnBase, ADbType>> databaseRecords = find(context, SqliteMedicineRepository.COLUMN_ID.getEqualsCondition(), whereList, null);
-        if (databaseRecords.size() == 0)
+        List<Map<ColumnBase, ADbType>> dataList = find(context, SqliteMedicineRepository.COLUMN_ID.getEqualsCondition(), whereList, null);
+
+        if (dataList.size() == 0)
             return null;
 
-        return new SqlitePersonConverter(databaseRecords.get(0)).createFromRecord();
+        return new SqliteMedicineViewConverter(dataList.get(0)).createFromRecord();
     }
 
-    @Nullable
     @Override
-    public Set<Medicine> findMedicineByPersonId(@NonNull Context context, @NonNull PersonIdType personIdType) {
-        ArrayList<ADbType> whereList = new ArrayList<>();
-        whereList.add(personIdType);
+    @Nullable
+    public Set<Medicine> findAll(@NonNull Context context) {
+        List<Map<ColumnBase, ADbType>> databaseRecords = find(context, null, null, null);
 
-        List<Map<ColumnBase, ADbType>> databaseRecords = find(context, SqlitePersonRepository.COLUMN_ID.getEqualsCondition(), whereList, null);
         if (databaseRecords.size() == 0)
             return null;
 
-        Set<Medicine> medicineSet = new HashSet<>();
+        Set<Medicine> medicineSet = new TreeSet<>();
         for (Map<ColumnBase, ADbType> record : databaseRecords) {
-            medicineSet.add(new SqliteMedicineViewConverter(record).createFromRecord());
+            Medicine medicine = new SqliteMedicineViewConverter(record).createFromRecord();
+            medicineSet.add(medicine);
         }
 
         return medicineSet;
     }
 
     @Override
-    public boolean existByPersonIdMedicineId(@NonNull Context context, @NonNull PersonIdType personIdType, @NonNull MedicineIdType medicineIdType) {
-        ArrayList<ADbType> whereList = new ArrayList<>();
-        whereList.add(personIdType);
-        whereList.add(medicineIdType);
-
-        String where = SqlitePersonRepository.COLUMN_ID.getEqualsCondition() + " and " + SqliteMedicineRepository.COLUMN_ID.getEqualsCondition();
-
-        List<Map<ColumnBase, ADbType>> databaseRecords = find(context, where, whereList, null);
-        return (databaseRecords.size() > 0);
+    public void add(@NonNull Context context, @NonNull Medicine medicine) {
+        mSqliteMedicineRepository.add(context, medicine);
+        mSqliteMedicineUnitRepository.add(context, medicine.getMedicineUnit());
     }
 
     @Override
-    public int getPersonNumberByMedicineId(@NonNull Context context, @NonNull MedicineIdType medicineIdType) {
-        ArrayList<ADbType> whereList = new ArrayList<>();
-        whereList.add(medicineIdType);
-
-        List<Map<ColumnBase, ADbType>> databaseRecords = find(context, SqliteMedicineRepository.COLUMN_ID.getEqualsCondition(), whereList, null);
-        return databaseRecords.size();
-    }
-
-    @Override
-    public int getMedicineNumberByPersonId(@NonNull Context context, @NonNull PersonIdType personIdType) {
-        ArrayList<ADbType> whereList = new ArrayList<>();
-        whereList.add(personIdType);
-
-        List<Map<ColumnBase, ADbType>> databaseRecords = find(context, SqlitePersonRepository.COLUMN_ID.getEqualsCondition(), whereList, null);
-        return databaseRecords.size();
+    public void remove(@NonNull Context context, @NonNull MedicineIdType medicineIdType) {
+        mSqliteMedicineRepository.remove(context, medicineIdType);
     }
 }

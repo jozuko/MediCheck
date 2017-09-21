@@ -8,10 +8,10 @@ import android.support.annotation.Nullable;
 import com.studiojozu.common.domain.model.ADbType;
 import com.studiojozu.medicheck.domain.model.medicine.MedicineIdType;
 import com.studiojozu.medicheck.domain.model.schedule.IsTakeType;
-import com.studiojozu.medicheck.domain.model.schedule.NeedAlarmType;
 import com.studiojozu.medicheck.domain.model.schedule.PlanDateType;
 import com.studiojozu.medicheck.domain.model.schedule.Schedule;
 import com.studiojozu.medicheck.domain.model.schedule.ScheduleList;
+import com.studiojozu.medicheck.domain.model.schedule.ScheduleNeedAlarmType;
 import com.studiojozu.medicheck.domain.model.schedule.ScheduleRepository;
 import com.studiojozu.medicheck.domain.model.setting.TimetableIdType;
 
@@ -94,7 +94,7 @@ public class SqliteScheduleRepository extends ABaseRepository implements Schedul
     @NonNull
     public List<Schedule> getNeedAlerts(@NonNull Context context) {
         ArrayList<ADbType> whereList = new ArrayList<>();
-        whereList.add(new NeedAlarmType(true));
+        whereList.add(new ScheduleNeedAlarmType(true));
         whereList.add(new IsTakeType(false));
 
         List<Map<ColumnBase, ADbType>> databaseRecords = find(context, COLUMN_NEED_ALERT.getEqualsCondition() + " and " + COLUMN_IS_TAKE.getEqualsCondition(), whereList, null);

@@ -37,11 +37,19 @@ public class SqliteMediTimeViewRepository extends ABaseRepository implements Med
         columns.add(SqliteMedicineRepository.COLUMN_TAKE_INTERVAL);
         columns.add(SqliteMedicineRepository.COLUMN_TAKE_INTERVAL_MODE);
         columns.add(SqliteMedicineRepository.COLUMN_PHOTO);
+        columns.add(SqliteMedicineRepository.COLUMN_NEED_ALARM);
+        columns.add(SqliteMedicineRepository.COLUMN_DELETE_FLG);
+
+        columns.add(SqliteMedicineUnitRepository.COLUMN_ID);
+        columns.add(SqliteMedicineUnitRepository.COLUMN_VALUE);
+
         columns.add(SqliteMediTimeRelationRepository.COLUMN_IS_ONE_SHOT);
+
         columns.add(SqliteTimetableRepository.COLUMN_ID);
         columns.add(SqliteTimetableRepository.COLUMN_NAME);
         columns.add(SqliteTimetableRepository.COLUMN_TIME);
         columns.add(SqliteTimetableRepository.COLUMN_DISPLAY_ORDER);
+
         COLUMNS = new Columns(columns);
     }
 
@@ -61,6 +69,12 @@ public class SqliteMediTimeViewRepository extends ABaseRepository implements Med
         builder.append(",").append(SqliteMedicineRepository.TABLE_NAME).append(".").append(SqliteMedicineRepository.COLUMN_TAKE_INTERVAL.mColumnName).append(" as ").append(SqliteMedicineRepository.COLUMN_TAKE_INTERVAL.mColumnName);
         builder.append(",").append(SqliteMedicineRepository.TABLE_NAME).append(".").append(SqliteMedicineRepository.COLUMN_TAKE_INTERVAL_MODE.mColumnName).append(" as ").append(SqliteMedicineRepository.COLUMN_TAKE_INTERVAL_MODE.mColumnName);
         builder.append(",").append(SqliteMedicineRepository.TABLE_NAME).append(".").append(SqliteMedicineRepository.COLUMN_PHOTO.mColumnName).append(" as ").append(SqliteMedicineRepository.COLUMN_PHOTO.mColumnName);
+        builder.append(",").append(SqliteMedicineRepository.TABLE_NAME).append(".").append(SqliteMedicineRepository.COLUMN_NEED_ALARM.mColumnName).append(" as ").append(SqliteMedicineRepository.COLUMN_NEED_ALARM.mColumnName);
+        builder.append(",").append(SqliteMedicineRepository.TABLE_NAME).append(".").append(SqliteMedicineRepository.COLUMN_DELETE_FLG.mColumnName).append(" as ").append(SqliteMedicineRepository.COLUMN_DELETE_FLG.mColumnName);
+
+        builder.append(",").append(SqliteMedicineUnitRepository.TABLE_NAME).append(".").append(SqliteMedicineUnitRepository.COLUMN_ID.mColumnName).append(" as ").append(SqliteMedicineUnitRepository.COLUMN_ID.mColumnName);
+        builder.append(",").append(SqliteMedicineUnitRepository.TABLE_NAME).append(".").append(SqliteMedicineUnitRepository.COLUMN_VALUE.mColumnName).append(" as ").append(SqliteMedicineUnitRepository.COLUMN_VALUE.mColumnName);
+
 
         builder.append(",").append(SqliteTimetableRepository.TABLE_NAME).append(".").append(SqliteTimetableRepository.COLUMN_ID.mColumnName).append(" as ").append(SqliteTimetableRepository.COLUMN_ID.mColumnName);
         builder.append(",").append(SqliteTimetableRepository.TABLE_NAME).append(".").append(SqliteTimetableRepository.COLUMN_NAME.mColumnName).append(" as ").append(SqliteTimetableRepository.COLUMN_NAME.mColumnName);
@@ -72,6 +86,7 @@ public class SqliteMediTimeViewRepository extends ABaseRepository implements Med
         builder.append(" from ");
         builder.append(SqliteMediTimeRelationRepository.TABLE_NAME).append(",");
         builder.append(SqliteMedicineRepository.TABLE_NAME).append(",");
+        builder.append(SqliteMedicineUnitRepository.TABLE_NAME).append(",");
         builder.append(SqliteTimetableRepository.TABLE_NAME);
 
         builder.append(" where ");
@@ -81,6 +96,10 @@ public class SqliteMediTimeViewRepository extends ABaseRepository implements Med
         builder.append(" and ");
         builder.append(SqliteMediTimeRelationRepository.TABLE_NAME).append(".").append(SqliteTimetableRepository.COLUMN_ID.mColumnName).append("=");
         builder.append(SqliteTimetableRepository.TABLE_NAME).append(".").append(SqliteTimetableRepository.COLUMN_ID.mColumnName);
+
+        builder.append(" and ");
+        builder.append(SqliteMedicineRepository.TABLE_NAME).append(".").append(SqliteMedicineUnitRepository.COLUMN_ID.mColumnName).append("=");
+        builder.append(SqliteMedicineUnitRepository.TABLE_NAME).append(".").append(SqliteMedicineUnitRepository.COLUMN_ID.mColumnName);
 
         return builder.toString();
     }

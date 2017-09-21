@@ -24,7 +24,7 @@ public class Schedule implements Cloneable, Serializable {
     private final TimetableIdType mTimetableId;
     /** アラーム要否 */
     @NonNull
-    private NeedAlarmType mNeedAlarm;
+    private ScheduleNeedAlarmType mNeedAlarm;
     /** 服用済みか否か */
     @NonNull
     private IsTakeType mIsTake;
@@ -36,7 +36,7 @@ public class Schedule implements Cloneable, Serializable {
         mMedicineId = medicineId;
         mPlanDate = planDate;
         mTimetableId = timetableId;
-        mNeedAlarm = new NeedAlarmType();
+        mNeedAlarm = new ScheduleNeedAlarmType();
         mIsTake = new IsTakeType();
         mTookDatetime = new TookDatetime();
     }
@@ -44,7 +44,7 @@ public class Schedule implements Cloneable, Serializable {
     public Schedule(@NonNull MedicineIdType medicineId,
                     @NonNull PlanDateType planDate,
                     @NonNull TimetableIdType timetableId,
-                    @NonNull NeedAlarmType needAlarm,
+                    @NonNull ScheduleNeedAlarmType needAlarm,
                     @NonNull IsTakeType isTake,
                     @NonNull TookDatetime tookDatetime) {
         mMedicineId = medicineId;
@@ -80,7 +80,7 @@ public class Schedule implements Cloneable, Serializable {
     }
 
     @NonNull
-    public NeedAlarmType getNeedAlarm() {
+    public ScheduleNeedAlarmType getNeedAlarm() {
         return mNeedAlarm;
     }
 

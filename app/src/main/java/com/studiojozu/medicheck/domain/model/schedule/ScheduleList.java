@@ -4,8 +4,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.studiojozu.common.domain.model.general.DatetimeType;
-import com.studiojozu.medicheck.domain.model.medicine.DateNumberType;
 import com.studiojozu.medicheck.domain.model.medicine.Medicine;
+import com.studiojozu.medicheck.domain.model.medicine.MedicineDateNumberType;
 import com.studiojozu.medicheck.domain.model.medicine.MedicineTimetableList;
 
 import org.jetbrains.annotations.Contract;
@@ -69,7 +69,7 @@ public class ScheduleList implements Cloneable, Iterator<Schedule>, Iterable<Sch
      * @param dateNumber    服用日数
      * @return （タイムテーブルの回数×服用日数）頓服の場合は0を返却する
      */
-    private int calculateMedicineNumber(@NonNull MedicineTimetableList timetableList, @NonNull DateNumberType dateNumber) {
+    private int calculateMedicineNumber(@NonNull MedicineTimetableList timetableList, @NonNull MedicineDateNumberType dateNumber) {
         if (timetableList.isOneShotMedicine()) return 0;
         return timetableList.getCount() * dateNumber.getDbValue().intValue();
     }

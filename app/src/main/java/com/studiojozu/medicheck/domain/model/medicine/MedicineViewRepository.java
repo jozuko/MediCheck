@@ -6,7 +6,7 @@ import android.support.annotation.Nullable;
 
 import java.util.Set;
 
-public interface MedicineRepository {
+public interface MedicineViewRepository {
     @Nullable
     Medicine findMedicineById(@NonNull Context context, @NonNull MedicineIdType medicineIdType);
 

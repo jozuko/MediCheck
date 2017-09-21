@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 import com.studiojozu.medicheck.domain.model.MediTimeRelationRepository;
 import com.studiojozu.medicheck.domain.model.PersonMediRelationRepository;
 import com.studiojozu.medicheck.domain.model.medicine.MedicineIdType;
-import com.studiojozu.medicheck.domain.model.medicine.MedicineRepository;
+import com.studiojozu.medicheck.domain.model.medicine.MedicineViewRepository;
 import com.studiojozu.medicheck.domain.model.schedule.ScheduleRepository;
 import com.studiojozu.medicheck.infrastructure.adapter.IPersistenceTransaction;
 import com.studiojozu.medicheck.infrastructure.adapter.PersistenceAdapter;
@@ -19,7 +19,7 @@ public class MedicineDeleteService {
     @NonNull
     private final Context mContext;
     @NonNull
-    private final MedicineRepository mMedicineRepository;
+    private final MedicineViewRepository mMedicineViewRepository;
     @NonNull
     private final PersonMediRelationRepository mPersonMediRelationRepository;
     @NonNull
@@ -32,7 +32,7 @@ public class MedicineDeleteService {
     public MedicineDeleteService(@NonNull Context context) {
         mContext = context;
         mPersistenceTransaction = PersistenceAdapter.getPersistenceTransaction(mContext);
-        mMedicineRepository = PersistenceAdapter.getMedicineRepository();
+        mMedicineViewRepository = PersistenceAdapter.getMedicineRepository();
         mPersonMediRelationRepository = PersistenceAdapter.getPersonMediRelationRepository();
         mMediTimeRelationRepository = PersistenceAdapter.getMediTimeRelationRepository();
         mScheduleRepository = PersistenceAdapter.getScheduleRepository();
@@ -42,7 +42,7 @@ public class MedicineDeleteService {
         try {
             mPersistenceTransaction.beginTransaction();
 
-            mMedicineRepository.remove(mContext, medicineId);
+            mMedicineViewRepository.remove(mContext, medicineId);
             mPersonMediRelationRepository.remove(mContext, medicineId);
             mMediTimeRelationRepository.remove(mContext, medicineId);
             mScheduleRepository.removeIgnoreHistory(mContext, medicineId);

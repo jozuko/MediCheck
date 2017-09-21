@@ -3,12 +3,15 @@ package com.studiojozu.medicheck.infrastructure.persistence;
 import android.support.annotation.Nullable;
 
 import com.studiojozu.common.domain.model.ADbType;
-import com.studiojozu.medicheck.domain.model.medicine.DateNumberType;
+import com.studiojozu.medicheck.domain.model.medicine.DeleteFlagType;
 import com.studiojozu.medicheck.domain.model.medicine.Medicine;
+import com.studiojozu.medicheck.domain.model.medicine.MedicineDateNumberType;
 import com.studiojozu.medicheck.domain.model.medicine.MedicineIdType;
 import com.studiojozu.medicheck.domain.model.medicine.MedicineNameType;
+import com.studiojozu.medicheck.domain.model.medicine.MedicineNeedAlarmType;
 import com.studiojozu.medicheck.domain.model.medicine.MedicinePhotoType;
 import com.studiojozu.medicheck.domain.model.medicine.MedicineTimetableList;
+import com.studiojozu.medicheck.domain.model.medicine.MedicineUnit;
 import com.studiojozu.medicheck.domain.model.medicine.StartDatetimeType;
 import com.studiojozu.medicheck.domain.model.medicine.TakeIntervalModeType;
 import com.studiojozu.medicheck.domain.model.medicine.TakeIntervalType;
@@ -19,9 +22,9 @@ import java.util.Map;
 /**
  * DBのレコードから{@link com.studiojozu.medicheck.domain.model.medicine.Medicine}を生成する
  */
-class SqliteMedicineConverter extends ASqliteConverter<Medicine> {
+class SqliteMedicineViewConverter extends ASqliteConverter<Medicine> {
 
-    SqliteMedicineConverter(@Nullable Map<ColumnBase, ADbType> databaseRecord) {
+    SqliteMedicineViewConverter(@Nullable Map<ColumnBase, ADbType> databaseRecord) {
         super(databaseRecord);
     }
 
@@ -34,11 +37,14 @@ class SqliteMedicineConverter extends ASqliteConverter<Medicine> {
                 getMedicineIdType(),
                 getMedicineNameType(),
                 getTakeNumberType(),
+                getMedicineUnit(),
                 getDateNumberType(),
                 getStartDatetimeType(),
                 getTakeIntervalType(),
                 getTakeIntervalModeType(),
                 getMedicinePhotoType(),
+                getMedicineNeedAlarmType(),
+                getDeleteFlagType(),
                 new MedicineTimetableList()
         );
     }
@@ -61,10 +67,15 @@ class SqliteMedicineConverter extends ASqliteConverter<Medicine> {
         return new TakeNumberType();
     }
 
-    private DateNumberType getDateNumberType() {
-        DateNumberType dateNumberType = (DateNumberType) getData(SqliteMedicineRepository.COLUMN_DATE_NUMBER);
+    private MedicineUnit getMedicineUnit() {
+        SqliteMedicineUnitConverter unitConverter = new SqliteMedicineUnitConverter(mDatabaseRecord);
+        return unitConverter.createFromRecord();
+    }
+
+    private MedicineDateNumberType getDateNumberType() {
+        MedicineDateNumberType dateNumberType = (MedicineDateNumberType) getData(SqliteMedicineRepository.COLUMN_DATE_NUMBER);
         if (dateNumberType != null) return dateNumberType;
-        return new DateNumberType();
+        return new MedicineDateNumberType();
     }
 
     private StartDatetimeType getStartDatetimeType() {
@@ -89,5 +100,17 @@ class SqliteMedicineConverter extends ASqliteConverter<Medicine> {
         MedicinePhotoType medicinePhotoType = (MedicinePhotoType) getData(SqliteMedicineRepository.COLUMN_PHOTO);
         if (medicinePhotoType != null) return medicinePhotoType;
         return new MedicinePhotoType();
+    }
+
+    private MedicineNeedAlarmType getMedicineNeedAlarmType() {
+        MedicineNeedAlarmType needAlarmType = (MedicineNeedAlarmType) getData(SqliteMedicineRepository.COLUMN_NEED_ALARM);
+        if (needAlarmType != null) return needAlarmType;
+        return new MedicineNeedAlarmType();
+    }
+
+    private DeleteFlagType getDeleteFlagType() {
+        DeleteFlagType deleteFlagType = (DeleteFlagType) getData(SqliteMedicineRepository.COLUMN_DELETE_FLG);
+        if (deleteFlagType != null) return deleteFlagType;
+        return new DeleteFlagType();
     }
 }

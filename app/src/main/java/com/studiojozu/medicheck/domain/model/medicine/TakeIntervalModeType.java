@@ -51,6 +51,12 @@ public class TakeIntervalModeType extends ADbType<Integer, TakeIntervalModeType>
         return (mValue == DateIntervalPattern.DAYS);
     }
 
+    @NonNull
+    @Override
+    public String getDisplayValue() {
+        throw new RuntimeException("you need to call getDisplayValue(TakeIntervalModeType).");
+    }
+
     public enum DateIntervalPattern {
         DAYS,
         MONTH;
@@ -62,11 +68,5 @@ public class TakeIntervalModeType extends ADbType<Integer, TakeIntervalModeType>
             }
             return DateIntervalPattern.DAYS;
         }
-    }
-
-    @NonNull
-    @Override
-    public String getDisplayValue() {
-        throw new RuntimeException("you need to call getDisplayValue(TakeIntervalModeType).");
     }
 }
