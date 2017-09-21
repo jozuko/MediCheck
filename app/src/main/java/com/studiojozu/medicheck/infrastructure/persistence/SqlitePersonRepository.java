@@ -10,6 +10,7 @@ import com.studiojozu.medicheck.R;
 import com.studiojozu.medicheck.domain.model.person.Person;
 import com.studiojozu.medicheck.domain.model.person.PersonIdType;
 import com.studiojozu.medicheck.domain.model.person.PersonRepository;
+import com.studiojozu.medicheck.infrastructure.preferences.PreferenceRepository;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -79,6 +80,37 @@ public class SqlitePersonRepository extends ABaseRepository implements PersonRep
     @Override
     protected Columns getColumns() {
         return COLUMNS;
+    }
+
+    @Override
+    public Person getDefaultPerson(@NonNull Context context) {
+        PreferenceRepository preferenceRepository = new PreferenceRepository(context);
+        PersonIdType personIdType = preferenceRepository.getDefaultPersonId();
+
+        if (personIdType != null) {
+            Person person = findPersonById(context, personIdType);
+            if (person != null) return person;
+        }
+
+        Person person = getFirstPerson(context);
+        if (person == null)
+            person = createDefaultPerson(context);
+
+        preferenceRepository.setDefaultPersonId(person.getPersonId());
+        return person;
+    }
+
+    @Nullable
+    private Person getFirstPerson(@NonNull Context context) {
+        List<Person> personList = findAll(context);
+        if (personList == null || personList.size() == 0) return null;
+        return personList.get(0);
+    }
+
+    private Person createDefaultPerson(@NonNull Context context) {
+        Person person = new Person(context.getResources().getString(R.string.person_self), null);
+        add(context, person);
+        return person;
     }
 
     @Override
