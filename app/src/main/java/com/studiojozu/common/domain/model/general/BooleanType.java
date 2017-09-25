@@ -19,11 +19,12 @@ public abstract class BooleanType<C extends BooleanType<C>> extends ADbType<Inte
     protected BooleanType(@NonNull Object value) {
         if (value instanceof Boolean)
             mValue = (boolean) value;
-        else if ((value instanceof Long) || (value instanceof Integer))
+        else if (value instanceof Long)
+            mValue = (((Long) value).intValue() == TRUE_VALUE);
+        else if (value instanceof Integer)
             mValue = ((int) value == TRUE_VALUE);
         else
             throw new IllegalArgumentException("unknown type.");
-
     }
 
     @Override
