@@ -22,7 +22,7 @@ public abstract class DatetimeType<C extends DatetimeType<C>> extends ADbType<Lo
         long timeInMillis;
         if (millisecond instanceof Calendar)
             timeInMillis = ((Calendar) millisecond).getTimeInMillis();
-        else if ((millisecond instanceof Long))
+        else if (millisecond instanceof Long)
             timeInMillis = (long) millisecond;
         else
             throw new IllegalArgumentException("unknown type.");

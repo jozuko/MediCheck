@@ -21,7 +21,9 @@ public class TakeIntervalModeType extends ADbType<Integer, TakeIntervalModeType>
     public TakeIntervalModeType(@NonNull Object dbValue) {
         if (dbValue instanceof DateIntervalPattern)
             mValue = (DateIntervalPattern) dbValue;
-        else if ((dbValue instanceof Long) || (dbValue instanceof Integer))
+        else if (dbValue instanceof Long)
+            mValue = DateIntervalPattern.typeOf(((Long) dbValue).intValue());
+        else if (dbValue instanceof Integer)
             mValue = DateIntervalPattern.typeOf((int) dbValue);
         else
             throw new IllegalArgumentException("unknown type.");

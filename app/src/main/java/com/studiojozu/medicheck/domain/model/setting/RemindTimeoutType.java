@@ -30,7 +30,9 @@ public class RemindTimeoutType extends ADbType<Integer, RemindTimeoutType> imple
     public RemindTimeoutType(@NonNull Object timeoutMinute) {
         if (timeoutMinute instanceof RemindTimeoutPattern)
             mValue = (RemindTimeoutPattern) timeoutMinute;
-        else if ((timeoutMinute instanceof Long) || (timeoutMinute instanceof Integer))
+        else if (timeoutMinute instanceof Long)
+            mValue = RemindTimeoutPattern.typeOfTimeoutMinute(((Long) timeoutMinute).intValue());
+        else if (timeoutMinute instanceof Integer)
             mValue = RemindTimeoutPattern.typeOfTimeoutMinute((int) timeoutMinute);
         else
             throw new IllegalArgumentException("unknown type");

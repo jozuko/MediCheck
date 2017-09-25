@@ -27,7 +27,9 @@ public class RemindIntervalType extends ADbType<Integer, RemindIntervalType> imp
     public RemindIntervalType(@NonNull Object intervalMinutes) {
         if (intervalMinutes instanceof RemindIntervalPattern)
             mValue = (RemindIntervalPattern) intervalMinutes;
-        else if ((intervalMinutes instanceof Long) || (intervalMinutes instanceof Integer))
+        else if (intervalMinutes instanceof Long)
+            mValue = RemindIntervalPattern.typeOfIntervalMinute(((Long) intervalMinutes).intValue());
+        else if (intervalMinutes instanceof Integer)
             mValue = RemindIntervalPattern.typeOfIntervalMinute((int) intervalMinutes);
         else
             throw new IllegalArgumentException("unknown type");
