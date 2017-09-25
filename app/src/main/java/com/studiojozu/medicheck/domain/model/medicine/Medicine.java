@@ -47,20 +47,17 @@ public class Medicine implements Serializable {
     private MedicineNeedAlarmType mNeedAlarmType;
     /** 削除フラグ */
     @NonNull
-    private DeleteFlagType mDeleteFlagType;
-    /**
-     * タイムテーブルの一覧
-     * タイムテーブルのサイズが0の場合は、頓服扱いとなる。
-     */
+    private DeleteFlagType mDeleteFlag;
+    /** タイムテーブルの一覧 */
     @NonNull
-    private MedicineTimetableList mTimetableList;
+    private final MedicineTimetableList mTimetableList;
 
-    /**
-     * DB登録前のインスタンスを生成するためのコンストラクタ.
-     * フィールドにはデフォルト値を登録する
-     */
     public Medicine() {
-        mMedicineId = new MedicineIdType();
+        this(new MedicineIdType());
+    }
+
+    public Medicine(@NonNull MedicineIdType medicineId) {
+        mMedicineId = medicineId;
         mMedicineName = new MedicineNameType();
         mTakeNumber = new TakeNumberType();
         mMedicineUnit = new MedicineUnit();
@@ -70,86 +67,10 @@ public class Medicine implements Serializable {
         mTakeIntervalMode = new TakeIntervalModeType();
         mMedicinePhoto = new MedicinePhotoType();
         mNeedAlarmType = new MedicineNeedAlarmType();
-        mDeleteFlagType = new DeleteFlagType();
+        mDeleteFlag = new DeleteFlagType();
         mTimetableList = new MedicineTimetableList();
     }
 
-    /**
-     * DB登録済み（IDがわかっている）インスタンスを生成するためのコンストラクタ
-     *
-     * @param medicineId 薬のID
-     * @param medicine   ID以外を複製する際に使用する
-     */
-    public Medicine(long medicineId, @NonNull Medicine medicine) {
-        mMedicineId = new MedicineIdType(medicineId);
-        mMedicineName = medicine.mMedicineName;
-        mTakeNumber = medicine.mTakeNumber;
-        mMedicineUnit = medicine.mMedicineUnit;
-        mDateNumber = medicine.mDateNumber;
-        mStartDatetime = medicine.mStartDatetime;
-        mTakeInterval = medicine.mTakeInterval;
-        mTakeIntervalMode = medicine.mTakeIntervalMode;
-        mMedicinePhoto = medicine.mMedicinePhoto;
-        mNeedAlarmType = medicine.mNeedAlarmType;
-        mDeleteFlagType = medicine.mDeleteFlagType;
-        mTimetableList = medicine.mTimetableList;
-    }
-
-    /**
-     * DB登録前のインスタンスを生成するためのコンストラクタ.
-     *
-     * @param medicineName     薬名
-     * @param takeNumber       服用数
-     * @param medicineUnit     服用数 単位
-     * @param dateNumber       服用日数
-     * @param startDatetime    服用開始日
-     * @param takeInterval     服用間隔(数値)
-     * @param takeIntervalMode 服用間隔(日or月)
-     * @param medicinePhoto    写真パス
-     * @param needAlarmType    アラーム要否
-     * @param deleteFlagType   削除フラグ
-     * @param timetableList    タイムテーブル一覧
-     */
-    public Medicine(@NonNull MedicineNameType medicineName,
-                    @NonNull TakeNumberType takeNumber,
-                    @NonNull MedicineUnit medicineUnit,
-                    @NonNull MedicineDateNumberType dateNumber,
-                    @NonNull StartDatetimeType startDatetime,
-                    @NonNull TakeIntervalType takeInterval,
-                    @NonNull TakeIntervalModeType takeIntervalMode,
-                    @NonNull MedicinePhotoType medicinePhoto,
-                    @NonNull MedicineNeedAlarmType needAlarmType,
-                    @NonNull DeleteFlagType deleteFlagType,
-                    @NonNull MedicineTimetableList timetableList) {
-        this(new MedicineIdType(),
-                medicineName,
-                takeNumber,
-                medicineUnit,
-                dateNumber,
-                startDatetime,
-                takeInterval,
-                takeIntervalMode,
-                medicinePhoto,
-                needAlarmType,
-                deleteFlagType,
-                timetableList);
-    }
-
-    /**
-     * DB登録済み（IDがわかっている）インスタンスを生成するためのコンストラクタ
-     *
-     * @param medicineId       薬ID
-     * @param medicineName     薬名
-     * @param takeNumber       服用数
-     * @param dateNumber       服用日数
-     * @param startDatetime    服用開始日
-     * @param takeInterval     服用間隔(数値)
-     * @param takeIntervalMode 服用間隔(日or月)
-     * @param medicinePhoto    写真パス
-     * @param needAlarmType    アラーム要否
-     * @param deleteFlagType   削除フラグ
-     * @param timetableList    タイムテーブル一覧
-     */
     public Medicine(@NonNull MedicineIdType medicineId,
                     @NonNull MedicineNameType medicineName,
                     @NonNull TakeNumberType takeNumber,
@@ -160,7 +81,7 @@ public class Medicine implements Serializable {
                     @NonNull TakeIntervalModeType takeIntervalMode,
                     @NonNull MedicinePhotoType medicinePhoto,
                     @NonNull MedicineNeedAlarmType needAlarmType,
-                    @NonNull DeleteFlagType deleteFlagType,
+                    @NonNull DeleteFlagType deleteFlag,
                     @NonNull MedicineTimetableList timetableList) {
         mMedicineId = medicineId;
         mMedicineName = medicineName;
@@ -172,7 +93,7 @@ public class Medicine implements Serializable {
         mTakeIntervalMode = takeIntervalMode;
         mMedicinePhoto = medicinePhoto;
         mNeedAlarmType = needAlarmType;
-        mDeleteFlagType = deleteFlagType;
+        mDeleteFlag = deleteFlag;
         mTimetableList = timetableList;
     }
 
@@ -195,9 +116,17 @@ public class Medicine implements Serializable {
         return mTakeNumber;
     }
 
+    public void setTakeNumber(int takeNumber) {
+        mTakeNumber = new TakeNumberType(takeNumber);
+    }
+
     @NonNull
     public MedicineDateNumberType getDateNumber() {
         return mDateNumber;
+    }
+
+    public void setDateNumber(int dateNumber) {
+        mDateNumber = new MedicineDateNumberType(dateNumber);
     }
 
     @NonNull
@@ -205,9 +134,17 @@ public class Medicine implements Serializable {
         return mStartDatetime;
     }
 
+    public void setStartDatetime(long timeInMillis) {
+        mStartDatetime = new StartDatetimeType(timeInMillis);
+    }
+
     @NonNull
     public TakeIntervalType getTakeInterval() {
         return mTakeInterval;
+    }
+
+    public void setTakeInterval(int takeInterval) {
+        mTakeInterval = new TakeIntervalType(takeInterval);
     }
 
     @NonNull
@@ -215,9 +152,17 @@ public class Medicine implements Serializable {
         return mTakeIntervalMode;
     }
 
+    public void setTakeIntervalMode(@NonNull TakeIntervalModeType.DateIntervalPattern dateIntervalPattern) {
+        mTakeIntervalMode = new TakeIntervalModeType(dateIntervalPattern);
+    }
+
     @NonNull
     public MedicinePhotoType getMedicinePhoto() {
         return mMedicinePhoto;
+    }
+
+    public void setMedicinePhoto(@NonNull String photoFilePath) {
+        mMedicinePhoto = new MedicinePhotoType(photoFilePath);
     }
 
     @NonNull
@@ -266,7 +211,7 @@ public class Medicine implements Serializable {
 
     @NonNull
     public DeleteFlagType getDeleteFlagType() {
-        return mDeleteFlagType;
+        return mDeleteFlag;
     }
 
     @NonNull
@@ -274,13 +219,13 @@ public class Medicine implements Serializable {
         return mMedicineUnit;
     }
 
+    public void setMedicineUnit(@NonNull MedicineUnit medicineUnit) {
+        mMedicineUnit = medicineUnit;
+    }
+
     @NonNull
     public MedicineUnitIdType getMedicineUnitId() {
         return mMedicineUnit.getMedicineUnitId();
-    }
-
-    public void setStartDatetime(int year, int month, int dayOfMonth, int hourOfDay, int minute) {
-        mStartDatetime = new StartDatetimeType(year, month, dayOfMonth, hourOfDay, minute);
     }
 
     public boolean isOneShowMedicine() {
@@ -297,5 +242,13 @@ public class Medicine implements Serializable {
 
     public void setNeedAlarm(boolean needAlarm) {
         mNeedAlarmType = new MedicineNeedAlarmType(needAlarm);
+    }
+
+    public void setStartDatetime(int year, int month, int dayOfMonth, int hourOfDay, int minute) {
+        mStartDatetime = new StartDatetimeType(year, month, dayOfMonth, hourOfDay, minute);
+    }
+
+    public void setDeleteFlag(boolean delete) {
+        mDeleteFlag = new DeleteFlagType(delete);
     }
 }

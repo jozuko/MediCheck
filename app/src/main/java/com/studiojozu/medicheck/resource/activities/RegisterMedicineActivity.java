@@ -361,8 +361,9 @@ public class RegisterMedicineActivity extends APersonSelectActivity {
     private Medicine getActivityParameterMedicine() {
         if (mMedicine == null) {
             MedicineIdType medicineIdType = getActivityParameterMedicineId();
-            mMedicine = getMedicineFinderService().findById(medicineIdType);
+            mMedicine = getMedicineFinderService().findByIdNothingDefault(medicineIdType);
         }
+
         return mMedicine;
     }
 
