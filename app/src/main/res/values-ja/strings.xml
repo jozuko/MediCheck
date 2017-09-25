@@ -81,16 +81,16 @@
     <string name="day_1">1</string>
     <string name="day_2">2</string>
     <string name="day_3">3</string>
-    <string name="day_4_over">%1$d</string>
+    <string name="day_4_over">%1$s</string>
     <string name="interval_every_day">毎日</string>
     <string name="interval_every_other_day">1日おき</string>
-    <string name="interval_every_few_days">%1$d日おき</string>
+    <string name="interval_every_few_days">%1$s日おき</string>
     <string name="interval_every_month">毎月 %1$s日</string>
 
-    <string name="interval_minute">%1$d分</string>
-    <string name="interval_hour">%1$d時間</string>
-    <string name="interval_minutes">%1$d分</string>
-    <string name="interval_hours">%1$d時間</string>
+    <string name="interval_minute">%1$s分</string>
+    <string name="interval_hour">%1$s時間</string>
+    <string name="interval_minutes">%1$s分</string>
+    <string name="interval_hours">%1$s時間</string>
 
     <string name="medicine_unit_1">つ</string>
 </resources>

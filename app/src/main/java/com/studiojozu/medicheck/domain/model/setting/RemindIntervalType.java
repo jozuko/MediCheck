@@ -128,12 +128,13 @@ public class RemindIntervalType extends ADbType<Integer, RemindIntervalType> imp
             return 0;
         }
 
-        static int valueOfDisplayValue(RemindIntervalPattern type) {
+        @NonNull
+        static String valueOfDisplayValue(RemindIntervalPattern type) {
             for (RemindIntervalPattern remindIntervalType : values()) {
                 if (remindIntervalType == type)
-                    return remindIntervalType.mDisplayValue;
+                    return String.valueOf(remindIntervalType.mDisplayValue);
             }
-            return 0;
+            return "0";
         }
 
         @StringRes

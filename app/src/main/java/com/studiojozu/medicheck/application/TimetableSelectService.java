@@ -17,23 +17,29 @@ import java.util.List;
 
 public class TimetableSelectService {
     @NonNull
+    private final Context mContext;
+    @NonNull
     private final TimetableRepository mTimetableRepository = PersistenceAdapter.getTimetableRepository();
 
-    @NonNull
-    public MultiSelectArrayAdapter<Timetable> getTimetableSelectAdapter(@NonNull Context context, @NonNull MedicineTimetableList medicineTimetableList) {
-        List<MultiSelectItem> itemList = getTimetableSelectItemList(context, medicineTimetableList);
-        return new MultiSelectArrayAdapter<>(context, itemList, false, true);
+    public TimetableSelectService(@NonNull Context context) {
+        mContext = context;
     }
 
-    private List<MultiSelectItem> getTimetableSelectItemList(@NonNull Context context, @NonNull MedicineTimetableList medicineTimetableList) {
+    @NonNull
+    public MultiSelectArrayAdapter<Timetable> getTimetableSelectAdapter(@NonNull MedicineTimetableList medicineTimetableList) {
+        List<MultiSelectItem> itemList = getTimetableSelectItemList(medicineTimetableList);
+        return new MultiSelectArrayAdapter<>(mContext, itemList, false, true);
+    }
+
+    private List<MultiSelectItem> getTimetableSelectItemList(@NonNull MedicineTimetableList medicineTimetableList) {
         List<MultiSelectItem> itemList = new ArrayList<>();
-        addTimetable(context, medicineTimetableList, itemList);
+        addTimetable(medicineTimetableList, itemList);
         return itemList;
     }
 
     @SuppressWarnings("unchecked")
-    private void addTimetable(@NonNull Context context, @NonNull MedicineTimetableList medicineTimetableList, @NonNull List<MultiSelectItem> listItem) {
-        List<Timetable> timetableList = getAllTimetablesOrderByDisplayOrder(context);
+    private void addTimetable(@NonNull MedicineTimetableList medicineTimetableList, @NonNull List<MultiSelectItem> listItem) {
+        List<Timetable> timetableList = getAllTimetablesOrderByDisplayOrder(mContext);
 
         for (Timetable timetable : timetableList) {
             MultiSelectItem<Timetable> item = new MultiSelectItem.Builder<Timetable>(timetable.getTimetableNameWithTime())

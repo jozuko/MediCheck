@@ -57,7 +57,7 @@ public class TakeIntervalType extends LongType<TakeIntervalType> {
         if (getDbValue() == 1)
             return resources.getString(R.string.interval_every_other_day);
 
-        return resources.getString(R.string.interval_every_few_days, getDbValue());
+        return resources.getString(R.string.interval_every_few_days, getDisplayValue());
     }
 
     @NonNull
@@ -71,7 +71,7 @@ public class TakeIntervalType extends LongType<TakeIntervalType> {
         if (getDbValue() == 3)
             daysValue = resources.getString(R.string.day_3);
         if (getDbValue() > 3)
-            daysValue = resources.getString(R.string.day_4_over, getDbValue());
+            daysValue = resources.getString(R.string.day_4_over, getDisplayValue());
 
         if (daysValue == null)
             return "";

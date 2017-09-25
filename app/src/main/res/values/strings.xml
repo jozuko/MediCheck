@@ -81,16 +81,16 @@
     <string name="day_1">1st</string>
     <string name="day_2">2nd</string>
     <string name="day_3">3rd</string>
-    <string name="day_4_over">%1$dth</string>
+    <string name="day_4_over">%1$sth</string>
     <string name="interval_every_day">every day</string>
     <string name="interval_every_other_day">every other days</string>
-    <string name="interval_every_few_days">every %1$d days</string>
-    <string name="interval_every_1st_month">%1$s every month</string>
+    <string name="interval_every_few_days">every %1$s days</string>
+    <string name="interval_every_month">%1$s every month</string>
 
-    <string name="interval_minute">%1$d minute</string>
-    <string name="interval_hour">%1$d hour</string>
-    <string name="interval_minutes">%1$d minutes</string>
-    <string name="interval_hours">%1$d hours</string>
+    <string name="interval_minute">%1$s minute</string>
+    <string name="interval_hour">%1$s hour</string>
+    <string name="interval_minutes">%1$s minutes</string>
+    <string name="interval_hours">%1$s hours</string>
 
     <string name="medicine_unit_1">shot</string>
 

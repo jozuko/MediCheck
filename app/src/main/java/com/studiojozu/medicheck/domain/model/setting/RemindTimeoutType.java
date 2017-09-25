@@ -142,12 +142,13 @@ public class RemindTimeoutType extends ADbType<Integer, RemindTimeoutType> imple
             return 0;
         }
 
-        static int valueOfDisplayValue(RemindTimeoutPattern type) {
+        @NonNull
+        static String valueOfDisplayValue(RemindTimeoutPattern type) {
             for (RemindTimeoutPattern remindTimeoutPattern : values()) {
                 if (remindTimeoutPattern == type)
-                    return remindTimeoutPattern.mDisplayValue;
+                    return String.valueOf(remindTimeoutPattern.mDisplayValue);
             }
-            return 0;
+            return "0";
         }
 
         @StringRes
