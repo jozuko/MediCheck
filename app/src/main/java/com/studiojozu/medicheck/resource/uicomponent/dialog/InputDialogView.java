@@ -24,15 +24,12 @@ public class InputDialogView extends ADialogView<TextView> {
 
     @NonNull
     private final InputMethodManager mInputMethodManager;
-    @NonNull
-    private final EditText mEditText;
 
     public InputDialogView(@NonNull Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
+        super(context, attrs, new EditText(context));
         mInputMethodManager = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
 
-        mEditText = new EditText(context);
-        initTargetView(mEditText, LAYOUT_PARAMS, true, true);
+        initTargetView(LAYOUT_PARAMS, true, true);
     }
 
     public void showInputDialog(@StringRes int titleResourceId, @Nullable final IValidator inputValidation, @Nullable final OnCompletedCorrectInputListener listener) {
@@ -50,7 +47,7 @@ public class InputDialogView extends ADialogView<TextView> {
         setOnOkButtonClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String data = mEditText.getText().toString();
+                String data = mDialogTargetView.getText().toString();
 
                 // check validation
                 int validationResult = validateData(inputValidation, data);
@@ -78,8 +75,8 @@ public class InputDialogView extends ADialogView<TextView> {
     }
 
     private void showSoftwareKeyboard() {
-        mEditText.requestFocus();
-        mInputMethodManager.showSoftInput(mEditText, 0);
+        mDialogTargetView.requestFocus();
+        mInputMethodManager.showSoftInput(mDialogTargetView, 0);
     }
 
     @StringRes

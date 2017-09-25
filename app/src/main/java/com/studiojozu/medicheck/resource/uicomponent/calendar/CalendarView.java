@@ -51,12 +51,9 @@ public class CalendarView extends ACustomView<CalendarView> implements View.OnCl
     public CalendarView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
 
-        View mainView = LayoutInflater.from(context).inflate(R.layout.calendar, this);
-
-        mWeekRowLayout = mainView.findViewById(R.id.week_row_layout);
-        mYearMonthLabel = mainView.findViewById(R.id.year_month_label);
-        setEventListener(mainView);
-
+        mWeekRowLayout = mCustomView.findViewById(R.id.week_row_layout);
+        mYearMonthLabel = mCustomView.findViewById(R.id.year_month_label);
+        setEventListener();
         showCalendarFromAttrs(attrs);
     }
 
@@ -102,12 +99,10 @@ public class CalendarView extends ACustomView<CalendarView> implements View.OnCl
 
     /**
      * Viewに対し、イベントリスナーを設定する。
-     *
-     * @param mainView Viewを含んでいる親View
      */
-    private void setEventListener(View mainView) {
-        mainView.findViewById(R.id.previous_month_button).setOnClickListener(this);
-        mainView.findViewById(R.id.next_month_button).setOnClickListener(this);
+    private void setEventListener() {
+        mCustomView.findViewById(R.id.previous_month_button).setOnClickListener(this);
+        mCustomView.findViewById(R.id.next_month_button).setOnClickListener(this);
     }
 
     /**

@@ -18,28 +18,18 @@ public class SelectorDialogView extends ADialogView<ListView> implements ListVie
 
     private static final FrameLayout.LayoutParams LAYOUT_PARAMS = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
-    @NonNull
-    private final ListView mListView;
     @Nullable
     private ListView.OnItemClickListener mClientOnSelectedListener = null;
 
     public SelectorDialogView(@NonNull Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
+        super(context, attrs, new ListView(context));
 
-        mListView = createListView(context);
-        initTargetView(mListView, LAYOUT_PARAMS, false, false);
-    }
-
-    @NonNull
-    private ListView createListView(@NonNull Context context) {
-        ListView listView = new ListView(context);
-        listView.setOnItemClickListener(this);
-
-        return listView;
+        mDialogTargetView.setOnItemClickListener(this);
+        initTargetView(LAYOUT_PARAMS, false, false);
     }
 
     public void setListViewAdapter(@NonNull BaseAdapter adapter) {
-        mListView.setAdapter(adapter);
+        mDialogTargetView.setAdapter(adapter);
     }
 
     public void setOnItemSelectedListener(@Nullable final ListView.OnItemClickListener listener) {

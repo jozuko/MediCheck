@@ -17,42 +17,34 @@ import android.widget.TimePicker;
 public class TimePickerDialogView extends ADialogView<TimePicker> {
 
     private static final FrameLayout.LayoutParams LAYOUT_PARAMS = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-    @NonNull
-    private final TimePicker mTimePicker;
 
     public TimePickerDialogView(@NonNull Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
+        super(context, attrs, new TimePicker(context));
 
-        mTimePicker = createTimePicker(context);
         LAYOUT_PARAMS.gravity = Gravity.CENTER;
-        initTargetView(mTimePicker, LAYOUT_PARAMS, true, true);
-    }
-
-    @NonNull
-    private TimePicker createTimePicker(@NonNull Context context) {
-        return new TimePicker(context);
+        initTargetView(LAYOUT_PARAMS, true, true);
     }
 
     @SuppressWarnings("deprecation")
     public void showTimePickerDialog(int hourOfDay, int minute, @Nullable final OnTimeSelectedListener onTimeSelectedListener) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            mTimePicker.setCurrentHour(hourOfDay);
-            mTimePicker.setCurrentMinute(minute);
+            mDialogTargetView.setCurrentHour(hourOfDay);
+            mDialogTargetView.setCurrentMinute(minute);
         } else {
-            mTimePicker.setHour(hourOfDay);
-            mTimePicker.setMinute(minute);
+            mDialogTargetView.setHour(hourOfDay);
+            mDialogTargetView.setMinute(minute);
         }
 
-        mTimePicker.setIs24HourView(true);
+        mDialogTargetView.setIs24HourView(true);
 
         setOnOkButtonClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (onTimeSelectedListener != null) {
                     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-                        onTimeSelectedListener.onTimeChanged(mTimePicker.getCurrentHour(), mTimePicker.getCurrentMinute());
+                        onTimeSelectedListener.onTimeChanged(mDialogTargetView.getCurrentHour(), mDialogTargetView.getCurrentMinute());
                     } else {
-                        onTimeSelectedListener.onTimeChanged(mTimePicker.getHour(), mTimePicker.getMinute());
+                        onTimeSelectedListener.onTimeChanged(mDialogTargetView.getHour(), mDialogTargetView.getMinute());
                     }
                 }
 

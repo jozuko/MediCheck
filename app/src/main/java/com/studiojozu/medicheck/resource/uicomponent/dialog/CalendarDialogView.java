@@ -20,17 +20,14 @@ public class CalendarDialogView extends ADialogView<CalendarView> implements ICa
 
     private static final FrameLayout.LayoutParams LAYOUT_PARAMS = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
-    @NonNull
-    private final CalendarView mCalendarView;
     @Nullable
     private CalendarDayView.OnSelectedDayListener mOnSelectedDayListener = null;
 
     public CalendarDialogView(@NonNull Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
+        super(context, attrs, new CalendarView(context));
 
-        mCalendarView = new CalendarView(context);
-        mCalendarView.setClientOnSelectedDayListener(this);
-        initTargetView(mCalendarView, LAYOUT_PARAMS, true, false);
+        mDialogTargetView.setClientOnSelectedDayListener(this);
+        initTargetView(LAYOUT_PARAMS, true, false);
     }
 
     /**
@@ -40,7 +37,7 @@ public class CalendarDialogView extends ADialogView<CalendarView> implements ICa
      */
     @Override
     public void showCalendar(@NonNull Calendar displayMonthCalendar) {
-        mCalendarView.showCalendar(displayMonthCalendar);
+        mDialogTargetView.showCalendar(displayMonthCalendar);
         showDialog();
     }
 

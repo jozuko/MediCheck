@@ -31,8 +31,8 @@ public abstract class ADialogView<T extends View> extends LinearLayout implement
     private final Button mCancelButton;
     @NonNull
     private final Button mOKButton;
-    @Nullable
-    private T mDialogTargetView = null;
+    @NonNull
+    final T mDialogTargetView;
     @Nullable
     private ViewGroup.LayoutParams mLayoutParams = null;
     @Nullable
@@ -42,7 +42,7 @@ public abstract class ADialogView<T extends View> extends LinearLayout implement
     @Nullable
     private OnCloseListener mOnCloseListener = null;
 
-    public ADialogView(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public ADialogView(@NonNull Context context, @Nullable AttributeSet attrs, @NonNull T dialogTargetView) {
         super(context, attrs);
         mContext = context;
 
@@ -51,6 +51,7 @@ public abstract class ADialogView<T extends View> extends LinearLayout implement
         mDialogMainView = dialogLayout.findViewById(R.id.dialog_main_layout);
         mCancelButton = dialogLayout.findViewById(R.id.dialog_cancel_button);
         mOKButton = dialogLayout.findViewById(R.id.dialog_ok_button);
+        mDialogTargetView = dialogTargetView;
 
         setClickListener();
         closeDialog();
@@ -62,8 +63,7 @@ public abstract class ADialogView<T extends View> extends LinearLayout implement
         mOKButton.setOnClickListener(this);
     }
 
-    void initTargetView(@Nullable T dialogTargetView, @NonNull ViewGroup.LayoutParams layoutParams, boolean needCancel, boolean needOk) {
-        mDialogTargetView = dialogTargetView;
+    void initTargetView(@NonNull ViewGroup.LayoutParams layoutParams, boolean needCancel, boolean needOk) {
         mLayoutParams = layoutParams;
 
         addChildView();

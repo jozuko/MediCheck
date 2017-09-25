@@ -16,32 +16,24 @@ import android.widget.FrameLayout;
 public class DatePickerDialogView extends ADialogView<DatePicker> {
 
     private static final FrameLayout.LayoutParams LAYOUT_PARAMS = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-    @NonNull
-    private final DatePicker mDatePicker;
     @Nullable
     private View.OnClickListener mClientOnCancelClickListener = null;
 
     public DatePickerDialogView(@NonNull Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
+        super(context, attrs, new DatePicker(context));
 
-        mDatePicker = createDatePicker(context);
         LAYOUT_PARAMS.gravity = Gravity.CENTER;
-        initTargetView(mDatePicker, LAYOUT_PARAMS, true, true);
-    }
-
-    @NonNull
-    private DatePicker createDatePicker(@NonNull Context context) {
-        return new DatePicker(context);
+        initTargetView(LAYOUT_PARAMS, true, true);
     }
 
     public void showDatePickerDialog(int year, int month, int dayOfMonth, final OnDateSelectedListener onDateSelectedListener) {
-        mDatePicker.init(year, month, dayOfMonth, null);
+        mDialogTargetView.init(year, month, dayOfMonth, null);
 
         setOnOkButtonClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (onDateSelectedListener != null)
-                    onDateSelectedListener.onDateSelected(mDatePicker.getYear(), mDatePicker.getMonth(), mDatePicker.getDayOfMonth());
+                    onDateSelectedListener.onDateSelected(mDialogTargetView.getYear(), mDialogTargetView.getMonth(), mDialogTargetView.getDayOfMonth());
 
                 closeDialog();
             }
