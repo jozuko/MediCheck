@@ -18,7 +18,6 @@ MediCheck which prevents you forgetting to take medicine.（and reminder functio
 ## 残念ながら... - so sorry...
 まだ未完成です。<br>
 DDD（ドメイン駆動設計）を勉強しながらゆっくり開発をしています。<br>
-2017/09/30リリース予定です。<br>
 
 ## ライセンス - License
 このアプリは、ソース、画像、すべてにおいて、著作権を<b>放棄していません。</b><br>
