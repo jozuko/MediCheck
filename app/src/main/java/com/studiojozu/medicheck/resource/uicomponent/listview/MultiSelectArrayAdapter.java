@@ -9,9 +9,10 @@ import android.view.ViewGroup;
 
 import com.studiojozu.medicheck.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class MultiSelectArrayAdapter extends ASelectArrayAdapter<MultiSelectItem> {
+public class MultiSelectArrayAdapter<T> extends ASelectArrayAdapter<MultiSelectItem> {
 
     private final boolean mUseCheckBox;
 
@@ -32,6 +33,7 @@ public class MultiSelectArrayAdapter extends ASelectArrayAdapter<MultiSelectItem
 
         setCheckedVisibility(itemView, (mUseCheckBox ? View.VISIBLE : View.GONE));
         if (mUseCheckBox) {
+            showChecked(itemView, getListItem(position));
             setItemViewOnClickListener(itemView, getListItem(position));
         }
 
@@ -50,5 +52,16 @@ public class MultiSelectArrayAdapter extends ASelectArrayAdapter<MultiSelectItem
                 showChecked(view, item);
             }
         });
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<MultiSelectItem<T>> getCheckedItems() {
+        List<MultiSelectItem<T>> multiSelectItemList = new ArrayList<>();
+        for (MultiSelectItem multiSelectItem : getItemList()) {
+            if (!multiSelectItem.isChecked()) continue;
+            multiSelectItemList.add(multiSelectItem);
+        }
+
+        return multiSelectItemList;
     }
 }

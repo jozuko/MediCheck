@@ -16,12 +16,15 @@ import com.studiojozu.medicheck.domain.model.medicine.Medicine;
 import com.studiojozu.medicheck.domain.model.medicine.MedicineIdType;
 import com.studiojozu.medicheck.domain.model.medicine.MedicineNameValidator;
 import com.studiojozu.medicheck.domain.model.medicine.StartDatetimeType;
+import com.studiojozu.medicheck.domain.model.setting.Timetable;
 import com.studiojozu.medicheck.resource.uicomponent.dialog.DatePickerDialogView;
 import com.studiojozu.medicheck.resource.uicomponent.dialog.InputDialogView;
 import com.studiojozu.medicheck.resource.uicomponent.dialog.TimePickerDialogView;
+import com.studiojozu.medicheck.resource.uicomponent.dialog.TimetableSelectorDialogView;
 import com.studiojozu.medicheck.resource.uicomponent.template.TemplateHeaderView;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class RegisterMedicineActivity extends APersonSelectActivity {
 
@@ -35,8 +38,6 @@ public class RegisterMedicineActivity extends APersonSelectActivity {
     private TextView mStartDayTextView = null;
     @Nullable
     private TextView mTimetablesTextView = null;
-    @Nullable
-    private CheckedTextView mOneShotCheckTextView = null;
     @Nullable
     private TextView mTakeNumberTextView = null;
     @Nullable
@@ -53,6 +54,8 @@ public class RegisterMedicineActivity extends APersonSelectActivity {
     private CheckedTextView mAlarmCheckTextView = null;
     @Nullable
     private Button mRegisterButton = null;
+    @Nullable
+    private TimetableSelectorDialogView mTimetableSelectorDialogView = null;
 
     @Nullable
     private MedicineFinderService mMedicineFinderService = null;
@@ -61,6 +64,7 @@ public class RegisterMedicineActivity extends APersonSelectActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_register_medicine);
+        getTimetableSelectorDialogView();
 
         initHeaderParent();
         initPersonSelect();
@@ -73,7 +77,6 @@ public class RegisterMedicineActivity extends APersonSelectActivity {
         setMedicineNameTextViewClickListener();
         setStartDayTextViewClickListener();
         setTimetablesTextViewClickListener();
-        setOneShotCheckTextViewClickListener();
         setTakeNumberTextViewClickListener();
         setIntervalTextViewClickListener();
         setDateNumberTextViewClickListener();
@@ -102,13 +105,6 @@ public class RegisterMedicineActivity extends APersonSelectActivity {
         if (mTimetablesTextView == null)
             mTimetablesTextView = findViewById(R.id.register_timetables_text);
         return mTimetablesTextView;
-    }
-
-    @NonNull
-    private CheckedTextView getOneShotCheckTextView() {
-        if (mOneShotCheckTextView == null)
-            mOneShotCheckTextView = findViewById(R.id.register_one_shot_text);
-        return mOneShotCheckTextView;
     }
 
     @NonNull
@@ -223,18 +219,7 @@ public class RegisterMedicineActivity extends APersonSelectActivity {
         getTimetablesTextView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO Timetableクリック処理
-            }
-        });
-    }
-
-    private void setOneShotCheckTextViewClickListener() {
-        getOneShotCheckTextView().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Medicine medicine = getActivityParameterMedicine();
-                medicine.setOneShowMedicine(!medicine.isOneShowMedicine());
-                showDisplayTimetable();
+                showTimetableSelectorDialog();
             }
         });
     }
@@ -344,11 +329,12 @@ public class RegisterMedicineActivity extends APersonSelectActivity {
 
     private void showDisplayTimetable() {
         Medicine medicine = getActivityParameterMedicine();
-
         boolean isOneShot = medicine.isOneShowMedicine();
-        getOneShotCheckTextView().setChecked(isOneShot);
-        getTimetablesTextView().setEnabled(!isOneShot);
 
+        if (isOneShot) {
+            getTimetablesTextView().setText(R.string.button_one_shot);
+            return;
+        }
         getTimetablesTextView().setText(medicine.getDisplayTimetableList());
     }
 
@@ -392,5 +378,24 @@ public class RegisterMedicineActivity extends APersonSelectActivity {
         if (serializable instanceof MedicineIdType)
             return (MedicineIdType) serializable;
         return new MedicineIdType();
+    }
+
+    private void getTimetableSelectorDialogView() {
+        mTimetableSelectorDialogView = findViewById(R.id.timetable_dialog);
+    }
+
+    private void showTimetableSelectorDialog() {
+        if (mTimetableSelectorDialogView == null) return;
+        final Medicine medicine = getActivityParameterMedicine();
+
+        mTimetableSelectorDialogView.setOnSelectedListener(new TimetableSelectorDialogView.OnSelectedListener() {
+            @Override
+            public void onSelected(boolean isOneShot, @NonNull List<Timetable> timetableList) {
+                medicine.setOneShowMedicine(isOneShot);
+                medicine.setTimetableList(isOneShot ? null : timetableList);
+                showDisplayTimetable();
+            }
+        });
+        mTimetableSelectorDialogView.showDialog(medicine);
     }
 }

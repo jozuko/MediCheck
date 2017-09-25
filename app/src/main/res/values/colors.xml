@@ -3,8 +3,8 @@
     <color name="background">#edef9c</color>
     <color name="dialog_background">#7F000000</color>
 
-    <color name="input_text">@android:color/white</color>
-    <color name="input_background">#9ac29f</color>
+    <color name="input_text">@android:color/black</color>
+    <color name="input_background">@color/background</color>
     <color name="input_background_shadow">#7ca481</color>
     <color name="input_background_pressed">#d9de84</color>
     <color name="input_background_disabled">#6d6d6d</color>
@@ -14,9 +14,9 @@
 
     <color name="line">@color/input_background_shadow</color>
 
-    <color name="button_text">@color/input_text</color>
+    <color name="button_text">@android:color/white</color>
     <color name="button_description_text">#5e8663</color>
-    <color name="button_background">@color/input_background</color>
+    <color name="button_background">#9ac29f</color>
     <color name="button_shadow">@color/input_background_shadow</color>
     <color name="button_background_pressed">@color/input_background_pressed</color>
     <color name="button_shadow_pressed">@android:color/transparent</color>

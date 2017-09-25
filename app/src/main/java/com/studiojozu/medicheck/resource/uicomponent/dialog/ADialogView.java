@@ -24,15 +24,17 @@ public abstract class ADialogView<T extends View> extends LinearLayout implement
     @NonNull
     final Context mContext;
     @NonNull
+    final T mDialogTargetView;
+    @NonNull
     private final ViewGroup mParentView;
     @NonNull
     private final FrameLayout mDialogMainView;
     @NonNull
+    private final LinearLayout mDialogButtonLayout;
+    @NonNull
     private final Button mCancelButton;
     @NonNull
     private final Button mOKButton;
-    @NonNull
-    final T mDialogTargetView;
     @Nullable
     private ViewGroup.LayoutParams mLayoutParams = null;
     @Nullable
@@ -51,7 +53,9 @@ public abstract class ADialogView<T extends View> extends LinearLayout implement
         mDialogMainView = dialogLayout.findViewById(R.id.dialog_main_layout);
         mCancelButton = dialogLayout.findViewById(R.id.dialog_cancel_button);
         mOKButton = dialogLayout.findViewById(R.id.dialog_ok_button);
+        mDialogButtonLayout = dialogLayout.findViewById(R.id.dialog_button_layout);
         mDialogTargetView = dialogTargetView;
+
 
         setClickListener();
         closeDialog();
@@ -103,8 +107,8 @@ public abstract class ADialogView<T extends View> extends LinearLayout implement
     private void addChildView() {
         mDialogMainView.removeAllViews();
 
-        if (mDialogTargetView == null) return;
-        if (mLayoutParams == null) mLayoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        if (mLayoutParams == null)
+            mLayoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
         mDialogMainView.addView(mDialogTargetView, mLayoutParams);
         mDialogMainView.setVisibility(VISIBLE);
@@ -165,6 +169,9 @@ public abstract class ADialogView<T extends View> extends LinearLayout implement
     }
 
     public void showDialog() {
+        if (mCancelButton.getVisibility() != VISIBLE && mOKButton.getVisibility() != VISIBLE)
+            mDialogButtonLayout.setVisibility(GONE);
+
         setVisibility(VISIBLE);
     }
 

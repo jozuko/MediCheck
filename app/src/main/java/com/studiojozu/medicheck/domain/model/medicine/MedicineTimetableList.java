@@ -98,6 +98,14 @@ public class MedicineTimetableList implements Iterable<Timetable>, Iterator<Time
         return mTimetables.size();
     }
 
+    public void setTimetableList(@Nullable List<Timetable> timetableList) {
+        clearTimetableList();
+
+        if (timetableList == null)
+            return;
+        mTimetables.addAll(timetableList);
+    }
+
     /**
      * 服用予定日時を計算する
      *
@@ -151,16 +159,19 @@ public class MedicineTimetableList implements Iterable<Timetable>, Iterator<Time
 
         StringBuilder builder = new StringBuilder();
         for (Timetable timetable : mTimetables) {
-            if (builder.length() != 0) builder.append(" / ");
+            if (builder.length() != 0) builder.append("\n");
             builder.append(getTimetableDisplayValue(timetable));
         }
 
         return builder.toString();
     }
 
+    @NonNull
     private String getTimetableDisplayValue(@NonNull Timetable timetable) {
-        String name = timetable.getTimetableName().getDbValue();
-        String time = timetable.getTimetableTime().getDisplayValue();
-        return name + "(" + time + ")";
+        return timetable.getTimetableNameWithTime();
+    }
+
+    public boolean contain(@Nullable Timetable timetable) {
+        return mTimetables.contains(timetable);
     }
 }

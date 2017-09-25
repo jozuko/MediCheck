@@ -2,8 +2,12 @@ package com.studiojozu.medicheck.domain.model.medicine;
 
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
+import com.studiojozu.medicheck.domain.model.setting.Timetable;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 薬を管理するクラス
@@ -219,6 +223,10 @@ public class Medicine implements Serializable {
     @NonNull
     public MedicineTimetableList getTimetableList() {
         return mTimetableList;
+    }
+
+    public void setTimetableList(@Nullable List<Timetable> timetableList) {
+        mTimetableList.setTimetableList(timetableList);
     }
 
     @NonNull

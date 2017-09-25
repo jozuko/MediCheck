@@ -1,6 +1,7 @@
 package com.studiojozu.medicheck.domain.model.setting;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.studiojozu.common.domain.model.general.DatetimeType;
 import com.studiojozu.medicheck.domain.model.schedule.PlanDate;
@@ -104,6 +105,13 @@ public class Timetable implements Cloneable, Serializable {
         mTimetableName = new TimetableNameType(timetableName);
     }
 
+    @NonNull
+    public String getTimetableNameWithTime() {
+        String name = mTimetableName.getDisplayValue();
+        String time = mTimetableTime.getDisplayValue();
+        return name + "(" + time + ")";
+    }
+
     @Override
     public Timetable clone() {
         try {
@@ -111,5 +119,17 @@ public class Timetable implements Cloneable, Serializable {
         } catch (CloneNotSupportedException e) {
             throw new RuntimeException(e.toString(), e);
         }
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        if (obj == null) return false;
+        if (!(obj instanceof Timetable)) return false;
+        return mTimetableId.equals(((Timetable) obj).mTimetableId);
+    }
+
+    @Override
+    public int hashCode() {
+        return mTimetableId.hashCode();
     }
 }
