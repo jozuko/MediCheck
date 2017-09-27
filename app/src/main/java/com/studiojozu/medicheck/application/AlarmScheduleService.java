@@ -15,7 +15,7 @@ import com.studiojozu.medicheck.domain.model.setting.Setting;
 import com.studiojozu.medicheck.domain.model.setting.SettingRepository;
 import com.studiojozu.medicheck.domain.model.setting.Timetable;
 import com.studiojozu.medicheck.domain.model.setting.TimetableRepository;
-import com.studiojozu.medicheck.infrastructure.adapter.PersistenceAdapter;
+import com.studiojozu.medicheck.infrastructure.InfrastructureRegistry;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -28,15 +28,15 @@ import java.util.TreeSet;
  */
 public class AlarmScheduleService {
     @NonNull
-    private final TimetableRepository mTimetableRepository = PersistenceAdapter.getTimetableRepository();
+    private final TimetableRepository mTimetableRepository = InfrastructureRegistry.getTimetableRepository();
     @NonNull
-    private final SettingRepository mSettingRepository = PersistenceAdapter.getSettingRepository();
+    private final SettingRepository mSettingRepository = InfrastructureRegistry.getSettingRepository();
     @NonNull
-    private final ScheduleRepository mScheduleRepository = PersistenceAdapter.getScheduleRepository();
+    private final ScheduleRepository mScheduleRepository = InfrastructureRegistry.getScheduleRepository();
     @NonNull
-    private final PersonMediViewRepository mPersonMediViewRepository = PersistenceAdapter.getPersonMediViewRepository();
+    private final PersonMediViewRepository mPersonMediViewRepository = InfrastructureRegistry.getPersonMediViewRepository();
     @NonNull
-    private final MedicineViewRepository mMedicineViewRepository = PersistenceAdapter.getMedicineRepository();
+    private final MedicineViewRepository mMedicineViewRepository = InfrastructureRegistry.getMedicineRepository();
 
     @NonNull
     public List<AlarmSchedule> getNeedAlarmSchedules(@NonNull Context context) {

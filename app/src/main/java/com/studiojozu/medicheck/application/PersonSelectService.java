@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 import com.studiojozu.medicheck.R;
 import com.studiojozu.medicheck.domain.model.person.Person;
 import com.studiojozu.medicheck.domain.model.person.PersonRepository;
-import com.studiojozu.medicheck.infrastructure.adapter.PersistenceAdapter;
+import com.studiojozu.medicheck.infrastructure.InfrastructureRegistry;
 import com.studiojozu.medicheck.resource.uicomponent.listview.SingleSelectArrayAdapter;
 import com.studiojozu.medicheck.resource.uicomponent.listview.SingleSelectItem;
 
@@ -20,7 +20,7 @@ public class PersonSelectService {
     @NonNull
     private final Context mContext;
     @NonNull
-    private final PersonRepository mPersonRepository = PersistenceAdapter.getPersonRepository();
+    private final PersonRepository mPersonRepository = InfrastructureRegistry.getPersonRepository();
     private final boolean mUseUserAdd;
 
     public PersonSelectService(@NonNull Context context, boolean useUserAdd) {

@@ -14,7 +14,7 @@ import com.studiojozu.medicheck.domain.model.medicine.TakeIntervalModeType;
 import com.studiojozu.medicheck.domain.model.setting.Timetable;
 import com.studiojozu.medicheck.domain.model.setting.TimetableComparator;
 import com.studiojozu.medicheck.domain.model.setting.TimetableRepository;
-import com.studiojozu.medicheck.infrastructure.adapter.PersistenceAdapter;
+import com.studiojozu.medicheck.infrastructure.InfrastructureRegistry;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,7 +26,7 @@ public class MedicineFinderService {
     @NonNull
     private final Context mContext;
     @NonNull
-    private final MedicineViewRepository mMedicineViewRepository = PersistenceAdapter.getMedicineRepository();
+    private final MedicineViewRepository mMedicineViewRepository = InfrastructureRegistry.getMedicineRepository();
 
     public MedicineFinderService(@NonNull Context context) {
         mContext = context;
@@ -76,7 +76,7 @@ public class MedicineFinderService {
     }
 
     private MedicineUnit getDefaultMedicineUnit() {
-        MedicineUnitRepository medicineUnitRepository = PersistenceAdapter.getMedicineUnitRepository();
+        MedicineUnitRepository medicineUnitRepository = InfrastructureRegistry.getMedicineUnitRepository();
         List<MedicineUnit> medicineUnitList = new ArrayList<>(medicineUnitRepository.findAll(mContext));
         Collections.sort(medicineUnitList, new MedicineUnitComparator());
 
@@ -84,7 +84,7 @@ public class MedicineFinderService {
     }
 
     private List<Timetable> getDefaultTimetable() {
-        TimetableRepository timetableRepository = PersistenceAdapter.getTimetableRepository();
+        TimetableRepository timetableRepository = InfrastructureRegistry.getTimetableRepository();
         List<Timetable> timetableList = new ArrayList<>(timetableRepository.findAll(mContext));
         Collections.sort(timetableList, new TimetableComparator(TimetableComparator.ComparePattern.DisplayOrder));
 

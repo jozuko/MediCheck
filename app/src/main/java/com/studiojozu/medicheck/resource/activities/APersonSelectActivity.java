@@ -10,7 +10,7 @@ import com.studiojozu.medicheck.R;
 import com.studiojozu.medicheck.application.PersonSelectService;
 import com.studiojozu.medicheck.domain.model.person.Person;
 import com.studiojozu.medicheck.domain.model.person.PersonRepository;
-import com.studiojozu.medicheck.infrastructure.adapter.PersistenceAdapter;
+import com.studiojozu.medicheck.infrastructure.InfrastructureRegistry;
 import com.studiojozu.medicheck.resource.uicomponent.dialog.ADialogView;
 import com.studiojozu.medicheck.resource.uicomponent.listview.SingleSelectArrayAdapter;
 import com.studiojozu.medicheck.resource.uicomponent.listview.SingleSelectItem;
@@ -26,7 +26,7 @@ abstract class APersonSelectActivity extends AMainActivity {
     @Nullable
     private OnSelectedPersonListener mOnSelectedPersonListener = null;
     @NonNull
-    private PersonRepository mPersonRepository = PersistenceAdapter.getPersonRepository();
+    private PersonRepository mPersonRepository = InfrastructureRegistry.getPersonRepository();
     @Nullable
     private Person mSelectedPerson = null;
     @Nullable

@@ -11,8 +11,8 @@ import com.studiojozu.medicheck.domain.model.person.PersonIdType;
 import com.studiojozu.medicheck.domain.model.schedule.ScheduleList;
 import com.studiojozu.medicheck.domain.model.schedule.ScheduleRepository;
 import com.studiojozu.medicheck.domain.model.schedule.ScheduleService;
+import com.studiojozu.medicheck.infrastructure.InfrastructureRegistry;
 import com.studiojozu.medicheck.infrastructure.adapter.IPersistenceTransaction;
-import com.studiojozu.medicheck.infrastructure.adapter.PersistenceAdapter;
 
 public class MedicineRegisterService {
 
@@ -31,11 +31,11 @@ public class MedicineRegisterService {
 
     public MedicineRegisterService(@NonNull Context context) {
         mContext = context;
-        mPersistenceTransaction = PersistenceAdapter.getPersistenceTransaction(mContext);
-        mMedicineViewRepository = PersistenceAdapter.getMedicineRepository();
-        mPersonMediRelationRepository = PersistenceAdapter.getPersonMediRelationRepository();
-        mMediTimeRelationRepository = PersistenceAdapter.getMediTimeRelationRepository();
-        mScheduleRepository = PersistenceAdapter.getScheduleRepository();
+        mPersistenceTransaction = InfrastructureRegistry.getPersistenceTransaction(mContext);
+        mMedicineViewRepository = InfrastructureRegistry.getMedicineRepository();
+        mPersonMediRelationRepository = InfrastructureRegistry.getPersonMediRelationRepository();
+        mMediTimeRelationRepository = InfrastructureRegistry.getMediTimeRelationRepository();
+        mScheduleRepository = InfrastructureRegistry.getScheduleRepository();
     }
 
     public void registerMedicine(PersonIdType personIdType, @NonNull Medicine medicine) {

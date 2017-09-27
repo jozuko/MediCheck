@@ -8,8 +8,8 @@ import com.studiojozu.medicheck.domain.model.PersonMediRelationRepository;
 import com.studiojozu.medicheck.domain.model.medicine.MedicineIdType;
 import com.studiojozu.medicheck.domain.model.medicine.MedicineViewRepository;
 import com.studiojozu.medicheck.domain.model.schedule.ScheduleRepository;
+import com.studiojozu.medicheck.infrastructure.InfrastructureRegistry;
 import com.studiojozu.medicheck.infrastructure.adapter.IPersistenceTransaction;
-import com.studiojozu.medicheck.infrastructure.adapter.PersistenceAdapter;
 
 /**
  *
@@ -31,11 +31,11 @@ public class MedicineDeleteService {
 
     public MedicineDeleteService(@NonNull Context context) {
         mContext = context;
-        mPersistenceTransaction = PersistenceAdapter.getPersistenceTransaction(mContext);
-        mMedicineViewRepository = PersistenceAdapter.getMedicineRepository();
-        mPersonMediRelationRepository = PersistenceAdapter.getPersonMediRelationRepository();
-        mMediTimeRelationRepository = PersistenceAdapter.getMediTimeRelationRepository();
-        mScheduleRepository = PersistenceAdapter.getScheduleRepository();
+        mPersistenceTransaction = InfrastructureRegistry.getPersistenceTransaction(mContext);
+        mMedicineViewRepository = InfrastructureRegistry.getMedicineRepository();
+        mPersonMediRelationRepository = InfrastructureRegistry.getPersonMediRelationRepository();
+        mMediTimeRelationRepository = InfrastructureRegistry.getMediTimeRelationRepository();
+        mScheduleRepository = InfrastructureRegistry.getScheduleRepository();
     }
 
     public void deleteMedicine(@NonNull MedicineIdType medicineId) {

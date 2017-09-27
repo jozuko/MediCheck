@@ -18,6 +18,9 @@ public class Medicine implements Serializable {
     /** 薬ID */
     @NonNull
     private final MedicineIdType mMedicineId;
+    /** タイムテーブルの一覧 */
+    @NonNull
+    private final MedicineTimetableList mTimetableList;
     /** 薬の名前 */
     @NonNull
     private MedicineNameType mMedicineName;
@@ -48,9 +51,6 @@ public class Medicine implements Serializable {
     /** 削除フラグ */
     @NonNull
     private DeleteFlagType mDeleteFlag;
-    /** タイムテーブルの一覧 */
-    @NonNull
-    private final MedicineTimetableList mTimetableList;
 
     public Medicine() {
         this(new MedicineIdType());

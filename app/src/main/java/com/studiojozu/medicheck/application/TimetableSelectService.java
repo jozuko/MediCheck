@@ -7,7 +7,7 @@ import com.studiojozu.medicheck.domain.model.medicine.MedicineTimetableList;
 import com.studiojozu.medicheck.domain.model.setting.Timetable;
 import com.studiojozu.medicheck.domain.model.setting.TimetableComparator;
 import com.studiojozu.medicheck.domain.model.setting.TimetableRepository;
-import com.studiojozu.medicheck.infrastructure.adapter.PersistenceAdapter;
+import com.studiojozu.medicheck.infrastructure.InfrastructureRegistry;
 import com.studiojozu.medicheck.resource.uicomponent.listview.MultiSelectArrayAdapter;
 import com.studiojozu.medicheck.resource.uicomponent.listview.MultiSelectItem;
 
@@ -19,7 +19,7 @@ public class TimetableSelectService {
     @NonNull
     private final Context mContext;
     @NonNull
-    private final TimetableRepository mTimetableRepository = PersistenceAdapter.getTimetableRepository();
+    private final TimetableRepository mTimetableRepository = InfrastructureRegistry.getTimetableRepository();
 
     public TimetableSelectService(@NonNull Context context) {
         mContext = context;
