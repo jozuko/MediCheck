@@ -143,17 +143,14 @@ public class Medicine implements Serializable {
         return mTakeInterval;
     }
 
-    public void setTakeInterval(int takeInterval) {
+    public void setTakeInterval(int takeInterval, @NonNull TakeIntervalModeType.DateIntervalPattern dateIntervalPattern) {
         mTakeInterval = new TakeIntervalType(takeInterval);
+        mTakeIntervalMode = new TakeIntervalModeType(dateIntervalPattern);
     }
 
     @NonNull
     public TakeIntervalModeType getTakeIntervalMode() {
         return mTakeIntervalMode;
-    }
-
-    public void setTakeIntervalMode(@NonNull TakeIntervalModeType.DateIntervalPattern dateIntervalPattern) {
-        mTakeIntervalMode = new TakeIntervalModeType(dateIntervalPattern);
     }
 
     @NonNull

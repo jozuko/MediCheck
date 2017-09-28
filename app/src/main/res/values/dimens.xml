@@ -77,4 +77,6 @@
     <dimen name="calendar_day_of_week_label_margin">5dp</dimen>
     <dimen name="calendar_day_text">20sp</dimen>
 
+    <dimen name="checkbox_padding_left">36dp</dimen>
+
 </resources>

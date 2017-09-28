@@ -5,6 +5,7 @@
         <item name="android:buttonStyle">@style/StandardButtonTheme</item>
         <item name="android:imageButtonStyle">@style/StandardButtonTheme</item>
         <item name="android:textViewStyle">@style/StandardTextTheme</item>
+        <item name="android:checkboxStyle">@style/StandardCheckBox</item>
     </style>
 
     <!-- Theme - Button -->
@@ -17,6 +18,11 @@
     <!-- Theme - TextView -->
     <style name="StandardTextTheme" parent="android:Widget.TextView">
         <item name="android:textColor">@color/label_text</item>
+    </style>
+
+    <style name="StandardCheckBox" parent="android:Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/check_mark_selector</item>
+        <item name="android:paddingLeft">@dimen/checkbox_padding_left</item>
     </style>
 
     <!-- Style - MainLayout -->

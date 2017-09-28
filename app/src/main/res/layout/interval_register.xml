@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              style="@style/IntervalRegisterMainLayout">
+
+    <TableLayout style="@style/IntervalRegisterTableLayout">
+
+        <TableRow>
+
+            <CheckBox
+                android:id="@+id/interval_every_day_checkbox"
+                style="@style/IntervalRegisterCheckBox"/>
+
+            <TextView
+                style="@style/IntervalRegisterLabel"
+                android:text="@string/interval_every_day"/>
+        </TableRow>
+
+        <TableRow>
+
+            <CheckBox
+                android:id="@+id/interval_every_few_days_checkbox"
+                style="@style/IntervalRegisterCheckBox"/>
+
+            <LinearLayout style="@style/IntervalRegisterLineLayout">
+
+                <TextView
+                    style="@style/IntervalRegisterLabel"
+                    android:text="@string/interval_title_every"/>
+
+                <TextView
+                    android:id="@+id/interval_every_few_days_text_view"
+                    style="@style/IntervalRegisterEdit"
+                    android:text="@string/interval_default"/>
+
+                <TextView
+                    style="@style/IntervalRegisterLabel"
+                    android:text="@string/interval_title_days"/>
+            </LinearLayout>
+        </TableRow>
+
+        <TableRow>
+
+            <CheckBox
+                android:id="@+id/interval_every_month_checkbox"
+                style="@style/IntervalRegisterCheckBox"/>
+
+            <LinearLayout style="@style/IntervalRegisterLineLayout">
+
+                <TextView
+                    android:id="@+id/interval_every_month_text_view"
+                    style="@style/IntervalRegisterEdit"
+                    android:text="@string/interval_default"/>
+
+                <TextView
+                    style="@style/IntervalRegisterLabel"
+                    android:text="@string/interval_title_month"/>
+            </LinearLayout>
+        </TableRow>
+    </TableLayout>
+</LinearLayout>

@@ -65,8 +65,7 @@ public class MedicineFinderService {
         medicine.setMedicineUnit(getDefaultMedicineUnit());
         medicine.setDateNumber(7);
         medicine.setStartDatetime(System.currentTimeMillis());
-        medicine.setTakeInterval(0);
-        medicine.setTakeIntervalMode(TakeIntervalModeType.DateIntervalPattern.DAYS);
+        medicine.setTakeInterval(0, TakeIntervalModeType.DateIntervalPattern.DAYS);
         medicine.setMedicinePhoto("");
         medicine.setTimetableList(getDefaultTimetable());
         medicine.setOneShowMedicine(false);
