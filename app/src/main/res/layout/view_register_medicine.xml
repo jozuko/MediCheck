@@ -47,10 +47,10 @@
                         <TextView
                             android:id="@+id/register_medicine_name_text"
                             style="@style/EditableLabelStyle"
-                            android:paddingLeft="@dimen/table_row_left_padding"
-                            android:paddingStart="@dimen/table_row_left_padding"
                             android:paddingEnd="@dimen/table_row_right_padding"
-                            android:paddingRight="@dimen/table_row_right_padding"/>
+                            android:paddingLeft="@dimen/table_row_left_padding"
+                            android:paddingRight="@dimen/table_row_right_padding"
+                            android:paddingStart="@dimen/table_row_left_padding"/>
                     </TableRow>
 
                     <TableRow style="@style/InputTableRow">
@@ -62,10 +62,10 @@
                         <TextView
                             android:id="@+id/register_start_day_text"
                             style="@style/CalendarLabelStyle"
-                            android:paddingLeft="@dimen/table_row_left_padding"
-                            android:paddingStart="@dimen/table_row_left_padding"
                             android:paddingEnd="@dimen/table_row_right_padding"
-                            android:paddingRight="@dimen/table_row_right_padding"/>
+                            android:paddingLeft="@dimen/table_row_left_padding"
+                            android:paddingRight="@dimen/table_row_right_padding"
+                            android:paddingStart="@dimen/table_row_left_padding"/>
                     </TableRow>
 
                     <TableRow
@@ -80,10 +80,10 @@
                         <TextView
                             android:id="@+id/register_timetables_text"
                             style="@style/SelectableLabelStyle"
-                            android:paddingLeft="@dimen/table_row_left_padding"
-                            android:paddingStart="@dimen/table_row_left_padding"
                             android:paddingEnd="@dimen/table_row_right_padding"
-                            android:paddingRight="@dimen/table_row_right_padding"/>
+                            android:paddingLeft="@dimen/table_row_left_padding"
+                            android:paddingRight="@dimen/table_row_right_padding"
+                            android:paddingStart="@dimen/table_row_left_padding"/>
                     </TableRow>
 
                     <TableRow style="@style/InputTableRow">
@@ -92,13 +92,28 @@
                             style="@style/StandardLabelStyle"
                             android:text="@string/label_take_number"/>
 
-                        <TextView
-                            android:id="@+id/register_take_number_text"
-                            style="@style/EditableLabelStyle"
-                            android:paddingLeft="@dimen/table_row_left_padding"
-                            android:paddingStart="@dimen/table_row_left_padding"
-                            android:paddingEnd="@dimen/table_row_right_padding"
-                            android:paddingRight="@dimen/table_row_right_padding"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/register_take_number_text"
+                                style="@style/EditableLabelStyle"
+                                android:layout_weight="2"/>
+
+                            <TextView
+                                android:id="@+id/register_medicine_unit_text"
+                                style="@style/SelectableLabelStyle"
+                                android:layout_weight="1"
+                                android:paddingEnd="@dimen/table_row_right_padding"
+                                android:paddingLeft="@dimen/table_row_left_padding"
+                                android:paddingRight="@dimen/table_row_right_padding"
+                                android:paddingStart="@dimen/table_row_left_padding"/>
+
+
+                        </LinearLayout>
+
                     </TableRow>
 
                     <TableRow style="@style/InputTableRow">
@@ -110,10 +125,10 @@
                         <TextView
                             android:id="@+id/register_interval_text"
                             style="@style/EditableLabelStyle"
-                            android:paddingLeft="@dimen/table_row_left_padding"
-                            android:paddingStart="@dimen/table_row_left_padding"
                             android:paddingEnd="@dimen/table_row_right_padding"
-                            android:paddingRight="@dimen/table_row_right_padding"/>
+                            android:paddingLeft="@dimen/table_row_left_padding"
+                            android:paddingRight="@dimen/table_row_right_padding"
+                            android:paddingStart="@dimen/table_row_left_padding"/>
                     </TableRow>
 
                     <TableRow style="@style/InputTableRow">
@@ -125,10 +140,10 @@
                         <TextView
                             android:id="@+id/register_date_number_text"
                             style="@style/EditableLabelStyle"
-                            android:paddingLeft="@dimen/table_row_left_padding"
-                            android:paddingStart="@dimen/table_row_left_padding"
                             android:paddingEnd="@dimen/table_row_right_padding"
-                            android:paddingRight="@dimen/table_row_right_padding"/>
+                            android:paddingLeft="@dimen/table_row_left_padding"
+                            android:paddingRight="@dimen/table_row_right_padding"
+                            android:paddingStart="@dimen/table_row_left_padding"/>
                     </TableRow>
 
                     <TableRow style="@style/InputTableRow">
@@ -142,10 +157,10 @@
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical"
                             android:orientation="horizontal"
-                            android:paddingLeft="@dimen/table_row_left_padding"
-                            android:paddingStart="@dimen/table_row_left_padding"
                             android:paddingEnd="@dimen/table_row_right_padding"
-                            android:paddingRight="@dimen/table_row_right_padding">
+                            android:paddingLeft="@dimen/table_row_left_padding"
+                            android:paddingRight="@dimen/table_row_right_padding"
+                            android:paddingStart="@dimen/table_row_left_padding">
 
                             <ImageView
                                 android:id="@+id/register_medicine_photo_image"
@@ -188,11 +203,11 @@
                         <CheckedTextView
                             android:id="@+id/register_alarm_text"
                             style="@style/StandardCheckTextView"
-                            android:text="@string/button_alarm"
-                            android:paddingLeft="@dimen/table_row_left_padding"
-                            android:paddingStart="@dimen/table_row_left_padding"
                             android:paddingEnd="@dimen/table_row_right_padding"
-                            android:paddingRight="@dimen/table_row_right_padding"/>
+                            android:paddingLeft="@dimen/table_row_left_padding"
+                            android:paddingRight="@dimen/table_row_right_padding"
+                            android:paddingStart="@dimen/table_row_left_padding"
+                            android:text="@string/button_alarm"/>
                     </TableRow>
                 </TableLayout>
 

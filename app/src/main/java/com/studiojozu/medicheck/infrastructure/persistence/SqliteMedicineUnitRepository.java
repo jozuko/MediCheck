@@ -141,7 +141,7 @@ public class SqliteMedicineUnitRepository extends ABaseRepository implements Med
         // 追加データの作成
         Map<ColumnBase, ADbType> insertData = new HashMap<>();
         insertData.put(COLUMN_ID, medicineUnit.getMedicineUnitId());
-        insertData.put(COLUMN_VALUE, medicineUnit.getMedicineUnitId());
+        insertData.put(COLUMN_VALUE, medicineUnit.getMedicineUnitValue());
         insertData.put(COLUMN_DISPLAY_ORDER, medicineUnit.getMedicineUnitDisplayOrder());
 
         // レコード追加
@@ -151,7 +151,7 @@ public class SqliteMedicineUnitRepository extends ABaseRepository implements Med
     private void update(@NonNull Context context, @NonNull MedicineUnit medicineUnit) {
         // 更新データの作成
         Map<ColumnBase, ADbType> updateData = new HashMap<>();
-        updateData.put(COLUMN_VALUE, medicineUnit.getMedicineUnitId());
+        updateData.put(COLUMN_VALUE, medicineUnit.getMedicineUnitValue());
         updateData.put(COLUMN_DISPLAY_ORDER, medicineUnit.getMedicineUnitDisplayOrder());
 
         // 検索条件の作成

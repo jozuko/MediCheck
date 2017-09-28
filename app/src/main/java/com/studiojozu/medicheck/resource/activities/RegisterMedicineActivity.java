@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.ImageView;
@@ -12,15 +13,20 @@ import android.widget.TextView;
 
 import com.studiojozu.medicheck.R;
 import com.studiojozu.medicheck.application.MedicineFinderService;
+import com.studiojozu.medicheck.application.MedicineUnitRegisterService;
+import com.studiojozu.medicheck.application.MedicineUnitSelectService;
 import com.studiojozu.medicheck.domain.model.medicine.Medicine;
 import com.studiojozu.medicheck.domain.model.medicine.MedicineIdType;
 import com.studiojozu.medicheck.domain.model.medicine.MedicineNameValidator;
+import com.studiojozu.medicheck.domain.model.medicine.MedicineUnit;
 import com.studiojozu.medicheck.domain.model.medicine.StartDatetimeType;
 import com.studiojozu.medicheck.domain.model.setting.Timetable;
 import com.studiojozu.medicheck.resource.uicomponent.dialog.DatePickerDialogView;
 import com.studiojozu.medicheck.resource.uicomponent.dialog.InputDialogView;
 import com.studiojozu.medicheck.resource.uicomponent.dialog.TimePickerDialogView;
 import com.studiojozu.medicheck.resource.uicomponent.dialog.TimetableSelectorDialogView;
+import com.studiojozu.medicheck.resource.uicomponent.listview.SingleSelectArrayAdapter;
+import com.studiojozu.medicheck.resource.uicomponent.listview.SingleSelectItem;
 import com.studiojozu.medicheck.resource.uicomponent.template.TemplateHeaderView;
 
 import java.io.Serializable;
@@ -40,6 +46,8 @@ public class RegisterMedicineActivity extends APersonSelectActivity {
     private TextView mTimetablesTextView = null;
     @Nullable
     private TextView mTakeNumberTextView = null;
+    @Nullable
+    private TextView mMedicineUnitTextView = null;
     @Nullable
     private TextView mIntervalTextView = null;
     @Nullable
@@ -78,6 +86,7 @@ public class RegisterMedicineActivity extends APersonSelectActivity {
         setStartDayTextViewClickListener();
         setTimetablesTextViewClickListener();
         setTakeNumberTextViewClickListener();
+        setMedicineUnitTextViewClickListener();
         setIntervalTextViewClickListener();
         setDateNumberTextViewClickListener();
         setUseCameraButtonClickListener();
@@ -112,6 +121,13 @@ public class RegisterMedicineActivity extends APersonSelectActivity {
         if (mTakeNumberTextView == null)
             mTakeNumberTextView = findViewById(R.id.register_take_number_text);
         return mTakeNumberTextView;
+    }
+
+    @NonNull
+    private TextView getMedicineUnitTextView() {
+        if (mMedicineUnitTextView == null)
+            mMedicineUnitTextView = findViewById(R.id.register_medicine_unit_text);
+        return mMedicineUnitTextView;
     }
 
     @NonNull
@@ -228,7 +244,63 @@ public class RegisterMedicineActivity extends APersonSelectActivity {
         getTakeNumberTextView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO 服用数クリック処理
+                showInputDialog(R.string.input_title_medicine_take_number, null, new InputDialogView.OnCompletedCorrectInputListener() {
+                    @Override
+                    public void onCompleted(String data) {
+                        getActivityParameterMedicine().setMedicineName(data);
+                        showDisplayTakeNumber();
+                    }
+                });
+            }
+        });
+    }
+
+    private void setMedicineUnitTextViewClickListener() {
+        getMedicineUnitTextView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showMedicineUnitListDialog();
+            }
+        });
+    }
+
+    private void showMedicineUnitListDialog() {
+        final MedicineUnitSelectService medicineUnitSelectService = new MedicineUnitSelectService(getApplicationContext(), true);
+        final SingleSelectArrayAdapter medicineUnitListViewAdapter = medicineUnitSelectService.getSelectAdapter();
+
+        showSingleSelectorDialog(medicineUnitListViewAdapter, new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                List<SingleSelectItem> itemList = medicineUnitListViewAdapter.getItemList();
+                if (itemList.size() == 0) return;
+
+                SingleSelectItem item = itemList.get(position);
+                MedicineUnit medicineUnit = (MedicineUnit) item.getTag();
+                if (medicineUnit == null)
+                    medicineUnit = new MedicineUnit();
+
+                if (medicineUnit.getDisplayValue().equals("")) {
+                    showAddNewMedicineUnitDialog(medicineUnit);
+                    return;
+                }
+
+                getActivityParameterMedicine().setMedicineUnit(medicineUnit);
+                showDisplayMedicineUnit();
+            }
+        }, null);
+    }
+
+    private void showAddNewMedicineUnitDialog(@NonNull final MedicineUnit medicineUnit) {
+        showInputDialog(R.string.input_title_medicine_unit, null, new InputDialogView.OnCompletedCorrectInputListener() {
+            @Override
+            public void onCompleted(String data) {
+                medicineUnit.setMedicineUnitValue(data);
+
+                MedicineUnitRegisterService medicineUnitRegisterService = new MedicineUnitRegisterService(getApplicationContext());
+                medicineUnitRegisterService.register(medicineUnit);
+
+                getActivityParameterMedicine().setMedicineUnit(medicineUnit);
+                showDisplayMedicineUnit();
             }
         });
     }
@@ -312,6 +384,7 @@ public class RegisterMedicineActivity extends APersonSelectActivity {
         showDisplayStartDay();
         showDisplayTimetable();
         showDisplayTakeNumber();
+        showDisplayMedicineUnit();
         showDisplayInterval();
         showDisplayDateNumber();
         showDisplayNeedAlarm();
@@ -341,6 +414,11 @@ public class RegisterMedicineActivity extends APersonSelectActivity {
     private void showDisplayTakeNumber() {
         Medicine medicine = getActivityParameterMedicine();
         getTakeNumberTextView().setText(medicine.getDisplayTakeNumber());
+    }
+
+    private void showDisplayMedicineUnit() {
+        Medicine medicine = getActivityParameterMedicine();
+        getMedicineUnitTextView().setText(medicine.getDisplayMedicineUnit());
     }
 
     private void showDisplayInterval() {

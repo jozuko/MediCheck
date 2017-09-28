@@ -40,6 +40,10 @@ public class MedicineUnit implements Serializable {
         return mMedicineUnitValue;
     }
 
+    public void setMedicineUnitValue(@NonNull String unitValue) {
+        mMedicineUnitValue = new MedicineUnitValueType(unitValue);
+    }
+
     @NonNull
     public MedicineUnitDisplayOrderType getMedicineUnitDisplayOrder() {
         return mMedicineUnitDisplayOrder;

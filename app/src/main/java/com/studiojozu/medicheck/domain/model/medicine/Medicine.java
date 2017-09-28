@@ -181,7 +181,12 @@ public class Medicine implements Serializable {
 
     @NonNull
     public String getDisplayTakeNumber() {
-        return mTakeNumber.getDisplayValue() + mMedicineUnit.getDisplayValue();
+        return mTakeNumber.getDisplayValue();
+    }
+
+    @NonNull
+    public String getDisplayMedicineUnit() {
+        return mMedicineUnit.getDisplayValue();
     }
 
     @NonNull
