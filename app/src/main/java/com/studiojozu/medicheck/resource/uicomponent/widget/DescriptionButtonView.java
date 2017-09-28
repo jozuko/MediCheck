@@ -1,4 +1,4 @@
-package com.studiojozu.medicheck.resource.uicomponent.button;
+package com.studiojozu.medicheck.resource.uicomponent.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;

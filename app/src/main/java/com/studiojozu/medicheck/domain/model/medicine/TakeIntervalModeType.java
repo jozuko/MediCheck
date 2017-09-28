@@ -56,7 +56,7 @@ public class TakeIntervalModeType extends ADbType<Integer, TakeIntervalModeType>
     @NonNull
     @Override
     public String getDisplayValue() {
-        throw new RuntimeException("you need to call getDisplayValue(TakeIntervalModeType).");
+        throw new RuntimeException("you need to call TakeIntervalType#getDisplayValue(Resource, TakeIntervalModeType).");
     }
 
     public enum DateIntervalPattern {

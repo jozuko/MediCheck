@@ -27,7 +27,7 @@
                     style="@style/IntervalRegisterLabel"
                     android:text="@string/interval_title_every"/>
 
-                <TextView
+                <EditText
                     android:id="@+id/interval_every_few_days_text_view"
                     style="@style/IntervalRegisterEdit"
                     android:text="@string/interval_default"/>
@@ -46,7 +46,7 @@
 
             <LinearLayout style="@style/IntervalRegisterLineLayout">
 
-                <TextView
+                <EditText
                     android:id="@+id/interval_every_month_text_view"
                     style="@style/IntervalRegisterEdit"
                     android:text="@string/interval_default"/>

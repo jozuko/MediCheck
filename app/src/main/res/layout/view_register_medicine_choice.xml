@@ -7,7 +7,7 @@
               android:orientation="vertical"
               android:theme="@style/AppTheme">
 
-    <com.studiojozu.medicheck.resource.uicomponent.button.DescriptionButtonView
+    <com.studiojozu.medicheck.resource.uicomponent.widget.DescriptionButtonView
         android:id="@+id/register_new_medicine_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,7 +15,7 @@
         custom:drawableLeft="@mipmap/ic_register_medicine"
         custom:text="@string/button_register_new_medicine"/>
 
-    <com.studiojozu.medicheck.resource.uicomponent.button.DescriptionButtonView
+    <com.studiojozu.medicheck.resource.uicomponent.widget.DescriptionButtonView
         android:id="@+id/register_copy_medicine_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -19,10 +19,14 @@ import com.studiojozu.medicheck.domain.model.medicine.Medicine;
 import com.studiojozu.medicheck.domain.model.medicine.MedicineIdType;
 import com.studiojozu.medicheck.domain.model.medicine.MedicineNameValidator;
 import com.studiojozu.medicheck.domain.model.medicine.MedicineUnit;
+import com.studiojozu.medicheck.domain.model.medicine.MedicineUnitValueValidator;
 import com.studiojozu.medicheck.domain.model.medicine.StartDatetimeType;
+import com.studiojozu.medicheck.domain.model.medicine.TakeIntervalModeType;
+import com.studiojozu.medicheck.domain.model.medicine.TakeNumberValidator;
 import com.studiojozu.medicheck.domain.model.setting.Timetable;
 import com.studiojozu.medicheck.resource.uicomponent.dialog.DatePickerDialogView;
 import com.studiojozu.medicheck.resource.uicomponent.dialog.InputDialogView;
+import com.studiojozu.medicheck.resource.uicomponent.dialog.TakeIntervalInputDialogView;
 import com.studiojozu.medicheck.resource.uicomponent.dialog.TimePickerDialogView;
 import com.studiojozu.medicheck.resource.uicomponent.dialog.TimetableSelectorDialogView;
 import com.studiojozu.medicheck.resource.uicomponent.listview.SingleSelectArrayAdapter;
@@ -64,6 +68,8 @@ public class RegisterMedicineActivity extends APersonSelectActivity {
     private Button mRegisterButton = null;
     @Nullable
     private TimetableSelectorDialogView mTimetableSelectorDialogView = null;
+    @Nullable
+    private TakeIntervalInputDialogView mTakeIntervalInputDialogView = null;
 
     @Nullable
     private MedicineFinderService mMedicineFinderService = null;
@@ -72,7 +78,9 @@ public class RegisterMedicineActivity extends APersonSelectActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_register_medicine);
+
         getTimetableSelectorDialogView();
+        getTakeIntervalInputDialogView();
 
         initHeaderParent();
         initPersonSelect();
@@ -186,13 +194,15 @@ public class RegisterMedicineActivity extends APersonSelectActivity {
     }
 
     private void setMedicineNameTextViewClickListener() {
+        final Medicine medicine = getActivityParameterMedicine();
+
         getMedicineNameTextView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showInputDialog(R.string.input_title_medicine_name, new MedicineNameValidator(), new InputDialogView.OnCompletedCorrectInputListener() {
+                showInputDialog(R.string.input_title_medicine_name, InputDialogView.InputType.TEXT_SINGLE_LINE, medicine.getDisplayMedicineName(), new MedicineNameValidator(), new InputDialogView.OnCompletedCorrectInputListener() {
                     @Override
                     public void onCompleted(String data) {
-                        getActivityParameterMedicine().setMedicineName(data);
+                        medicine.setMedicineName(data);
                         showDisplayMedicineName();
                     }
                 });
@@ -241,13 +251,15 @@ public class RegisterMedicineActivity extends APersonSelectActivity {
     }
 
     private void setTakeNumberTextViewClickListener() {
+        final Medicine medicine = getActivityParameterMedicine();
+
         getTakeNumberTextView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showInputDialog(R.string.input_title_medicine_take_number, null, new InputDialogView.OnCompletedCorrectInputListener() {
+                showInputDialog(R.string.input_title_medicine_take_number, InputDialogView.InputType.NUMBER_DECIMAL, medicine.getDisplayTakeNumber(), new TakeNumberValidator(), new InputDialogView.OnCompletedCorrectInputListener() {
                     @Override
                     public void onCompleted(String data) {
-                        getActivityParameterMedicine().setMedicineName(data);
+                        medicine.setTakeNumber(data);
                         showDisplayTakeNumber();
                     }
                 });
@@ -291,7 +303,7 @@ public class RegisterMedicineActivity extends APersonSelectActivity {
     }
 
     private void showAddNewMedicineUnitDialog(@NonNull final MedicineUnit medicineUnit) {
-        showInputDialog(R.string.input_title_medicine_unit, null, new InputDialogView.OnCompletedCorrectInputListener() {
+        showInputDialog(R.string.input_title_medicine_unit, InputDialogView.InputType.TEXT_SINGLE_LINE, "", new MedicineUnitValueValidator(), new InputDialogView.OnCompletedCorrectInputListener() {
             @Override
             public void onCompleted(String data) {
                 medicineUnit.setMedicineUnitValue(data);
@@ -309,7 +321,7 @@ public class RegisterMedicineActivity extends APersonSelectActivity {
         getIntervalTextView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO 服用間隔クリック処理
+                showTakeIntervalInputDialog();
             }
         });
     }
@@ -463,6 +475,10 @@ public class RegisterMedicineActivity extends APersonSelectActivity {
         mTimetableSelectorDialogView = findViewById(R.id.timetable_dialog);
     }
 
+    private void getTakeIntervalInputDialogView() {
+        mTakeIntervalInputDialogView = findViewById(R.id.take_interval_input_dialog);
+    }
+
     private void showTimetableSelectorDialog() {
         if (mTimetableSelectorDialogView == null) return;
         final Medicine medicine = getActivityParameterMedicine();
@@ -476,5 +492,19 @@ public class RegisterMedicineActivity extends APersonSelectActivity {
             }
         });
         mTimetableSelectorDialogView.showDialog(medicine);
+    }
+
+    private void showTakeIntervalInputDialog() {
+        if (mTakeIntervalInputDialogView == null) return;
+        final Medicine medicine = getActivityParameterMedicine();
+
+        mTakeIntervalInputDialogView.setOnCompletedCorrectInputListener(new TakeIntervalInputDialogView.OnCompletedCorrectInputListener() {
+            @Override
+            public void onCompleted(int interval, TakeIntervalModeType.DateIntervalPattern dateIntervalPattern) {
+                medicine.setTakeInterval(interval, dateIntervalPattern);
+                showDisplayInterval();
+            }
+        });
+        mTakeIntervalInputDialogView.showDialog(medicine);
     }
 }

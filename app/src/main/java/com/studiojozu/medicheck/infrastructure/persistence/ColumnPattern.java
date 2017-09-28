@@ -48,7 +48,7 @@ enum ColumnPattern {
     MEDICINE_START_DATETIME(SqliteTypeNamePattern.Integer, StartDatetimeType.class),
     MEDICINE_TAKE_INTERVAL_MODE(SqliteTypeNamePattern.Integer, TakeIntervalModeType.class),
     MEDICINE_TAKE_INTERVAL(SqliteTypeNamePattern.Integer, TakeIntervalType.class),
-    MEDICINE_TAKE_NUMBER(SqliteTypeNamePattern.Integer, TakeNumberType.class),
+    MEDICINE_TAKE_NUMBER(SqliteTypeNamePattern.Text, TakeNumberType.class),
     MEDICINE_TAKE_NUMBER_UNIT(SqliteTypeNamePattern.Integer, MedicineUnitIdType.class),
     MEDICINE_NEED_ALARM(SqliteTypeNamePattern.Integer, MedicineNeedAlarmType.class),
     MEDICINE_DELETE_FLAG(SqliteTypeNamePattern.Integer, DeleteFlagType.class),

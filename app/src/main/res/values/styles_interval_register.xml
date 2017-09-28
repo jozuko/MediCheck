@@ -33,8 +33,10 @@
     </style>
 
     <style name="IntervalRegisterEdit" parent="EditableLabelStyle">
-        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_width">100dp</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:inputType">number</item>
+        <item name="android:clickable">true</item>
     </style>
 
 </resources>

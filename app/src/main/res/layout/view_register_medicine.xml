@@ -231,4 +231,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
+    <!-- take interval input dialog -->
+    <com.studiojozu.medicheck.resource.uicomponent.dialog.TakeIntervalInputDialogView
+        android:id="@+id/take_interval_input_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
 </FrameLayout>

@@ -9,6 +9,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -25,6 +26,8 @@ public abstract class ADialogView<T extends View> extends LinearLayout implement
     final Context mContext;
     @NonNull
     final T mDialogTargetView;
+    @NonNull
+    private final InputMethodManager mInputMethodManager;
     @NonNull
     private final ViewGroup mParentView;
     @NonNull
@@ -47,6 +50,7 @@ public abstract class ADialogView<T extends View> extends LinearLayout implement
     public ADialogView(@NonNull Context context, @Nullable AttributeSet attrs, @NonNull T dialogTargetView) {
         super(context, attrs);
         mContext = context;
+        mInputMethodManager = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
 
         View dialogLayout = LayoutInflater.from(context).inflate(R.layout.dialog, this);
         mParentView = dialogLayout.findViewById(R.id.dialog_parent_layout);
@@ -179,11 +183,21 @@ public abstract class ADialogView<T extends View> extends LinearLayout implement
         if (mOnCloseListener != null)
             mOnCloseListener.onClose();
 
+        hideSoftwareKeyboard();
         setVisibility(GONE);
     }
 
     public boolean isShown() {
         return (getVisibility() == VISIBLE);
+    }
+
+    void showSoftwareKeyboard() {
+        mDialogTargetView.requestFocus();
+        mInputMethodManager.showSoftInput(mDialogTargetView, 0);
+    }
+
+    void hideSoftwareKeyboard() {
+        mInputMethodManager.hideSoftInputFromWindow(mDialogTargetView.getWindowToken(), 0);
     }
 
     public interface OnCloseListener {

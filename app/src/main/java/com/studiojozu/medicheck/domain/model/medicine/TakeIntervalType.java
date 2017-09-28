@@ -39,7 +39,7 @@ public class TakeIntervalType extends LongType<TakeIntervalType> {
     @NonNull
     @Override
     public String getDisplayValue() {
-        throw new RuntimeException("you need to call getDisplayValue(TakeIntervalModeType).");
+        throw new RuntimeException("you need to call getDisplayValue(Resources, TakeIntervalModeType).");
     }
 
     @NonNull
@@ -57,7 +57,7 @@ public class TakeIntervalType extends LongType<TakeIntervalType> {
         if (getDbValue() == 1)
             return resources.getString(R.string.interval_every_other_day);
 
-        return resources.getString(R.string.interval_every_few_days, getDisplayValue());
+        return resources.getString(R.string.interval_every_few_days, String.valueOf(getDbValue()));
     }
 
     @NonNull
@@ -71,7 +71,7 @@ public class TakeIntervalType extends LongType<TakeIntervalType> {
         if (getDbValue() == 3)
             daysValue = resources.getString(R.string.day_3);
         if (getDbValue() > 3)
-            daysValue = resources.getString(R.string.day_4_over, getDisplayValue());
+            daysValue = resources.getString(R.string.day_4_over, String.valueOf(getDbValue()));
 
         if (daysValue == null)
             return "";

@@ -61,7 +61,7 @@ public class MedicineFinderService {
             medicine = new Medicine(medicineIdType);
 
         medicine.setMedicineName("");
-        medicine.setTakeNumber(1);
+        medicine.setTakeNumber("1");
         medicine.setMedicineUnit(getDefaultMedicineUnit());
         medicine.setDateNumber(7);
         medicine.setStartDatetime(System.currentTimeMillis());

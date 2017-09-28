@@ -116,7 +116,7 @@ public class Medicine implements Serializable {
         return mTakeNumber;
     }
 
-    public void setTakeNumber(int takeNumber) {
+    public void setTakeNumber(@NonNull String takeNumber) {
         mTakeNumber = new TakeNumberType(takeNumber);
     }
 

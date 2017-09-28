@@ -96,10 +96,10 @@ public abstract class AMainActivity extends AActivity {
         mCalendarDialogView.showCalendar(displayMonthCalendar);
     }
 
-    void showInputDialog(@StringRes int titleResourceId, @Nullable final IValidator validator, @Nullable final InputDialogView.OnCompletedCorrectInputListener listener) {
+    void showInputDialog(@StringRes int titleResourceId, @NonNull InputDialogView.InputType inputType, @NonNull String defaultValue, @Nullable final IValidator validator, @Nullable final InputDialogView.OnCompletedCorrectInputListener listener) {
         if (mInputDialogView == null) return;
 
-        mInputDialogView.showInputDialog(titleResourceId, validator, listener);
+        mInputDialogView.showInputDialog(titleResourceId, inputType, defaultValue, validator, listener);
     }
 
     void showSingleSelectorDialog(@NonNull BaseAdapter adapter, @Nullable ListView.OnItemClickListener itemClickListener, @Nullable ADialogView.OnCloseListener closeListener) {
