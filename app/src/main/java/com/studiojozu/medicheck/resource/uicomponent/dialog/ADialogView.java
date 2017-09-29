@@ -29,23 +29,29 @@ public abstract class ADialogView<T extends View> extends LinearLayout implement
     @NonNull
     private final InputMethodManager mInputMethodManager;
     @NonNull
-    private final ViewGroup mParentView;
+    private final ViewGroup mMainView;
     @NonNull
-    private final FrameLayout mDialogMainView;
+    private final FrameLayout mTargetLayout;
     @NonNull
-    private final LinearLayout mDialogButtonLayout;
+    private final LinearLayout mButtonLayout;
+    @NonNull
+    private final LinearLayout mHeaderLayout;
+    @NonNull
+    private final TextView mTitleTextView;
+    @NonNull
+    private final TextView mMessageTextView;
     @NonNull
     private final Button mCancelButton;
     @NonNull
-    private final Button mOKButton;
+    private final Button mOkButton;
     @Nullable
     private ViewGroup.LayoutParams mLayoutParams = null;
     @Nullable
-    private View.OnClickListener mOnCancelButtonClickListener = null;
+    private View.OnClickListener mClientCancelButtonOnClickListener = null;
     @Nullable
-    private View.OnClickListener mOnOkButtonClickListener = null;
+    private View.OnClickListener mClientOkButtonOnClickListener = null;
     @Nullable
-    private OnCloseListener mOnCloseListener = null;
+    private OnCloseListener mClientOnCloseListener = null;
 
     public ADialogView(@NonNull Context context, @Nullable AttributeSet attrs, @NonNull T dialogTargetView) {
         super(context, attrs);
@@ -53,85 +59,118 @@ public abstract class ADialogView<T extends View> extends LinearLayout implement
         mInputMethodManager = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
 
         View dialogLayout = LayoutInflater.from(context).inflate(R.layout.dialog, this);
-        mParentView = dialogLayout.findViewById(R.id.dialog_parent_layout);
-        mDialogMainView = dialogLayout.findViewById(R.id.dialog_main_layout);
+        mMainView = dialogLayout.findViewById(R.id.dialog_main_layout);
+        mTargetLayout = dialogLayout.findViewById(R.id.dialog_target_layout);
+        mHeaderLayout = dialogLayout.findViewById(R.id.dialog_header_layout);
+        mButtonLayout = dialogLayout.findViewById(R.id.dialog_button_layout);
+        mTitleTextView = dialogLayout.findViewById(R.id.dialog_title_text);
+        mMessageTextView = dialogLayout.findViewById(R.id.dialog_message_text);
         mCancelButton = dialogLayout.findViewById(R.id.dialog_cancel_button);
-        mOKButton = dialogLayout.findViewById(R.id.dialog_ok_button);
-        mDialogButtonLayout = dialogLayout.findViewById(R.id.dialog_button_layout);
+        mOkButton = dialogLayout.findViewById(R.id.dialog_ok_button);
+
         mDialogTargetView = dialogTargetView;
 
-
+        setDefaultVisibility();
         setClickListener();
         closeDialog();
     }
 
+    private void setDefaultVisibility() {
+        mHeaderLayout.setVisibility(View.GONE);
+        mTitleTextView.setVisibility(View.GONE);
+        mMessageTextView.setVisibility(View.GONE);
+        mTargetLayout.setVisibility(View.GONE);
+        mButtonLayout.setVisibility(View.GONE);
+        mCancelButton.setVisibility(View.GONE);
+        mOkButton.setVisibility(View.GONE);
+    }
+
     private void setClickListener() {
-        mParentView.setOnClickListener(this);
+        mMainView.setOnClickListener(this);
         mCancelButton.setOnClickListener(this);
-        mOKButton.setOnClickListener(this);
+        mOkButton.setOnClickListener(this);
     }
 
     void initTargetView(@NonNull ViewGroup.LayoutParams layoutParams, boolean needCancel, boolean needOk) {
         mLayoutParams = layoutParams;
 
         addChildView();
-        showCancelButton(needCancel);
-        showOkButton(needOk);
+        setUseCancelButton(needCancel);
+        setUseOkButton(needOk);
     }
 
-    public void setOnCancelButtonClickListener(@Nullable View.OnClickListener listener) {
-        mOnCancelButtonClickListener = listener;
+    public void setCancelButtonOnClickListener(@Nullable View.OnClickListener listener) {
+        mClientCancelButtonOnClickListener = listener;
     }
 
-    public void setOnOkButtonClickListener(@Nullable View.OnClickListener listener) {
-        mOnOkButtonClickListener = listener;
+    public void setOkButtonOnClickListener(@Nullable View.OnClickListener listener) {
+        mClientOkButtonOnClickListener = listener;
     }
 
     public void setOnCloseListener(@Nullable OnCloseListener listener) {
-        mOnCloseListener = listener;
+        mClientOnCloseListener = listener;
     }
 
     void setDialogTitle(@StringRes int resourceId) {
-        TextView titleText = findViewById(R.id.dialog_title_text);
-        titleText.setText(resourceId);
-        titleText.setVisibility(VISIBLE);
+        if (resourceId <= 0) return;
+        mTitleTextView.setText(resourceId);
+        showTitleTextView();
     }
 
     void setDialogMessage(@StringRes int resourceId) {
-        TextView messageText = findViewById(R.id.dialog_message_text);
-        messageText.setText(resourceId);
-        messageText.setVisibility(VISIBLE);
+        if (resourceId <= 0) return;
+        mMessageTextView.setText(resourceId);
+        setMessageVisibility();
+    }
+
+    private void setDialogMessageVisibility() {
+        mHeaderLayout.setVisibility(View.VISIBLE);
+    }
+
+    private void showTitleTextView() {
+        mTitleTextView.setVisibility(View.VISIBLE);
+        setDialogMessageVisibility();
+    }
+
+    private void setMessageVisibility() {
+        mMessageTextView.setVisibility(View.VISIBLE);
+        setDialogMessageVisibility();
     }
 
     void setDialogMessageColor(@ColorInt int color) {
-        TextView messageText = findViewById(R.id.dialog_message_text);
-        messageText.setTextColor(color);
+        mMessageTextView.setTextColor(color);
     }
 
     private void addChildView() {
-        mDialogMainView.removeAllViews();
+        mTargetLayout.removeAllViews();
 
         if (mLayoutParams == null)
             mLayoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
-        mDialogMainView.addView(mDialogTargetView, mLayoutParams);
-        mDialogMainView.setVisibility(VISIBLE);
+        mTargetLayout.addView(mDialogTargetView, mLayoutParams);
+        mTargetLayout.setVisibility(View.VISIBLE);
     }
 
-    void showCancelButton(boolean needCancel) {
-        if (needCancel) {
-            mCancelButton.setVisibility(VISIBLE);
-            return;
-        }
-        mCancelButton.setVisibility(GONE);
+    void setUseCancelButton(boolean useCancelButton) {
+        mCancelButton.setVisibility(useCancelButton ? View.VISIBLE : View.GONE);
+        setVisibilityButtonLayout();
     }
 
-    void showOkButton(boolean needOk) {
-        if (needOk) {
-            mOKButton.setVisibility(VISIBLE);
+    void setUseOkButton(boolean useOkButton) {
+        mOkButton.setVisibility(useOkButton ? View.VISIBLE : View.GONE);
+        setVisibilityButtonLayout();
+    }
+
+    private void setVisibilityButtonLayout() {
+        if (mOkButton.getVisibility() == View.VISIBLE) {
+            mButtonLayout.setVisibility(View.VISIBLE);
             return;
         }
-        mOKButton.setVisibility(GONE);
+        if (mCancelButton.getVisibility() == View.VISIBLE) {
+            mButtonLayout.setVisibility(View.VISIBLE);
+            return;
+        }
+        mButtonLayout.setVisibility(View.GONE);
     }
 
     @Override
@@ -143,7 +182,7 @@ public abstract class ADialogView<T extends View> extends LinearLayout implement
     }
 
     private void onClickNoContentArea(int id) {
-        if (id != R.id.dialog_parent_layout) return;
+        if (id != R.id.dialog_main_layout) return;
         cancelDialog();
     }
 
@@ -154,37 +193,33 @@ public abstract class ADialogView<T extends View> extends LinearLayout implement
 
     private void onClickOkButton(int id) {
         if (id != R.id.dialog_ok_button) return;
-
-        if (mOnOkButtonClickListener == null) {
+        if (mClientOkButtonOnClickListener == null) {
             closeDialog();
             return;
         }
 
-        mOnOkButtonClickListener.onClick(mOKButton);
+        mClientOkButtonOnClickListener.onClick(mOkButton);
     }
 
     public void cancelDialog() {
-        if (mOnCancelButtonClickListener == null) {
+        if (mClientCancelButtonOnClickListener == null) {
             closeDialog();
             return;
         }
 
-        mOnCancelButtonClickListener.onClick(mCancelButton);
+        mClientCancelButtonOnClickListener.onClick(mCancelButton);
     }
 
     public void showDialog() {
-        if (mCancelButton.getVisibility() != VISIBLE && mOKButton.getVisibility() != VISIBLE)
-            mDialogButtonLayout.setVisibility(GONE);
-
-        setVisibility(VISIBLE);
+        this.setVisibility(VISIBLE);
     }
 
     void closeDialog() {
-        if (mOnCloseListener != null)
-            mOnCloseListener.onClose();
+        if (mClientOnCloseListener != null)
+            mClientOnCloseListener.onClose();
 
         hideSoftwareKeyboard();
-        setVisibility(GONE);
+        this.setVisibility(GONE);
     }
 
     public boolean isShown() {

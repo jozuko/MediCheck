@@ -28,9 +28,7 @@ public class InputDialogView extends ADialogView<TextView> {
     }
 
     public void showInputDialog(@StringRes int titleResourceId, @NonNull InputType inputType, @NonNull String defaultValue, @Nullable final IValidator inputValidation, @Nullable final OnCompletedCorrectInputListener listener) {
-        if (titleResourceId >= 0)
-            setDialogTitle(titleResourceId);
-
+        setDialogTitle(titleResourceId);
         mDialogTargetView.setInputType(inputType.getInputType());
         mDialogTargetView.setText(defaultValue);
         setOnOkButton(inputValidation, listener);
@@ -40,7 +38,7 @@ public class InputDialogView extends ADialogView<TextView> {
     }
 
     private void setOnOkButton(@Nullable final IValidator inputValidation, @Nullable final OnCompletedCorrectInputListener listener) {
-        setOnOkButtonClickListener(new View.OnClickListener() {
+        setOkButtonOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String data = mDialogTargetView.getText().toString();

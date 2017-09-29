@@ -102,32 +102,23 @@ public abstract class AMainActivity extends AActivity {
         mInputDialogView.showInputDialog(titleResourceId, inputType, defaultValue, validator, listener);
     }
 
-    void showSingleSelectorDialog(@NonNull BaseAdapter adapter, @Nullable ListView.OnItemClickListener itemClickListener, @Nullable ADialogView.OnCloseListener closeListener) {
+    void showSingleSelectorDialog(@StringRes int titleResourceId, @NonNull BaseAdapter adapter, @Nullable ListView.OnItemClickListener itemClickListener, @Nullable ADialogView.OnCloseListener closeListener) {
         if (mSelectorDialogView == null) return;
 
         mSelectorDialogView.setListViewAdapter(adapter);
         mSelectorDialogView.setOnItemSelectedListener(itemClickListener);
         mSelectorDialogView.setOnCloseListener(closeListener);
-        mSelectorDialogView.showSelectorDialog(false, false);
+        mSelectorDialogView.showSelectorDialog(titleResourceId, false, false);
     }
 
-    private void showMultiSelectorDialog(@NonNull BaseAdapter adapter, @Nullable View.OnClickListener okClickListener, @Nullable View.OnClickListener cancelClickListener) {
-        if (mSelectorDialogView == null) return;
-
-        mSelectorDialogView.setListViewAdapter(adapter);
-        mSelectorDialogView.setOnOkButtonClickListener(okClickListener);
-        mSelectorDialogView.setOnCancelButtonClickListener(cancelClickListener);
-        mSelectorDialogView.showSelectorDialog(true, true);
-    }
-
-    void showDatePickerDialog(int year, int month, int dayOfMonth, @Nullable DatePickerDialogView.OnDateSelectedListener onDateSelectedListener) {
+    void showDatePickerDialog(@StringRes int titleResourceId, int year, int month, int dayOfMonth, @Nullable DatePickerDialogView.OnDateSelectedListener onDateSelectedListener) {
         if (mDatePickerDialogView == null) return;
-        mDatePickerDialogView.showDatePickerDialog(year, month, dayOfMonth, onDateSelectedListener);
+        mDatePickerDialogView.showDatePickerDialog(titleResourceId, year, month, dayOfMonth, onDateSelectedListener);
     }
 
-    void showTimePickerDialog(int hourOfDay, int minute, @Nullable TimePickerDialogView.OnTimeSelectedListener onTimeSelectedListener) {
+    void showTimePickerDialog(@StringRes int titleResourceId, int hourOfDay, int minute, @Nullable TimePickerDialogView.OnTimeSelectedListener onTimeSelectedListener) {
         if (mTimePickerDialogView == null) return;
-        mTimePickerDialogView.showTimePickerDialog(hourOfDay, minute, onTimeSelectedListener);
+        mTimePickerDialogView.showTimePickerDialog(titleResourceId, hourOfDay, minute, onTimeSelectedListener);
     }
 
     @Contract("null -> false")

@@ -1,8 +1,9 @@
-package com.studiojozu.medicheck.domain.model.medicine;
+package com.studiojozu.medicheck.domain.model.medicine.validator;
 
 import android.support.annotation.NonNull;
 
 import com.studiojozu.common.domain.model.ANumericValidator;
+import com.studiojozu.medicheck.domain.model.medicine.TakeIntervalModeType;
 
 public class TakeIntervalValidator extends ANumericValidator {
 

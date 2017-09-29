@@ -17,15 +17,15 @@ import com.studiojozu.medicheck.application.MedicineFinderService;
 import com.studiojozu.medicheck.application.MedicineUnitRegisterService;
 import com.studiojozu.medicheck.application.MedicineUnitSelectService;
 import com.studiojozu.medicheck.application.PhotoService;
-import com.studiojozu.medicheck.domain.model.medicine.DateNumberValidator;
 import com.studiojozu.medicheck.domain.model.medicine.Medicine;
 import com.studiojozu.medicheck.domain.model.medicine.MedicineIdType;
-import com.studiojozu.medicheck.domain.model.medicine.MedicineNameValidator;
 import com.studiojozu.medicheck.domain.model.medicine.MedicineUnit;
-import com.studiojozu.medicheck.domain.model.medicine.MedicineUnitValueValidator;
 import com.studiojozu.medicheck.domain.model.medicine.StartDatetimeType;
 import com.studiojozu.medicheck.domain.model.medicine.TakeIntervalModeType;
-import com.studiojozu.medicheck.domain.model.medicine.TakeNumberValidator;
+import com.studiojozu.medicheck.domain.model.medicine.validator.DateNumberValidator;
+import com.studiojozu.medicheck.domain.model.medicine.validator.MedicineNameValidator;
+import com.studiojozu.medicheck.domain.model.medicine.validator.MedicineUnitValueValidator;
+import com.studiojozu.medicheck.domain.model.medicine.validator.TakeNumberValidator;
 import com.studiojozu.medicheck.domain.model.setting.Timetable;
 import com.studiojozu.medicheck.resource.uicomponent.BitmapViewComponent;
 import com.studiojozu.medicheck.resource.uicomponent.dialog.DatePickerDialogView;
@@ -272,31 +272,9 @@ public class RegisterMedicineActivity extends APersonSelectActivity {
         getStartDayTextView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                selectStartDatetime();
+                showStartDatetimeDialog();
             }
         });
-    }
-
-    private void selectStartDatetime() {
-        final Medicine medicine = getActivityParameterMedicine();
-        final StartDatetimeType startDatetime = medicine.getStartDatetime();
-
-        showDatePickerDialog(
-                startDatetime.getYear(),
-                startDatetime.getMonth(),
-                startDatetime.getDayOfMonth(),
-                new DatePickerDialogView.OnDateSelectedListener() {
-                    @Override
-                    public void onDateSelected(final int year, final int monthOfYear, final int dayOfMonth) {
-                        showTimePickerDialog(startDatetime.getHourOfDay(), startDatetime.getMinute(), new TimePickerDialogView.OnTimeSelectedListener() {
-                            @Override
-                            public void onTimeChanged(final int hourOfDay, final int minute) {
-                                medicine.setStartDatetime(year, monthOfYear + 1, dayOfMonth, hourOfDay, minute);
-                                showDisplayStartDay();
-                            }
-                        });
-                    }
-                });
     }
 
     private void setTimetablesTextViewClickListener() {
@@ -330,47 +308,6 @@ public class RegisterMedicineActivity extends APersonSelectActivity {
             @Override
             public void onClick(View view) {
                 showMedicineUnitListDialog();
-            }
-        });
-    }
-
-    private void showMedicineUnitListDialog() {
-        final MedicineUnitSelectService medicineUnitSelectService = new MedicineUnitSelectService(getApplicationContext(), true);
-        final SingleSelectArrayAdapter medicineUnitListViewAdapter = medicineUnitSelectService.getSelectAdapter();
-
-        showSingleSelectorDialog(medicineUnitListViewAdapter, new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                List<SingleSelectItem> itemList = medicineUnitListViewAdapter.getItemList();
-                if (itemList.size() == 0) return;
-
-                SingleSelectItem item = itemList.get(position);
-                MedicineUnit medicineUnit = (MedicineUnit) item.getTag();
-                if (medicineUnit == null)
-                    medicineUnit = new MedicineUnit();
-
-                if (medicineUnit.getDisplayValue().equals("")) {
-                    showAddNewMedicineUnitDialog(medicineUnit);
-                    return;
-                }
-
-                getActivityParameterMedicine().setMedicineUnit(medicineUnit);
-                showDisplayMedicineUnit();
-            }
-        }, null);
-    }
-
-    private void showAddNewMedicineUnitDialog(@NonNull final MedicineUnit medicineUnit) {
-        showInputDialog(R.string.input_title_medicine_unit, InputDialogView.InputType.TEXT_SINGLE_LINE, "", new MedicineUnitValueValidator(), new InputDialogView.OnCompletedCorrectInputListener() {
-            @Override
-            public void onCompleted(String data) {
-                medicineUnit.setMedicineUnitValue(data);
-
-                MedicineUnitRegisterService medicineUnitRegisterService = new MedicineUnitRegisterService(getApplicationContext());
-                medicineUnitRegisterService.register(medicineUnit);
-
-                getActivityParameterMedicine().setMedicineUnit(medicineUnit);
-                showDisplayMedicineUnit();
             }
         });
     }
@@ -566,7 +503,7 @@ public class RegisterMedicineActivity extends APersonSelectActivity {
                 showDisplayTimetable();
             }
         });
-        mTimetableSelectorDialogView.showDialog(medicine);
+        mTimetableSelectorDialogView.showDialog(R.string.input_title_medicine_timetables, medicine);
     }
 
     private void showTakeIntervalInputDialog() {
@@ -580,6 +517,74 @@ public class RegisterMedicineActivity extends APersonSelectActivity {
                 showDisplayInterval();
             }
         });
-        mTakeIntervalInputDialogView.showDialog(medicine);
+        mTakeIntervalInputDialogView.showDialog(R.string.input_title_medicine_interval, medicine);
+    }
+
+    private void showMedicineUnitListDialog() {
+        final MedicineUnitSelectService medicineUnitSelectService = new MedicineUnitSelectService(getApplicationContext(), true);
+        final SingleSelectArrayAdapter medicineUnitListViewAdapter = medicineUnitSelectService.getSelectAdapter();
+
+        showSingleSelectorDialog(R.string.input_title_medicine_unit, medicineUnitListViewAdapter, new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                List<SingleSelectItem> itemList = medicineUnitListViewAdapter.getItemList();
+                if (itemList.size() == 0) return;
+
+                SingleSelectItem item = itemList.get(position);
+                MedicineUnit medicineUnit = (MedicineUnit) item.getTag();
+                if (medicineUnit == null)
+                    medicineUnit = new MedicineUnit();
+
+                if (medicineUnit.getDisplayValue().equals("")) {
+                    showAddNewMedicineUnitDialog(medicineUnit);
+                    return;
+                }
+
+                getActivityParameterMedicine().setMedicineUnit(medicineUnit);
+                showDisplayMedicineUnit();
+            }
+        }, null);
+    }
+
+    private void showAddNewMedicineUnitDialog(@NonNull final MedicineUnit medicineUnit) {
+        showInputDialog(R.string.input_title_medicine_unit, InputDialogView.InputType.TEXT_SINGLE_LINE, "", new MedicineUnitValueValidator(), new InputDialogView.OnCompletedCorrectInputListener() {
+            @Override
+            public void onCompleted(String data) {
+                medicineUnit.setMedicineUnitValue(data);
+
+                MedicineUnitRegisterService medicineUnitRegisterService = new MedicineUnitRegisterService(getApplicationContext());
+                medicineUnitRegisterService.register(medicineUnit);
+
+                getActivityParameterMedicine().setMedicineUnit(medicineUnit);
+                showDisplayMedicineUnit();
+            }
+        });
+    }
+
+    private void showStartDatetimeDialog() {
+        final Medicine medicine = getActivityParameterMedicine();
+        final StartDatetimeType startDatetime = medicine.getStartDatetime();
+
+        showDatePickerDialog(
+                R.string.input_title_medicine_start_day,
+                startDatetime.getYear(),
+                startDatetime.getMonth(),
+                startDatetime.getDayOfMonth(),
+                new DatePickerDialogView.OnDateSelectedListener() {
+                    @Override
+                    public void onDateSelected(final int year, final int monthOfYear, final int dayOfMonth) {
+                        showTimePickerDialog(
+                                R.string.input_title_medicine_start_time,
+                                startDatetime.getHourOfDay(),
+                                startDatetime.getMinute(),
+                                new TimePickerDialogView.OnTimeSelectedListener() {
+                                    @Override
+                                    public void onTimeChanged(final int hourOfDay, final int minute) {
+                                        medicine.setStartDatetime(year, monthOfYear + 1, dayOfMonth, hourOfDay, minute);
+                                        showDisplayStartDay();
+                                    }
+                                });
+                    }
+                });
     }
 }

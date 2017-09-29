@@ -1,8 +1,11 @@
-package com.studiojozu.medicheck.domain.model.medicine;
+package com.studiojozu.medicheck.domain.model.medicine.repository;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+
+import com.studiojozu.medicheck.domain.model.medicine.Medicine;
+import com.studiojozu.medicheck.domain.model.medicine.MedicineIdType;
 
 import java.util.Set;
 

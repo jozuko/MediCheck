@@ -13,8 +13,10 @@ import android.widget.FrameLayout;
 
 import com.studiojozu.medicheck.domain.model.medicine.Medicine;
 import com.studiojozu.medicheck.domain.model.medicine.TakeIntervalModeType;
-import com.studiojozu.medicheck.domain.model.medicine.TakeIntervalValidator;
+import com.studiojozu.medicheck.domain.model.medicine.validator.TakeIntervalValidator;
 import com.studiojozu.medicheck.resource.uicomponent.widget.TakeIntervalInputView;
+
+import org.jetbrains.annotations.Contract;
 
 public class TakeIntervalInputDialogView extends ADialogView<TakeIntervalInputView> {
 
@@ -30,15 +32,17 @@ public class TakeIntervalInputDialogView extends ADialogView<TakeIntervalInputVi
         initTargetView(LAYOUT_PARAMS, true, true);
     }
 
-    public void showDialog(@NonNull Medicine medicine) {
+    public void showDialog(@StringRes int titleResourceId, @NonNull Medicine medicine) {
+        setDialogTitle(titleResourceId);
         mDialogTargetView.showMedicineData(medicine);
-        setOnOkButton();
-        setOnCancelButton();
+        setOkButtonOnClickListener(createOkButtonClickListener());
+        setCancelButtonOnClickListener(createCancelButtonClickListener());
         super.showDialog();
     }
 
-    private void setOnOkButton() {
-        setOnOkButtonClickListener(new OnClickListener() {
+    @Contract(" -> !null")
+    private View.OnClickListener createOkButtonClickListener() {
+        return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 TakeIntervalModeType.DateIntervalPattern dateIntervalPattern = mDialogTargetView.getIntervalPattern();
@@ -54,17 +58,18 @@ public class TakeIntervalInputDialogView extends ADialogView<TakeIntervalInputVi
                 mInputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 closeDialog();
             }
-        });
+        };
     }
 
-    private void setOnCancelButton() {
-        setOnCancelButtonClickListener(new OnClickListener() {
+    @Contract(" -> !null")
+    private View.OnClickListener createCancelButtonClickListener() {
+        return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mInputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 closeDialog();
             }
-        });
+        };
     }
 
     private boolean showValidationResult(@StringRes int resourceId) {

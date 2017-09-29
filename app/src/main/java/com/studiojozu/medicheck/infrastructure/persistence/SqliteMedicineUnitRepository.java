@@ -10,7 +10,7 @@ import com.studiojozu.medicheck.R;
 import com.studiojozu.medicheck.domain.model.medicine.MedicineUnit;
 import com.studiojozu.medicheck.domain.model.medicine.MedicineUnitDisplayOrderType;
 import com.studiojozu.medicheck.domain.model.medicine.MedicineUnitIdType;
-import com.studiojozu.medicheck.domain.model.medicine.MedicineUnitRepository;
+import com.studiojozu.medicheck.domain.model.medicine.repository.MedicineUnitRepository;
 
 import java.util.ArrayList;
 import java.util.Collection;

@@ -3,12 +3,15 @@ package com.studiojozu.medicheck.resource.uicomponent.dialog;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.FrameLayout;
+
+import org.jetbrains.annotations.Contract;
 
 /**
  * 日付選択ダイアログ
@@ -26,10 +29,21 @@ public class DatePickerDialogView extends ADialogView<DatePicker> {
         initTargetView(LAYOUT_PARAMS, true, true);
     }
 
-    public void showDatePickerDialog(int year, int month, int dayOfMonth, final OnDateSelectedListener onDateSelectedListener) {
-        mDialogTargetView.init(year, month, dayOfMonth, null);
+    public void showDatePickerDialog(@StringRes int titleResourceId, int year, int month, int dayOfMonth, @Nullable final OnDateSelectedListener onDateSelectedListener) {
+        setDialogTitle(titleResourceId);
+        setDay(year, month, dayOfMonth);
+        setOkButtonOnClickListener(createOkButtonClickListener(onDateSelectedListener));
 
-        setOnOkButtonClickListener(new View.OnClickListener() {
+        showDialog();
+    }
+
+    private void setDay(int year, int month, int dayOfMonth) {
+        mDialogTargetView.init(year, month, dayOfMonth, null);
+    }
+
+    @Contract("_ -> !null")
+    private View.OnClickListener createOkButtonClickListener(@Nullable final OnDateSelectedListener onDateSelectedListener) {
+        return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (onDateSelectedListener != null)
@@ -37,9 +51,7 @@ public class DatePickerDialogView extends ADialogView<DatePicker> {
 
                 closeDialog();
             }
-        });
-
-        showDialog();
+        };
     }
 
     public interface OnDateSelectedListener {

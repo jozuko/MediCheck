@@ -34,17 +34,6 @@
     <string name="label_add">Register newly</string>
     <string name="label_add_short">Register newly</string>
 
-    <string name="input_title_medicine_name">Medicine Name</string>
-    <string name="input_title_medicine_start_day">Start day</string>
-    <string name="input_title_medicine_timetables">Timetables</string>
-    <string name="input_title_medicine_take_number">Once of amount</string>
-    <string name="input_title_medicine_unit">Unit of medicine</string>
-    <string name="input_title_medicine_interval">Interval</string>
-    <string name="input_title_medicine_date_number">Days</string>
-
-    <string name="button_alarm">Missed prevention alarm</string>
-    <string name="button_camera">use a camera</string>
-    <string name="button_gallery">choose a picture</string>
     <string name="button_today_medicine">Today\'s Medicine</string>
     <string name="button_description_today_medicine">When you took medicine, click.</string>
     <string name="button_register_medicine">Register Medicine</string>
@@ -80,26 +69,5 @@
     <string name="calendar_fri">fri</string>
     <string name="calendar_sat">sta</string>
 
-    <string name="label_days">%1$s days</string>
-    <string name="day_1">1st</string>
-    <string name="day_2">2nd</string>
-    <string name="day_3">3rd</string>
-    <string name="day_4_over">%1$sth</string>
-    <string name="interval_title_every">every</string>
-    <string name="interval_title_day"/>
-    <string name="interval_title_days">days</string>
-    <string name="interval_title_month">of every month</string>
-    <string name="interval_every_day">every day</string>
-    <string name="interval_every_other_day">every other days</string>
-    <string name="interval_every_few_days">every %1$s days</string>
-    <string name="interval_every_month">%1$s of every month</string>
-
-    <string name="interval_minute">%1$s minute</string>
-    <string name="interval_hour">%1$s hour</string>
-    <string name="interval_minutes">%1$s minutes</string>
-    <string name="interval_hours">%1$s hours</string>
-    <string name="interval_default">1</string>
-
     <string name="medicine_unit_1">shot</string>
-
 </resources>

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.studiojozu.medicheck.domain.model.medicine.MedicineUnit;
-import com.studiojozu.medicheck.domain.model.medicine.MedicineUnitRepository;
+import com.studiojozu.medicheck.domain.model.medicine.repository.MedicineUnitRepository;
 import com.studiojozu.medicheck.infrastructure.InfrastructureRegistry;
 import com.studiojozu.medicheck.infrastructure.adapter.IPersistenceTransaction;
 

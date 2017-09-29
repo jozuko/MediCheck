@@ -2,7 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/dialog_parent_layout"
+    android:id="@+id/dialog_main_layout"
     style="@style/DialogViewStyle"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -16,25 +16,32 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/dialog_title_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/text_size_alert_title"
-            android:visibility="gone"/>
+        <LinearLayout
+            android:id="@+id/dialog_header_layout"
+            style="@style/BorderLayoutStyle"
+            android:orientation="vertical"
+            android:visibility="gone">
 
-        <TextView
-            android:id="@+id/dialog_message_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/text_size_alert_message"
-            android:visibility="gone"/>
+            <TextView
+                android:id="@+id/dialog_title_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_alert_title"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/dialog_message_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_alert_message"
+                android:visibility="gone"/>
+        </LinearLayout>
 
         <FrameLayout
-            android:id="@+id/dialog_main_layout"
+            android:id="@+id/dialog_target_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
+            android:layout_weight="1"
             android:visibility="gone"/>
 
         <LinearLayout
@@ -42,7 +49,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/button_margin"
-            android:layout_weight="2"
+            android:layout_weight="0"
             android:gravity="center"
             android:orientation="horizontal">
 

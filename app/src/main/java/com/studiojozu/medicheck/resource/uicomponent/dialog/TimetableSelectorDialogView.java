@@ -3,11 +3,13 @@ package com.studiojozu.medicheck.resource.uicomponent.dialog;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckedTextView;
 import android.widget.FrameLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.studiojozu.medicheck.R;
@@ -17,6 +19,8 @@ import com.studiojozu.medicheck.domain.model.setting.Timetable;
 import com.studiojozu.medicheck.resource.uicomponent.listview.MultiSelectArrayAdapter;
 import com.studiojozu.medicheck.resource.uicomponent.listview.MultiSelectItem;
 import com.studiojozu.medicheck.resource.uicomponent.listview.TimetableListView;
+
+import org.jetbrains.annotations.Contract;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,14 +35,14 @@ public class TimetableSelectorDialogView extends ADialogView<TimetableListView> 
     private final CheckedTextView mOneShotCheckedTextView;
     @NonNull
     private final ListView mTimetableListView;
-    @Nullable
-    private TimetableSelectService mTimetableService = null;
+    @NonNull
+    private TimetableSelectService mTimetableService;
     @Nullable
     private TimetableSelectorDialogView.OnSelectedListener mClientOnSelectedListener = null;
 
     public TimetableSelectorDialogView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs, new TimetableListView(context));
-        initTimetableService(context);
+        mTimetableService = new TimetableSelectService(context);
 
         mOneShotCheckedTextView = mDialogTargetView.findViewById(R.id.one_shot_check_text_view);
         mTimetableListView = mDialogTargetView.findViewById(R.id.timetable_list_view);
@@ -46,19 +50,23 @@ public class TimetableSelectorDialogView extends ADialogView<TimetableListView> 
         initTargetView(LAYOUT_PARAMS, true, true);
     }
 
-    private void initTimetableService(@NonNull Context context) {
-        mTimetableService = new TimetableSelectService(context);
+    public void showDialog(@StringRes int titleResourceId, @NonNull Medicine medicine) {
+        setDialogTitle(titleResourceId);
+        setTimetableListAdapter(medicine);
+        setOkButtonOnClickListener(createOkButtonClickListener());
+
+        super.showDialog();
     }
 
-    public void showDialog(@NonNull Medicine medicine) {
-        if (mTimetableService == null) return;
-
+    private void setTimetableListAdapter(@NonNull Medicine medicine) {
         mOneShotCheckedTextView.setChecked(medicine.isOneShowMedicine());
-
         final MultiSelectArrayAdapter<Timetable> multiSelectArrayAdapter = mTimetableService.getTimetableSelectAdapter(medicine.getTimetableList());
         mTimetableListView.setAdapter(multiSelectArrayAdapter);
+    }
 
-        setOnOkButtonClickListener(new OnClickListener() {
+    @Contract(" -> !null")
+    private View.OnClickListener createOkButtonClickListener() {
+        return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (mClientOnSelectedListener == null) {
@@ -66,7 +74,15 @@ public class TimetableSelectorDialogView extends ADialogView<TimetableListView> 
                     return;
                 }
 
-                List<MultiSelectItem<Timetable>> selectedItems = multiSelectArrayAdapter.getCheckedItems();
+                ListAdapter listAdapter = mTimetableListView.getAdapter();
+                if (!(listAdapter instanceof MultiSelectArrayAdapter)) {
+                    closeDialog();
+                    return;
+                }
+
+                @SuppressWarnings("unchecked")
+                MultiSelectArrayAdapter<Timetable> adapter = (MultiSelectArrayAdapter<Timetable>) listAdapter;
+                List<MultiSelectItem<Timetable>> selectedItems = adapter.getCheckedItems();
                 List<Timetable> selectedTimetableList = new ArrayList<>();
                 for (MultiSelectItem<Timetable> selectedItem : selectedItems) {
                     selectedTimetableList.add(selectedItem.getTag());
@@ -75,9 +91,7 @@ public class TimetableSelectorDialogView extends ADialogView<TimetableListView> 
                 mClientOnSelectedListener.onSelected(mOneShotCheckedTextView.isChecked(), selectedTimetableList);
                 closeDialog();
             }
-        });
-
-        super.showDialog();
+        };
     }
 
     public void setOnSelectedListener(TimetableSelectorDialogView.OnSelectedListener listener) {

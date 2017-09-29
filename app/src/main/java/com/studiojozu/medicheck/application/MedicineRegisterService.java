@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 import com.studiojozu.medicheck.domain.model.MediTimeRelationRepository;
 import com.studiojozu.medicheck.domain.model.PersonMediRelationRepository;
 import com.studiojozu.medicheck.domain.model.medicine.Medicine;
-import com.studiojozu.medicheck.domain.model.medicine.MedicineViewRepository;
+import com.studiojozu.medicheck.domain.model.medicine.repository.MedicineViewRepository;
 import com.studiojozu.medicheck.domain.model.person.PersonIdType;
 import com.studiojozu.medicheck.domain.model.schedule.ScheduleList;
 import com.studiojozu.medicheck.domain.model.schedule.ScheduleRepository;

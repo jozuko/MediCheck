@@ -1,4 +1,4 @@
-package com.studiojozu.medicheck.domain.model.medicine;
+package com.studiojozu.medicheck.domain.model.medicine.validator;
 
 import com.studiojozu.common.domain.model.ANumericValidator;
 

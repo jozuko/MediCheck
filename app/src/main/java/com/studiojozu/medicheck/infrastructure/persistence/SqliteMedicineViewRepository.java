@@ -8,7 +8,7 @@ import android.support.annotation.Nullable;
 import com.studiojozu.common.domain.model.ADbType;
 import com.studiojozu.medicheck.domain.model.medicine.Medicine;
 import com.studiojozu.medicheck.domain.model.medicine.MedicineIdType;
-import com.studiojozu.medicheck.domain.model.medicine.MedicineViewRepository;
+import com.studiojozu.medicheck.domain.model.medicine.repository.MedicineViewRepository;
 
 import java.util.ArrayList;
 import java.util.List;

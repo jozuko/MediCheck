@@ -52,7 +52,7 @@ abstract class APersonSelectActivity extends AMainActivity {
         if (mSelectPersonAdapter == null) return;
 
         mOnSelectedPersonListener = createOnSelectedPersonListener();
-        showSingleSelectorDialog(mSelectPersonAdapter, createPersonItemClickListener(), createPersonDialogCloseListener());
+        showSingleSelectorDialog(R.string.input_title_person, mSelectPersonAdapter, createPersonItemClickListener(), createPersonDialogCloseListener());
     }
 
     private void initSelectPersonAdapter() {
