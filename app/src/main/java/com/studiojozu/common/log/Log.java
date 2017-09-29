@@ -29,6 +29,15 @@ public class Log {
     }
 
     /**
+     * android.util.Log.dを実行する
+     *
+     * @param message ログメッセージ
+     */
+    public void d(@NonNull String message) {
+        android.util.Log.d(getTag(), message);
+    }
+
+    /**
      * android.util.Log.iを実行する
      *
      * @param message ログメッセージ

@@ -1,8 +1,8 @@
 package com.studiojozu.medicheck.application;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.studiojozu.common.log.Log;
+import com.studiojozu.medicheck.port.adapter.ExternalStorageModel;
 import com.studiojozu.medicheck.port.adapter.Gallery;
 
 import org.jetbrains.annotations.Contract;
@@ -17,9 +18,6 @@ import org.jetbrains.annotations.Contract;
 import java.io.File;
 import java.io.IOException;
 
-/**
- * 写真に関するクラス
- */
 public class PhotoService {
 
     /** カメラ起動による写真選択時のstartActivityForResultのRequestCode */
@@ -51,25 +49,32 @@ public class PhotoService {
      * 写真をカメラ撮影により取得する。
      * <p>
      * このメソッド呼出し後、カメラアプリが起動する。
-     * カメラアプリ終了後、コンストラクタで指定したActivityの{@link Activity#onActivityResult(int, int, Intent)}が呼び出される。
-     * そのActivityの{@link Activity#onActivityResult(int, int, Intent)}で、{@link #onResponse(int, int, Intent)}を呼び出すように記述すると、撮影したイメージがファイル保存される。
      * 保存されたファイルパスは、{@link #onResponse(int, int, Intent)}を呼び出したのと同じインスタンスで{@link #getFilepath()}を使用して取得する。
      */
-    public void captureFromCamera() {
+    public boolean captureFromCamera() {
+        Context appContext = mActivity.getApplicationContext();
+        try {
+            File imageFile = new ExternalStorageModel(appContext).createNewImageFile();
+            mUri = new Gallery(mActivity).register(imageFile);
+        } catch (IOException e) {
+            mLog.e(e);
+            return false;
+        }
+
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, mUri);
         mActivity.startActivityForResult(intent, REQUEST_CAMERA_IMAGE);
+
+        return true;
     }
 
     /**
      * 写真をギャラリーより取得する。
      * <p>
      * このメソッド呼出し後、ギャラリーアプリが起動する。
-     * ギャラリーアプリ終了後、コンストラクタで指定したActivityの{@link Activity#onActivityResult(int, int, Intent)}が呼び出される。
-     * そのActivityの{@link Activity#onActivityResult(int, int, Intent)}で、{@link #onResponse(int, int, Intent)}を呼び出すように記述すると、選択したイメージがファイル保存される。
-     * 保存されたファイルパスは、{@link #onResponse(int, int, Intent)}を呼び出したのと同じインスタンスで{@link #getFilepath()}を使用して取得する。
+     * 選択されたファイルパスは、{@link #onResponse(int, int, Intent)}を呼び出したのと同じインスタンスで{@link #getFilepath()}を使用して取得する。
      */
     public void captureFromGallery() {
-
         Intent intent = new Intent(getOpenGalleryAction());
         intent.setType("image/*");
         intent.addCategory(Intent.CATEGORY_OPENABLE);
@@ -102,11 +107,24 @@ public class PhotoService {
      * @return 処理成否
      */
     public boolean onResponse(int requestCode, int resultCode, @Nullable Intent data) {
-        if (data == null) return false;
-        if (requestCode == REQUEST_CAMERA_IMAGE) return onResponseCameraImage(resultCode, data);
+        if (requestCode == REQUEST_CAMERA_IMAGE) return onResponseCameraImage(resultCode);
         if (requestCode == REQUEST_GALLERY_IMAGE) return onResponseGalleryImage(resultCode, data);
 
         return false;
+    }
+
+    /**
+     * カメラアプリからのレスポンスを処理するためのメソッド
+     *
+     * @param resultCode 結果コード
+     * @return 処理成否
+     */
+    private boolean onResponseCameraImage(int resultCode) {
+        if (resultCode != Activity.RESULT_OK && mUri != null) {
+            mActivity.getContentResolver().delete(mUri, null, null);
+            mUri = null;
+        }
+        return true;
     }
 
     /**
@@ -116,31 +134,14 @@ public class PhotoService {
      * @param data       選択した写真データ
      * @return 処理成否
      */
-    private boolean onResponseGalleryImage(int resultCode, @NonNull Intent data) {
-        if (resultCode != Activity.RESULT_OK) return false;
-
-        mUri = data.getData();
-        return true;
-    }
-
-    /**
-     * カメラアプリからのレスポンスを処理するためのメソッド
-     *
-     * @param resultCode 結果コード
-     * @param data       選択した写真データ
-     * @return 処理成否
-     */
-    private boolean onResponseCameraImage(int resultCode, @NonNull Intent data) {
-        if (resultCode != Activity.RESULT_OK) return false;
-
-        try {
-            Bitmap bitmapData = (Bitmap) data.getExtras().get("data");
-            mUri = new Gallery(mActivity).register(bitmapData);
-            return (mUri != null);
-        } catch (IOException e) {
-            mLog.e(e);
+    @Contract("_, null -> false")
+    private boolean onResponseGalleryImage(int resultCode, @Nullable Intent data) {
+        if (data == null)
             return false;
-        }
+
+        if (resultCode == Activity.RESULT_OK)
+            mUri = data.getData();
+        return true;
     }
 
     /**
@@ -149,9 +150,7 @@ public class PhotoService {
      * @return イメージファイルのパス
      */
     @Nullable
-    public File getFilepath() {
-        if (mUri == null) return null;
-        return new File(mUri.getPath());
+    public Uri getFilepath() {
+        return mUri;
     }
-
 }

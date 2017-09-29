@@ -34,7 +34,7 @@
 
                 <TextView
                     style="@style/IntervalRegisterLabel"
-                    android:text="@string/interval_title_days"/>
+                    android:text="@string/label_days"/>
             </LinearLayout>
         </TableRow>
 

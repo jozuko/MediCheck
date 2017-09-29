@@ -1,6 +1,7 @@
 package com.studiojozu.medicheck.domain.model.medicine;
 
 import android.content.res.Resources;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -160,6 +161,14 @@ public class Medicine implements Serializable {
 
     public void setMedicinePhoto(@NonNull String photoFilePath) {
         mMedicinePhoto = new MedicinePhotoType(photoFilePath);
+    }
+
+    @Nullable
+    public Uri getMedicinePhotoUri() {
+        if (mMedicinePhoto.getDbValue().isEmpty()) {
+            return null;
+        }
+        return Uri.parse(mMedicinePhoto.getDbValue());
     }
 
     @NonNull

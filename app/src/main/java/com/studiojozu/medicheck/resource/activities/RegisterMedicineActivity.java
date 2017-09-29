@@ -1,6 +1,7 @@
 package com.studiojozu.medicheck.resource.activities;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,6 +16,8 @@ import com.studiojozu.medicheck.R;
 import com.studiojozu.medicheck.application.MedicineFinderService;
 import com.studiojozu.medicheck.application.MedicineUnitRegisterService;
 import com.studiojozu.medicheck.application.MedicineUnitSelectService;
+import com.studiojozu.medicheck.application.PhotoService;
+import com.studiojozu.medicheck.domain.model.medicine.DateNumberValidator;
 import com.studiojozu.medicheck.domain.model.medicine.Medicine;
 import com.studiojozu.medicheck.domain.model.medicine.MedicineIdType;
 import com.studiojozu.medicheck.domain.model.medicine.MedicineNameValidator;
@@ -24,6 +27,7 @@ import com.studiojozu.medicheck.domain.model.medicine.StartDatetimeType;
 import com.studiojozu.medicheck.domain.model.medicine.TakeIntervalModeType;
 import com.studiojozu.medicheck.domain.model.medicine.TakeNumberValidator;
 import com.studiojozu.medicheck.domain.model.setting.Timetable;
+import com.studiojozu.medicheck.resource.uicomponent.BitmapViewComponent;
 import com.studiojozu.medicheck.resource.uicomponent.dialog.DatePickerDialogView;
 import com.studiojozu.medicheck.resource.uicomponent.dialog.InputDialogView;
 import com.studiojozu.medicheck.resource.uicomponent.dialog.TakeIntervalInputDialogView;
@@ -73,6 +77,10 @@ public class RegisterMedicineActivity extends APersonSelectActivity {
 
     @Nullable
     private MedicineFinderService mMedicineFinderService = null;
+    @Nullable
+    private PhotoService mPhotoService = null;
+    @Nullable
+    private BitmapViewComponent mMedicinePhotoBitmapViewComponent = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -87,6 +95,37 @@ public class RegisterMedicineActivity extends APersonSelectActivity {
 
         setClickListener();
         showMedicineInformation();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (getPhotoService().onResponse(requestCode, resultCode, data)) {
+            onActivityResultPhotoService();
+            showDisplayMedicinePhoto();
+            return;
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void onActivityResultPhotoService() {
+        Medicine medicine = getActivityParameterMedicine();
+        Uri photoUri = getPhotoService().getFilepath();
+        if (photoUri == null) {
+            medicine.setMedicinePhoto("");
+            return;
+        }
+
+        medicine.setMedicinePhoto(photoUri.toString());
+    }
+
+    @Override
+    protected void onDestroy() {
+        try {
+            recycleBitmapComponent(mMedicinePhotoBitmapViewComponent);
+        } finally {
+            super.onDestroy();
+        }
     }
 
     private void setClickListener() {
@@ -191,6 +230,25 @@ public class RegisterMedicineActivity extends APersonSelectActivity {
         if (mMedicineFinderService == null)
             mMedicineFinderService = new MedicineFinderService(getApplicationContext());
         return mMedicineFinderService;
+    }
+
+    @NonNull
+    private PhotoService getPhotoService() {
+        if (mPhotoService == null)
+            mPhotoService = new PhotoService(RegisterMedicineActivity.this);
+        return mPhotoService;
+    }
+
+    @NonNull
+    private BitmapViewComponent getMedicinePhotoBitmapViewComponent() {
+        if (mMedicinePhotoBitmapViewComponent == null)
+            mMedicinePhotoBitmapViewComponent = new BitmapViewComponent(getApplicationContext(), getPhotoImageView(), R.mipmap.medicine_no_image);
+        return mMedicinePhotoBitmapViewComponent;
+    }
+
+    private void recycleBitmapComponent(@Nullable BitmapViewComponent bitmapViewComponent) {
+        if (bitmapViewComponent == null) return;
+        bitmapViewComponent.recycle();
     }
 
     private void setMedicineNameTextViewClickListener() {
@@ -327,10 +385,18 @@ public class RegisterMedicineActivity extends APersonSelectActivity {
     }
 
     private void setDateNumberTextViewClickListener() {
+        final Medicine medicine = getActivityParameterMedicine();
+
         getDateNumberTextView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO 服用日数クリック処理
+                showInputDialog(R.string.input_title_medicine_date_number, InputDialogView.InputType.NUMBER, medicine.getDisplayDateNumber(), new DateNumberValidator(), new InputDialogView.OnCompletedCorrectInputListener() {
+                    @Override
+                    public void onCompleted(String data) {
+                        medicine.setDateNumber(Integer.parseInt(data));
+                        showDisplayDateNumber();
+                    }
+                });
             }
         });
     }
@@ -339,7 +405,7 @@ public class RegisterMedicineActivity extends APersonSelectActivity {
         getUseCameraButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO カメラ使用クリック処理
+                getPhotoService().captureFromCamera();
             }
         });
     }
@@ -348,7 +414,7 @@ public class RegisterMedicineActivity extends APersonSelectActivity {
         getUseGalleryButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO ギャラリー使用クリック処理
+                getPhotoService().captureFromGallery();
             }
         });
     }
@@ -399,6 +465,7 @@ public class RegisterMedicineActivity extends APersonSelectActivity {
         showDisplayMedicineUnit();
         showDisplayInterval();
         showDisplayDateNumber();
+        showDisplayMedicinePhoto();
         showDisplayNeedAlarm();
     }
 
@@ -440,7 +507,15 @@ public class RegisterMedicineActivity extends APersonSelectActivity {
 
     private void showDisplayDateNumber() {
         Medicine medicine = getActivityParameterMedicine();
-        getDateNumberTextView().setText(medicine.getDisplayDateNumber());
+        getDateNumberTextView().setText(getResources().getString(R.string.label_days, medicine.getDisplayDateNumber()));
+    }
+
+    private void showDisplayMedicinePhoto() {
+        Medicine medicine = getActivityParameterMedicine();
+        Uri photoUri = medicine.getMedicinePhotoUri();
+
+        BitmapViewComponent bitmapViewComponent = getMedicinePhotoBitmapViewComponent();
+        bitmapViewComponent.showBitmap(photoUri);
     }
 
     private void showDisplayNeedAlarm() {

@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.studiojozu.common.log.Log;
 import com.studiojozu.medicheck.application.BitmapReadService;
 
 import org.jetbrains.annotations.Contract;
@@ -23,6 +24,8 @@ public class BitmapViewComponent {
     private final int mDefaultResourceId;
     @NonNull
     private final ImageView mImageView;
+    @NonNull
+    private Log mLog = new Log(BitmapViewComponent.class);
     @Nullable
     private Bitmap mBitmap;
 
@@ -92,6 +95,7 @@ public class BitmapViewComponent {
         try {
             return bitmapRead.readResizedBitmap(imageViewSize);
         } catch (IOException e) {
+            mLog.e(e);
             return null;
         }
     }

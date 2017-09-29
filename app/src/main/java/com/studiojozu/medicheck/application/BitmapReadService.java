@@ -84,7 +84,6 @@ public class BitmapReadService {
             inputStream = mContext.getContentResolver().openInputStream(mUri);
 
             BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inJustDecodeBounds = true;
             options.inSampleSize = resizeRate;
             return BitmapFactory.decodeStream(inputStream, /*outPadding*/null, options);
         } finally {

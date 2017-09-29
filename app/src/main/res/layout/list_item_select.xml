@@ -24,12 +24,12 @@
         <TextView
             android:id="@+id/main_text"
             style="@style/CheckListItemBigTextStyle"
-            android:text="@android:string/unknownName" />
+            android:text="@android:string/unknownName"/>
 
         <TextView
             android:id="@+id/sub_text"
             style="@style/CheckListItemNormalTextStyle"
-            android:text="@android:string/unknownName" />
+            android:text="@android:string/unknownName"/>
 
     </LinearLayout>
 

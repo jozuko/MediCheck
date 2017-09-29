@@ -3,16 +3,11 @@ package com.studiojozu.medicheck.port.adapter;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-
-import com.studiojozu.medicheck.application.BitmapWriteService;
 
 import java.io.File;
-import java.io.IOException;
 
 /**
  * ギャラリーに関する処理を行うクラス
@@ -27,36 +22,17 @@ public class Gallery {
     }
 
     /**
-     * Bitmapをギャラリーに追加する
-     *
-     * @param bitmap Bitmapを保持するクラス
-     * @return 保存先URI
-     * @throws IOException ファイル保存時の例外
-     */
-    @Nullable
-    public Uri register(@Nullable Bitmap bitmap) throws IOException {
-        if (bitmap == null) return null;
-
-        File imageFile = new BitmapWriteService(mContext, bitmap).saveToNewPngFileAutoRecycle();
-        if (imageFile == null) return null;
-
-        registerGallery(imageFile, "image/png");
-        return Uri.fromFile(imageFile);
-    }
-
-    /**
      * Galleryにイメージファイルを登録する
      *
-     * @param imageFile イメージファイルのパス
-     * @param mimeType  イメージファイルのMIMEタイプ
+     * @param imageFile イメージファイルのファイルインスタンス
+     * @return ギャラリー登録先URI
      */
-    private void registerGallery(@NonNull File imageFile, @NonNull String mimeType) {
+    public Uri register(@NonNull File imageFile) {
         ContentValues values = new ContentValues();
-        values.put(MediaStore.Images.Media.MIME_TYPE, mimeType);
-        values.put("_data", imageFile.getAbsolutePath());
+        values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+        values.put(MediaStore.Images.Media.TITLE, imageFile.getName());
 
         ContentResolver contentResolver = mContext.getContentResolver();
-        contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+        return contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
     }
-
 }

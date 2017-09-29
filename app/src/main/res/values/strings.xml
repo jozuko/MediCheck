@@ -80,6 +80,7 @@
     <string name="calendar_fri">fri</string>
     <string name="calendar_sat">sta</string>
 
+    <string name="label_days">%1$s days</string>
     <string name="day_1">1st</string>
     <string name="day_2">2nd</string>
     <string name="day_3">3rd</string>
